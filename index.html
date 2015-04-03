@@ -12,6 +12,14 @@
   <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/scripts.js"></script>
+
+  <script language="javascript">
+    $('.dropdown-toggle').dropdown();
+    $('.dropdown-menu').find('form').click(function (e) {
+        e.stopPropagation();
+      });
+  </script>
+
     <title>Schedge</title>
   </head>
 
@@ -23,19 +31,19 @@
           <!--switch this to drop down log in and signup-->
           <!-- remind me to fix the forkme css -->
           <div id= "forkme_banner">
-            <button class="btn btn-primary btn-lg" type="button" data-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
               Log In
             </button>
               <ul class="dropdown-menu" role="menu">
                 <form id = "login-form">
                   <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="email">
-                  </div>
+                        <label for="e-mail">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email">
+                      </div>
                   <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="password">
-                  </div>
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password">
+                      </div>
                   <button type="submit" class="btn btn-primary">Submit</button>
                   <!-- forgot password? add later -->
                 </form>
