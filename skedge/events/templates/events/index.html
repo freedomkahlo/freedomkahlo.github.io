@@ -1,14 +1,30 @@
+<!DOCTYPE HTML>
+<html>
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
 
+<h2>Directory Events</h2>
 {% if latest_event_list %}
     <ul>
     {% for event in latest_event_list %}
-        <li><a href="{% url 'detail' event.id %}">{{ event.title }}</a></li>
+        <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No events are available.</p>
 {% endif %}
 
+<h2>Add an Event</h2>
+<form action="{% url 'events:add' %}" method="post">
+{% csrf_token %}
+<p>Title: <input type="text" name="title" id="" value="{{ title }}"></p>
+<p>Desc: <input type="text" name="desc" id="" value="{{ desc }}"></p>
+<p>Start Date: <input type="date" name="start_date" id="" value="{{ start_date }}"></p>
+<p>End Date: <input type="date" name="end_date" id="" value="{{ end_date }}"></p>
+<p>Start Time: <input type="time" name="start_time" id="" value="{{ start_time }}"></p>
+<p>End Time: <input type="time" name="end_time" id="" value="{{ end_time }}"></p>
+<input type="submit" value="Add" />
+
+</form>
+</html>
