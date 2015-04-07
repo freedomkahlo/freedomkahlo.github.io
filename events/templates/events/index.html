@@ -3,7 +3,12 @@
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
-
+{% if user.is_authenticated %}
+<h1>hello {{ user.username }}!</h1>
+<a href="/events/logout/">Logout</a><br />
+{% else %}
+<h1>hello world!</h1>
+{% endif %}
 <h2>Directory Events</h2>
 {% if latest_event_list %}
     <ul>

@@ -5,9 +5,12 @@ from django.template import RequestContext
 from .models import Instance, Invitee
 from .forms import UserForm, UserProfileForm
 from django.shortcuts import render_to_response
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 def home(request):
 	return render(request, './index.html')
+@login_required
 def index(request):
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	context = {'latest_event_list': latest_event_list}
@@ -15,6 +18,7 @@ def index(request):
 def detail(request, instance_id):
 	event = get_object_or_404(Instance, pk=instance_id)
 	return render(request, 'events/detail.html', {'event': event})
+@login_required
 def add(request):
 	e = Instance(title=request.POST['title'], desc=request.POST['desc'], 
 		start_date=request.POST['start_date'], end_date=request.POST['end_date'],
@@ -64,3 +68,30 @@ def register(request):
             'events/register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
             context)
+
+def user_login(request):
+    context = RequestContext(request)
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/events/')
+            else:
+                return HttpResponse("Your Skedge account is disabled.")
+        else:
+            print ("Invalid login details: {0}, {1}".format(username, password))
+            return HttpResponse("Invalid login details supplied.")
+
+    else:
+        return render_to_response('events/login.html', {}, context)
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/events/')

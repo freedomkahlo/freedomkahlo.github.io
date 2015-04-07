@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#Hi this is crystal
+LOGIN_URL = '/events/login/'
 
 # Application definition
 
