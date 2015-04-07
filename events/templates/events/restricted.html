@@ -1,13 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-{% load staticfiles %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
-
-{% if user.is_authenticated %}
-<h1>hello {{ user.username }}!</h1>
-<a href="/events/logout/">Logout</a><br />
-
 <h2>Directory Events</h2>
 {% if latest_event_list %}
     <ul>
@@ -35,10 +25,3 @@
 <p>Start Time: <input type="time" name="start_time" id="" value="{{ start_time }}"></p>
 <p>End Time: <input type="time" name="end_time" id="" value="{{ end_time }}"></p>
 <input type="submit" value="Add" />
-{% else %}
-<h1>hello world!</h1>
-{% endif %}
-
-
-</form>
-</html>

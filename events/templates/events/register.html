@@ -8,10 +8,9 @@
         <h1>Register</h1>
 
         {% if registered %}
-        Rango says: <strong>thank you for registering!</strong>
+        <strong>thank you for registering!</strong>
         <a href="/events/">Return to the homepage.</a><br />
         {% else %}
-        I say <strong>register here!</strong><br />
 
         <form id="user_form" method="post" action="/events/register/"
                 enctype="multipart/form-data">
