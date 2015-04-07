@@ -7,9 +7,15 @@
 <h2>Directory Events</h2>
 {% if latest_event_list %}
     <ul>
+    	<form action="{% url 'events:delete' %}" method="post">
+    		{% csrf_token %}
     {% for event in latest_event_list %}
-        <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a></li>
+   		
+        <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="radio" name="eventID" id="" value="{{ event.id }}"/></li>
     {% endfor %}
+    	<input type="submit" value="Delete" />
+    </form>
+
     </ul>
 {% else %}
     <p>No events are available.</p>

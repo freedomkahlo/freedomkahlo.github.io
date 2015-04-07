@@ -38,7 +38,7 @@ class Invitee(models.Model):
 	def __str__(self):
 		return self.name
 	def clean(self):
-		print self.name
+		print (self.name)
 		if (len(self.name.replace(' ', '')) == 0):
 			raise ValidationError('Name cannot be blank')
 		if User.objects.filter(username__iexact=self.name).count() == 0:
