@@ -11,6 +11,7 @@ class Instance(models.Model):
 	end_date = models.DateField('end date')
 	start_time = models.TimeField('start time')
 	end_time = models.TimeField('end time')
+	creator = models.CharField(max_length=100, default='')
 	def clean(self):
 		if len(self.title.replace(' ', '')) == 0:
 			raise ValidationError('Title cannot be left blank.')
