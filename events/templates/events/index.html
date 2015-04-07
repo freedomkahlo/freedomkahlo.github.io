@@ -34,6 +34,7 @@
 <p>End Date: <input type="date" name="end_date" id="" value="{{ end_date }}"></p>
 <p>Start Time: <input type="time" name="start_time" id="" value="{{ start_time }}"></p>
 <p>End Time: <input type="time" name="end_time" id="" value="{{ end_time }}"></p>
+<div style="display: none;"><input type="text" name="creator" value="{{ user.username }}"</input></div>
 <input type="submit" value="Add" />
 {% else %}
 <h1>hello world!</h1>

@@ -13,7 +13,7 @@ class InstanceAdmin(admin.ModelAdmin):
 		(None, {'fields':['start_time']}),
 		(None, {'fields':['end_time']}),]
 	inlines = [InviteeInline]
-	list_display = ('title', 'desc', 'pub_date')
+	list_display = ('title', 'desc', 'pub_date', 'creator')
 
 admin.site.register(Instance, InstanceAdmin)
 admin.site.register(UserProfile)

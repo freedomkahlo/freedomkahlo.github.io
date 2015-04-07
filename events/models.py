@@ -12,6 +12,7 @@ class Instance(models.Model):
 	end_date = models.DateField('end date')
 	start_time = models.TimeField('start time')
 	end_time = models.TimeField('end time')
+	creator = models.CharField(max_length=100, default='')
 	def clean(self):
 		if len(self.title.replace(' ', '')) == 0:
 			raise ValidationError('Title cannot be left blank.')
@@ -25,9 +26,9 @@ class Instance(models.Model):
 			raise ValidationError('Start time must occur before end time.')
 		if (startd < datetime.now() - timedelta(0, 60)):
 			raise ValidationError('Start date must occur in the future.')
-		self.pub_date = timezone.now()
-	def __str__(self):
-		return self.title + "\n" + self.start_date + ", " + self.start_time + " to " + self.end_date + ", " + self.end_time
+		self.pub_date = datetime.now()
+	#def __str__(self):
+	#	return self.title + "\n" + self.start_date + ", " + self.start_time + " to " + self.end_date + ", " + self.end_time
 	def save(self, **kwargs):
 		self.clean()
 		return super(Instance, self).save(**kwargs)
