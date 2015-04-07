@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.utils import timezone
 from datetime import *
 from django.contrib.auth.models import User
 
@@ -25,7 +24,7 @@ class Instance(models.Model):
 			raise ValidationError('Start time must occur before end time.')
 		if (startd < datetime.now() - timedelta(0, 60)):
 			raise ValidationError('Start date must occur in the future.')
-		self.pub_date = timezone.now()
+		self.pub_date = datetime.now()
 	def __str__(self):
 		return self.title + "\n" + self.start_date + ", " + self.start_time + " to " + self.end_date + ", " + self.end_time
 	def save(self, **kwargs):
