@@ -8,17 +8,19 @@
 <h1>hello {{ user.username }}!</h1>
 <a href="/events/logout/">Logout</a><br />
 
-<h2>Directory Events</h2>
+<h2>My Events</h2>
 {% if latest_event_list %}
     <ul>
     	<form action="{% url 'events:delete' %}" method="post">
-    		{% csrf_token %}
-    {% for event in latest_event_list %}
-   		
-        <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="radio" name="eventID" id="" value="{{ event.id }}"/></li>
-    {% endfor %}
-    	<input type="submit" value="Delete" />
-    </form>
+    	{% csrf_token %}
+        {% for event in latest_event_list %}
+            <!-- not time efficient but works for reasonable amount of data -->
+   		    {% if event.creator == user.username %}
+            <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="radio" name="eventID" id="" value="{{ event.id }}"/></li>
+            {% endif %}
+        {% endfor %}
+        	<input type="submit" value="Delete" />
+        </form>
 
     </ul>
 {% else %}

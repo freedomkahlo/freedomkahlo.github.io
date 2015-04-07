@@ -39,10 +39,6 @@ def delete(request):
 	event.delete()
 	return index(request)
 
-def results(request, instance_id):
-    event = get_object_or_404(Question, pk=instance_id)
-    return render(request, 'events/results.html', {'event': event})
-
 def register(request):
     context = RequestContext(request)
     registered = False
