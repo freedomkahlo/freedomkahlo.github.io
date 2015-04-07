@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Instance, Invitee
+from .models import UserProfile, Instance, Invitee
 
 class InviteeInline(admin.TabularInline):
 	model = Invitee
@@ -16,3 +16,4 @@ class InstanceAdmin(admin.ModelAdmin):
 	list_display = ('title', 'desc', 'pub_date')
 
 admin.site.register(Instance, InstanceAdmin)
+admin.site.register(UserProfile)

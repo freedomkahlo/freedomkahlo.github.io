@@ -6,5 +6,6 @@ urlpatterns = [
 	url(r'^(?P<instance_id>[0-9]+)/$', views.detail, name='detail'),
 	url(r'^add/', views.add, name='add'),
 	url(r'^delete/', views.delete, name='delete'),
+	url(r'^register/$', views.register, name='register'),
     url(r'^$', views.index, name='index'),
 ]
