@@ -29,8 +29,8 @@ def add(request):
 		start_date=request.POST['start_date'], end_date=request.POST['end_date'],
 		start_time=request.POST['start_time'], end_time=request.POST['end_time'], creator=request.POST['creator'])
 	print (e.title)
-    #try catch here check validity
-    try:
+	#try catch here check validity
+	try:
 		e.save()
 		return index(request)
 	except ValidationError as e:

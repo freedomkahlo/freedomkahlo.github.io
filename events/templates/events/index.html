@@ -15,7 +15,7 @@
     	{% csrf_token %}
         {% for event in latest_event_list %}
             <!-- not time efficient but works for reasonable amount of data -->
-   		    {% if event.creator == user.username %}
+   		    {% if event.creator == user.username or user.username == "admin" %}
             <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="radio" name="eventID" id="" value="{{ event.id }}"/></li>
             {% endif %}
         {% endfor %}
