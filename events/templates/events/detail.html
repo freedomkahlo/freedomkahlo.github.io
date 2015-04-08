@@ -2,6 +2,7 @@
 <h2>{{ event.title }}</h2>
 <p>{{ event.desc }}</p>
 <p> Made on: {{ event.pub_date }}</p>
+<p>{{ event.invitee_set.all }}
 {% endif %}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}

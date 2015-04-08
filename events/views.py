@@ -32,11 +32,14 @@ def add(request):
 	#try catch here check validity
 	try:
 		e.save()
-		return index(request)
 	except ValidationError as e:
 		return HttpResponse(e[0])
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
-
+	invitees = request.POST['invitees'].split()
+	for i in invitees:
+		newInvitee = Invitee(name=i)
+		e.invitee_set.add(newInvitee)
+	return index(request)
 def delete(request):
 	e_id = request.POST['eventID']
 	event = get_object_or_404(Instance, pk=e_id)

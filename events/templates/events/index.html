@@ -27,6 +27,28 @@
     <p>No events are available.</p>
 {% endif %}
 
+<h2>Events Invited To</h2>
+{% if latest_event_list %}
+    <ul>
+        <form action="{% url 'events:delete' %}" method="post">
+        {% csrf_token %}
+        {% for event in latest_event_list.filter %}
+            <!-- not time efficient but works for reasonable amount of data -->
+            {% for invitee in event.invitee_set.all %}
+                {% if invitee.name == user.username %}
+                    <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="radio" name="eventID" id="" value="{{ event.id }}"/></li>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+            <input type="submit" value="Delete" />
+        </form>
+
+    </ul>
+{% else %}
+    <p>No events are available.</p>
+{% endif %}
+
+
 <h2>Add an Event</h2>
 <form action="{% url 'events:add' %}" method="post">
 {% csrf_token %}
@@ -36,6 +58,7 @@
 <p>End Date: <input type="date" name="end_date" id="" value="{{ end_date }}"></p>
 <p>Start Time: <input type="time" name="start_time" id="" value="{{ start_time }}"></p>
 <p>End Time: <input type="time" name="end_time" id="" value="{{ end_time }}"></p>
+<p>Invitees: <input type="text" name="invitees" id="" value="{{ invitees }}"></p>
 <div style="display: none;"><input type="text" name="creator" value="{{ user.username }}"</input></div>
 <input type="submit" value="Add" />
 {% else %}
