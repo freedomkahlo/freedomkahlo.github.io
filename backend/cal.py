@@ -8,8 +8,8 @@ from oauth2client.tools import run
 import httplib2
 import os
 import sys
-from google_api_python_client_gae_1_2 import gflags
-from google_api_python_client_gae_1_2 import gflags_validators
+import gflags
+import gflags_validators
 import json
 from heapq import *
 from datetime import *
