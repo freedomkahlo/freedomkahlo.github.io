@@ -12,7 +12,7 @@ class Instance(models.Model):
 	start_time = models.TimeField('start time')
 	end_time = models.TimeField('end time')
 	creator = models.CharField(max_length=100, default='')
-	def clean(self):
+	def regValidate(self):
 		if len(self.title.replace(' ', '')) == 0:
 			raise ValidationError('Title cannot be left blank.')
 		if self.start_date == '' or self.end_date == '':
@@ -26,10 +26,25 @@ class Instance(models.Model):
 		if (startd < datetime.now() - timedelta(0, 60)):
 			raise ValidationError('Start date must occur in the future.')
 		self.pub_date = datetime.now()
+
+	def adminValidate(self):
+		if len(self.title.replace(' ', '')) == 0:
+			raise ValidationError('Title cannot be left blank.')
+		startd = datetime.combine(self.start_date, self.start_time)
+		endd = datetime.combine(self.start_date, self.start_time)
+		if (startd >= endd):
+			raise ValidationError('Start time must occur before end time.')
+		if (startd < datetime.now() - timedelta(0, 60)):
+			raise ValidationError('Start date must occur in the future.')
+		self.pub_date = datetime.now()
+
 	def __str__(self):
-		return self.title + "\n" + self.start_date + ", " + self.start_time + " to " + self.end_date + ", " + self.end_time
+		return self.title + "\n" + str(self.start_date) + ", " + str(self.start_time) + " to " + str(self.end_date) + ", " + str(self.end_time)
 	def save(self, **kwargs):
-		self.clean()
+		if (type(self.start_date) == datetime):
+			self.adminValidate()
+		else:
+			self.regValidate()
 		return super(Instance, self).save(**kwargs)
 
 class Invitee(models.Model):
