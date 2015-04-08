@@ -18,7 +18,7 @@ DEVELOPER_KEY = 'AIzaSyC_sCrieFSw6_KM9zZHKOTUrXmeEwqkR3o'
 epoch = datetime(1970, 1, 1)
 
 
-def buildService(username):
+def getCred(username):
 	userCredfile = username + "_cred.dat"
 	CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar')
@@ -40,13 +40,16 @@ def buildService(username):
 	#})
 	#print response.content
 
+	return credentials
+
+def buildService(username):
+	credentials = getCred(username)
+
 	# Create an httplib2.Http object to handle our HTTP requests and authorize it
 	# with our good Credentials.
 	http = httplib2.Http()
 	http = credentials.authorize(http)
-
-	service = build(serviceName = 'calendar', version='v3', http=http,
-					developerKey = DEVELOPER_KEY)
+	service = build(serviceName = 'calendar', version='v3', http=http, developerKey = DEVELOPER_KEY)
 	return service
 
 def create_new_event(service, event_name, start, end, location=None, description=None, organizer=None, calendar_id=None):
@@ -134,6 +137,11 @@ def convertRFC3339toRoyTime(RFC3339):
 	t = (t - epoch)
 	return t.seconds + t.days * 24 * 3600
 
+def convertRoyTimeToDateTime(RoyTime):
+	epoch = datetime(1970, 1, 1)
+	td = timedelta(RoyTime / (24 * 3600), RoyTime % (24 * 3600))
+	return epoch + td
+
 #startTime and endTime are in RoyTime
 #timeLength in seconds
 def findTimes(events, startTime, endTime, timeLength):
@@ -159,7 +167,7 @@ def findTimes(events, startTime, endTime, timeLength):
     while (len(h) != 0 and h[0][0] <= endTime):
         if (h[0][0] - currentStart >= timeLength):
             freeTime.append({'conflicts':currentConflicts, 'startTime':
-                                 currentStart, 'endTime':h[0][0]})
+                                 convertRoyTimeToDateTime(currentStart), 'endTime':convertRoyTimeToDateTime(h[0][0])})
         currentStart = h[0][0]
         while (len(h) != 0 and h[0][0] == currentStart):
             if (h[0][1]):
@@ -169,7 +177,7 @@ def findTimes(events, startTime, endTime, timeLength):
             heappop(h)
     if (endTime - currentStart >= timeLength):
         freeTime.append({'conflicts':currentConflicts, 'startTime':
-                             currentStart, 'endTime':endTime})
+                             convertRoyTimeToDateTime(currentStart), 'endTime':convertRoyTimeToDateTime(endTime)})
     return sorted(freeTime)
 
 # timeStart and timeEnd are strings formatted RFC3339
@@ -184,21 +192,28 @@ def findTimeForMany(usernameList, timeStart, timeEnd, duration):
 	endRoy = convertRFC3339toRoyTime(timeEnd)
 	avail = findTimes(events, startRoy, endRoy, duration)
 	
-	#print avail
+	return avail
+
+	'''print avail
 	for i in range(0, len(avail)):
 		a = avail[i]['startTime']
 		td = timedelta(a / (24 * 3600), a % (24 * 3600))
 		b = avail[i]['endTime']
 		td2 = timedelta(b / (24 * 3600), b % (24 * 3600))
 		print (epoch + td).strftime('%d/%m/%Y %H:%M:%S'), (epoch + td2).strftime('%d/%m/%Y %H:%M:%S'), avail[i]['conflicts']
+'''
 
+def printAvail(avail):
+	for i in range(0, len(avail)):
+		print avail[i]['startTime'].strftime('%Y/%m/%d %H:%M:%S'), avail[i]['endTime'].strftime('%Y/%m/%d %H:%M:%S'), avail[i]['conflicts']
 
 def main():
 	users = sys.argv[1:]
-	#print users
-	#users = ['jl25']
-	findTimeForMany(users, timeStart='2015-04-06T13:00:00-04:00', 
+	avail = findTimeForMany(users, timeStart='2015-04-06T13:00:00-04:00', 
 		timeEnd='2015-04-07T14:00:00-04:00', duration = 3600)
+	printAvail(avail)
+
+	#getCred(users[0])
 
 	'''
 	if (sys.argv[0] == 'create'):
