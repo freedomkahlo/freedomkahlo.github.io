@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 def home(request):
 	return render(request, './index.html')
@@ -37,7 +38,7 @@ def add(request):
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
 	invitees = request.POST['invitees'].split()
 	for i in invitees:
-		newInvitee = Invitee(name=i)
+		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
 	return index(request)
 
@@ -49,7 +50,31 @@ def delete(request):
 
 def deleteInvitee(request):
 	return index(request)
-	
+
+def getTimes(request):
+	return index(request)
+
+def manageCreator(request):
+	if 'delete' in request.POST:
+		return delete(request)
+	if 'getTimes' in request.POST:
+		return getTimes(request)
+	else:
+		return index(request)
+
+def manageInvitee(request):
+	e_id = request.POST['eventID']
+	event = get_object_or_404(Instance, pk=e_id)
+
+	username = request.POST['username']
+	invitee = event.invitee_set.get(name=username)
+	if 'accept' in request.POST:
+		invitee.rsvpAccepted = True
+		invitee.save()
+		return index(request)
+	else:
+		return index(request)
+
 def results(request, instance_id):
 	event = get_object_or_404(Question, pk=instance_id)
 	return render(request, 'events/results.html', {'event': event})
@@ -74,7 +99,6 @@ def register(request):
 
 			profile.save()
 			registered = True
-
 		else:
 			print (user_form.errors, profile_form.errors)
 

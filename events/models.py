@@ -12,6 +12,9 @@ class Instance(models.Model):
 	start_time = models.TimeField('start time')
 	end_time = models.TimeField('end time')
 	creator = models.CharField(max_length=100, default='')
+
+	is_scheduled = models.BooleanField(default='False')
+
 	def regValidate(self):
 		if len(self.title.replace(' ', '')) == 0:
 			raise ValidationError('Title cannot be left blank.')
@@ -49,7 +52,9 @@ class Instance(models.Model):
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
+	userID = models.IntegerField(default='0')
 	name = models.CharField(max_length=100)
+	rsvpAccepted = models.BooleanField(default=None)
 	def __str__(self):
 		return self.name
 	def clean(self):
@@ -62,6 +67,11 @@ class Invitee(models.Model):
 		self.clean()
 		return super(Invitee, self).save(**kwargs)
 
+#class PotentialTimes(models.Model):
+#	event = models.ForeignKey(Instance)
+#	time = models.DateTimeField('potential time')
+#	votes = models.IntegerField(default = 0)
+	
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)

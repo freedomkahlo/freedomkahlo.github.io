@@ -2,7 +2,20 @@
 <h2>{{ event.title }}</h2>
 <p>{{ event.desc }}</p>
 <p> Made on: {{ event.pub_date }}</p>
+{% for invitee in event.invitee_set.all %}
+<p> {{ invitee.userID }} </p>
+{% endfor %}
 <p>{{ event.invitee_set.all }}
 {% endif %}
+<p>{{ event.rsvpinvitee_set.all }}
+
+{% for invitee in event.invitee_set.all %}
+	<p> {{ invitee.userID }} </p>
+	{% if invitee.userID == user.id %}
+
+	<p> {{ invitee.name }} </p>
+	{% endif %}
+
+{% endfor %}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}

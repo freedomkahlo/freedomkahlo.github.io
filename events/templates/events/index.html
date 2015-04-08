@@ -10,33 +10,53 @@
 
 <div id="menu_container">
 <h2>My Events</h2>
-{% if latest_event_list %}
-    <ul>
-        {% for event in latest_event_list %}
-            <!-- not time efficient but works for reasonable amount of data -->
-   		    {% if event.creator == user.username or user.username == "admin" %}
-                <form action="{% url 'events:delete' %}" method="post">
-                {% csrf_token %}
-                <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="submit" name="eventID" id="delete_button" value="{{ event.id }}"/></li>
-                </form>
-            {% endif %}
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No events are available.</p>
-{% endif %}
+    <h3>Stage 1: View how many people have responded to request </h3>
+
+    {% if latest_event_list %}
+        <ul>
+            {% for event in latest_event_list %}
+                <!-- not time efficient but works for reasonable amount of data -->
+       		    {% if event.creator == user.username or user.username == "admin" %}
+                    <form action="{% url 'events:manageCreator' %}" method="post">
+                    {% csrf_token %}
+                    <div style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></div>
+                    <li>
+                        <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
+                        <input type="submit" name="delete" id="delete_button" value="Delete Event"/>
+                        <input type="submit" name="getTimes" value="Get Times" />
+
+                        {% for invitee in event.invitee_set.all %}
+                            {% if invitee.rsvpAccepted %}
+                                <p> Responded: {{ invitee.name }} </p>
+                            {% else %}
+                                <p> Not Responded: {{ invitee.name }} </p>
+                            {% endif %}
+                        {% endfor %}
+
+                    </li>
+                    </form>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No events are available.</p>
+    {% endif %}
 
 <h2>Events Invited To</h2>
+<h3>Stage 1: Accept/Decline Events</h3>
 {% if latest_event_list %}
     <ul>
         {% for event in latest_event_list %}
             {% for invitee in event.invitee_set.all %}
                 <!-- not time efficient but works for reasonable amount of data -->
-                {% if invitee.name == user.username %}
-                    <form action="{% url 'events:deleteInvitee' %}" method="post">
+                {% if invitee.name == user.username and not invitee.rsvpAccepted %}
+                    <form action="{% url 'events:manageInvitee' %}" method="post">
                     {% csrf_token %}
-                    <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="submit" name="eventID" id="delete_button" value="{{ event.id }}"/></li>
-                    <div style="display: none;"><input type="text" name="invitee" value="{{ user.username }}"</input></div>
+                    <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
+                        <div style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"/></div>
+                        <div style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></div>
+                        <input type="submit" name="accept" value="Accept"/>
+                        <input type="submit" name="decline" value="Decline"/></li>
                     </form>
                 {% endif %}
             {% endfor %}
