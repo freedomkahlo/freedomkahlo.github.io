@@ -8,7 +8,8 @@ from oauth2client.tools import run
 import httplib2
 import os
 import sys
-import gflags
+from google_api_python_client_gae_1_2 import gflags
+from google_api_python_client_gae_1_2 import gflags_validators
 import json
 from heapq import *
 from datetime import *
@@ -19,7 +20,7 @@ epoch = datetime(1970, 1, 1)
 
 
 def getCred(username):
-	userCredfile = username + "_cred.dat"
+	userCredfile = "credentials/" + username + "_cred.dat"
 	CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar')
 
