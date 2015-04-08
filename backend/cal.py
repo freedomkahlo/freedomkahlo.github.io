@@ -206,7 +206,7 @@ def findTimeForMany(usernameList, timeStart, timeEnd, duration):
 
 def printAvail(avail):
 	for i in range(0, len(avail)):
-		print avail[i]['startTime'].strftime('%Y/%m/%d %H:%M:%S'), avail[i]['endTime'].strftime('%Y/%m/%d %H:%M:%S'), avail[i]['conflicts']
+		print (avail[i]['startTime'].strftime('%Y/%m/%d %H:%M:%S'), avail[i]['endTime'].strftime('%Y/%m/%d %H:%M:%S'), avail[i]['conflicts'])
 
 def main():
 	users = sys.argv[1:]
