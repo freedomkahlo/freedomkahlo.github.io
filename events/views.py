@@ -40,12 +40,16 @@ def add(request):
 		newInvitee = Invitee(name=i)
 		e.invitee_set.add(newInvitee)
 	return index(request)
+
 def delete(request):
 	e_id = request.POST['eventID']
 	event = get_object_or_404(Instance, pk=e_id)
 	event.delete()
 	return index(request)
 
+def deleteInvitee(request):
+	return index(request)
+	
 def results(request, instance_id):
 	event = get_object_or_404(Question, pk=instance_id)
 	return render(request, 'events/results.html', {'event': event})

@@ -2,26 +2,25 @@
 <html>
 {% load staticfiles %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
+<!--<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />-->
 
 {% if user.is_authenticated %}
 <h1>hello {{ user.username }}!</h1>
 <a href="/events/logout/">Logout</a><br />
 
+<div id="menu_container">
 <h2>My Events</h2>
 {% if latest_event_list %}
     <ul>
-    	<form action="{% url 'events:delete' %}" method="post">
-    	{% csrf_token %}
         {% for event in latest_event_list %}
             <!-- not time efficient but works for reasonable amount of data -->
    		    {% if event.creator == user.username or user.username == "admin" %}
-            <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="radio" name="eventID" id="" value="{{ event.id }}"/></li>
+                <form action="{% url 'events:delete' %}" method="post">
+                {% csrf_token %}
+                <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="submit" name="eventID" id="delete_button" value="{{ event.id }}"/></li>
+                </form>
             {% endif %}
         {% endfor %}
-        	<input type="submit" value="Delete" />
-        </form>
-
     </ul>
 {% else %}
     <p>No events are available.</p>
@@ -30,27 +29,27 @@
 <h2>Events Invited To</h2>
 {% if latest_event_list %}
     <ul>
-        <form action="{% url 'events:delete' %}" method="post">
-        {% csrf_token %}
-        {% for event in latest_event_list.filter %}
-            <!-- not time efficient but works for reasonable amount of data -->
+        {% for event in latest_event_list %}
             {% for invitee in event.invitee_set.all %}
+                <!-- not time efficient but works for reasonable amount of data -->
                 {% if invitee.name == user.username %}
-                    <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="radio" name="eventID" id="" value="{{ event.id }}"/></li>
+                    <form action="{% url 'events:deleteInvitee' %}" method="post">
+                    {% csrf_token %}
+                    <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a><input type="submit" name="eventID" id="delete_button" value="{{ event.id }}"/></li>
+                    <div style="display: none;"><input type="text" name="invitee" value="{{ user.username }}"</input></div>
+                    </form>
                 {% endif %}
             {% endfor %}
         {% endfor %}
-            <input type="submit" value="Delete" />
-        </form>
-
     </ul>
+
 {% else %}
     <p>No events are available.</p>
 {% endif %}
 
 
-<h2>Add an Event</h2>
-<form action="{% url 'events:add' %}" method="post">
+<h2>Create Event</h2>
+<form action="{% url 'events:add' %}" method="post">    
 {% csrf_token %}
 <p>Title: <input type="text" name="title" id="" value="{{ title }}"></p>
 <p>Desc: <input type="text" name="desc" id="" value="{{ desc }}"></p>
@@ -64,7 +63,7 @@
 {% else %}
 <h1>hello world!</h1>
 {% endif %}
-
-
 </form>
+
+</div>
 </html>
