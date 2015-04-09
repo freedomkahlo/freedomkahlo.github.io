@@ -50,11 +50,17 @@ class Instance(models.Model):
 			self.regValidate()
 		return super(Instance, self).save(**kwargs)
 
+class PossTime(models.Model):
+	event = models.ForeignKey(Instance)
+	time = models.DateTimeField('poss time')
+	votes = models.IntegerField(default = 0)
+
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
 	userID = models.IntegerField(default='0')
 	name = models.CharField(max_length=100)
 	rsvpAccepted = models.BooleanField(default=None)
+	hasVoted = models.BooleanField(default=False)
 	def __str__(self):
 		return self.name
 	def clean(self):

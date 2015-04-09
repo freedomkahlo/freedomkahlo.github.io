@@ -9,7 +9,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-from backend import cal
 
 def home(request):
 	return render(request, './index.html')
@@ -53,6 +52,9 @@ def deleteInvitee(request):
 	return index(request)
 
 def getTimes(request):
+	e_id = request.POST['eventID']
+	event = get_object_or_404(Instance, pk=e_id)
+	time = PossTime(event=event, time=ptime)
 	return index(request)
 
 def manageCreator(request):
