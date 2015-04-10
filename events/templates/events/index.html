@@ -68,6 +68,24 @@
     <p>No events are available.</p>
 {% endif %}
 
+<h2>Events Pending</h2>
+<h3>Stage 1: Pending Creator Time Generation</h3>
+{% if latest_event_list %}
+    <ul>
+        {% for event in latest_event_list %}
+            {% for invitee in event.invitee_set.all %}
+
+                <!-- not time efficient but works for reasonable amount of data -->
+                {% if invitee.name == user.username and invitee.rsvpAccepted and not event.isScheduled %}
+                    <p><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a></p>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </ul>
+
+{% else %}
+    <p>No events are available.</p>
+{% endif %}
 
 <h2>Create Event</h2>
 <h3> {{error}} </h3>
