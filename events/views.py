@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
+from backend import cal
+
 def home(request):
 	return render(request, './index.html')
 
@@ -110,6 +112,8 @@ def register(request):
 			user.save()
 			profile = profile_form.save(commit=False)
 			profile.user = user
+
+			cal.getCred(user.username)
 
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
