@@ -1,27 +1,42 @@
-from .apiclient.discovery import build
-from .oauth2client.client import OAuth2WebServerFlow
-from .oauth2client.client import flow_from_clientsecrets
-from .oauth2client.client import AccessTokenRefreshError
-from .oauth2client.file import Storage
-from .oauth2client.tools import run
+from backend.apiclient.discovery import build
+from backend.oauth2client.client import OAuth2WebServerFlow
+from backend.oauth2client.client import flow_from_clientsecrets
+from backend.oauth2client.client import AccessTokenRefreshError
+from backend.oauth2client.file import Storage
+from backend.oauth2client.tools import argparser
+from backend.oauth2client.tools import run
+from backend.oauth2client.tools import run_flow
 
-from . import httplib2
-from . import os
-from . import sys
-from . import gflags
-from . import gflags_validators
+from backend import httplib2
+from backend import gflags
+from backend import gflags_validators
 
+#from apiclient.discovery import build
+#from oauth2client.client import OAuth2WebServerFlow
+#from oauth2client.client import flow_from_clientsecrets
+#from oauth2client.client import AccessTokenRefreshError
+#from oauth2client.file import Storage
+#from oauth2client.tools import run
+
+#import httplib2
+#import gflags
+#import gflags_validators
+
+import os
+import sys
 import json
 from heapq import *
 from datetime import *
+import argparse
 
 FLAGS = gflags.FLAGS
 DEVELOPER_KEY = 'AIzaSyC_sCrieFSw6_KM9zZHKOTUrXmeEwqkR3o'
 epoch = datetime(1970, 1, 1)
-
+parser = argparse.ArgumentParser(parents=[argparser])
+flowflags = parser.parse_args(args=[])
 
 def getCred(username):
-	userCredfile = "credentials/" + username + "_cred.dat"
+	userCredfile = "backend/credentials/" + username + "_cred.dat"
 	CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar')
 
@@ -31,11 +46,13 @@ def getCred(username):
 	storage = Storage(userCredfile)
 	credentials = storage.get()
 	if credentials is None or credentials.invalid == True:
-		credentials = run(FLOW, storage)
+		#credentials = run(FLOW, storage)
+		credentials = run_flow(FLOW, storage, flowflags)
 	if credentials is None or credentials.invalid == True:
 		os.remove(userCredfile)
 		storage = Storage(userCredfile)
-		credentials = run(FLOW, storage)
+		#credentials = run(FLOW, storage)
+		credentials = run_flow(FLOW, storage, flowflags)
 	#response = google.get_raw_access_token(data={
 	#	'refresh_token': credentials['refresh_token'],
 	#	'grant_type': 'refresh_token',

@@ -63,8 +63,8 @@ __author__ = 'jcgregorio@google.com (Joe Gregorio)'
 
 import copy
 
-from oauth2client import util
-from oauth2client.anyjson import simplejson
+from backend.oauth2client import util
+from backend.oauth2client.anyjson import simplejson
 
 
 class Schemas(object):

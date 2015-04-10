@@ -25,16 +25,16 @@ __all__ = ['argparser', 'run_flow', 'run', 'message_if_missing']
 
 import BaseHTTPServer
 import argparse
-import httplib2
+import backend.httplib2
 import logging
 import os
 import socket
 import sys
 import webbrowser
 
-from oauth2client import client
-from oauth2client import file
-from oauth2client import util
+from backend.oauth2client import client
+from backend.oauth2client import file
+from backend.oauth2client import util
 
 try:
   from urlparse import parse_qsl
