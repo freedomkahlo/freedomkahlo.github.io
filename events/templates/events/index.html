@@ -70,6 +70,7 @@
 
 
 <h2>Create Event</h2>
+<h3> {{error}} </h3>
 <form action="{% url 'events:add' %}" method="post">    
 {% csrf_token %}
 <p>Title: <input type="text" name="title" id="" value="{{ title }}"></p>

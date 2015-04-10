@@ -26,15 +26,25 @@ def detail(request, instance_id):
 
 @login_required
 def add(request):
-	e = Instance(title=request.POST.get('title', ''), desc=request.POST.get('desc', ''),
-		start_date=request.POST.get('start_date', ''), end_date=request.POST.get('end_date', ''),
-		start_time=request.POST.get('start_time', ''), end_time=request.POST.get('end_time', ''), creator=request.POST.get('creator', ''))
+	title=request.POST.get('title', '')
+	desc=request.POST.get('desc', '')
+	start_date=request.POST.get('start_date', '')
+	end_date=request.POST.get('end_date', '')
+	start_time=request.POST.get('start_time', '')
+	end_time=request.POST.get('end_time', '')
+	creator=request.POST.get('creator', '')
+	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
+		start_time=start_time, end_time=end_time, creator=creator)
 	print (e.title)
+	print start_date, end_date, start_time, end_time
 	#try catch here check validity
 	try:
 		e.save()
 	except ValidationError as e:
-		return HttpResponse(e[0])
+		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+		return render(request, 'events/index.html', {'error': e[0], 'latest_event_list': latest_event_list,
+			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+			'end_time':end_time, 'creator':creator})
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
 	invitees = request.POST.get('invitees', '').split()
 	for i in invitees:
@@ -135,7 +145,7 @@ def user_login(request):
 				return HttpResponse("Your Skedge account is disabled.")
 		else:
 			print ("Invalid login details: {0}, {1}".format(username, password))
-			return HttpResponse("Invalid login details supplied.")
+			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied."})
 
 	else:
 		return render_to_response('events/login.html', {}, context)
