@@ -26,9 +26,9 @@ def detail(request, instance_id):
 
 @login_required
 def add(request):
-	e = Instance(title=request.POST['title'], desc=request.POST['desc'], 
-		start_date=request.POST['start_date'], end_date=request.POST['end_date'],
-		start_time=request.POST['start_time'], end_time=request.POST['end_time'], creator=request.POST['creator'])
+	e = Instance(title=request.POST.get('title', ''), desc=request.POST.get('desc', ''),
+		start_date=request.POST.get('start_date', ''), end_date=request.POST.get('end_date', ''),
+		start_time=request.POST.get('start_time', ''), end_time=request.POST.get('end_time', ''), creator=request.POST.get('creator', ''))
 	print (e.title)
 	#try catch here check validity
 	try:
@@ -36,7 +36,7 @@ def add(request):
 	except ValidationError as e:
 		return HttpResponse(e[0])
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
-	invitees = request.POST['invitees'].split()
+	invitees = request.POST.get('invitees', '').split()
 	for i in invitees:
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
@@ -66,7 +66,7 @@ def manageCreator(request):
 		return index(request)
 
 def manageInvitee(request):
-	e_id = request.POST['eventID']
+	e_id = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, pk=e_id)
 
 	username = request.POST['username']
@@ -118,8 +118,8 @@ def user_login(request):
 	context = RequestContext(request)
 
 	if request.method == 'POST':
-		username = request.POST['username']
-		password = request.POST['password']
+		username = request.POST.get('username', '')
+		password = request.POST.get('password', '')
 
 		user = authenticate(username=username, password=password)
 
