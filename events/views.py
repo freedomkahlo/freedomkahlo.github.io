@@ -70,12 +70,16 @@ def manageInvitee(request):
 	event = get_object_or_404(Instance, pk=e_id)
 
 	username = request.POST['username']
-	invitee = event.invitee_set.get(name=username)
+	inviteeSet = event.invitee_set.all()
+	invitee = inviteeSet.get(name=username)
+	
 	if 'accept' in request.POST:
 		invitee.rsvpAccepted = True
 		invitee.save()
 		return index(request)
 	else:
+		invitee.delete()
+		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		return index(request)
 
 def results(request, instance_id):
