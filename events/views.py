@@ -10,11 +10,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
-import os
-import sys
-
-from backend import cal
-
 def home(request):
 	return render(request, './index.html')
 
@@ -31,17 +26,27 @@ def detail(request, instance_id):
 
 @login_required
 def add(request):
-	e = Instance(title=request.POST['title'], desc=request.POST['desc'], 
-		start_date=request.POST['start_date'], end_date=request.POST['end_date'],
-		start_time=request.POST['start_time'], end_time=request.POST['end_time'], creator=request.POST['creator'])
+	title=request.POST.get('title', '')
+	desc=request.POST.get('desc', '')
+	start_date=request.POST.get('start_date', '')
+	end_date=request.POST.get('end_date', '')
+	start_time=request.POST.get('start_time', '')
+	end_time=request.POST.get('end_time', '')
+	creator=request.POST.get('creator', '')
+	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
+		start_time=start_time, end_time=end_time, creator=creator)
 	print (e.title)
+	print start_date, end_date, start_time, end_time
 	#try catch here check validity
 	try:
 		e.save()
 	except ValidationError as e:
-		return HttpResponse(e[0])
+		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+		return render(request, 'events/index.html', {'error': e[0], 'latest_event_list': latest_event_list,
+			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+			'end_time':end_time, 'creator':creator})
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
-	invitees = request.POST['invitees'].split()
+	invitees = request.POST.get('invitees', '').split()
 	for i in invitees:
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
@@ -71,16 +76,20 @@ def manageCreator(request):
 		return index(request)
 
 def manageInvitee(request):
-	e_id = request.POST['eventID']
+	e_id = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, pk=e_id)
 
 	username = request.POST['username']
-	invitee = event.invitee_set.get(name=username)
+	inviteeSet = event.invitee_set.all()
+	invitee = inviteeSet.get(name=username)
+	
 	if 'accept' in request.POST:
 		invitee.rsvpAccepted = True
 		invitee.save()
 		return index(request)
 	else:
+		invitee.delete()
+		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		return index(request)
 
 def results(request, instance_id):
@@ -101,9 +110,6 @@ def register(request):
 			user.save()
 			profile = profile_form.save(commit=False)
 			profile.user = user
-
-
-			cal.getCred(user.username)
 
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
@@ -126,8 +132,8 @@ def user_login(request):
 	context = RequestContext(request)
 
 	if request.method == 'POST':
-		username = request.POST['username']
-		password = request.POST['password']
+		username = request.POST.get('username', '')
+		password = request.POST.get('password', '')
 
 		user = authenticate(username=username, password=password)
 
@@ -139,7 +145,7 @@ def user_login(request):
 				return HttpResponse("Your Skedge account is disabled.")
 		else:
 			print ("Invalid login details: {0}, {1}".format(username, password))
-			return HttpResponse("Invalid login details supplied.")
+			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'username': username})
 
 	else:
 		return render_to_response('events/login.html', {}, context)
