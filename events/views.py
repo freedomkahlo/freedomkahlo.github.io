@@ -145,7 +145,7 @@ def user_login(request):
 				return HttpResponse("Your Skedge account is disabled.")
 		else:
 			print ("Invalid login details: {0}, {1}".format(username, password))
-			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied."})
+			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'username': username})
 
 	else:
 		return render_to_response('events/login.html', {}, context)
