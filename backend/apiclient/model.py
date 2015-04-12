@@ -27,9 +27,9 @@ __author__ = 'jcgregorio@google.com (Joe Gregorio)'
 import logging
 import urllib
 
-from apiclient import __version__
+from backend.apiclient import __version__
 from errors import HttpError
-from oauth2client.anyjson import simplejson
+from backend.oauth2client.anyjson import simplejson
 
 
 dump_request_response = False

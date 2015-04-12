@@ -44,27 +44,27 @@ except ImportError:
   from cgi import parse_qsl
 
 # Third-party imports
-import httplib2
+import backend.httplib2 as httplib2
 import mimeparse
-import uritemplate
+import backend.uritemplate as uritemplate
 
 # Local imports
-from apiclient.errors import HttpError
-from apiclient.errors import InvalidJsonError
-from apiclient.errors import MediaUploadSizeError
-from apiclient.errors import UnacceptableMimeTypeError
-from apiclient.errors import UnknownApiNameOrVersion
-from apiclient.errors import UnknownFileType
-from apiclient.http import HttpRequest
-from apiclient.http import MediaFileUpload
-from apiclient.http import MediaUpload
-from apiclient.model import JsonModel
-from apiclient.model import MediaModel
-from apiclient.model import RawModel
-from apiclient.schema import Schemas
-from oauth2client.anyjson import simplejson
-from oauth2client.util import _add_query_parameter
-from oauth2client.util import positional
+from backend.apiclient.errors import HttpError
+from backend.apiclient.errors import InvalidJsonError
+from backend.apiclient.errors import MediaUploadSizeError
+from backend.apiclient.errors import UnacceptableMimeTypeError
+from backend.apiclient.errors import UnknownApiNameOrVersion
+from backend.apiclient.errors import UnknownFileType
+from backend.apiclient.http import HttpRequest
+from backend.apiclient.http import MediaFileUpload
+from backend.apiclient.http import MediaUpload
+from backend.apiclient.model import JsonModel
+from backend.apiclient.model import MediaModel
+from backend.apiclient.model import RawModel
+from backend.apiclient.schema import Schemas
+from backend.oauth2client.anyjson import simplejson
+from backend.oauth2client.util import _add_query_parameter
+from backend.oauth2client.util import positional
 
 
 # The client library requires a version of httplib2 that supports RETRIES.

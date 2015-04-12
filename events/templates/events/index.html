@@ -27,7 +27,7 @@
         <ul>
             {% for event in latest_event_list %}
                 <!-- not time efficient but works for reasonable amount of data -->
-       		    {% if event.creator == user.username or user.username == "admin" %}
+                {% if event.creator == user.username or user.username == "admin" %}
                     <form action="{% url 'events:manageCreator' %}" method="post">
                     {% csrf_token %}
                     <div style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></div>

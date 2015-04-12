@@ -23,7 +23,7 @@ import base64
 import clientsecrets
 import copy
 import datetime
-import httplib2
+from backend import httplib2
 import logging
 import os
 import sys
@@ -31,11 +31,11 @@ import time
 import urllib
 import urlparse
 
-from oauth2client import GOOGLE_AUTH_URI
-from oauth2client import GOOGLE_REVOKE_URI
-from oauth2client import GOOGLE_TOKEN_URI
-from oauth2client import util
-from oauth2client.anyjson import simplejson
+from backend.oauth2client import GOOGLE_AUTH_URI
+from backend.oauth2client import GOOGLE_REVOKE_URI
+from backend.oauth2client import GOOGLE_TOKEN_URI
+from backend.oauth2client import util
+from backend.oauth2client.anyjson import simplejson
 
 HAS_OPENSSL = False
 HAS_CRYPTO = False
@@ -221,6 +221,7 @@ class Credentials(object):
     except ImportError:
       # In case there's an object from the old package structure, update it
       module = module.replace('.apiclient', '')
+      module = "backend." + module
       m = __import__(module)
 
     m = __import__(module, fromlist=module.split('.')[:-1])

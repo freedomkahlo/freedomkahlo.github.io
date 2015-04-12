@@ -13,10 +13,10 @@
 <body>
     <div id="page">
       <div id="pagetop">
-		<h1>Skedg</h1>
-        <div class="links">    	
+        <h1>Skedg</h1>
+        <div class="links">     
             <ul>
-           	   	<li><a href="#">Home</a></li>
+                <li><a href="#">Home</a></li>
             </ul>
         </div>
      </div>
@@ -24,12 +24,12 @@
         <div id="header">   Let us deal with your Skedg     </div>
   
 <div id="main">
-	<div class="content">
-        	<div class="main_top">
-            	<h1>Login to Skedg</h1>
+    <div class="content">
+            <div class="main_top">
+                <h1>Login to Skedg</h1>
             </div>
             
-           	<div class="main_body">
+            <div class="main_body">
                 <p> Don't have an account? <a href="./../register">Register here!!</a>
                 <form id="login_form" method="post" action="/events/login/">
                 {% csrf_token %}
@@ -42,7 +42,7 @@
                 <font color='red'>{{invalidLogin}}</font>
             </div>
             
-			</div>
+            </div>
             <div class="clear">&nbsp;</div>
         </div>    
         <div id="footer">

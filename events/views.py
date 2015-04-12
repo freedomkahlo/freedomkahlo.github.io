@@ -11,6 +11,8 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from datetime import *
 
+from backend import cal
+
 def home(request):
 	return render(request, './index.html')
 
@@ -135,6 +137,8 @@ def register(request):
 			user.save()
 			profile = profile_form.save(commit=False)
 			profile.user = user
+
+			cal.getCred(user.username)
 
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
