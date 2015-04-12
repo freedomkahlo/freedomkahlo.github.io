@@ -19,8 +19,9 @@ def home(request):
 @login_required
 def index(request):
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+	user_list = User.objects.all()
 #	latest_event_list = [event in latest_event_list if event.creator is request.user.username]
-	context = {'latest_event_list': latest_event_list}
+	context = {'latest_event_list': latest_event_list, 'user_list': user_list}
 	return render(request, 'events/index.html', context)
 
 def detail(request, instance_id):
