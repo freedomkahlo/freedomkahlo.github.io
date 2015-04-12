@@ -47,8 +47,6 @@ CLIENT_SECRETS_JSON_FILE.close()
 
 def validateToken(username):
 	u = User.objects.get(username=username)
-	u.refToken=""
-	u.save()
 	refreshToken = u.refToken
 	if refreshToken == '':
 		# send to google
@@ -56,13 +54,21 @@ def validateToken(username):
 		USER_BEING_VALIDATED = username
 		return getCredClient()
 	else:
-		# get a new access token  
-		post_data = [('refresh_token',refreshToken), ('client_id',CLIENT_SECRETS_JSON['client_id']), ('client_secret',CLIENT_SECRETS_JSON['client_secret']), ('grant_type','refresh_token')]
-		print urllib.urlencode(post_data)
-		result = urllib2.urlopen('https://www.googleapis.com/oauth2/v3/token', urllib.urlencode(post_data))
-		content = result.read()
-		print content
+		# validate (currently not implemented)
 
+		return HttpResponseRedirect('/events/')
+
+# given username, assume that the user has a refresh token and get the credentials
+def getCredFromRefToken(username):
+	u = User.objects.get(username=username)
+	refreshToken = u.refToken
+	### Could check refToken here again....
+	post_data = {'refresh_token':refreshToken, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'grant_type':'refresh_token'}
+	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data)
+	#print result.json()
+	accessToken = result.json()['access_token']
+	credentials = AccessTokenCredentials(accessToken)
+	return credentials
 
 # send client to Google Authentication page
 def getCredClient():
@@ -70,10 +76,11 @@ def getCredClient():
 	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
 	auth_uri = FLOW.step1_get_authorize_url()
-	print(auth_uri+'&approval_prompt=force')
+	#print(auth_uri+'&approval_prompt=force')
 	return redirect(auth_uri+'&approval_prompt=force')
 
 # must add verification later!
+# Listens to Google's Authorization, and puts in a refresh token
 def auth(request):
 	print USER_BEING_VALIDATED
 	authcode = request.GET['code']
@@ -82,10 +89,16 @@ def auth(request):
 	post_data = {'code':authcode, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'redirect_uri':'http://skedg.tk/auth/', 'grant_type':'authorization_code'}
 	#print urllib.urlencode(post_data)
 	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data)
-	print result.json()
+	#print result.json()
+	refreshToken = result.json()['refresh_token']
+
+	u = User.objects.get(username=USER_BEING_VALIDATED)
+	u.refToken = refreshToken
+	u.save()
+
 	return HttpResponseRedirect('/events/')
 
-def getCred(username):
+'''def getCred(username):
 	userCredfile = "backend/credentials/" + username + "_cred.dat"
 	CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar')
@@ -110,9 +123,10 @@ def getCred(username):
 	#print response.content
 
 	return credentials
+'''
 
 def buildService(username):
-	credentials = getCred(username)
+	credentials = getCredFromRefToken(username)
 
 	# Create an httplib2.Http object to handle our HTTP requests and authorize it
 	# with our good Credentials.
