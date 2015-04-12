@@ -2,6 +2,7 @@ from backend.apiclient.discovery import build
 from backend.oauth2client.client import OAuth2WebServerFlow
 from backend.oauth2client.client import flow_from_clientsecrets
 from backend.oauth2client.client import AccessTokenRefreshError
+from backend.oauth2client.client import AccessTokenCredentials
 from backend.oauth2client.file import Storage
 from backend.oauth2client.tools import argparser
 from backend.oauth2client.tools import run
