@@ -8,6 +8,8 @@
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="{% static "events/jquery-ui-timepicker-addon.js" %}"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="{% static "events/moment.js" %}"></script> 
+    <script src="{% static "events/combodate.js" %}"></script> 
     <!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script> -->
 
 
@@ -16,6 +18,10 @@
 {% if user.is_authenticated %}
 <h1>hello {{ user.username }}!</h1>
 <a href="/events/logout/">Logout</a><br />
+
+{% for user in user_list %}
+    {{ user }}
+{% endfor %}
 
 <div id="notifications_panel">
     <h2>Notifications</h2>
@@ -150,20 +156,34 @@
 
     <p>Start Date: <input type="text" name="start_date" id="from" value="{{ start_date }}"></p>
     <p>End Date: <input type="text" name="end_date" id="to" value="{{ end_date }}"></p>
-    <p>Start Time: <input type="text" name="start_time" id="start_time" value="{{ start_time }}"></p>
-    <p>End Time: <input type="text" name="end_time" id="basic_example_2" value="{{ end_time }}"></p>
-
-    <!-- JQuery Time Picker -->
-    <script type="text/javascript">
-       $('#start_time').timepicker({
-            controlType: 'select',
-            oneLine: true,
-            timeFormat: 'hh:mm tt',
-            timeOnly: false,
-            showSecond: false,
-            showMillisec: false
-        });
+    <p>Start Time: <input type="text" name="start_time" id="starttime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
+    <p>End Time: <input type="text" name="end_time" id="endtime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
+    <script>
+    $(function(){
+        $('#starttime12').combodate({
+            firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
+            minuteStep: 5
+        });  
+        $('#endtime12').combodate({
+            firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
+            minuteStep: 5
+        });  
+    });
     </script>
+
+    <script>
+        $(function() {
+        $( "#tags" ).autocomplete({
+          source: "{% static "events/users.txt" %}"
+        });
+    });
+    </script>
+
+    <div class="ui-widget">
+      <label for="tags">Invitees: </label>
+      <input id="tags">
+    </div>
+
 
     <p>Invitees: <input type="text" name="invitees" id="" value="{{ invitees }}"></p>
     <div style="display: none;"><input type="text" name="creator" value="{{ user.username }}"</input></div>
