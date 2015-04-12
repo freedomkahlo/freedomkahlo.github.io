@@ -11,45 +11,51 @@
 </head>
 
 <body>
-    <div id="page">
-      <div id="pagetop">
-        <h1>Skedg</h1>
-        <div class="links">     
-            <ul>
-                <li><a href="#">Home</a></li>
-            </ul>
-        </div>
-     </div>
-        
-        <div id="header">   Let us deal with your Skedg     </div>
-  
+
 <div id="main">
-    <div class="content">
-            <div class="main_top">
-                <h1>Login to Skedg</h1>
+    <div id="header-wrapper">
+        <div id="header" class="container">
+            <div id="logo">
+                <h1><a href="#">Skedg.</a></h1>
             </div>
-            
-            <div class="main_body">
-                <p> Don't have an account? <a href="./../register">Register here!!</a>
-                <form id="login_form" method="post" action="/events/login/">
-                {% csrf_token %}
-                Username: <input type="text" name="username" value="{{username}}" size="50" />
-                <br />
-                Password: <input type="password" name="password" value="" size="50" />
-                <br />
-                <input type="submit" value="submit" />
-                </form>
-                <font color='red'>{{invalidLogin}}</font>
-            </div>
-            
-            </div>
-            <div class="clear">&nbsp;</div>
-        </div>    
-        <div id="footer">
-        <p>
-            COS 333
-        </p>
-        </div>        
         </div>
+    </div>
+
+
+    <div class="wrapper">
+            <div id="banner" class="container">
+                <table><tr>
+                    <td><img src={% static 'events/images/team.jpg' %} width="90%" alt="slideshow will go here eventually"></td>
+                    <td>
+                        <h3> Don't have an account? <a href="./../register">Register here!!</a></h3>
+                        <form id="login_form" method="post" action="/events/login/">
+                        {% csrf_token %}
+                        <p>
+                        Username: <input type="text" name="username" value="{{username}}" size="50" />
+                        <br />
+                        Password: <input type="password" name="password" value="" size="50" />
+                        <br />
+                        <input class="button button-small" type="submit" value="submit" />
+                        </p>
+                        </form>
+                        <font color='red'>{{invalidLogin}}</font>
+                    </td>
+                </tr></table>
+            </div>
+            <div id="welcome" class="container">
+                <div class="title">
+                    <h2>Welcome to Skedg.</h2>
+                </div>
+                <p>A new way to look at your calendar. Let us deal with your Skedge. Crystal is the bomb.com.</p>
+            </div>
+    </div>
+
+    <div id="footer">
+        Yeah ok social media and stuff will go here eventually
+    </div>
+
+    <div id="copyright">
+        <p> "All rights reserverd. Whatever." </p>
+    </div>
 </body>
 </html>
