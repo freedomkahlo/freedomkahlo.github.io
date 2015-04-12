@@ -7,8 +7,8 @@ class Instance(models.Model):
 	title = models.CharField(max_length=20, default='')
 	desc = models.CharField(max_length=100, default='description')
 	pub_date = models.DateTimeField('date made')
-	start_date = models.DateField('start date')
-	end_date = models.DateField('end date')
+	start_date = models.CharField(max_length=20)
+	end_date = models.CharField(max_length=20)
 	start_time = models.TimeField('start time')
 	end_time = models.TimeField('end time')
 	creator = models.CharField(max_length=100, default='')
@@ -22,8 +22,9 @@ class Instance(models.Model):
 			raise ValidationError('Dates cannot be left blank.')
 		if self.start_time == '' or self.end_time == '':
 			raise ValidationError('Times cannot be left blank.')
-		startd = datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %H:%M')
-		endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %H:%M')
+		print "here"
+		startd = datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %H:%M %p')
+		endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %H:%M %p')
 		if (startd >= endd):
 			raise ValidationError('Start time must occur before end time.')
 		if (startd < datetime.now() - timedelta(0, 60)):

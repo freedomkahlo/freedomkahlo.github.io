@@ -22,6 +22,7 @@ def index(request):
 	user_list = User.objects.all()
 #	latest_event_list = [event in latest_event_list if event.creator is request.user.username]
 	context = {'latest_event_list': latest_event_list, 'user_list': user_list}
+	request.path_info = '/events/'
 	return render(request, 'events/index.html', context)
 
 def detail(request, instance_id):
@@ -61,7 +62,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	return index(request)
+	return HttpResponseRedirect('/events/')
 
 def delete(request):
 	e_id = request.POST['eventID']
@@ -76,7 +77,7 @@ def delete(request):
 		user.save()
 
 	event.delete()
-	return index(request)
+	return HttpResponseRedirect('/events/')
 
 def deleteInvitee(request):
 	return index(request)
@@ -106,7 +107,7 @@ def manageInvitee(request):
 	if 'accept' in request.POST:
 		invitee.rsvpAccepted = True
 		invitee.save()
-		return index(request)
+		return HttpResponseRedirect('/events/')
 	else:
 		ntstr = username + " has been removed from " + event.title
 		n = Notification(desc=ntstr, pub_date=datetime.now())
@@ -114,7 +115,7 @@ def manageInvitee(request):
 		creator.notification_set.add(n)
 		invitee.delete()
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
-		return index(request)
+		return HttpResponseRedirect('/events/')
 
 def manageNotification(request):
 	if 'dismiss' in request.POST:
@@ -123,7 +124,7 @@ def manageNotification(request):
 		notification.delete()
 
 
-	return index(request)
+	return HttpResponseRedirect('/events/')
 
 def results(request, instance_id):
 	event = get_object_or_404(Question, pk=instance_id)
