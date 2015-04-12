@@ -85,9 +85,9 @@ def getCredClient():
 # must add verification later!
 # Listens to Google's Authorization, and puts in a refresh token
 def auth(request):
-	print USER_BEING_VALIDATED
+	#print USER_BEING_VALIDATED
 	authcode = request.GET['code']
-	print authcode
+	#print authcode
 
 	post_data = {'code':authcode, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'redirect_uri':'http://skedg.tk/auth/', 'grant_type':'authorization_code'}
 	#print urllib.urlencode(post_data)
@@ -100,8 +100,9 @@ def auth(request):
 	u.UserProfile.save()
 	u.save()
 
+	#Hi Crystal
 	avail = findTimeForMany(['ashley'], timeStart='2015-04-12T13:00:00-04:00', 
-	timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
+		timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
 	printAvail(avail)
 
 	return HttpResponseRedirect('/events/')
