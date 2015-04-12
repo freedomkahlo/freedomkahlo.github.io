@@ -98,7 +98,7 @@ def getTimes(request):
 	event.isScheduled = True
 	event.save()
 
-	times = findTimeForMany(['ashley'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
+	times = findTimeForMany(['crystalA'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
 	for t in times:
 		possTime = PossTime(time=t)
 		event.posstime_set.add(possTime)
