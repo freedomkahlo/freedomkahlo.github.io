@@ -145,7 +145,7 @@ def register(request):
 			profile = profile_form.save(commit=False)
 			profile.user = user
 
-			cal.getCred(user.username)
+			#cal.getCred(user.username)
 
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
@@ -176,6 +176,9 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
+				resp = cal.validateToken(username)
+				if (resp != None):
+					return resp
 				return HttpResponseRedirect('/events/')
 			else:
 				return HttpResponse("Your Skedge account is disabled.")
