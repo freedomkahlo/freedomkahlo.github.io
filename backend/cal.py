@@ -75,8 +75,14 @@ def getCredClient():
 # must add verification later!
 def auth(request):
 	print USER_BEING_VALIDATED
-	print request.path
-	return HttpResponseRedirect('/events/') 
+	authcode = request.GET['code'][0]
+
+	post_data = [('code',authcode), ('client_id',CLIENT_SECRETS_JSON['client_id']), ('client_secret',CLIENT_SECRETS_JSON['client_secret']), ('redirect_uri','http://skedg.tk/'), ('grant_type','authorization_code')]
+	print urllib.urlencode(post_data)
+	result = urllib2.urlopen('https://www.googleapis.com/oauth2/v3/token', urllib.urlencode(post_data))
+	content = result.read()
+	print content
+	return HttpResponseRedirect('/events/')
 
 def getCred(username):
 	userCredfile = "backend/credentials/" + username + "_cred.dat"
