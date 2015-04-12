@@ -8,6 +8,7 @@ urlpatterns = [
 	url(r'^deleteInvitee/', views.deleteInvitee, name='deleteInvitee'),
 	url(r'^manageCreator/', views.manageCreator, name='manageCreator'),
 	url(r'^manageInvitee/', views.manageInvitee, name='manageInvitee'),
+	url(r'^manageNotification/', views.manageNotification, name='manageNotification'),
 	url(r'^register/$', views.register, name='register'),
 	url(r'^login/$', views.user_login, name='login'),
 	url(r'^logout/$', views.user_logout, name='logout'),
