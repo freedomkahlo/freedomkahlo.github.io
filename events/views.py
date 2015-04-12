@@ -92,26 +92,19 @@ def delete(request):
 def deleteInvitee(request):
 	return index(request)
 
-def getTimes(request):
-	e_id = request.POST['eventID']
-	event = get_object_or_404(Instance, pk=e_id)
-	event.isScheduled = True
-	event.save()
-
-	times = findTimeForMany(['crystalA'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
-	for t in times:
-		possTime = PossTime(time=t)
-		event.posstime_set.add(possTime)
-	return index(request)
-
-
-
-
 def manageCreator(request):
 	if 'delete' in request.POST:
 		return delete(request)
 	if 'getTimes' in request.POST:
-		return getTimes(request)
+		e_id = request.POST['eventID']
+		event = get_object_or_404(Instance, pk=e_id)
+		event.isScheduled = True
+		event.save()
+
+		times = cal.findTimeForMany(['crystalA'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
+		for t in times:
+			possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
+			event.posstime_set.add(possTime)
 	else:
 		return index(request)
 

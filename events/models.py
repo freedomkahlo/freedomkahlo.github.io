@@ -23,12 +23,12 @@ class Instance(models.Model):
 		if self.start_time == '' or self.end_time == '':
 			raise ValidationError('Times cannot be left blank.')
 		print "here"
-		startd = datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %H:%M %p')
-		endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %H:%M %p')
-		if (startd >= endd):
-			raise ValidationError('Start time must occur before end time.')
-		if (startd < datetime.now() - timedelta(0, 60)):
-			raise ValidationError('Start date must occur in the future.')
+		#startd = datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %H:%M %p')
+		#endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %H:%M %p')
+		#if (startd >= endd):
+		#	raise ValidationError('Start time must occur before end time.')
+		#if (startd < datetime.now() - timedelta(0, 60)):
+		#	raise ValidationError('Start date must occur in the future.')
 		self.pub_date = datetime.now()
 
 	def adminValidate(self):
@@ -42,7 +42,7 @@ class Instance(models.Model):
 			raise ValidationError('Start date must occur in the future.')
 		self.pub_date = datetime.now()
 
-	def __str__(self):
+	
 		return self.title + "\n" + str(self.start_date) + ", " + str(self.start_time) + " to " + str(self.end_date) + ", " + str(self.end_time)
 	def save(self, **kwargs):
 		if (type(self.start_date) == datetime):
@@ -53,8 +53,12 @@ class Instance(models.Model):
 
 class PossTime(models.Model):
 	event = models.ForeignKey(Instance)
-	time = models.DateTimeField('poss time')
-	votes = models.IntegerField(default = 0)
+	startTime = models.DateTimeField('start time', default=datetime.now())
+	endTime = models.DateTimeField('end time', default=datetime.now())
+	nConflicts = models.IntegerField(default = 0)
+
+	def __str__(self):
+		self.startTime.strftime("%Y/%m/%d %H:%M:%S")
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
