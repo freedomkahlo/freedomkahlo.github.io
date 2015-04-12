@@ -241,9 +241,12 @@ def findTimes(events, startTime, endTime, timeLength):
     if (endTime - startTime < timeLength or timeLength <= 0):
         return h
     for i in range(0, len(events)):
+      try:
         heappush(h, [convertRFC3339toRoyTime(events[i]['start']['dateTime']), True])
         heappush(h, [convertRFC3339toRoyTime(events[i]['end']['dateTime']), False])
         #print events[i]['summary'], events[i]['start']['dateTime'], events[i]['end']['dateTime']
+      except:
+        pass
     freeTime = []
     currentConflicts = 0
     currentStart = startTime
