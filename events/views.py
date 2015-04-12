@@ -55,7 +55,7 @@ def add(request):
 	#nstr = e.creator + " has invited you to " + e.title + "!" 
 	#n = Notification(desc=nstr, pub_date=datetime.now())
 
-	invitees = request.POST.get('invitees', '').split()
+	invitees = request.POST.get('invitees', '').split(',')
 	for i in invitees:
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
