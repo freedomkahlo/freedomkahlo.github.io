@@ -48,7 +48,7 @@ CLIENT_SECRETS_JSON_FILE.close()
 def validateToken(username):
 	u = User.objects.get(username=username)
 	refreshToken = u.refToken
-	if refreshToken == '':
+	if refreshToken == 'Blah':
 		# send to google
 		global USER_BEING_VALIDATED
 		USER_BEING_VALIDATED = username
