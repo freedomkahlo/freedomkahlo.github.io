@@ -8,6 +8,17 @@
 <h1>hello {{ user.username }}!</h1>
 <a href="/events/logout/">Logout</a><br />
 
+<div id="notifications_panel">
+    <h2>Notifications</h2>
+    {% for notification in user.notification_set.all %}
+        <form action="{% url 'events:manageNotification' %}" method="post">
+        {% csrf_token %}
+            <p> {{ notification }} <input type="submit" name="dismiss" value="Dismiss"/></p>
+                <div style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></div>
+        </form>
+    {% endfor %}
+</div>
+
 <div id="menu_container">
 <h2>My Events</h2>
     <h3>Stage 1: View how many people have responded to request </h3>

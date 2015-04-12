@@ -2,13 +2,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-from .models import Instance, Invitee
+from .models import Instance, Invitee, Notification
 from .forms import UserForm, UserProfileForm
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from datetime import *
 
 def home(request):
 	return render(request, './index.html')
@@ -36,7 +37,7 @@ def add(request):
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
 		start_time=start_time, end_time=end_time, creator=creator)
 	print (e.title)
-	print start_date, end_date, start_time, end_time
+	print (start_date, end_date, start_time, end_time)
 	#try catch here check validity
 	try:
 		e.save()
@@ -46,15 +47,29 @@ def add(request):
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
 			'end_time':end_time, 'creator':creator})
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
+
+	#nstr = e.creator + " has invited you to " + e.title + "!" 
+	#n = Notification(desc=nstr, pub_date=datetime.now())
+
 	invitees = request.POST.get('invitees', '').split()
 	for i in invitees:
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
+
+	#	user = User.objects.get(username=i)
+	#	user.notification_set.add(n)
 	return index(request)
 
 def delete(request):
 	e_id = request.POST['eventID']
 	event = get_object_or_404(Instance, pk=e_id)
+
+	nstr = event.creator + " has cancelled " + event.title 
+	n = Notification(desc=nstr, pub_date=datetime.now())
+
+	for invitee in event.invitee_set.all():
+		user = get_object_or_404(User, username=invitee.name)
+		user.notification_set.add(n)
 	event.delete()
 	return index(request)
 
@@ -91,6 +106,16 @@ def manageInvitee(request):
 		invitee.delete()
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		return index(request)
+
+def manageNotification(request):
+	if 'dismiss' in request.POST:
+		n_id = request.POST['notificationID']
+		notification = get_object_or_404(Notification, pk=n_id)
+		notification.delete()
+
+	return index(request)
+	
+
 
 def results(request, instance_id):
 	event = get_object_or_404(Question, pk=instance_id)
