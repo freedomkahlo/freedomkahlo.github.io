@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from datetime import *
-
+import json
 from backend import cal
 
 def home(request):
@@ -64,6 +64,16 @@ def add(request):
 	#	user.notification_set.add(n)
 	return HttpResponseRedirect('/events/')
 
+def autocomplete_user(request):
+    term = request.GET.get('term') #jquery-ui.autocomplete parameter
+    users = User.objects.filter(username__istartswith=term) #lookup for a city
+    res = []
+    for c in users:
+         #make dict with the metadatas that jquery-ui.autocomple needs (the documentation is your friend)
+         dict = {'id':c.id, 'label':c.__unicode__(), 'value':c.__unicode__()}
+         res.append(dict)
+    return HttpResponse(json.dumps(res))
+
 def delete(request):
 	e_id = request.POST['eventID']
 	event = get_object_or_404(Instance, pk=e_id)
@@ -87,6 +97,7 @@ def getTimes(request):
 	event = get_object_or_404(Instance, pk=e_id)
 	time = PossTime(event=event, time=ptime)
 	return index(request)
+
 
 def manageCreator(request):
 	if 'delete' in request.POST:

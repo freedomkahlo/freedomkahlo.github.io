@@ -15,4 +15,5 @@ urlpatterns = [
 	url(r'^logout/$', views.user_logout, name='logout'),
 	url(r'^auth/$', cal.auth, name='auth'),
     url(r'^$', views.index, name='index'),
+    url(r'^autocomplete_user/$', views.autocomplete_user, name='autocomplete_user'),
 ]
