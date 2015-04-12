@@ -70,7 +70,7 @@ def getCredFromRefToken(username):
 	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data)
 	#print result.json()
 	accessToken = result.json()['access_token']
-	credentials = AccessTokenCredentials(accessToken)
+	credentials = AccessTokenCredentials(accessToken, 'Skedg/1.0')
 	return credentials
 
 # send client to Google Authentication page
