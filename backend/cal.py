@@ -75,7 +75,7 @@ def getCredClient():
 # must add verification later!
 def auth(request):
 	print USER_BEING_VALIDATED
-	print urllib2.urlopen('/auth/').read()
+	print urllib2.urlopen().read()
 	return HttpResponseRedirect('/events/') 
 
 def getCred(username):
