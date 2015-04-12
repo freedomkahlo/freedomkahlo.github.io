@@ -25,6 +25,7 @@ from backend import gflags_validators
 import os
 import sys
 import json
+from django.http import HttpResponse
 from heapq import *
 from datetime import *
 import argparse
@@ -34,6 +35,15 @@ DEVELOPER_KEY = 'AIzaSyC_sCrieFSw6_KM9zZHKOTUrXmeEwqkR3o'
 epoch = datetime(1970, 1, 1)
 parser = argparse.ArgumentParser(parents=[argparser])
 flowflags = parser.parse_args(args=[])
+
+def getCredClient(username):
+	userCredfile = "backend/credentials/" + username + "_cred.dat"
+	CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
+	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://localhost:8080/')
+	auth_uri = FLOW.step1_get_authorize_url()
+	#print(auth_uri)
+	return HttpResponse(auth_uri)
+
 
 def getCred(username):
 	userCredfile = "backend/credentials/" + username + "_cred.dat"
