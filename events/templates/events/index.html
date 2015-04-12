@@ -1,221 +1,33 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    {% load staticfiles %}
 
-<script>
-$(document).ready(function(){
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
+    <link type="text/css" href="{% static 'events/jquery-ui-timepicker-addon.css' %}" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
-    $('#createPage, #eventsPage').hide();
-    
-    $(".side-nav li").each(function(i) {
-        $(this).click(function() {
-            $("#wrapper").find("div:eq('" + i + "')").show().siblings().hide();
-        });
-    }); 
-});
-
-
-</script>
-</head>
-{% load staticfiles %}
-
-<!-- Bootstrap -->
-    <link type="text/css" href="{% static "events/jquery-ui-timepicker-addon.css" %}" />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="{% static "events/jquery-ui-timepicker-addon.js" %}"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="{% static "events/moment.js" %}"></script> 
     <script src="{% static "events/combodate.js" %}"></script> 
-    <!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script> -->
+    
 
-
-<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
-
-{% if user.is_authenticated %}
-    <div id="header-wrapper">
-        <div id="header" class="container">
-            <div id="logo">
-                <h1><a href="#">Hello, {{ user.username }}!</a></h1>
-                <h4><a href="/events/logout/">Logout</a></h4>
-            </div>
-
-            <div id="menu">
-                <ul class="side-nav" id="sideNav">
-                    <li id="homeNav"><a href="#">Home<span id="notification"> [{{ user.notification_set|length }}]</span></a></li>
-                    <li id="createNav"><a href="#">Create</a></li>
-                    <li id="eventsNav"><a href="#">Events</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper" id="wrapper">
-        <div id="homePage">
-                <h2>Notifications</h2>
-            {% if user.notification_set %}
-                <form action="{% url 'events:manageNotification' %}" method="post">
-                {% csrf_token %}
-                    <p> {{ notification }} <input type="submit" name="clear" value="Clear All"/></p>
-                        <span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
-                </form>
-                
-                {% for notification in user.notification_set.all %}
-                
-                <form action="{% url 'events:manageNotification' %}" method="post">
-                {% csrf_token %}
-                    <p> {{ notification }} <input type="submit" name="dismiss" value="Dismiss"/></p>
-                        <span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-                </form>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <div id="createPage">
-            <h2>Create Event</h2>
-<h3> {{error}} </h3>
-<form action="{% url 'events:add' %}" method="post">    
-{% csrf_token %}
-<p>Title: <input type="text" name="title" id="" value="{{ title }}"></p>
-<p>Desc: <input type="text" name="desc" id="" value="{{ desc }}"></p>
-
-
-<!-- JQuery Date Picker-->
+    <!-- onClick -->
     <script>
-        $(function() {
-            $( "#from" ).datepicker({
-              defaultDate: "+1w",
-              changeMonth: false,
-              numberOfMonths: 2,
-              onClose: function( selectedDate ) {
-                $( "#to" ).datepicker( "option", "minDate", selectedDate );
-              }
+    $(document).ready(function(){
+        $('#createPage, #eventsPage').hide();
+        $(".side-nav li").each(function(i) {
+            $(this).click(function() {
+                $("#wrapper").find("div:eq('" + i + "')").show().siblings().hide();
             });
-            $( "#to" ).datepicker({
-              defaultDate: "+1w",
-              changeMonth: false,
-              numberOfMonths: 2,
-              onClose: function( selectedDate ) {
-                $( "#from" ).datepicker( "option", "maxDate", selectedDate );
-              }
-            });
-        });
+        }); 
+    });
     </script>
-
-    <p>Start Date: <input type="text" name="from" id="from" value="{{ start_date }}"></p>
-    <p>End Date: <input type="text" name="to" id="to" value="{{ end_date }}"></p>
-    <p>Start Time: <input type="text" name="start_time" id="start_time" value="{{ start_time }}"></p>
-    <p>End Time: <input type="text" name="end_time" id="basic_example_2" value="{{ end_time }}"></p>
-
-    <!-- JQuery Time Picker -->
-    <script type="text/javascript">
-       $('#start_time').timepicker({
-            controlType: 'select',
-            oneLine: true,
-            timeFormat: 'hh:mm tt',
-            timeOnly: false,
-            showSecond: false,
-            showMillisec: false
-        });
-    </script>
-
-    <p>Invitees: <input type="text" name="invitees" id="" value="{{ invitees }}"></p>
-    <span style="display: none;"><input type="text" name="creator" value="{{ user.username }}"</input></span>
-    <input type="submit" value="Add" />
-    {% else %}
-    <h1>hello world!</h1>
-    {% endif %}
-    </form>
-        </div>
-        <div id="eventsPage">
-            <h2>My Events</h2>
-    <h3>Stage 1: View how many people have responded to request </h3>
-
-    {% if latest_event_list %}
-        <ul>
-            {% for event in latest_event_list %}
-                <!-- not time efficient but works for reasonable amount of data -->
-                {% if event.creator == user.username or user.username == "admin" %}
-                    <form action="{% url 'events:manageCreator' %}" method="post">
-                    {% csrf_token %}
-                    <span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
-                    <li>
-                        <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
-                        <input type="submit" name="delete" id="delete_button" value="Delete Event"/>
-                        <input type="submit" name="getTimes" value="Get Times" />
-
-                        {% for invitee in event.invitee_set.all %}
-                            {% if invitee.rsvpAccepted %}
-                                <p> Responded: {{ invitee.name }} </p>
-                            {% else %}
-                                <p> Not Responded: {{ invitee.name }} </p>
-                            {% endif %}
-                        {% endfor %}
-
-                    </li>
-                    </form>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No events are available.</p>
-    {% endif %}
-
-<h2>Events Invited To</h2>
-<h3>Stage 1: Accept/Decline Events</h3>
-{% if latest_event_list %}
-    <ul>
-        {% for event in latest_event_list %}
-            {% for invitee in event.invitee_set.all %}
-
-                <!-- not time efficient but works for reasonable amount of data -->
-                {% if invitee.name == user.username and not invitee.rsvpAccepted %}
-                    <form action="{% url 'events:manageInvitee' %}" method="post">
-                    {% csrf_token %}
-                    <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
-                        <span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"/></span>
-                        <span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>
-                        <input type="submit" name="accept" value="Accept"/>
-                        <input type="submit" name="decline" value="Decline"/></li>
-                    </form>
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    </ul>
-
-{% else %}
-    <p>No events are available.</p>
-{% endif %}
-
-<h2>Events Pending</h2>
-<h3>Stage 1: Pending Creator Time Generation</h3>
-{% if latest_event_list %}
-    <ul>
-        {% for event in latest_event_list %}
-            {% for invitee in event.invitee_set.all %}
-
-                <!-- not time efficient but works for reasonable amount of data -->
-                {% if invitee.name == user.username and invitee.rsvpAccepted and not event.isScheduled %}
-                    <p><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a></p>
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    </ul>
-
-{% else %}
-    <p>No events are available.</p>
-{% endif %}
-
-<h2>Create Event</h2>
-<h3> {{error}} </h3>
-<form action="{% url 'events:add' %}" method="post">    
-{% csrf_token %}
-
- <!--             $( "input#n" ).autocomplete({
-                    source: "{% url 'events:autocomplete_user' %}",
-                    minLength: 2
-            }); -->
-
 
     <script>
         $(document).ready(function(){
@@ -262,13 +74,42 @@ $(document).ready(function(){
         // });
     </script>
 
-    <input id="n" type="text" name="n"/>
+    <!-- JQuery Date Picker-->
+    <script>
+        $(function() {
+            $( "#from" ).datepicker({
+              defaultDate: "+1w",
+              changeMonth: false,
+              numberOfMonths: 2,
+              onClose: function( selectedDate ) {
+                $( "#to" ).datepicker( "option", "minDate", selectedDate );
+              }
+            });
+            $( "#to" ).datepicker({
+              defaultDate: "+1w",
+              changeMonth: false,
+              numberOfMonths: 2,
+              onClose: function( selectedDate ) {
+                $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+              }
+            });
+        });
+    </script>
 
-<p>Title: <input type="text" name="title" id="" value="{{ title }}"></p>
-<p>Desc: <input type="text" name="desc" id="" value="{{ desc }}"></p>
+    <script>
+        $(function(){
+            $('#starttime12').combodate({
+                firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
+                minuteStep: 5
+            });  
+            $('#endtime12').combodate({
+                firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
+                minuteStep: 5
+            });  
+        });
+    </script>
 
-
-<!-- JQuery Date Picker-->
+    <!-- JQuery Date Picker-->
     <script>
         $(function() {
             $( "#from" ).datepicker({
@@ -291,28 +132,146 @@ $(document).ready(function(){
         });
     </script>
 
-    <p>Start Date: <input type="text" name="start_date" id="from" value="{{ start_date }}"></p>
-    <p>End Date: <input type="text" name="end_date" id="to" value="{{ end_date }}"></p>
-    <p>Start Time: <input type="text" name="start_time" id="starttime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
-    <p>End Time: <input type="text" name="end_time" id="endtime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
-    <script>
-    $(function(){
-        $('#starttime12').combodate({
-            firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
-            minuteStep: 5
-        });  
-        $('#endtime12').combodate({
-            firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
-            minuteStep: 5
-        });  
-    });
+    <!-- JQuery Time Picker -->
+    <script type="text/javascript">
+       $('#start_time').timepicker({
+            controlType: 'select',
+            oneLine: true,
+            timeFormat: 'hh:mm tt',
+            timeOnly: false,
+            showSecond: false,
+            showMillisec: false
+        });
     </script>
+</head>
 
-    <p>Invitees: <input type="text" name="invitees" id="" value="{{ invitees }}"></p>
-    <div style="display: none;"><input type="text" name="creator" value="{{ user.username }}"</input></div>
-    <input type="submit" value="Add" />
+<body>
+    <div id="header-wrapper">
+        <div id="header" class="container">
+            <div id="logo">
+                <h1><a href="#">Hello, {{ user.username }}!</a></h1>
+                <h4><a href="/events/logout/">Logout</a></h4>
+            </div>
 
-    </form>
+            <div id="menu">
+                <ul class="side-nav" id="sideNav">
+                    <li id="homeNav"><a href="#">Home<span id="notification"> [{{ user.notification_set|length }}]</span></a></li>
+                    <li id="createNav"><a href="#">Create</a></li>
+                    <li id="eventsNav"><a href="#">Events</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-</div>
-</html>
+    <div class="wrapper" id="wrapper">
+        <!--homePage with embedded calendar and notifications -->
+        <div id="homePage">
+            <h2>Notifications</h2>
+                <form action="{% url 'events:manageNotification' %}" method="post">
+                {% csrf_token %}
+                <p> {{ notification }} <input type="submit" name="clear" value="Clear All"/></p>
+                    <span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
+                </form>
+            
+                {% for notification in user.notification_set.all %}
+                <form action="{% url 'events:manageNotification' %}" method="post">
+                {% csrf_token %}
+                    <p> {{ notification }} <input type="submit" name="dismiss" value="Dismiss"/></p>
+                        <span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
+                </form>
+                {% endfor %}
+        </div>
+
+        <!--create event-->    
+        <div id="createPage">
+            <h2>Create Event</h2>
+            <h3> {{error}} </h3>
+                <form action="{% url 'events:add' %}" method="post">    
+                    {% csrf_token %}
+                    <input id="n" type="text" name="n"/>
+                    <p>Title: <input type="text" name="title" id="" value="{{ title }}"></p>
+                    <p>Desc: <input type="text" name="desc" id="" value="{{ desc }}"></p>
+                    <p>Start Date: <input type="text" name="start_date" id="from" value="{{ start_date }}"></p>
+                    <p>End Date: <input type="text" name="end_date" id="to" value="{{ end_date }}"></p>
+                    <p>Start Time: <input type="text" name="start_time" id="starttime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
+                    <p>End Time: <input type="text" name="end_time" id="endtime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
+                    <p>Invitees: <input type="text" name="invitees" id="" value="{{ invitees }}"></p>
+                    <span style="display: none;"><input type="text" name="creator" value="{{ user.username }}"</input></span>
+                    <input type="submit" value="Add" />
+                </form>
+        </div>
+
+        <div id="eventsPage">
+            <h2>My Events</h2>
+                <h3>Stage 1: View how many people have responded to request </h3>
+                {% if latest_event_list %}
+                <ul>
+                    {% for event in latest_event_list %}
+                        <!-- not time efficient but works for reasonable amount of data -->
+                        {% if event.creator == user.username or user.username == "admin" %}
+                            <form action="{% url 'events:manageCreator' %}" method="post">
+                                {% csrf_token %}
+                                <span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
+                                <li>
+                                    <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
+                                    <input type="submit" name="delete" id="delete_button" value="Delete Event"/>
+                                    <input type="submit" name="getTimes" value="Get Times" />
+
+                                    {% for invitee in event.invitee_set.all %}
+                                        {% if invitee.rsvpAccepted %}
+                                            <p> Responded: {{ invitee.name }} </p>
+                                        {% else %}
+                                            <p> Not Responded: {{ invitee.name }} </p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </li>
+                            </form>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            <!-- Events invited to -->
+            <h2>Events Invited To</h2>
+                <h3>Stage 1: Accept/Decline Events</h3>
+                {% if latest_event_list %}
+                <ul>
+                    {% for event in latest_event_list %}
+                        {% for invitee in event.invitee_set.all %}
+                            <!-- not time efficient but works for reasonable amount of data -->
+                            {% if invitee.name == user.username and not invitee.rsvpAccepted %}
+                                <form action="{% url 'events:manageInvitee' %}" method="post">
+                                {% csrf_token %}
+                                <li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
+                                    <span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"/></span>
+                                    <span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>
+                                    <input type="submit" name="accept" value="Accept"/>
+                                    <input type="submit" name="decline" value="Decline"/></li>
+                                </form>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p>No events are available.</p>
+                {% endif %}
+            <!-- Events pending -->
+            <h2>Events Pending</h2>
+                <h3>Stage 1: Pending Creator Time Generation</h3>
+                {% if latest_event_list %}
+                <ul>
+                    {% for event in latest_event_list %}
+                        {% for invitee in event.invitee_set.all %}
+                            <!-- not time efficient but works for reasonable amount of data -->
+                            {% if invitee.name == user.username and invitee.rsvpAccepted and not event.isScheduled %}
+                                <p><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a></p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+
+                {% else %}
+                    <p>No events are available.</p>
+                {% endif %}
+        </div>
+    </div>
+</body>
