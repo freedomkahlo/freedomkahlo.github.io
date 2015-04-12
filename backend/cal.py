@@ -82,7 +82,7 @@ def auth(request):
 	post_data = {'code':authcode, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'redirect_uri':'http://skedg.tk/', 'grant_type':'authorization_code'}
 	#print urllib.urlencode(post_data)
 	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data)
-	print result
+	print result.json()
 	return HttpResponseRedirect('/events/')
 
 def getCred(username):
