@@ -63,7 +63,7 @@ def validateToken(username):
 # given username, assume that the user has a refresh token and get the credentials
 def getCredFromRefToken(username):
 	u = User.objects.get(username=username)
-	refreshToken = u.refToken
+	refreshToken = u.UserProfile.refToken
 	### Could check refToken here again....
 	post_data = {'refresh_token':refreshToken, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'grant_type':'refresh_token'}
 	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data)
@@ -95,7 +95,8 @@ def auth(request):
 	refreshToken = result.json()['refresh_token']
 
 	u = User.objects.get(username=USER_BEING_VALIDATED)
-	u.refToken = refreshToken
+	u.UserProfile.refToken = refreshToken
+	u.UserProfile.save()
 	u.save()
 
 	return HttpResponseRedirect('/events/')

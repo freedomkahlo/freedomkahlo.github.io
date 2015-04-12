@@ -88,7 +88,7 @@ class Notification(models.Model):
 		return self.desc + " at " + str(self.pub_date)
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name="UserProfile")
 
     # The additional attributes we wish to include.
     refToken = models.CharField(max_length=100, default='')
