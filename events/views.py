@@ -66,12 +66,14 @@ def delete(request):
 	e_id = request.POST['eventID']
 	event = get_object_or_404(Instance, pk=e_id)
 
-	nstr = event.creator + " has cancelled " + event.title 
-	n = Notification(desc=nstr, pub_date=datetime.now())
+	ntstr = event.creator + " has cancelled " + event.title
+	n = Notification(desc=ntstr, pub_date=datetime.now())
 
 	for invitee in event.invitee_set.all():
 		user = get_object_or_404(User, username=invitee.name)
 		user.notification_set.add(n)
+		user.save()
+
 	event.delete()
 	return index(request)
 
@@ -105,6 +107,10 @@ def manageInvitee(request):
 		invitee.save()
 		return index(request)
 	else:
+		ntstr = username + " has been removed from " + event.title
+		n = Notification(desc=ntstr, pub_date=datetime.now())
+		creator = get_object_or_404(User, username=event.creator)
+		creator.notification_set.add(n)
 		invitee.delete()
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		return index(request)
@@ -116,8 +122,6 @@ def manageNotification(request):
 		notification.delete()
 
 	return index(request)
-	
-
 
 def results(request, instance_id):
 	event = get_object_or_404(Question, pk=instance_id)
