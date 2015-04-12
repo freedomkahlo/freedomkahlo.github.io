@@ -68,9 +68,9 @@ def validateToken(username):
 def getCredClient():
 	#userCredfile = "backend/credentials/" + username + "_cred.dat"
 	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
-	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/', access_type='offline', approval_prompt='force')
+	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
 	auth_uri = FLOW.step1_get_authorize_url()
-	#print(auth_uri)
+	print(auth_uri)
 	return redirect(auth_uri)
 
 # must add verification later!
