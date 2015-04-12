@@ -101,8 +101,7 @@ def auth(request):
 	u.save()
 
 	#Hi Crystal
-	avail = findTimeForMany(['ashley'], timeStart='2015-04-12T13:00:00-04:00', 
-		timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
+	avail = findTimeForMany(['ashley'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
 	printAvail(avail)
 
 	return HttpResponseRedirect('/events/')
