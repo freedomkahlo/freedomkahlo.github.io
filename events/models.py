@@ -91,7 +91,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # The additional attributes we wish to include.
-    refToken = models.CharField(max_length=100, default='Blah')
+    refToken = models.CharField(max_length=100, default='')
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     # Override the __unicode__() method to return out something meaningful!

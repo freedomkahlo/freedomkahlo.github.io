@@ -35,6 +35,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 
+from events.models import UserProfile
+
 FLAGS = gflags.FLAGS
 DEVELOPER_KEY = 'AIzaSyC_sCrieFSw6_KM9zZHKOTUrXmeEwqkR3o'
 epoch = datetime(1970, 1, 1)
@@ -47,8 +49,8 @@ CLIENT_SECRETS_JSON_FILE.close()
 
 def validateToken(username):
 	u = User.objects.get(username=username)
-	refreshToken = u.refToken
-	if refreshToken == 'Blah':
+	refreshToken = u.UserProfile.refToken
+	if refreshToken == '':
 		# send to google
 		global USER_BEING_VALIDATED
 		USER_BEING_VALIDATED = username
