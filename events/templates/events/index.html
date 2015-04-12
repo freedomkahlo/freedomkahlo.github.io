@@ -26,6 +26,8 @@ $(document).ready(function(){
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="{% static "events/jquery-ui-timepicker-addon.js" %}"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="{% static "events/moment.js" %}"></script> 
+    <script src="{% static "events/combodate.js" %}"></script> 
     <!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script> -->
 
 
@@ -46,7 +48,6 @@ $(document).ready(function(){
                     <li id="eventsNav"><a href="#">Events</a></li>
                 </ul>
             </div>
-            
         </div>
     </div>
 
@@ -205,7 +206,75 @@ $(document).ready(function(){
     <p>No events are available.</p>
 {% endif %}
 
-<!--hi end -->
-        </div>
+<h2>Create Event</h2>
+<h3> {{error}} </h3>
+<form action="{% url 'events:add' %}" method="post">    
+{% csrf_token %}
+<p>Title: <input type="text" name="title" id="" value="{{ title }}"></p>
+<p>Desc: <input type="text" name="desc" id="" value="{{ desc }}"></p>
+
+
+<!-- JQuery Date Picker-->
+    <script>
+        $(function() {
+            $( "#from" ).datepicker({
+              defaultDate: "+1w",
+              changeMonth: false,
+              dateFormat: "mm/dd/yy",
+              numberOfMonths: 2,
+              onClose: function( selectedDate ) {
+                $( "#to" ).datepicker( "option", "minDate", selectedDate );
+              }
+            });
+            $( "#to" ).datepicker({
+              defaultDate: "+1w",
+              changeMonth: false,
+              numberOfMonths: 2,
+              onClose: function( selectedDate ) {
+                $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+              }
+            });
+        });
+    </script>
+
+    <p>Start Date: <input type="text" name="start_date" id="from" value="{{ start_date }}"></p>
+    <p>End Date: <input type="text" name="end_date" id="to" value="{{ end_date }}"></p>
+    <p>Start Time: <input type="text" name="start_time" id="starttime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
+    <p>End Time: <input type="text" name="end_time" id="endtime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
+    <script>
+    $(function(){
+        $('#starttime12').combodate({
+            firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
+            minuteStep: 5
+        });  
+        $('#endtime12').combodate({
+            firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
+            minuteStep: 5
+        });  
+    });
+    </script>
+
+    <script>
+        $(function() {
+        $( "#tags" ).autocomplete({
+          source: "{% static "events/users.txt" %}"
+        });
+    });
+    </script>
+
+    <div class="ui-widget">
+      <label for="tags">Invitees: </label>
+      <input id="tags">
     </div>
+
+
+    <p>Invitees: <input type="text" name="invitees" id="" value="{{ invitees }}"></p>
+    <div style="display: none;"><input type="text" name="creator" value="{{ user.username }}"</input></div>
+    <input type="submit" value="Add" />
+    {% else %}
+    <h1>hello world!</h1>
+    {% endif %}
+    </form>
+
+</div>
 </html>

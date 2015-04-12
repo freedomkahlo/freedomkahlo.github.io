@@ -19,8 +19,10 @@ def home(request):
 @login_required
 def index(request):
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+	user_list = User.objects.all()
 #	latest_event_list = [event in latest_event_list if event.creator is request.user.username]
-	context = {'latest_event_list': latest_event_list}
+	context = {'latest_event_list': latest_event_list, 'user_list': user_list}
+	request.path_info = '/events/'
 	return render(request, 'events/index.html', context)
 
 def detail(request, instance_id):
@@ -39,7 +41,7 @@ def add(request):
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
 		start_time=start_time, end_time=end_time, creator=creator)
 	print (e.title)
-	print (start_date, end_date, start_time, end_time)
+	print start_date, end_date, start_time, end_time
 	#try catch here check validity
 	try:
 		e.save()
@@ -60,7 +62,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	return index(request)
+	return HttpResponseRedirect('/events/')
 
 def delete(request):
 	e_id = request.POST['eventID']
@@ -75,7 +77,7 @@ def delete(request):
 		user.save()
 
 	event.delete()
-	return index(request)
+	return HttpResponseRedirect('/events/')
 
 def deleteInvitee(request):
 	return index(request)
@@ -105,7 +107,7 @@ def manageInvitee(request):
 	if 'accept' in request.POST:
 		invitee.rsvpAccepted = True
 		invitee.save()
-		return index(request)
+		return HttpResponseRedirect('/events/')
 	else:
 		ntstr = username + " has been removed from " + event.title
 		n = Notification(desc=ntstr, pub_date=datetime.now())
@@ -113,7 +115,7 @@ def manageInvitee(request):
 		creator.notification_set.add(n)
 		invitee.delete()
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
-		return index(request)
+		return HttpResponseRedirect('/events/')
 
 def manageNotification(request):
 	if 'dismiss' in request.POST:
@@ -122,7 +124,7 @@ def manageNotification(request):
 		notification.delete()
 
 
-	return index(request)
+	return HttpResponseRedirect('/events/')
 
 def results(request, instance_id):
 	event = get_object_or_404(Question, pk=instance_id)
@@ -143,7 +145,7 @@ def register(request):
 			profile = profile_form.save(commit=False)
 			profile.user = user
 
-			cal.getCred(user.username)
+			#cal.getCred(user.username)
 
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
@@ -174,6 +176,9 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
+				resp = cal.validateToken(username)
+				if (resp != None):
+					return resp
 				return HttpResponseRedirect('/events/')
 			else:
 				return HttpResponse("Your Skedge account is disabled.")

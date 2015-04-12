@@ -25,15 +25,58 @@ from backend import gflags_validators
 import os
 import sys
 import json
+import urllib
+import urllib2
 from heapq import *
 from datetime import *
 import argparse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 FLAGS = gflags.FLAGS
 DEVELOPER_KEY = 'AIzaSyC_sCrieFSw6_KM9zZHKOTUrXmeEwqkR3o'
 epoch = datetime(1970, 1, 1)
 parser = argparse.ArgumentParser(parents=[argparser])
 flowflags = parser.parse_args(args=[])
+CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secret_skedg.json')
+CLIENT_SECRETS_JSON_FILE = open(CLIENT_SECRETS)
+CLIENT_SECRETS_JSON = json.load(CLIENT_SECRETS_JSON_FILE)['web']
+CLIENT_SECRETS_JSON_FILE.close()
+
+def validateToken(username):
+	u = User.objects.get(username=username)
+	u.refToken=""
+	u.save()
+	refreshToken = u.refToken
+	if refreshToken == '':
+		# send to google
+		global USER_BEING_VALIDATED
+		USER_BEING_VALIDATED = username
+		return getCredClient()
+	else:
+		# get a new access token  
+		post_data = [('refresh_token',refreshToken), ('client_id',CLIENT_SECRETS_JSON['client_id']), ('client_secret',CLIENT_SECRETS_JSON['client_secret']), ('grant_type','refresh_token')]
+		print urllib.urlencode(post_data)
+		result = urllib2.urlopen('https://www.googleapis.com/oauth2/v3/token', urllib.urlencode(post_data))
+		content = result.read()
+		print content
+
+
+# send client to Google Authentication page
+def getCredClient():
+	#userCredfile = "backend/credentials/" + username + "_cred.dat"
+	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
+	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
+	auth_uri = FLOW.step1_get_authorize_url()
+	print(auth_uri)
+	return redirect(auth_uri)
+
+# must add verification later!
+def auth(request):
+	print USER_BEING_VALIDATED
+	print urllib2.urlopen('/auth/').read()
+	return HttpResponseRedirect('/events/') 
 
 def getCred(username):
 	userCredfile = "backend/credentials/" + username + "_cred.dat"
