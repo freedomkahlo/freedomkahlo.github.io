@@ -133,7 +133,7 @@
 
             <div id="menu">
                 <ul class="side-nav" id="sideNav">
-                    <li id="homeNav"><a href="#">Home<span id="notification"> [{{ user.notification_set|length }}]</span></a></li>
+                    <li id="homeNav"><a href="#">Home<span id="notification"> [{{ user.notification_set.all|length }}]</span></a></li>
                     <li id="createNav"><a href="#">Create</a></li>
                     <li id="eventsNav"><a href="#">Events</a></li>
                 </ul>
