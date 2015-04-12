@@ -22,8 +22,8 @@ class Instance(models.Model):
 			raise ValidationError('Dates cannot be left blank.')
 		if self.start_time == '' or self.end_time == '':
 			raise ValidationError('Times cannot be left blank.')
-		startd = datetime.strptime(self.start_date + ' ' + self.start_time, '%Y-%m-%d %H:%M')
-		endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%Y-%m-%d %H:%M')
+		startd = datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %H:%M')
+		endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %H:%M')
 		if (startd >= endd):
 			raise ValidationError('Start time must occur before end time.')
 		if (startd < datetime.now() - timedelta(0, 60)):

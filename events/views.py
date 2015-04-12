@@ -39,7 +39,7 @@ def add(request):
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
 		start_time=start_time, end_time=end_time, creator=creator)
 	print (e.title)
-	print (start_date, end_date, start_time, end_time)
+	print start_date, end_date, start_time, end_time
 	#try catch here check validity
 	try:
 		e.save()
