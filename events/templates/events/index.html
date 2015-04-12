@@ -180,6 +180,18 @@
 
         <div id="eventsPage">
             <h2>My Events</h2>
+                <h3>Stage 2</h3>
+                    <ul>
+                    {% for event in latest_event_list %}
+                        {% if event.isScheduled %}
+                            <li>{{ event }}
+                            {% for t in event.posstime_set.all %}
+                                {{ t }}
+                            {% endfor %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
                 <h3>Stage 1: View how many people have responded to request </h3>
                 {% if latest_event_list %}
                 <ul>

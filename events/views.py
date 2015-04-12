@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-from .models import Instance, Invitee, Notification
+from .models import Instance, Invitee, Notification, PossTime
 from .forms import UserForm, UserProfileForm
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
@@ -95,8 +95,16 @@ def deleteInvitee(request):
 def getTimes(request):
 	e_id = request.POST['eventID']
 	event = get_object_or_404(Instance, pk=e_id)
-	time = PossTime(event=event, time=ptime)
+	event.isScheduled = True
+	event.save()
+
+	times = findTimeForMany(['ashley'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
+	for t in times:
+		possTime = PossTime(time=t)
+		event.posstime_set.add(possTime)
 	return index(request)
+
+
 
 
 def manageCreator(request):
