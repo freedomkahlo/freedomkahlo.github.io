@@ -8,6 +8,8 @@
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="{% static "events/jquery-ui-timepicker-addon.js" %}"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="{% static "events/moment.js" %}"></script> 
+    <script src="{% static "events/combodate.js" %}"></script> 
     <!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script> -->
 
 
@@ -149,20 +151,107 @@
 
     <p>Start Date: <input type="text" name="from" id="from" value="{{ start_date }}"></p>
     <p>End Date: <input type="text" name="to" id="to" value="{{ end_date }}"></p>
-    <p>Start Time: <input type="text" name="start_time" id="start_time" value="{{ start_time }}"></p>
-    <p>End Time: <input type="text" name="end_time" id="basic_example_2" value="{{ end_time }}"></p>
-
-    <!-- JQuery Time Picker -->
-    <script type="text/javascript">
-       $('#start_time').timepicker({
-            controlType: 'select',
-            oneLine: true,
-            timeFormat: 'hh:mm tt',
-            timeOnly: false,
-            showSecond: false,
-            showMillisec: false
-        });
+    <p>Start Time: <input type="text" id="starttime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
+    <p>End Time: <input type="text" id="endtime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
+    <script>
+    $(function(){
+        $('#starttime12').combodate({
+            firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
+            minuteStep: 5
+        });  
+        $('#endtime12').combodate({
+            firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
+            minuteStep: 5
+        });  
+    });
     </script>
+
+    <style>
+      .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+      }
+      /* IE 6 doesn't support max-height
+       * we use height instead, but this forces the menu to always be this tall
+       */
+      * html .ui-autocomplete {
+        height: 100px;
+      }
+      </style>
+    <script>
+          $(function() {
+            var availableTags = [
+              "ActionScript",
+              "AppleScript",
+              "Asp",
+              "BASIC",
+              "C",
+              "C++",
+              "Clojure",
+              "COBOL",
+              "ColdFusion",
+              "Erlang",
+              "Fortran",
+              "Groovy",
+              "Haskell",
+              "Java",
+              "JavaScript",
+              "Lisp",
+              "Perl",
+              "PHP",
+              "Python",
+              "Ruby",
+              "Scala",
+              "Scheme"
+            ];
+            function split( val ) {
+              return val.split( /,\s*/ );
+            }
+            function extractLast( term ) {
+              return split( term ).pop();
+            }
+         
+            $( "#tags" )
+              // don't navigate away from the field on tab when selecting an item
+              .bind( "keydown", function( event ) {
+                if ( event.keyCode === $.ui.keyCode.TAB &&
+                    $( this ).autocomplete( "instance" ).menu.active ) {
+                  event.preventDefault();
+                }
+              })
+              .autocomplete({
+                minLength: 0,
+                source: function( request, response ) {
+                  // delegate back to autocomplete, but extract the last term
+                  response( $.ui.autocomplete.filter(
+                    availableTags, extractLast( request.term ) ) );
+                },
+                focus: function() {
+                  // prevent value inserted on focus
+                  return false;
+                },
+                select: function( event, ui ) {
+                  var terms = split( this.value );
+                  // remove the current input
+                  terms.pop();
+                  // add the selected item
+                  terms.push( ui.item.value );
+                  // add placeholder to get the comma-and-space at the end
+                  terms.push( "" );
+                  this.value = terms.join( ", " );
+                  return false;
+                }
+              });
+          });
+    </script>
+
+    <div class="ui-widget">
+      <label for="tags">Invitees: </label>
+      <input id="tags">
+    </div>
+
 
     <p>Invitees: <input type="text" name="invitees" id="" value="{{ invitees }}"></p>
     <div style="display: none;"><input type="text" name="creator" value="{{ user.username }}"</input></div>
