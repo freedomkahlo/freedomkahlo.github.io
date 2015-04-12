@@ -121,6 +121,7 @@ def manageNotification(request):
 		notification = get_object_or_404(Notification, pk=n_id)
 		notification.delete()
 
+
 	return index(request)
 
 def results(request, instance_id):
