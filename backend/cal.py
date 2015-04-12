@@ -75,7 +75,7 @@ def getCredClient():
 # must add verification later!
 def auth(request):
 	print USER_BEING_VALIDATED
-	authcode = request.GET['code'][0]
+	authcode = request.GET['code']
 	print authcode
 
 	post_data = [('code',authcode), ('client_id',CLIENT_SECRETS_JSON['client_id']), ('client_secret',CLIENT_SECRETS_JSON['client_secret']), ('redirect_uri','http://skedg.tk/'), ('grant_type','authorization_code')]
