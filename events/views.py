@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from datetime import *
 import json
 from backend import cal
@@ -62,6 +63,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
+	send_mail(title, "Event created!", 'skedg.notify@gmail.com', ['skedg.notify@gmail.com'], fail_silently=False)
 	return HttpResponseRedirect('/events/')
 
 def autocomplete_user(request):
@@ -188,9 +190,9 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				resp = cal.validateToken(username)
-				if (resp != None):
-					return resp
+				#resp = cal.validateToken(username)
+				#if (resp != None):
+				#	return resp
 				return HttpResponseRedirect('/events/')
 			else:
 				return HttpResponse("Your Skedge account is disabled.")
