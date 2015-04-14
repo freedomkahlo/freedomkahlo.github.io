@@ -98,20 +98,14 @@ def auth(request):
 	state = request.GET['state']
 	tempCode = state.partition('%')[0]
 	username = state.partition('%')[2]
-	print tempStorageForChecking
-	print tempCode
 	stored = [x for x in tempStorageForChecking if x[1] == tempCode]
 	if len(stored) == 0:
-		print("NOPE")
-		#views.user_logout()
+		#views.user_logout() #maybe we should log them out!
 		return HttpResponseRedirect('/events/')
 
-	#print authcode
-
 	post_data = {'code':authcode, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'redirect_uri':'http://skedg.tk/auth/', 'grant_type':'authorization_code'}
-	#print urllib.urlencode(post_data)
 	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data)
-	#print result.json()
+	print result.json()
 	refreshToken = result.json()['refresh_token']
 
 	u = User.objects.get(username=username)
