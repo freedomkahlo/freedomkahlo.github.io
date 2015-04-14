@@ -196,9 +196,9 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				#resp = cal.validateToken(username)
-				#if (resp != None):
-				#	return resp
+				resp = cal.validateToken(username)
+				if (resp != None):
+					return resp
 				return HttpResponseRedirect('/events/')
 			else:
 				return HttpResponse("Your Skedge account is disabled.")
