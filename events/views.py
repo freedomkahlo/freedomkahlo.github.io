@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-from .models import Instance, Invitee, Notification, PossTime
+from .models import Instance, Invitee, Notification, PossTime, UserProfile
 from .forms import UserForm, UserProfileForm
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
@@ -10,8 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.utils import timezone
 from datetime import *
 import json
+import hashlib, random
 from backend import cal
 
 def home(request):
@@ -68,7 +70,9 @@ def add(request):
 	for i in e.invitee_set.all():
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
-		send_mail(title, "Event created!", 'skedg.notify@gmail.com', [User.objects.get(username=i).email], fail_silently=False)
+		emailTitle = '%s Has Invited You To %s!' % (e.creator, e.title)
+		emailMsg = 'Login and respond!'
+		send_mail(emailTitle0, emailMsg, 'skedg.notify@gmail.com', [User.objects.get(username=i).email], fail_silently=False)
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
@@ -167,18 +171,30 @@ def register(request):
 
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
+			user.is_active = False
 			user.set_password(user.password)
 			user.save()
 			profile = profile_form.save(commit=False)
 			profile.user = user
 
-			#cal.getCred(user.username)
+			email = user.email
+			key = hashlib.sha1(str(random.random())).hexdigest()[:5]
+			key = hashlib.sha1(key + email).hexdigest()
+			profile.activation_key = key
+
+			cal.getCred(user.username)
 
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
 
 			profile.save()
 			registered = True
+
+			#Send email with validation key
+			msg = '''Hi %s, 
+Thanks for signing up. To activate your account, click this link within 48 hours:
+http://skedg.tk/events/confirm/%s''' % (user.username, key)
+			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
 			print (user_form.errors, profile_form.errors)
 
@@ -190,6 +206,17 @@ def register(request):
 			'events/register.html',
 			{'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
 			context)
+
+def register_confirm(request, activation_key):
+	if request.user.is_authenticated():
+		#User already authenticated
+		return HttpResponseRedirect('/events/')
+	user_profile = get_object_or_404(UserProfile, activation_key = activation_key)
+
+	user = user_profile.user
+	user.is_active=True
+	user.save()
+	return HttpResponseRedirect('/events/')
 
 def user_login(request):
 	context = RequestContext(request)

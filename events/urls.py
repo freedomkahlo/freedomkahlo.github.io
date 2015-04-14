@@ -16,4 +16,5 @@ urlpatterns = [
 	url(r'^auth/$', cal.auth, name='auth'),
     url(r'^$', views.index, name='index'),
     url(r'^autocomplete_user/$', views.autocomplete_user, name='autocomplete_user'),
+    url(r'^confirm/(?P<activation_key>\w+)/', views.register_confirm, name='confirm_email'),
 ]

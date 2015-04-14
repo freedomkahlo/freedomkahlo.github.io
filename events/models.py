@@ -96,6 +96,7 @@ class UserProfile(models.Model):
     # The additional attributes we wish to include.
     refToken = models.CharField(max_length=100, default='')
     picture = models.ImageField(upload_to='profile_images', blank=True)
+    activation_key = models.CharField(max_length=40, blank=True)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
