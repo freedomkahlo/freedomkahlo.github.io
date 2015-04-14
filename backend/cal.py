@@ -12,17 +12,6 @@ from backend import httplib2
 from backend import gflags
 from backend import gflags_validators
 
-#from apiclient.discovery import build
-#from oauth2client.client import OAuth2WebServerFlow
-#from oauth2client.client import flow_from_clientsecrets
-#from oauth2client.client import AccessTokenRefreshError
-#from oauth2client.file import Storage
-#from oauth2client.tools import run
-
-#import httplib2
-#import gflags
-#import gflags_validators
-
 import os
 import sys
 import json
@@ -37,6 +26,7 @@ import argparse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
 
 from events.models import UserProfile
 
@@ -84,7 +74,7 @@ def getCredFromRefToken(username):
 def getCredClient(username):
 	#userCredfile = "backend/credentials/" + username + "_cred.dat"
 	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
-	tempCode = tempCode_generator(size=32) #random gen
+	tempCode = get_random_string(length=32) #random gen
 	tempStore = (username, tempCode)
 	tempStorageForChecking.append(tempStore)
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
