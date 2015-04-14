@@ -171,7 +171,7 @@ def register(request):
 
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
-			#user.is_active = False
+			user.is_active = False
 			user.set_password(user.password)
 			user.save()
 			profile = profile_form.save(commit=False)
