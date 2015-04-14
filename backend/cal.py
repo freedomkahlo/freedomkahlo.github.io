@@ -12,23 +12,14 @@ from backend import httplib2
 from backend import gflags
 from backend import gflags_validators
 
-#from apiclient.discovery import build
-#from oauth2client.client import OAuth2WebServerFlow
-#from oauth2client.client import flow_from_clientsecrets
-#from oauth2client.client import AccessTokenRefreshError
-#from oauth2client.file import Storage
-#from oauth2client.tools import run
-
-#import httplib2
-#import gflags
-#import gflags_validators
-
 import os
 import sys
 import json
 import urllib
 import urllib2
 import requests
+import string
+import random
 from heapq import *
 from datetime import *
 import argparse
@@ -51,9 +42,13 @@ CLIENT_SECRETS_JSON_FILE.close()
 
 tempStorageForChecking = [] #stores tuples of type (username, tempcode)
 
+def tempCode_generator(size=32, chars=string.ascii_uppercase+string.ascii_lowercase+string.digits):
+	return ''.join(random.choice(chars) for _ in range(size))
+
 def validateToken(username):
 	u = User.objects.get(username=username)
 	refreshToken = u.UserProfile.refToken
+	print 'hi'
 	if refreshToken == '':
 		# send to google
 		#global USER_BEING_VALIDATED
@@ -81,6 +76,7 @@ def getCredClient(username):
 	#userCredfile = "backend/credentials/" + username + "_cred.dat"
 	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
 	tempCode = get_random_string(length=32) #random gen
+	print tempCode
 	tempStore = (username, tempCode)
 	tempStorageForChecking.append(tempStore)
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
