@@ -9,8 +9,8 @@ class Instance(models.Model):
 	pub_date = models.DateTimeField('date made')
 	start_date = models.CharField(max_length=20)
 	end_date = models.CharField(max_length=20)
-	start_time = models.TimeField('start time')
-	end_time = models.TimeField('end time')
+	start_time = models.CharField(max_length=20)
+	end_time = models.CharField(max_length=20)
 	creator = models.CharField(max_length=100, default='')
 
 	is_scheduled = models.BooleanField(default='False')

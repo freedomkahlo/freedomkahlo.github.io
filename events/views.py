@@ -73,7 +73,7 @@ def add(request):
 		e.invitee_set.add(newInvitee)
 		emailTitle = '%s Has Invited You To %s!' % (e.creator, e.title)
 		emailMsg = 'Login and respond!'
-		send_mail(emailTitle0, emailMsg, 'skedg.notify@gmail.com', [User.objects.get(username=i).email], fail_silently=False)
+		send_mail(emailTitle, emailMsg, 'skedg.notify@gmail.com', [User.objects.get(username=i).email], fail_silently=False)
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
