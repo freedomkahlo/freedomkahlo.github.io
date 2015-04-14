@@ -99,7 +99,7 @@ def auth(request):
 	username = state.partition('%')[0]
 	tempCode = state.partition('%')[2]
 	print tempStorageForChecking
-	print "meh"
+	print tempCode
 	stored = [x for x in tempStorageForChecking if x[1] == tempCode]
 	if len(stored) == 0:
 		print("NOPE")
