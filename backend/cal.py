@@ -50,7 +50,7 @@ def tempCode_generator(size=32, chars=string.ascii_uppercase+string.ascii_lowerc
 def validateToken(username):
 	u = User.objects.get(username=username)
 	refreshToken = u.UserProfile.refToken
-	print refreshToken
+	#print refreshToken
 	if refreshToken == '':
 		# send to google
 		#global USER_BEING_VALIDATED
@@ -58,8 +58,6 @@ def validateToken(username):
 		return getCredClient(username)
 	else:
 		# validate (currently not implemented)
-		print 'hi'
-
 		return HttpResponseRedirect('/events/')
 
 # given username, assume that the user has a refresh token and get the credentials
@@ -103,9 +101,13 @@ def auth(request):
 		#views.user_logout() #maybe we should log them out!
 		return HttpResponseRedirect('/events/')
 
+	print tempStorageForChecking
+	authTuple = (username, tempCode)
+	tempStorageForChecking.remove(authTuple)
+	print tempStorageForChecking
 	post_data = {'code':authcode, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'redirect_uri':'http://skedg.tk/auth/', 'grant_type':'authorization_code'}
 	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data)
-	print result.json()
+	#print result.json()
 	refreshToken = result.json()['refresh_token']
 
 	u = User.objects.get(username=username)
