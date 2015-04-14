@@ -29,13 +29,14 @@ import json
 import urllib
 import urllib2
 import requests
+import string
+import random
 from heapq import *
 from datetime import *
 import argparse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from django.utils.crypto import get_random_string
 
 from events.models import UserProfile
 
@@ -50,6 +51,9 @@ CLIENT_SECRETS_JSON = json.load(CLIENT_SECRETS_JSON_FILE)['web']
 CLIENT_SECRETS_JSON_FILE.close()
 
 tempStorageForChecking = [] #stores tuples of type (username, tempcode)
+
+def tempCode_generator(size=32, chars=string.ascii_uppercase+string.ascii_lowercase+string.digits):
+	return ''.join(random.choice(chars) for _ in range(size))
 
 def validateToken(username):
 	u = User.objects.get(username=username)
@@ -80,7 +84,7 @@ def getCredFromRefToken(username):
 def getCredClient(username):
 	#userCredfile = "backend/credentials/" + username + "_cred.dat"
 	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
-	tempCode = get_random_string(length=32) #random gen
+	tempCode = tempCode_generator(size=32) #random gen
 	tempStore = (username, tempCode)
 	tempStorageForChecking.append(tempStore)
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
