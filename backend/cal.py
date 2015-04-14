@@ -28,6 +28,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 
+from events import view
+
 from events.models import UserProfile
 
 FLAGS = gflags.FLAGS
@@ -76,7 +78,6 @@ def getCredClient(username):
 	#userCredfile = "backend/credentials/" + username + "_cred.dat"
 	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
 	tempCode = get_random_string(length=32) #random gen
-	print tempCode
 	tempStore = (username, tempCode)
 	tempStorageForChecking.append(tempStore)
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
@@ -99,7 +100,8 @@ def auth(request):
 	stored = [x for x in tempStorageForChecking if x[1] == tempCode]
 	if len(stored) == 0:
 		print("NOPE")
-		return
+		#views.user_logout()
+		return HttpResponseRedirect('/events/')
 
 	#print authcode
 
