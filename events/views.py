@@ -182,8 +182,6 @@ def register(request):
 			key = hashlib.sha1(key + email).hexdigest()
 			profile.activation_key = key
 
-			cal.getCred(user.username)
-
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
 
