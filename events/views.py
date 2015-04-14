@@ -58,7 +58,8 @@ def add(request):
 
 	#nstr = e.creator + " has invited you to " + e.title + "!" 
 	#n = Notification(desc=nstr, pub_date=datetime.now())
-	for i in e.invitee_set.all():
+	invitees = [x for x in request.POST.get('invitees', '').split(', ') if x.replace(' ', '') != '']
+	for i in invitees:
 		try:
 			User.objects.get(username = i)
 		except User.DoesNotExist as e:
@@ -67,7 +68,7 @@ def add(request):
 			return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
 				'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
 				'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
-	for i in e.invitee_set.all():
+	for i in invitees:
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
 		emailTitle = '%s Has Invited You To %s!' % (e.creator, e.title)
