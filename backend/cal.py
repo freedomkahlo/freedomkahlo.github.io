@@ -48,6 +48,7 @@ def tempCode_generator(size=32, chars=string.ascii_uppercase+string.ascii_lowerc
 def validateToken(username):
 	u = User.objects.get(username=username)
 	refreshToken = u.UserProfile.refToken
+	print 'hi'
 	if refreshToken == '':
 		# send to google
 		#global USER_BEING_VALIDATED
@@ -75,6 +76,7 @@ def getCredClient(username):
 	#userCredfile = "backend/credentials/" + username + "_cred.dat"
 	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
 	tempCode = get_random_string(length=32) #random gen
+	print tempCode
 	tempStore = (username, tempCode)
 	tempStorageForChecking.append(tempStore)
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
