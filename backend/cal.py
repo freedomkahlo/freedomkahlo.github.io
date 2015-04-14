@@ -35,7 +35,7 @@ import argparse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from djano.utils.crypto import get_random_string
+from django.utils.crypto import get_random_string
 
 from events.models import UserProfile
 

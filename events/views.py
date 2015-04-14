@@ -103,10 +103,10 @@ def manageCreator(request):
 		event.isScheduled = True
 		event.save()
 
-		times = cal.findTimeForMany(['crystalA'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
-		for t in times:
-			possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
-			event.posstime_set.add(possTime)
+		#times = cal.findTimeForMany(['crystalA'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
+		#for t in times:
+		#	possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
+		#	event.posstime_set.add(possTime)
 	else:
 		return index(request)
 
