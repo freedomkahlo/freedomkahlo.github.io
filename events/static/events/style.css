@@ -10,6 +10,21 @@
 		color: #FF00FF;
 	}
 
+	.tabPage{
+		text-align:center;
+		margin:auto;
+	}
+
+	#myEvents{
+		width:40%;
+		float:left;
+	}
+
+	#otherEvents{
+		width:40%;
+		float:right;
+	}
+
 	html, body
 	{
 		height: 100%;
