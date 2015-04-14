@@ -96,8 +96,8 @@ def auth(request):
 	#print USER_BEING_VALIDATED
 	authcode = request.GET['code']
 	state = request.GET['state']
-	username = state.partition('%')[0]
-	tempCode = state.partition('%')[2]
+	tempCode = state.partition('%')[0]
+	username = state.partition('%')[2]
 	print tempStorageForChecking
 	print tempCode
 	stored = [x for x in tempStorageForChecking if x[1] == tempCode]
