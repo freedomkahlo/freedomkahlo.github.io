@@ -39,8 +39,9 @@ def add(request):
 	start_time=request.POST.get('start_time', '')
 	end_time=request.POST.get('end_time', '')
 	creator=request.POST.get('creator', '')
+	is_scheduled=False
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
-		start_time=start_time, end_time=end_time, creator=creator)
+		start_time=start_time, end_time=end_time, creator=creator, is_scheduled=is_scheduled)
 	print (e.title)
 	print start_date, end_date, start_time, end_time
 	#try catch here check validity
@@ -100,13 +101,18 @@ def manageCreator(request):
 	if 'getTimes' in request.POST:
 		e_id = request.POST['eventID']
 		event = get_object_or_404(Instance, pk=e_id)
-		event.isScheduled = True
+		event.is_scheduled = True
 		event.save()
-
+		
+		#The error is here: "access_token" error when I try to call findTimeForMany.
 		#times = cal.findTimeForMany(['crystalA'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
 		#for t in times:
 		#	possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
 		#	event.posstime_set.add(possTime)
+		possTime = PossTime()
+		event.posstime_set.add(possTime)
+
+		return index(request)
 	else:
 		return index(request)
 

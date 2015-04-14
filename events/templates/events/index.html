@@ -198,8 +198,8 @@
                     {% for event in latest_event_list %}
                         <!-- not time efficient but works for reasonable amount of data -->
                         {% if event.creator == user.username or user.username == "admin" %}
-                            {% if event.isScheduled %}
-                                "Event is scheduled."
+                            {% if event.is_scheduled == True %}
+                                {{ event.posstime_set.all }}
                             {% endif %}
                             <form action="{% url 'events:manageCreator' %}" method="post">
                                 {% csrf_token %}
