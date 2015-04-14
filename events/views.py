@@ -153,7 +153,10 @@ def manageNotification(request):
 		n_id = request.POST['notificationID']
 		notification = get_object_or_404(Notification, pk=n_id)
 		notification.delete()
-
+	if 'clear' in request.POST:
+		user = get_object_or_404(User, username=request.POST['username'])
+		for n in user.notification_set.all():
+			n.delete()
 
 	return HttpResponseRedirect('/events/')
 
