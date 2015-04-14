@@ -50,11 +50,11 @@ def tempCode_generator(size=32, chars=string.ascii_uppercase+string.ascii_lowerc
 def validateToken(username):
 	u = User.objects.get(username=username)
 	refreshToken = u.UserProfile.refToken
-	print 'hi'
 	if refreshToken == '':
 		# send to google
 		#global USER_BEING_VALIDATED
 		#USER_BEING_VALIDATED = username
+		print 'hi'
 		return getCredClient(username)
 	else:
 		# validate (currently not implemented)
