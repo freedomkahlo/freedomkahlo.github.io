@@ -182,21 +182,23 @@
             <div id="myEvents">
                 <h2>My Events</h2><br/><br/>
                     <h3>Stage 2: What have people responded?</h3>
-                     <ul>
+                     <ul id="stage2">
                         {% for event in latest_event_list %}
                             {% if event.posstime_set.all|length > 0 %}
-                                    <h4> {{ event.title }} </h4>
+                                   <li><h4> {{ event.title }} </h4>
                                     {% for p in event.posstime_set.all %}
                                         <p>{{ p }}</p>
                                     {% endfor %}
+                                    </li>
                                 {% endif %}
                         {% endfor %}
                         </ul>
                     <h3>Stage 1: View how many people have responded to request </h3>
                     {% if latest_event_list %}
-                    <ul>
+                    <ul id="stage1">
                         {% for event in latest_event_list %}
                             <!-- not time efficient but works for reasonable amount of data -->
+                            <li>
                             {% if event.creator == user.username or user.username == "admin" %}
                                 <form action="{% url 'events:manageCreator' %}" method="post">
                                     {% csrf_token %}
@@ -215,7 +217,7 @@
                                         {% endfor %}
                                     </li>
                                 </form>
-                            {% endif %}
+                            {% endif %}</li>
                         {% endfor %}
                     </ul>
                     {% endif %}

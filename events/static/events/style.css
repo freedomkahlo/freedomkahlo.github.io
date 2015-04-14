@@ -13,10 +13,16 @@
 	.tabPage{
 		text-align:center;
 		margin:auto;
+		width:70%;
 	}
 
+	#stage1, #stage2{
+		background:#E3F0F7;
+		border-radius:2px;
+
+	}
 	#myEvents{
-		width:40%;
+		width:45%;
 		float:left;
 	}
 
@@ -455,7 +461,7 @@
 	.wrapper
 	{
 		overflow: hidden;
-		padding: 0em 0em 5em 0em;
+		padding: 2em 0em 5em 0em;
 		background: #FFF;
 	}
 
