@@ -35,6 +35,7 @@ import argparse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
+from djano.utils.crypto import get_random_string
 
 from events.models import UserProfile
 
@@ -48,14 +49,16 @@ CLIENT_SECRETS_JSON_FILE = open(CLIENT_SECRETS)
 CLIENT_SECRETS_JSON = json.load(CLIENT_SECRETS_JSON_FILE)['web']
 CLIENT_SECRETS_JSON_FILE.close()
 
+tempStorageForChecking = [] #stores tuples of type (username, tempcode)
+
 def validateToken(username):
 	u = User.objects.get(username=username)
 	refreshToken = u.UserProfile.refToken
 	if refreshToken == '':
 		# send to google
-		global USER_BEING_VALIDATED
-		USER_BEING_VALIDATED = username
-		return getCredClient()
+		#global USER_BEING_VALIDATED
+		#USER_BEING_VALIDATED = username
+		return getCredClient(username)
 	else:
 		# validate (currently not implemented)
 
@@ -74,19 +77,34 @@ def getCredFromRefToken(username):
 	return credentials
 
 # send client to Google Authentication page
-def getCredClient():
+def getCredClient(username):
 	#userCredfile = "backend/credentials/" + username + "_cred.dat"
 	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
+	tempCode = get_random_string(length=32) #random gen
+	tempStore = (username, tempCode)
+	tempStorageForChecking.append(tempStore)
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
+	FLOW.params['access_type'] = 'offline'
+	FLOW.params['approval_prompt'] = 'force'
+	FLOW.params['state'] = tempCode + '%' + username
 	auth_uri = FLOW.step1_get_authorize_url()
 	#print(auth_uri+'&approval_prompt=force')
-	return redirect(auth_uri+'&approval_prompt=force')
+	#return redirect(auth_uri+'&approval_prompt=force')
+	return redirect(auth_uri)
 
 # must add verification later!
 # Listens to Google's Authorization, and puts in a refresh token
 def auth(request):
 	#print USER_BEING_VALIDATED
 	authcode = request.GET['code']
+	state = request.GET['state']
+	username = state.partition('%')[0]
+	tempCode = state.partition('%')[2]
+	stored = [x for x in tempStorageForChecking if x[1] == tempCode]
+	if len(stored) == 0:
+		print("NOPE")
+		return
+
 	#print authcode
 
 	post_data = {'code':authcode, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'redirect_uri':'http://skedg.tk/auth/', 'grant_type':'authorization_code'}
@@ -95,7 +113,7 @@ def auth(request):
 	#print result.json()
 	refreshToken = result.json()['refresh_token']
 
-	u = User.objects.get(username=USER_BEING_VALIDATED)
+	u = User.objects.get(username=username)
 	u.UserProfile.refToken = refreshToken
 	u.UserProfile.save()
 	u.save()
@@ -285,15 +303,6 @@ def findTimeForMany(usernameList, timeStart, timeEnd, duration):
 	avail = findTimes(events, startRoy, endRoy, duration)
 	
 	return avail
-
-	'''print avail
-	for i in range(0, len(avail)):
-		a = avail[i]['startTime']
-		td = timedelta(a / (24 * 3600), a % (24 * 3600))
-		b = avail[i]['endTime']
-		td2 = timedelta(b / (24 * 3600), b % (24 * 3600))
-		print (epoch + td).strftime('%d/%m/%Y %H:%M:%S'), (epoch + td2).strftime('%d/%m/%Y %H:%M:%S'), avail[i]['conflicts']
-'''
 
 def printAvail(avail):
 	for i in range(0, len(avail)):
