@@ -39,10 +39,9 @@ def add(request):
 	start_time=request.POST.get('start_time', '')
 	end_time=request.POST.get('end_time', '')
 	creator=request.POST.get('creator', '')
+	invitees = [x for x in request.POST.get('invitees', '').split(', ') if x.strip() != '' ]
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
 		start_time=start_time, end_time=end_time, creator=creator)
-	print (e.title)
-	print start_date, end_date, start_time, end_time
 	#try catch here check validity
 	try:
 		e.save()
@@ -50,20 +49,27 @@ def add(request):
 		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 		return render(request, 'events/index.html', {'error': e[0], 'latest_event_list': latest_event_list,
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-			'end_time':end_time, 'creator':creator})
+			'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
 
 	#nstr = e.creator + " has invited you to " + e.title + "!" 
 	#n = Notification(desc=nstr, pub_date=datetime.now())
-
-	invitees = [x for x in request.POST.get('invitees', '').split(', ') if x.strip() != '' ]
+	for i in invitees:
+		try:
+			User.objects.get(username = i)
+		except User.DoesNotExist as e:
+			latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+			msg = 'User: %s, does not exist' % i
+			return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
+				'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+				'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
 	for i in invitees:
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
+		send_mail(title, "Event created!", 'skedg.notify@gmail.com', [User.objects.get(username=i).email], fail_silently=False)
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	send_mail(title, "Event created!", 'skedg.notify@gmail.com', ['skedg.notify@gmail.com'], fail_silently=False)
 	return HttpResponseRedirect('/events/')
 
 def autocomplete_user(request):
