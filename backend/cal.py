@@ -2,6 +2,7 @@ from backend.apiclient.discovery import build
 from backend.oauth2client.client import OAuth2WebServerFlow
 from backend.oauth2client.client import flow_from_clientsecrets
 from backend.oauth2client.client import AccessTokenRefreshError
+from backend.oauth2client.client import AccessTokenCredentialsExpired
 from backend.oauth2client.client import AccessTokenCredentials
 from backend.oauth2client.file import Storage
 from backend.oauth2client.tools import argparser
@@ -42,42 +43,57 @@ CLIENT_SECRETS_JSON_FILE = open(CLIENT_SECRETS)
 CLIENT_SECRETS_JSON = json.load(CLIENT_SECRETS_JSON_FILE)['web']
 CLIENT_SECRETS_JSON_FILE.close()
 
+# holds temporary user/random code information for users being authenticated through Google
 tempStorageForChecking = [] #stores tuples of type (username, tempcode)
 
-def tempCode_generator(size=32, chars=string.ascii_uppercase+string.ascii_lowercase+string.digits):
-	return ''.join(random.choice(chars) for _ in range(size))
+# run through the tempStorageForChecking list and delete things that are too old
+def clearTempStorageForChecking():
+	i=0
+	while i < len(tempStorageForChecking):
+		if (tempStorageForChecking[i][2] > datetime.datetime.now()):
+			break
+		i = i + 1
+	tempStorageForChecking = tempStorageForChecking[i:]
 
 def validateToken(username):
 	u = User.objects.get(username=username)
 	refreshToken = u.UserProfile.refToken
 	#print refreshToken
 	if refreshToken == '':
-		# send to google
-		#global USER_BEING_VALIDATED
-		#USER_BEING_VALIDATED = username
 		return getCredClient(username)
 	else:
-		# validate (currently not implemented)
+		getCredFromRefToken(username) #Just to check that their refresh token is good
 		return HttpResponseRedirect('/events/')
 
 # given username, assume that the user has a refresh token and get the credentials
 def getCredFromRefToken(username):
+	def token_refresh_error():
+		getCredClient(username)
+		return HttpResponseRedirect('/')
+
 	u = User.objects.get(username=username)
 	refreshToken = u.UserProfile.refToken
-	### Could check refToken here again....
 	post_data = {'refresh_token':refreshToken, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'grant_type':'refresh_token'}
-	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data)
-	#print result.json()
-	accessToken = result.json()['access_token']
-	credentials = AccessTokenCredentials(accessToken, 'Skedg/1.0')
-	return credentials
+	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data).json()
+	
+	if 'access_token' not in result:
+		return token_refresh_error()
+
+	accessToken = result['access_token']
+
+	if accessToken in ['null', '']:
+		return token_refresh_error()
+	try:
+		credentials = AccessTokenCredentials(accessToken, 'Skedg/1.0')
+		return credentials
+	except AccessTokenCredentialsExpired:
+		print ('Credentials have been revoked')
 
 # send client to Google Authentication page
 def getCredClient(username):
-	#userCredfile = "backend/credentials/" + username + "_cred.dat"
-	#CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
 	tempCode = get_random_string(length=32) #random gen
-	tempStore = (username, tempCode)
+	expirationTime = datetime.datetime.now() + datetime.timedelta(minutes=10)
+	tempStore = (username, tempCode, expirationTime)
 	tempStorageForChecking.append(tempStore)
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
 	FLOW.params['access_type'] = 'offline'
@@ -88,63 +104,56 @@ def getCredClient(username):
 	#return redirect(auth_uri+'&approval_prompt=force')
 	return redirect(auth_uri)
 
-# must add verification later!
 # Listens to Google's Authorization, and puts in a refresh token
 def auth(request):
-	#print USER_BEING_VALIDATED
-	authcode = request.GET['code']
+	def authentication_error():
+		return HttpResponseRedirect('/')
+
+	# First get the authentication pair
 	state = request.GET['state']
 	tempCode = state.partition('%')[0]
 	username = state.partition('%')[2]
-	stored = [x for x in tempStorageForChecking if x[1] == tempCode]
-	if len(stored) == 0:
-		#views.user_logout() #maybe we should log them out!
-		return HttpResponseRedirect('/events/')
 
-	print tempStorageForChecking
-	authTuple = (username, tempCode)
-	tempStorageForChecking.remove(authTuple)
-	print tempStorageForChecking
+	# Clean up the temp storage list
+	clearTempStorageForChecking()
+
+	# check that this authentication pair exists in the list
+	i=0
+	while i < len(tempStorageForChecking):
+		if (tempStorageForChecking[i][0] == username and tempStorageForChecking[i][1] == tempCode):
+			break
+		i = i + 1
+
+	# Not found
+	if i == len(tempStorageForChecking):
+		return authentication_error()
+
+	tempStorageForChecking.pop(i)
+
+	# if getting the code failed...
+	if request.has_key('error'):
+		return authentication_error()
+
+	# no error, so there must be an authentication code
+	authcode = request.GET['code']
+
 	post_data = {'code':authcode, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'redirect_uri':'http://skedg.tk/auth/', 'grant_type':'authorization_code'}
-	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data)
-	#print result.json()
-	refreshToken = result.json()['refresh_token']
+	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data).json()
+	
+	if 'refresh_token' not in result:
+		return authentication_error()
+
+	refreshToken = result['refresh_token']
+
+	if refreshToken in ['null', '']:
+		return authentication_error()
 
 	u = User.objects.get(username=username)
 	u.UserProfile.refToken = refreshToken
 	u.UserProfile.save()
 	u.save()
 
-	
-
 	return HttpResponseRedirect('/events/')
-
-'''def getCred(username):
-	userCredfile = "backend/credentials/" + username + "_cred.dat"
-	CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets_skedg.json')
-	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar')
-
-	# If the Credentials don't exist or are invalid, run through the native client
-	# flow. The Storage object will ensure that if successful the good
-	# Credentials will get written back to a file.
-	storage = Storage(userCredfile)
-	credentials = storage.get()
-	if credentials is None or credentials.invalid == True:
-		#credentials = run(FLOW, storage)
-		credentials = run_flow(FLOW, storage, flowflags)
-	if credentials is None or credentials.invalid == True:
-		os.remove(userCredfile)
-		storage = Storage(userCredfile)
-		#credentials = run(FLOW, storage)
-		credentials = run_flow(FLOW, storage, flowflags)
-	#response = google.get_raw_access_token(data={
-	#	'refresh_token': credentials['refresh_token'],
-	#	'grant_type': 'refresh_token',
-	#})
-	#print response.content
-
-	return credentials
-'''
 
 def buildService(username):
 	credentials = getCredFromRefToken(username)
@@ -289,6 +298,8 @@ def findTimes(events, startTime, endTime, timeLength):
 
 # timeStart and timeEnd are strings formatted RFC3339
 # duration is in seconds
+######!!!!! When we implement having multiple time ranges, we will have to 
+########### do the timeStart and timeEnd as a list of tuple(timeStart, timeEnd)
 def findTimeForMany(usernameList, timeStart, timeEnd, duration):
 	events = []
 	for username in usernameList:
