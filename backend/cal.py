@@ -113,7 +113,7 @@ def auth(request):
 		return HttpResponseRedirect('/')
 
 	global tempStorageForChecking
-	
+
 	# First get the authentication pair
 	state = request.GET['state']
 	tempCode = state.partition('%')[0]
@@ -136,7 +136,7 @@ def auth(request):
 	tempStorageForChecking.pop(i)
 
 	# if getting the code failed...
-	if request.has_key('error'):
+	if request.GET.has_key('error'):
 		return authentication_error()
 
 	# no error, so there must be an authentication code
