@@ -44,6 +44,7 @@ CLIENT_SECRETS_JSON = json.load(CLIENT_SECRETS_JSON_FILE)['web']
 CLIENT_SECRETS_JSON_FILE.close()
 
 # holds temporary user/random code information for users being authenticated through Google
+global tempStorageForChecking
 tempStorageForChecking = [] #stores tuples of type (username, tempcode)
 
 # run through the tempStorageForChecking list and delete things that are too old
