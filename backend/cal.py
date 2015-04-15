@@ -44,11 +44,11 @@ CLIENT_SECRETS_JSON = json.load(CLIENT_SECRETS_JSON_FILE)['web']
 CLIENT_SECRETS_JSON_FILE.close()
 
 # holds temporary user/random code information for users being authenticated through Google
-global tempStorageForChecking
 tempStorageForChecking = [] #stores tuples of type (username, tempcode)
 
 # run through the tempStorageForChecking list and delete things that are too old
 def clearTempStorageForChecking():
+	global tempStorageForChecking
 	i=0
 	while i < len(tempStorageForChecking):
 		if (tempStorageForChecking[i][2] > datetime.datetime.now()):
@@ -92,6 +92,8 @@ def getCredFromRefToken(username):
 
 # send client to Google Authentication page
 def getCredClient(username):
+	global tempStorageForChecking
+
 	tempCode = get_random_string(length=32) #random gen
 	expirationTime = datetime.datetime.now() + datetime.timedelta(minutes=10)
 	tempStore = (username, tempCode, expirationTime)
@@ -110,6 +112,8 @@ def auth(request):
 	def authentication_error():
 		return HttpResponseRedirect('/')
 
+	global tempStorageForChecking
+	
 	# First get the authentication pair
 	state = request.GET['state']
 	tempCode = state.partition('%')[0]
