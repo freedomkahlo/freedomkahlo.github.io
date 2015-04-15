@@ -2,7 +2,7 @@ from backend.apiclient.discovery import build
 from backend.oauth2client.client import OAuth2WebServerFlow
 from backend.oauth2client.client import flow_from_clientsecrets
 from backend.oauth2client.client import AccessTokenRefreshError
-from backend.oauth2client.client import AccessTokenCredentialsExpired
+from backend.oauth2client.client import AccessTokenCredentialsError
 from backend.oauth2client.client import AccessTokenCredentials
 from backend.oauth2client.file import Storage
 from backend.oauth2client.tools import argparser
@@ -86,7 +86,7 @@ def getCredFromRefToken(username):
 	try:
 		credentials = AccessTokenCredentials(accessToken, 'Skedg/1.0')
 		return credentials
-	except AccessTokenCredentialsExpired:
+	except AccessTokenCredentialsError:
 		print ('Credentials have been revoked')
 
 # send client to Google Authentication page
