@@ -29,8 +29,6 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 
-#from events import views
-
 from events.models import UserProfile
 
 FLAGS = gflags.FLAGS
