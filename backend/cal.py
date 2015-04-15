@@ -22,7 +22,7 @@ import requests
 import string
 import random
 from heapq import *
-from datetime
+import datetime
 import argparse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
@@ -35,7 +35,7 @@ from events.models import UserProfile
 
 FLAGS = gflags.FLAGS
 DEVELOPER_KEY = 'AIzaSyC_sCrieFSw6_KM9zZHKOTUrXmeEwqkR3o'
-epoch = datetime(1970, 1, 1)
+epoch = datetime.datetime(1970, 1, 1)
 parser = argparse.ArgumentParser(parents=[argparser])
 flowflags = parser.parse_args(args=[])
 CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secret_skedg.json')
