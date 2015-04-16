@@ -117,10 +117,10 @@ def manageCreator(request):
 		event.save()
 		
 		many = []
-		many.add(event.creator)
+		many.append(event.creator)
 
 		for i in event.invitee_set.all():
-			many.add(i.name)
+			many.append(i.name)
 
 		#TEMPORARY
 		startTime = datetime.combine(e.start_date, e.start_time)
