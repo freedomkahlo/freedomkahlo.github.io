@@ -123,8 +123,9 @@ def manageCreator(request):
 			many.append(i.name)
 
 		#TEMPORARY
-		startTime = datetime.combine(event.start_date, event.start_time)
-		endTime = datetime.combine(event.end_date, event.end_time)
+		startTime = datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %H:%M %p')
+		endTime = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %H:%M %p')
+
 		#The error is here: "access_token" error when I try to call findTimeForMany.
 		times = cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = 3600)
 		for t in times:
