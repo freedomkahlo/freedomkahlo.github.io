@@ -116,13 +116,22 @@ def manageCreator(request):
 		event.is_scheduled = True
 		event.save()
 		
+		many = []
+		many.add(event.creator)
+
+		for i in event.invitee_set.all():
+			many.add(i.name)
+
+		#TEMPORARY
+		startTime = datetime.combine(e.start_date, e.start_time)
+		endTime = datetime.combine(e.end_date, e.end_time)
 		#The error is here: "access_token" error when I try to call findTimeForMany.
-		#times = cal.findTimeForMany(['crystalA'], timeStart='2015-04-12T13:00:00-04:00', timeEnd='2015-04-14T14:00:00-04:00', duration = 3600)
-		#for t in times:
-		#	possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
-		#	event.posstime_set.add(possTime)
-		possTime = PossTime()
-		event.posstime_set.add(possTime)
+		times = cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = 3600)
+		for t in times:
+			possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
+			event.posstime_set.add(possTime)
+		#possTime = PossTime()
+		#event.posstime_set.add(possTime)
 
 		return index(request)
 	else:
