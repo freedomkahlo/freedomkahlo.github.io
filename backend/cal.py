@@ -244,7 +244,7 @@ def delete_event(service, event_id, calendar_id=None):
 		print('Credentials have been revoked')
 
 def convertRFC3339toRoyTime(RFC3339):
-	epoch = datetime(1970, 1, 1)
+	epoch = datetime.datetime(1970, 1, 1)
 	noTimeZone = RFC3339[:-6]
 	timeZone = RFC3339[-6:-3] + RFC3339[-2:]
 	#print noTimeZone
@@ -254,7 +254,7 @@ def convertRFC3339toRoyTime(RFC3339):
 	return t.seconds + t.days * 24 * 3600
 
 def convertRoyTimeToDateTime(RoyTime):
-	epoch = datetime(1970, 1, 1)
+	epoch = datetime.datetime(1970, 1, 1)
 	td = timedelta(RoyTime / (24 * 3600), RoyTime % (24 * 3600))
 	return epoch + td
 
