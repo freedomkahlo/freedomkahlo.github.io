@@ -248,14 +248,14 @@ def convertRFC3339toRoyTime(RFC3339):
 	noTimeZone = RFC3339[:-6]
 	timeZone = RFC3339[-6:-3] + RFC3339[-2:]
 	#print noTimeZone
-	t = datetime.strptime(noTimeZone, '%Y-%m-%dT%H:%M:%S') - timedelta(hours=int(timeZone)/100)
+	t = datetime.datetime.strptime(noTimeZone, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=int(timeZone)/100)
 	#print t
 	t = (t - epoch)
 	return t.seconds + t.days * 24 * 3600
 
 def convertRoyTimeToDateTime(RoyTime):
 	epoch = datetime.datetime(1970, 1, 1)
-	td = timedelta(RoyTime / (24 * 3600), RoyTime % (24 * 3600))
+	td = datetime.timedelta(RoyTime / (24 * 3600), RoyTime % (24 * 3600))
 	return epoch + td
 
 #startTime and endTime are in RoyTime
