@@ -42,7 +42,7 @@ def add(request):
 	end_time=request.POST.get('end_time', '')
 	creator=request.POST.get('creator', '')
 
-	invitees = [x for x in request.POST.get('invitees', '').split(', ') if x.replace(' ', '') != '']
+	invitees = [x for x in request.POST.get('invitees', '').split(' ') if x.replace(' ', '') != '']
 	if len(invitees) != len(set(invitees)):
 		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 		msg = 'Duplicate invitees included.'
@@ -62,7 +62,7 @@ def add(request):
 
 		except User.DoesNotExist as e:
 			latest_event_list = Instance.objects.order_by('-pub_date')[:100]
-			msg = 'User: %s, does not exist' % i
+			msg = 'User: %s does not exist' % i
 			return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
 				'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
 				'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
