@@ -23,6 +23,8 @@ class Instance(models.Model):
 			raise ValidationError('Dates cannot be left blank.')
 		if self.start_time == '' or self.end_time == '':
 			raise ValidationError('Times cannot be left blank.')
+		if self.time_length == '':
+			raise ValidationError('Event Length cannot be left blank.')
 		startd = datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p')
 		endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p')
 		if (startd >= endd):
