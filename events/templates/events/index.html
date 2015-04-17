@@ -189,7 +189,7 @@
                     <h3>Stage 2: What have people responded?</h3>
                      <ul id="stage2">
                         {% for event in latest_event_list %}
-                            {% if event.posstime_set.all|length > 0 %}
+                            {% if event.creator == user.username and event.posstime_set.all|length > 0 %}
                                    <li><h4> {{ event.title }} </h4>
                                     <form action="{% url 'events:manageCreator' %}" method="post">
                                         {% csrf_token %}
@@ -248,8 +248,8 @@
                                     <span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
                                     <span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>                
                                     {% for p in event.posstime_set.all %}
-                                        <p>{{ p }}
-                                        <input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
+                                        <p>{{ p }}</p>
+                                        <p><input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
                                     {% endfor %}
                                         <input type="submit" name="vetoPoss" value="Veto"/>
                                     </form>
