@@ -118,6 +118,10 @@
             $('#endtime12').combodate({
                 firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
                 minuteStep: 5
+            }); 
+            $('#timelength').combodate({
+                firstItem: 'empty', //show 'hour' and 'minute' string at first item of dropdown
+                minuteStep: 15
             });  
         });
     </script>
@@ -170,8 +174,9 @@
                     <p>Desc: <input type="text" name="desc" id="" value="{{ desc }}"></p>
                     <p>Start Date: <input type="text" name="start_date" id="from" value="{{ start_date }}"></p>
                     <p>End Date: <input type="text" name="end_date" id="to" value="{{ end_date }}"></p>
-                    <p>Start Time: <input type="text" name="start_time" id="starttime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ start_time }}"></p>
-                    <p>End Time: <input type="text" name="end_time" id="endtime12" data-format="h:mm a" data-template="h : mm a" name="datetime" value="{{ end_time }}"></p>
+                    <p>Start Time: <input type="text" name="start_time" id="starttime12" data-format="h:mm a" data-template="h : mm a" value="{{ start_time }}"></p>
+                    <p>End Time: <input type="text" name="end_time" id="endtime12" data-format="h:mm a" data-template="h : mm a" value="{{ end_time }}"></p>
+                    <p>Event Length: <input type="text" name="time_length" id="timelength" data-format="h:mm" data-template="h : mm" value="{{ time_length }}"></p>
                     <p>Invitees: <input type="text" name="invitees" id="autocomplete" value="{{ invitees }}"></p>
                     <span style="display: none;"><input type="text" name="creator" value="{{ user.username }}"</input></span>
                     <input type="submit" value="Add" />

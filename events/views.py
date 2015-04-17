@@ -42,6 +42,32 @@ def add(request):
 	end_time=request.POST.get('end_time', '')
 	creator=request.POST.get('creator', '')
 
+	invitees = [x for x in request.POST.get('invitees', '').split(', ') if x.replace(' ', '') != '']
+	if len(invitees) != len(set(invitees)):
+		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+		msg = 'Duplicate invitees included.'
+		return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
+			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+			'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+
+	for i in invitees:
+		try:
+			u = User.objects.get(username = i)
+			if u is User.objects.get(username = creator):
+				latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+				msg = 'Cannot invite yourself to your own event.'
+				return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
+					'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+					'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+
+		except User.DoesNotExist as e:
+			latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+			msg = 'User: %s, does not exist' % i
+			return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
+				'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+				'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+
+
 	is_scheduled=False
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
 		start_time=start_time, end_time=end_time, creator=creator)
@@ -58,16 +84,6 @@ def add(request):
 
 	#nstr = e.creator + " has invited you to " + e.title + "!" 
 	#n = Notification(desc=nstr, pub_date=datetime.now())
-	invitees = [x for x in request.POST.get('invitees', '').split(', ') if x.replace(' ', '') != '']
-	for i in invitees:
-		try:
-			User.objects.get(username = i)
-		except User.DoesNotExist as e:
-			latest_event_list = Instance.objects.order_by('-pub_date')[:100]
-			msg = 'User: %s, does not exist' % i
-			return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
-				'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-				'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
 	for i in invitees:
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
