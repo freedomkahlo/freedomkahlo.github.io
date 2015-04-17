@@ -153,7 +153,6 @@ def manageCreator(request):
 		for i in event.invitee_set.all():
 			many.append(i.name)
 
-<<<<<<< HEAD
 		duration = event.time_length.split(':')[0] * 3600 + event.time_length.split(':')[1] * 60
 
 		#TEMPORARY: fixed time zone
@@ -166,15 +165,6 @@ def manageCreator(request):
 
 		# 30 minute intervals for starting time; rounding start time; etc.
 		processedTimes = []
-=======
-		#TEMPORARY
-		startTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
-		endTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
-		startTime = startTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-		endTime = endTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-		#The error is here: "access_token" error when I try to call findTimeForMany.
-		times = cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = 3600)
->>>>>>> origin/master
 		for t in times:
 			roundBy = roundUpByTimeDelta(t['startTime'])
 			startEvent = t['startTime']
