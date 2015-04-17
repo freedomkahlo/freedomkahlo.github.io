@@ -40,6 +40,7 @@ def add(request):
 	end_date=request.POST.get('end_date', '')
 	start_time=request.POST.get('start_time', '')
 	end_time=request.POST.get('end_time', '')
+	time_length=request.POST.get('time_length', '')
 	creator=request.POST.get('creator', '')
 
 	invitees = [x for x in request.POST.get('invitees', '').split(' ') if x.replace(' ', '') != '']
@@ -48,7 +49,7 @@ def add(request):
 		msg = 'Duplicate invitees included.'
 		return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-			'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+			'end_time':end_time, 'time_length':time_length, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
 
 	for i in invitees:
 		try:
@@ -58,19 +59,19 @@ def add(request):
 				msg = 'Cannot invite yourself to your own event.'
 				return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
 					'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-					'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+					'end_time':end_time, 'time_length':time_length,'creator':creator, 'invitees':request.POST.get('invitees', '')})
 
 		except User.DoesNotExist as e:
 			latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 			msg = 'User: %s does not exist' % i
 			return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
 				'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-				'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+				'end_time':end_time, 'time_length':time_length,'creator':creator, 'invitees':request.POST.get('invitees', '')})
 
 
 	is_scheduled=False
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
-		start_time=start_time, end_time=end_time, creator=creator)
+		start_time=start_time, end_time=end_time, time_length=time_length, creator=creator)
 
 	#try catch here check validity
 	try:
@@ -79,7 +80,7 @@ def add(request):
 		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 		return render(request, 'events/index.html', {'error': e[0], 'latest_event_list': latest_event_list,
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-			'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+			'end_time':end_time, 'time_length':time_length,'creator':creator, 'invitees':request.POST.get('invitees', '')})
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
 
 	#nstr = e.creator + " has invited you to " + e.title + "!" 
