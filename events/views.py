@@ -124,8 +124,8 @@ def manageCreator(request):
 
 	
 		#TEMPORARY
-		startTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %H:%M %p')
-		endTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %H:%M %p')
+		startTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
+		endTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
 		startTime = startTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
 		endTime = endTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
 		#The error is here: "access_token" error when I try to call findTimeForMany.
