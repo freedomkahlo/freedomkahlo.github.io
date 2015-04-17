@@ -34,18 +34,45 @@ def detail(request, instance_id):
 	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
-def add(request):
+def add(request):	
 	title=request.POST.get('title', '')
 	desc=request.POST.get('desc', '')
 	start_date=request.POST.get('start_date', '')
 	end_date=request.POST.get('end_date', '')
 	start_time=request.POST.get('start_time', '')
 	end_time=request.POST.get('end_time', '')
+	time_length=request.POST.get('time_length', '')
 	creator=request.POST.get('creator', '')
+
+	invitees = [x for x in request.POST.get('invitees', '').split(' ') if x.replace(' ', '') != '']
+	if len(invitees) != len(set(invitees)):
+		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+		msg = 'Duplicate invitees included.'
+		return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
+			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+			'end_time':end_time, 'time_length':time_length, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+
+	for i in invitees:
+		try:
+			u = User.objects.get(username = i)
+			if u is User.objects.get(username = creator):
+				latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+				msg = 'Cannot invite yourself to your own event.'
+				return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
+					'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+					'end_time':end_time, 'time_length':time_length,'creator':creator, 'invitees':request.POST.get('invitees', '')})
+
+		except User.DoesNotExist as e:
+			latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+			msg = 'User: %s does not exist' % i
+			return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
+				'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+				'end_time':end_time, 'time_length':time_length,'creator':creator, 'invitees':request.POST.get('invitees', '')})
+
 
 	is_scheduled=False
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
-		start_time=start_time, end_time=end_time, creator=creator)
+		start_time=start_time, end_time=end_time, time_length=time_length, creator=creator)
 
 	#try catch here check validity
 	try:
@@ -54,21 +81,11 @@ def add(request):
 		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 		return render(request, 'events/index.html', {'error': e[0], 'latest_event_list': latest_event_list,
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-			'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+			'end_time':end_time, 'time_length':time_length,'creator':creator, 'invitees':request.POST.get('invitees', '')})
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
 
 	#nstr = e.creator + " has invited you to " + e.title + "!" 
 	#n = Notification(desc=nstr, pub_date=datetime.now())
-	invitees = [x for x in request.POST.get('invitees', '').split(', ') if x.replace(' ', '') != '']
-	for i in invitees:
-		try:
-			User.objects.get(username = i)
-		except User.DoesNotExist as e:
-			latest_event_list = Instance.objects.order_by('-pub_date')[:100]
-			msg = 'User: %s, does not exist' % i
-			return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
-				'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-				'end_time':end_time, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
 	for i in invitees:
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
@@ -136,6 +153,7 @@ def manageCreator(request):
 		for i in event.invitee_set.all():
 			many.append(i.name)
 
+<<<<<<< HEAD
 		duration = event.time_length.split(':')[0] * 3600 + event.time_length.split(':')[1] * 60
 
 		#TEMPORARY: fixed time zone
@@ -148,6 +166,15 @@ def manageCreator(request):
 
 		# 30 minute intervals for starting time; rounding start time; etc.
 		processedTimes = []
+=======
+		#TEMPORARY
+		startTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
+		endTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
+		startTime = startTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
+		endTime = endTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
+		#The error is here: "access_token" error when I try to call findTimeForMany.
+		times = cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = 3600)
+>>>>>>> origin/master
 		for t in times:
 			roundBy = roundUpByTimeDelta(t['startTime'])
 			startEvent = t['startTime']
@@ -175,18 +202,23 @@ def manageCreator(request):
 			cal.printAvail(t)
 		#possTime = PossTime()
 		#event.posstime_set.add(possTime)
-
 		return index(request)
+	if 'vetoPoss' in request.POST:
+		return vetoPoss(request)
 	else:
 		return index(request)
 
 def manageInvitee(request):
 	e_id = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, pk=e_id)
-
 	username = request.POST['username']
 	inviteeSet = event.invitee_set.all()
 	invitee = inviteeSet.get(name=username)
+
+	if 'vetoPoss' in request.POST:
+		invitee.hasVoted = True
+		invitee.save()
+		return vetoPoss(request)
 	
 	if 'accept' in request.POST:
 		invitee.rsvpAccepted = True
@@ -301,3 +333,14 @@ def user_login(request):
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/events/')
+
+def vetoPoss(request):
+	e_id = request.POST['eventID']
+	event = get_object_or_404(Instance, pk=e_id)
+	possTimes = event.posstime_set.all()
+
+	for pID in request.POST['vetoTimes']:
+		p = possTimes.get(id=pID)
+		p.nConflicts += 1
+		p.save()
+	return index(request)

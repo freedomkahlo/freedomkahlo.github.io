@@ -7,10 +7,11 @@ class Instance(models.Model):
 	title = models.CharField(max_length=20, default='')
 	desc = models.CharField(max_length=100, default='description')
 	pub_date = models.DateTimeField('date made')
-	start_date = models.CharField(max_length=20)
-	end_date = models.CharField(max_length=20)
-	start_time = models.CharField(max_length=20)
-	end_time = models.CharField(max_length=20)
+	start_date = models.CharField(max_length=20, default='')
+	end_date = models.CharField(max_length=20, default='')
+	start_time = models.CharField(max_length=20, default='')
+	end_time = models.CharField(max_length=20, default='')
+	time_length = models.CharField(max_length=20, default='')
 	creator = models.CharField(max_length=100, default='')
 
 	is_scheduled = models.BooleanField(default='False')
@@ -22,6 +23,8 @@ class Instance(models.Model):
 			raise ValidationError('Dates cannot be left blank.')
 		if self.start_time == '' or self.end_time == '':
 			raise ValidationError('Times cannot be left blank.')
+		if self.time_length == '':
+			raise ValidationError('Event Length cannot be left blank.')
 		startd = datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p')
 		endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p')
 		if (startd >= endd):
