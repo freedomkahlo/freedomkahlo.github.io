@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.utils import timezone
 from datetime import *
+from heapq import *
 import json
 import hashlib, random
 from backend import cal
@@ -108,6 +109,19 @@ def deleteInvitee(request):
 	return index(request)
 
 def manageCreator(request):
+	
+	roundToMin = 15 #minutes
+
+	def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
+		"""Round a datetime object to any time laps in seconds
+		dt : datetime.datetime object, default now.
+		roundTo : Closest number of seconds to round up to, default 15 minutes.
+		"""
+		seconds = (dt - dt.min).seconds
+		# // is a floor division, not a comment on following line:
+		rounding = (seconds+roundTo) // roundTo * roundTo
+		return datetime.timedelta(0,rounding-seconds,-dt.microsecond)
+
 	if 'delete' in request.POST:
 		return delete(request)
 	if 'getTimes' in request.POST:
@@ -122,17 +136,43 @@ def manageCreator(request):
 		for i in event.invitee_set.all():
 			many.append(i.name)
 
-	
-		#TEMPORARY
-		startTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
-		endTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
-		startTime = startTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-		endTime = endTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-		#The error is here: "access_token" error when I try to call findTimeForMany.
-		times = cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = 3600)
+		duration = event.time_length.split(':')[0] * 3600 + event.time_length.split(':')[1] * 60
+
+		#TEMPORARY: fixed time zone
+		startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
+		endInDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
+		startTime = startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
+		endTime = endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
+		
+		times = cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = duration)
+
+		# 30 minute intervals for starting time; rounding start time; etc.
+		processedTimes = []
 		for t in times:
+			roundBy = roundUpByTimeDelta(t['startTime'])
+			startEvent = t['startTime']
+			# if rounding makes the event go beyond endtime, then just add the time range and call it good.
+			if startEvent + roundBy + duration > endInDateTime:
+				endEvent = startEvent + timedelta(seconds=duration)
+				priorityValue = t['conflicts']*1000
+				processedTimes.append({priority=priorityValue, startTime=startEvent, endTime=endEvent, nConflicts=t['conflicts']})
+				continue
+			else:
+				startEvent += timedelta(minutes=roundToMin)
+				i = 0
+				while endEvent < t['endTime']:
+					priorityValue = t['conflicts']*1000 + i
+					processedTimes.append({priority=priorityValue, startTime=t['startTime'], endTime=t['endTime'], conflicts=t['conflicts']})
+					i += 1
+					startEvent += timedelta(minutes=roundToMin)
+					endEvent = startEvent + timedelta(seconds=duration)
+
+		list.sort(processedTimes)
+
+		for t in processedTimes:
 			possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
 			event.posstime_set.add(possTime)
+			cal.printAvail(t)
 		#possTime = PossTime()
 		#event.posstime_set.add(possTime)
 
