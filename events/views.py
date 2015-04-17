@@ -33,7 +33,7 @@ def detail(request, instance_id):
 	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
-def add(request):
+def add(request):	
 	title=request.POST.get('title', '')
 	desc=request.POST.get('desc', '')
 	start_date=request.POST.get('start_date', '')
@@ -122,7 +122,6 @@ def manageCreator(request):
 		for i in event.invitee_set.all():
 			many.append(i.name)
 
-	
 		#TEMPORARY
 		startTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
 		endTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
@@ -135,18 +134,23 @@ def manageCreator(request):
 			event.posstime_set.add(possTime)
 		#possTime = PossTime()
 		#event.posstime_set.add(possTime)
-
 		return index(request)
+	if 'vetoPoss' in request.POST:
+		return vetoPoss(request)
 	else:
 		return index(request)
 
 def manageInvitee(request):
 	e_id = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, pk=e_id)
-
 	username = request.POST['username']
 	inviteeSet = event.invitee_set.all()
 	invitee = inviteeSet.get(name=username)
+
+	if 'vetoPoss' in request.POST:
+		invitee.hasVoted = True
+		invitee.save()
+		return vetoPoss(request)
 	
 	if 'accept' in request.POST:
 		invitee.rsvpAccepted = True
@@ -261,3 +265,14 @@ def user_login(request):
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/events/')
+
+def vetoPoss(request):
+	e_id = request.POST['eventID']
+	event = get_object_or_404(Instance, pk=e_id)
+	possTimes = event.posstime_set.all()
+
+	for pID in request.POST['vetoTimes']:
+		p = possTimes.get(id=pID)
+		p.nConflicts += 1
+		p.save()
+	return index(request)

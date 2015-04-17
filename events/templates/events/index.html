@@ -186,9 +186,16 @@
                         {% for event in latest_event_list %}
                             {% if event.posstime_set.all|length > 0 %}
                                    <li><h4> {{ event.title }} </h4>
+                                    <form action="{% url 'events:manageCreator' %}" method="post">
+                                        {% csrf_token %}
+                                        <span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
+                                        <input type="submit" name="delete" id="delete_button" value="Delete Event"/>
+                                        <input type="submit" name="skedg" value="Skedg Event"/>
                                     {% for p in event.posstime_set.all %}
-                                        <p>{{ p }}</p>
+                                        <p>{{ p }}
+                                        <input type="radio" name="skedgeTime" value="{{ p.id }}"/></p>
                                     {% endfor %}
+                                    </form>
                                     </li>
                                 {% endif %}
                         {% endfor %}
@@ -225,6 +232,27 @@
             <!-- Events invited to -->
                 <div id="otherEvents">
                 <h2>Events Invited To</h2><br/><br/>
+                    <h3><ul id="stage2">
+                        {% for event in latest_event_list %}
+                            {% for invitee in event.invitee_set.all %}
+                                {% if invitee.name == user.username and event.posstime_set.all|length > 0 and not invitee.hasVoted %}
+
+                                   <li><h4> {{ event.title }} </h4>
+                                    <form action="{% url 'events:manageInvitee' %}" method="post">    
+                                    {% csrf_token %} 
+                                    <span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
+                                    <span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>                
+                                    {% for p in event.posstime_set.all %}
+                                        <p>{{ p }}
+                                        <input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
+                                    {% endfor %}
+                                        <input type="submit" name="vetoPoss" value="Veto"/>
+                                    </form>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        </ul></h3>
                     <h3>Accept/Decline Events:</h3>
                     {% if latest_event_list %}
                     <ul>
