@@ -172,14 +172,14 @@ def manageCreator(request):
 			if startEvent + roundBy + duration > endInDateTime:
 				endEvent = startEvent + timedelta(seconds=duration)
 				priorityValue = t['conflicts']*1000
-				processedTimes.append({priority=priorityValue, startTime=startEvent, endTime=endEvent, nConflicts=t['conflicts']})
+				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'nConflicts':t['conflicts']})
 				continue
 			else:
 				startEvent += timedelta(minutes=roundToMin)
 				i = 0
 				while endEvent < t['endTime']:
 					priorityValue = t['conflicts']*1000 + i
-					processedTimes.append({priority=priorityValue, startTime=t['startTime'], endTime=t['endTime'], conflicts=t['conflicts']})
+					processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'nConflicts':t['conflicts']})
 					i += 1
 					startEvent += timedelta(minutes=roundToMin)
 					endEvent = startEvent + timedelta(seconds=duration)
