@@ -152,9 +152,7 @@ def manageCreator(request):
 
 		for i in event.invitee_set.all():
 			many.append(i.name)
-		print event.time_length
-		print event.time_length.split(':')
-		duration = event.time_length.split(':')[0] * 3600 + event.time_length.split(':')[1] * 60
+		duration = int(event.time_length.split(':')[0]) * 3600 + int(event.time_length.split(':')[1]) * 60
 
 		#TEMPORARY: fixed time zone
 		startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
