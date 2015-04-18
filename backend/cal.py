@@ -220,6 +220,7 @@ def get_event_list(service, start, end, calendar_id=None):
 	if (calendar_id == None):
 		calendar_id = 'primary'
 	try:
+		##### Check if 'items exists'
 		return service.events().list(calendarId=calendar_id, timeMin=start, timeMax=end,
 			singleEvents = True, orderBy="startTime", fields='items(end,location,start,summary)').execute()['items']
 

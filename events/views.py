@@ -154,7 +154,7 @@ def manageCreator(request):
 			many.append(i.name)
 
 		duration = event.time_length.split(':')[0] * 3600 + event.time_length.split(':')[1] * 60
-
+		print duration
 		#TEMPORARY: fixed time zone
 		startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
 		endInDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
