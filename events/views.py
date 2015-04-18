@@ -137,7 +137,7 @@ def manageCreator(request):
 		seconds = (dt - dt.min).seconds
 		# // is a floor division, not a comment on following line:
 		rounding = (seconds+roundTo) // roundTo * roundTo
-		return datetime.timedelta(0,rounding-seconds,-dt.microsecond)
+		return timedelta(0,rounding-seconds,-dt.microsecond)
 
 	if 'delete' in request.POST:
 		return delete(request)
@@ -165,48 +165,30 @@ def manageCreator(request):
 		# 30 minute intervals for starting time; rounding start time; etc.
 		processedTimes = []
 		for t in times:
-			print "1"
 			roundBy = roundUpByTimeDelta(t['startTime'])
-			print "2"
 			startEvent = t['startTime']
-			print "3"
 			# if rounding makes the event go beyond endtime, then just add the time range and call it good.
 			#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
 			if startEvent + roundBy + duration > endInDateTime:
-				print "4"
 				endEvent = startEvent + timedelta(seconds=duration)
-				print "5"
 				priorityValue = t['conflicts']*1000
-				print "6"
 				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'nConflicts':t['conflicts']})
-				print "7"
 				continue
 			else:
-				print "8"
 				startEvent += timedelta(minutes=roundToMin)
-				print "9"
 				i = 0
 				while endEvent < t['endTime']:
-					print "10"
 					priorityValue = t['conflicts']*1000 + i
-					print "11"
 					processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'nConflicts':t['conflicts']})
-					print "12"
 					i += 1
 					startEvent += timedelta(minutes=roundToMin)
 					endEvent = startEvent + timedelta(seconds=duration)
-		print "13"
 		list.sort(processedTimes)
-		print "14"
 
 		for t in processedTimes:
-			print "15"
 			possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
-			print "16"
 			event.posstime_set.add(possTime)
-			print "17"
 			cal.printAvail(t)
-			print "18"
 		#possTime = PossTime()
 		#event.posstime_set.add(possTime)
 		return index(request)
