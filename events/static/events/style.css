@@ -104,6 +104,15 @@
 	    height: 175px;
 	}
 
+	ul.ui-autocomplete.ui-menu {
+		width:300px;
+		font-size:12px;
+	}
+
+	ul.ui-autocomplete.ui-menu li:first-child a{
+	    color:blue;
+	}
+
 /*********************************************************************************/
 /* Form Style                                                                    */
 /*********************************************************************************/
