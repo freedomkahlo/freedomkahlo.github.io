@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from datetime import *
 from django.contrib.auth.models import User
 
@@ -31,26 +32,11 @@ class Instance(models.Model):
 			raise ValidationError('Start time must occur before end time.')
 		if (startd < datetime.now() - timedelta(0, 60)):
 			raise ValidationError('Start date must occur in the future.')
-		self.pub_date = datetime.now()
+		self.pub_date = timezone.now()
 
-	def adminValidate(self):
-		if len(self.title.replace(' ', '')) == 0:
-			raise ValidationError('Title cannot be left blank.')
-		startd = datetime.combine(self.start_date, self.start_time)
-		endd = datetime.combine(self.start_date, self.start_time)
-		if (startd >= endd):
-			raise ValidationError('Start time must occur before end time.')
-		if (startd < datetime.now() - timedelta(0, 60)):
-			raise ValidationError('Start date must occur in the future.')
-		self.pub_date = datetime.now()
 
-	
-		return self.title + "\n" + str(self.start_date) + ", " + str(self.start_time) + " to " + str(self.end_date) + ", " + str(self.end_time)
 	def save(self, **kwargs):
-		if (type(self.start_date) == datetime):
-			self.adminValidate()
-		else:
-			self.regValidate()
+		self.regValidate()
 		return super(Instance, self).save(**kwargs)
 
 class PossTime(models.Model):

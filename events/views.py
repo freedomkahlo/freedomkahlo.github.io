@@ -39,49 +39,43 @@ def add(request):
 	desc=request.POST.get('desc', '')
 	start_date=request.POST.get('start_date', '')
 	end_date=request.POST.get('end_date', '')
-	start_time=request.POST.get('start_time', '')
-	end_time=request.POST.get('end_time', '')
+	time_range=request.POST.get('time_range', '')
 	time_length=request.POST.get('time_length', '')
 	creator=request.POST.get('creator', '')
 
+	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
+	returnMsg = {'error': '', 'latest_event_list': latest_event_list,
+			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'time_range':time_range,
+			'time_length':time_length, 'creator':creator, 'invitees':request.POST.get('invitees', '')}
+
 	invitees = [x for x in request.POST.get('invitees', '').split(' ') if x.replace(' ', '') != '']
 	if len(invitees) != len(set(invitees)):
-		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
-		msg = 'Duplicate invitees included.'
-		return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
-			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-			'end_time':end_time, 'time_length':time_length, 'creator':creator, 'invitees':request.POST.get('invitees', '')})
+		returnMsg['error'] = 'Duplicate invitees included.'
+		return render(request, 'events/index.html', returnMsg)
 
 	for i in invitees:
 		try:
 			u = User.objects.get(username = i)
 			if u is User.objects.get(username = creator):
-				latest_event_list = Instance.objects.order_by('-pub_date')[:100]
-				msg = 'Cannot invite yourself to your own event.'
-				return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
-					'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-					'end_time':end_time, 'time_length':time_length,'creator':creator, 'invitees':request.POST.get('invitees', '')})
+				returnMsg['error'] = 'Cannot invite yourself to your own event.'
+				return render(request, 'events/index.html', returnMsg)
 
 		except User.DoesNotExist as e:
-			latest_event_list = Instance.objects.order_by('-pub_date')[:100]
-			msg = 'User: %s does not exist' % i
-			return render(request, 'events/index.html', {'error': msg, 'latest_event_list': latest_event_list,
-				'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-				'end_time':end_time, 'time_length':time_length,'creator':creator, 'invitees':request.POST.get('invitees', '')})
+			returnMsg['error'] = 'User: %s does not exist' % i
+			return render(request, 'events/index.html', returnMsg)
 
 
 	is_scheduled=False
+	print time_range
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
-		start_time=start_time, end_time=end_time, time_length=time_length, creator=creator)
+		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1], time_length=time_length, creator=creator)
 
 	#try catch here check validity
 	try:
 		e.save()
 	except ValidationError as e:
-		latest_event_list = Instance.objects.order_by('-pub_date')[:100]
-		return render(request, 'events/index.html', {'error': e[0], 'latest_event_list': latest_event_list,
-			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-			'end_time':end_time, 'time_length':time_length,'creator':creator, 'invitees':request.POST.get('invitees', '')})
+		returnMsg['error'] = e[0]
+		return render(request, 'events/index.html', returnMsg)
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
 
 	#nstr = e.creator + " has invited you to " + e.title + "!" 
