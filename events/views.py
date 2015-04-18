@@ -152,11 +152,18 @@ def manageCreator(request):
 
 		#TEMPORARY: fixed time zone
 		startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
-		endInDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
-		startTime = startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-		endTime = endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
+		endInDateTime = datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
+		finalEndDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
 		
-		times = cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = duration)
+		times = []
+		while (endInDateTime <= finalEndDateTime):
+			startTime = startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
+			endTime = endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
+			
+			times = times + cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = duration)
+			startInDateTime = startInDateTime + timedelta(1, 0, 0)
+			endInDateTime = endInDateTime + timedelta(1, 0, 0)
+
 		print times
 		# 30 minute intervals for starting time; rounding start time; etc.
 		processedTimes = []

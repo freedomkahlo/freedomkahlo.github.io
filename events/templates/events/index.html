@@ -119,14 +119,6 @@
 
     <script>
         $(function(){
-            $('#starttime12').combodate({
-                firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
-                minuteStep: 5
-            });  
-            $('#endtime12').combodate({
-                firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
-                minuteStep: 5
-            }); 
             $('#timelength').combodate({
                 firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
                 minuteStep: 15
@@ -142,7 +134,7 @@
                 min: 0,
                 max: 1440,
                 step: 15,
-                values: [ 840, 1020 ], //or whatever default time you want
+                values: [ 840, 1020 ], //2pm to 5pm
                 slide: function(e, ui) {
                     var hours1 = Math.floor(ui.values[0] / 60);
                     var minutes1 = ui.values[0] - (hours1 * 60);
