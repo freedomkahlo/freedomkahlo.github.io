@@ -66,7 +66,9 @@ def add(request):
 
 
 	is_scheduled=False
-	print time_range
+	if (time_range == ''):
+		returnMsg['error'] = 'Time Range Cannot Be Blank'
+		return render(request, 'events/index.html', returnMsg)
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
 		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1], time_length=time_length, creator=creator)
 

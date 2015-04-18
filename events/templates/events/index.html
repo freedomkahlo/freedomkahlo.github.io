@@ -19,10 +19,18 @@
     <!-- onClick -->
     <script>
     $(document).ready(function(){
-        $('#createPage, #eventsPage').hide();
+        if (typeof localStorage['currPage'] != 'undefined') {
+            $("#wrapper").children("div:eq('" + localStorage['currPage'] + "')").show().siblings().hide();
+        }
+        else {
+             $("#wrapper").children("div:eq('" + 0 + "')").show().siblings().hide();
+         }
         $(".side-nav li").each(function(i) {
             $(this).click(function() {
                 $("#wrapper").children("div:eq('" + i + "')").show().siblings().hide();
+                if(localStorage) {
+                    localStorage['currPage'] = i;
+                }
             });
         }); 
     });
