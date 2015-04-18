@@ -176,6 +176,7 @@ def manageCreator(request):
 				continue
 			else:
 				startEvent += timedelta(minutes=roundToMin)
+				endEvent = startEvent + timedelta(seconds=duration)
 				i = 0
 				while endEvent < t['endTime']:
 					priorityValue = t['conflicts']*1000 + i
