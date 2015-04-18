@@ -19,8 +19,8 @@
     <!-- onClick -->
     <script>
     $(document).ready(function(){
-        if (typeof localStorage['currPage'] != 'undefined') {
-            $("#wrapper").children("div:eq('" + localStorage['currPage'] + "')").show().siblings().hide();
+        if (typeof sessionStorage['currPage'] == 'string' && $.inArray(sessionStorage['currPage'], ['0', '1', '2']) > -1) {
+            $("#wrapper").children("div:eq('" + sessionStorage['currPage'] + "')").show().siblings().hide();
         }
         else {
              $("#wrapper").children("div:eq('" + 0 + "')").show().siblings().hide();
@@ -28,8 +28,8 @@
         $(".side-nav li").each(function(i) {
             $(this).click(function() {
                 $("#wrapper").children("div:eq('" + i + "')").show().siblings().hide();
-                if(localStorage) {
-                    localStorage['currPage'] = i;
+                if(sessionStorage) {
+                    sessionStorage['currPage'] = i;
                 }
             });
         }); 
