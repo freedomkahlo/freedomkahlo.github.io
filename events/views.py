@@ -189,7 +189,6 @@ def manageCreator(request):
 		for t in processedTimes:
 			possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
 			event.posstime_set.add(possTime)
-			cal.printAvail(t)
 		#possTime = PossTime()
 		#event.posstime_set.add(possTime)
 		return index(request)
