@@ -162,7 +162,7 @@ def manageCreator(request):
 		endTime = endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
 		
 		times = cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = duration)
-
+		print times
 		# 30 minute intervals for starting time; rounding start time; etc.
 		processedTimes = []
 		for t in times:
