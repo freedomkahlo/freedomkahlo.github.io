@@ -169,7 +169,7 @@ def manageCreator(request):
 			startEvent = t['startTime']
 			# if rounding makes the event go beyond endtime, then just add the time range and call it good.
 			#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
-			if startEvent + roundBy + duration > endInDateTime:
+			if startEvent + roundBy + timedelta(seconds=duration) > endInDateTime:
 				endEvent = startEvent + timedelta(seconds=duration)
 				priorityValue = t['conflicts']*1000
 				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'nConflicts':t['conflicts']})
