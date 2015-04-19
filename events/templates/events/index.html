@@ -307,11 +307,11 @@
 						{% for event in latest_event_list %}
 							{% if event.creator == user.username and event.posstime_set.all|length > 0 %}
 								   <li><h4> {{ event.title }} </h4>
-									<form action="{% url 'events:manageCreator' %}" method="post">
+									<form onsubmit="return validateSkedge(this);" action="{% url 'events:manageCreator' %}" method="post">
 										{% csrf_token %}
 										<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
 										<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
-										<input onclick="checkSkedge()" type="submit" name="skedg" value="Skedg Event"/>
+										<input type="submit" name="skedg" value="Skedg Event"/>
 									{% for p in event.posstime_set.all %}
 										{% if forloop.counter <= 3 %}
 											<p>{{ p }} ; Conflicts: {{ p.nConflicts }}
@@ -325,11 +325,20 @@
 										{% endif %}
 									{% endfor %}
 									<script>
-									function checkSkedge() {
-										if (!$("input[name='skedgeTime']:checked").val()) {
-											   alert('Nothing is checked!');
+									function validateSkedge(obj) {
+										var result = 0;
+										for (var i = 0; i < obj.skedgeTime.length; i++){
+											if (obj.skedgeTime[i].checked==true){
+												result = 1;
 											}
 										}
+										
+										if ( !result ){
+											alert('Yo, pick a time!');
+											return false;
+										}
+
+										return true;
 									</script>
 									</form>
 									</li>
