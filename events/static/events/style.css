@@ -29,7 +29,6 @@
 	#otherEvents{
 		width:40%;
 		float:right;
-		counter-reset: skedgeTime;
 	}
 
 	html, body

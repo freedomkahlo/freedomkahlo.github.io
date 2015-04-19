@@ -210,11 +210,10 @@ def manageCreator(request):
 				u = get_object_or_404(User, username=i.name)
 				u.notification_set.add(n)
 		peopleList.append(event.creator)
-		print request.POST['skedgeTime']
-		possIndex=(int(request.POST['skedgeTime'])-1)%3
+		possIndex=int(request.POST['skedgeTime'])
 		possEvents = event.posstime_set.all()
-		start = possEvents[possIndex].startTime
-		end = possEvents[possIndex].endTime
+		start = possEvents.get(id=possIndex).startTime
+		end = possEvents.get(id=possIndex).endTime
 		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
 		error(request, 'Your event has been successfully skedguled!')
 		event.delete()
