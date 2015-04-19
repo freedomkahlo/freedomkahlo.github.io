@@ -198,7 +198,8 @@ def manageCreator(request):
 		invitees = event.invitee_set.all()
 		peopleList = []
 		for i in invitees:
-			peopleList.append(i.name)
+			if i.rsvpAccepted:
+				peopleList.append(i.name)
 		peopleList.append(event.creator)
 		possIndex=(int(request.POST['skedgeTime'])-1)%3
 		possEvents = event.posstime_set.all()
