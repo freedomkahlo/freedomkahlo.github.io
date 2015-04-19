@@ -120,9 +120,6 @@ def delete(request):
 	event.delete()
 	return HttpResponseRedirect('/events/')
 
-def deleteInvitee(request):
-	return index(request)
-
 def manageCreator(request):
 	
 	roundToMin = 15 #minutes
@@ -191,7 +188,7 @@ def manageCreator(request):
 			event.posstime_set.add(possTime)
 		#possTime = PossTime()
 		#event.posstime_set.add(possTime)
-		return index(request)
+		return HttpResponseRedirect('/events/')
 	if 'vetoPoss' in request.POST:
 		return vetoPoss(request)
 	if 'skedg' in request.POST:			
@@ -215,9 +212,9 @@ def manageCreator(request):
 		start = possEvents.get(id=possIndex).startTime
 		end = possEvents.get(id=possIndex).endTime
 		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
-		error(request, 'Your event has been successfully skedguled!')
+		error(request, 'Your event has been successfully skedged!')
 		event.delete()
-		return index(request)
+		return HttpResponseRedirect('/events/')
 	else:
 		return index(request)
 
@@ -356,4 +353,4 @@ def vetoPoss(request):
 		p = possTimes.get(id=pID)
 		p.nConflicts += 1
 		p.save()
-	return index(request)
+	return HttpResponseRedirect('/events/')
