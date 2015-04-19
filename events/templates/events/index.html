@@ -305,7 +305,7 @@
 					<h3>Stage 2: What have people responded?</h3>
 					 <ul id="stage2">
 						{% for event in latest_event_list %}
-							{% if event.creator == user.username and event.is_scheduled %}
+							{% if event.creator == user.username and event.posstime_set.all|length > 0 %}
 								   <li><h4> {{ event.title }} </h4>
 									<form action="{% url 'events:manageCreator' %}" method="post">
 										{% csrf_token %}
@@ -342,13 +342,13 @@
 								{% endif %}
 						{% endfor %}
 						</ul>
-					<h3>Stage 1: View how many people have accepted your requests </h3>
+					<h3>Stage 1: View how many people have responded to your requests </h3>
 					{% if latest_event_list %}
 					<ul id="stage1">
 						{% for event in latest_event_list %}
 							<!-- not time efficient but works for reasonable amount of data -->
 							<li>
-							{% if event.creator == user.username and not event.is_scheduled %}
+							{% if event.creator == user.username or user.username == "admin" %}
 								<form action="{% url 'events:manageCreator' %}" method="post">
 									{% csrf_token %}
 									<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
@@ -439,6 +439,5 @@
 					{% endif %}
 			</div>
 		</div>
-		<p> <bold><a href="http://goo.gl/forms/yFULhAFLJk">Let us know what you think!</a> </bold></p>
 	</div>
 </body>
