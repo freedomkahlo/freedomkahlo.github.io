@@ -283,7 +283,7 @@ def findTimes(events, startTime, endTime, timeLength):
             currentConflicts -= 1
         heappop(h)
     if(len(h) == 0):
-        return [{'conflicts':0, 'startTime':startTime, 'endTime':endTime}]
+        return [{'conflicts':0, 'startTime':convertRoyTimeToDateTime(startTime), 'endTime':convertRoyTimeToDateTime(endTime)}]
     while (len(h) != 0 and h[0][0] <= endTime):
         if (h[0][0] - currentStart >= timeLength):
             freeTime.append({'conflicts':currentConflicts, 'startTime':
