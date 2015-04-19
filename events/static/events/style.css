@@ -119,9 +119,14 @@
 	    padding-left: 5px; //add this
 	}
 
-	#slider-range {
-		width: 500px;
+	#time_slider {
+		width: 50%;
 		margin: 0 auto;
+	}
+
+	#eventLengthSlider{
+		width: 50%;
+		margin:0 auto;
 	}
 
 /*********************************************************************************/
