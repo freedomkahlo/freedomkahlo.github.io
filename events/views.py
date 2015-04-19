@@ -215,7 +215,7 @@ def manageCreator(request):
 		start = possEvents[possIndex].startTime
 		end = possEvents[possIndex].endTime
 		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
-		
+		error(request, 'Your event has been successfully skedguled!')
 		event.delete()
 		return index(request)
 	else:
