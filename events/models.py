@@ -48,6 +48,7 @@ class PossTime(models.Model):
 	def __str__(self):
 		return self.startTime.strftime("%b %d %I:%M %p") + " to " + self.endTime.strftime("%b %d %I:%M %p")
 
+	@property
 	def strCreator(self):
 		return self.startTime.strftime("%b %d %I:%M %p") + " to " + self.endTime.strftime("%b %d %I:%M %p") + "-- Conflicts: " + str(self.nConflicts)
 
