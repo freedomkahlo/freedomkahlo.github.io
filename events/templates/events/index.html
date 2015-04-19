@@ -264,8 +264,10 @@
                                         <input type="submit" name="delete" id="delete_button" value="Delete Event"/>
                                         <input type="submit" name="skedg" value="Skedg Event"/>
                                     {% for p in event.posstime_set.all %}
-                                        <p>{{ p }}
-                                        <input type="radio" name="skedgeTime" value="{{ p.id }}"/></p>
+                                        {% if forloop.counter <= 3 %}
+                                            <p>{{ p }}
+                                            <input type="radio" name="skedgeTime" value="{{ p.id }}"/></p>
+                                        {% endif %}
                                     {% endfor %}
                                     </form>
                                     </li>
