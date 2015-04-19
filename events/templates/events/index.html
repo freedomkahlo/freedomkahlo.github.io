@@ -349,7 +349,7 @@
 						{% for event in latest_event_list %}
 							<!-- not time efficient but works for reasonable amount of data -->
 							<li>
-							{% if not event.is_scheduled and event.creator == user.username or user.username == "admin" %}
+							{% if event.creator == user.username and not event.is_scheduled %}
 								<form action="{% url 'events:manageCreator' %}" method="post">
 									{% csrf_token %}
 									<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
