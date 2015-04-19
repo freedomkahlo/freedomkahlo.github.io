@@ -299,7 +299,7 @@
 									{% for p in event.posstime_set.all %}
 										{% if forloop.counter <= 3 %}
 											<p>{{ p }} ; Conflicts: {{ p.nConflicts }}
-											<input type="radio" name="skedgeTime" value="{{ p.id }}"/></p>
+											<input type="radio" name="skedgeTime" id='skedgeTime' value="{{ p.id }}"/></p>
 										{% endif %}
 									{% endfor %}
 
