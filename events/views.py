@@ -195,6 +195,10 @@ def manageCreator(request):
 	if 'vetoPoss' in request.POST:
 		return vetoPoss(request)
 	if 'skedg' in request.POST:
+		if len(request.POST['skedgeTime']) == 0:
+			error(request, "Select a time, yo!")
+			return index(request)
+			
 		e_id = request.POST['eventID']
 		event = get_object_or_404(Instance, pk=e_id)
 		invitees = event.invitee_set.all()
