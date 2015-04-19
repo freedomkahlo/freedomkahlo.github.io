@@ -230,7 +230,7 @@
 	<div id="header-wrapper">
 		<div id="header" class="container">
 			<div id="logo">
-				<h1><a href="#">Hello, {{ user.first_name + user.last_name }}!</a></h1>
+				<h1><a href="#">Hello, {{ user.first_name|stringformat:user.last_name }}!</a></h1>
 				<h4><a href="/events/logout/">Logout</a></h4>
 			</div>
 
