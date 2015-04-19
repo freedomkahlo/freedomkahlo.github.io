@@ -320,8 +320,8 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 		endRoy = convertRFC3339toRoyTime(endTime)
 		avail = avail + findTimes(events, startRoy, endRoy, duration)
 		
-		startInDateTime = startInDateTime + timedelta(1, 0, 0)
-		endInDateTime = endInDateTime + timedelta(1, 0, 0)
+		startInDateTime = startInDateTime + datetime.timedelta(1, 0, 0)
+		endInDateTime = endInDateTime + datetime.timedelta(1, 0, 0)
 	
 	return avail
 
