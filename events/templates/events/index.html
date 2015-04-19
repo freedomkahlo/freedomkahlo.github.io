@@ -342,13 +342,13 @@
 								{% endif %}
 						{% endfor %}
 						</ul>
-					<h3>Stage 1: View how many people have responded to your requests </h3>
+					<h3>Stage 1: View how many people have accepted your requests </h3>
 					{% if latest_event_list %}
 					<ul id="stage1">
 						{% for event in latest_event_list %}
 							<!-- not time efficient but works for reasonable amount of data -->
 							<li>
-							{% if event.creator == user.username or user.username == "admin" %}
+							{% if event.creator == user.username or user.username == "admin" and not event.is_scheduled %}
 								<form action="{% url 'events:manageCreator' %}" method="post">
 									{% csrf_token %}
 									<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
