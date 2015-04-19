@@ -304,15 +304,24 @@ def findTimes(events, startTime, endTime, timeLength):
 # duration is in seconds
 ######!!!!! When we implement having multiple time ranges, we will have to 
 ########### do the timeStart and timeEnd as a list of tuple(timeStart, timeEnd)
-def findTimeForMany(usernameList, timeStart, timeEnd, duration):
+def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTime, duration):
 	events = []
 	for username in usernameList:
 		service = buildService(username)
-		events = events + (get_event_list(service=service, start=timeStart, end=timeEnd))
-
-	startRoy = convertRFC3339toRoyTime(timeStart)
-	endRoy = convertRFC3339toRoyTime(timeEnd)
-	avail = findTimes(events, startRoy, endRoy, duration)
+		events = events + (get_event_list(service=service, start=startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'),
+		 end=finalEndDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')))
+	avail = []
+	
+	#Get times for each interval
+	while (endInDateTime <= finalEndDateTime):
+		startTime = startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
+		endTime = endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
+		startRoy = convertRFC3339toRoyTime(timeStart)
+		endRoy = convertRFC3339toRoyTime(timeEnd)
+		avail = avail + findTimes(events, startRoy, endRoy, duration)
+		
+		startInDateTime = startInDateTime + timedelta(1, 0, 0)
+		endInDateTime = endInDateTime + timedelta(1, 0, 0)
 	
 	return avail
 

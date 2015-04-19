@@ -155,15 +155,8 @@ def manageCreator(request):
 		endInDateTime = datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
 		finalEndDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
 		
-		times = []
-		while (endInDateTime <= finalEndDateTime):
-			startTime = startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-			endTime = endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-			
-			times = times + cal.findTimeForMany(many, timeStart=startTime, timeEnd=endTime, duration = duration)
-			startInDateTime = startInDateTime + timedelta(1, 0, 0)
-			endInDateTime = endInDateTime + timedelta(1, 0, 0)
-
+		times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
+		
 		print times
 		# 30 minute intervals for starting time; rounding start time; etc.
 		processedTimes = []
