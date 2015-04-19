@@ -320,7 +320,6 @@
 										<a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
 										<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
 										<input type="submit" name="getTimes" value="Get Times" />
-
 										{% for invitee in event.invitee_set.all %}
 											{% if invitee.rsvpAccepted %}
 												<p> Responded: {{ invitee.name }} </p>
