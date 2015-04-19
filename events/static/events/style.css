@@ -29,6 +29,7 @@
 	#otherEvents{
 		width:40%;
 		float:right;
+		counter-reset: skedgeTime;
 	}
 
 	html, body
@@ -84,6 +85,12 @@
 		text-decoration: none;
 	}
 	
+	#login-box {
+		position: relative;
+		margin: 0px auto;
+		float: right;
+		height: 0px;
+	}
 
 	.container
 	{

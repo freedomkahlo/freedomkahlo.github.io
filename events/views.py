@@ -210,6 +210,7 @@ def manageCreator(request):
 				u = get_object_or_404(User, username=i.name)
 				u.notification_set.add(n)
 		peopleList.append(event.creator)
+		print request.POST['skedgeTime']
 		possIndex=(int(request.POST['skedgeTime'])-1)%3
 		possEvents = event.posstime_set.all()
 		start = possEvents[possIndex].startTime
