@@ -306,7 +306,7 @@
 					<h3>Stage 2: What have people responded?</h3>
 					 <ul id="stage2">
 						{% for event in latest_event_list %}
-							{% if event.creator == user.username and event.posstime_set.all|length > 0 %}
+							{% if event.creator == user.username and event.is_scheduled %}
 								   <li><h4> {{ event.title }} </h4>
 									<form action="{% url 'events:manageCreator' %}" method="post">
 										{% csrf_token %}
@@ -349,7 +349,7 @@
 						{% for event in latest_event_list %}
 							<!-- not time efficient but works for reasonable amount of data -->
 							<li>
-							{% if event.creator == user.username or user.username == "admin" and not event.is_scheduled %}
+							{% if not event.is_scheduled and (event.creator == user.username or user.username == "admin") %}
 								<form action="{% url 'events:manageCreator' %}" method="post">
 									{% csrf_token %}
 									<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
