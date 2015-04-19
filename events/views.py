@@ -204,6 +204,8 @@ def manageCreator(request):
 		start = possEvents[possIndex].startTime
 		end = possEvents[possIndex].endTime
 		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
+		
+		event.delete()
 		return index(request)
 	else:
 		return index(request)
