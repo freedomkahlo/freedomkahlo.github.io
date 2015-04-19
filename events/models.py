@@ -49,14 +49,14 @@ class PossTime(models.Model):
 		# This is temporary
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
-		return self.startPrint.strftime("%b %d %I:%M %p") + " - " + self.endPrint.strftime("%I:%M %p")
+		return startPrint.strftime("%b %d %I:%M %p") + " - " + endPrint.strftime("%I:%M %p")
 
 	@property
 	def strCreator(self):
 		# This is temporary
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
-		return self.startPrint.strftime("%b %d %I:%M %p") + " - " + self.endPrint.strftime("%I:%M %p") + "-- Conflicts: " + str(self.nConflicts)
+		return startPrint.strftime("%b %d %I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "-- Conflicts: " + str(self.nConflicts)
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
