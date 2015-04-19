@@ -86,7 +86,7 @@ def add(request):
 		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
 		e.invitee_set.add(newInvitee)
 		emailTitle = '%s Has Invited You To %s!' % (e.creator, e.title)
-		emailMsg = 'Desc: %s, with %s. Login and respond!' % (e.desc, e.invitee_set.all)
+		emailMsg = 'Event description: %s, with %s. Login and respond!' % (e.desc, e.invitee_set.all())
 		send_mail(emailTitle, emailMsg, 'skedg.notify@gmail.com', [User.objects.get(username=i).email], fail_silently=False)
 
 	#	user = User.objects.get(username=i)
