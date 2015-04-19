@@ -40,13 +40,13 @@ def add(request):
 	start_date=request.POST.get('start_date', '')
 	end_date=request.POST.get('end_date', '')
 	time_range=request.POST.get('time_range', '')
-	time_length=request.POST.get('time_length', '')
+	event_length=request.POST.get('event_length', '')
 	creator=request.POST.get('creator', '')
 
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	returnMsg = {'error': '', 'latest_event_list': latest_event_list,
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'time_range':time_range,
-			'time_length':time_length, 'creator':creator, 'invitees':request.POST.get('invitees', '')}
+			'event_length':event_length, 'creator':creator, 'invitees':request.POST.get('invitees', '')}
 
 	invitees = [x for x in request.POST.get('invitees', '').split(' ') if x.replace(' ', '') != '']
 	if len(invitees) != len(set(invitees)):
@@ -70,7 +70,7 @@ def add(request):
 		returnMsg['error'] = 'Time Range Cannot Be Blank'
 		return render(request, 'events/index.html', returnMsg)
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
-		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1], time_length=time_length, creator=creator)
+		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1], event_length=event_length, creator=creator)
 
 	#try catch here check validity
 	try:
@@ -148,7 +148,7 @@ def manageCreator(request):
 
 		for i in event.invitee_set.all():
 			many.append(i.name)
-		duration = int(event.time_length.split(':')[0]) * 3600 + int(event.time_length.split(':')[1]) * 60
+		duration = int(event.event_length.split(':')[0]) * 3600 + int(event.event_length.split(':')[1]) * 60
 
 		#TEMPORARY: fixed time zone
 		startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')

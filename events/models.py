@@ -12,7 +12,7 @@ class Instance(models.Model):
 	end_date = models.CharField(max_length=20, default='')
 	start_time = models.CharField(max_length=20, default='')
 	end_time = models.CharField(max_length=20, default='')
-	time_length = models.CharField(max_length=20, default='')
+	event_length = models.CharField(max_length=20, default='')
 	creator = models.CharField(max_length=100, default='')
 
 	is_scheduled = models.BooleanField(default='False')
@@ -42,8 +42,8 @@ class Instance(models.Model):
 
 class PossTime(models.Model):
 	event = models.ForeignKey(Instance)
-	startTime = models.DateTimeField('start time', default=datetime.now())
-	endTime = models.DateTimeField('end time', default=datetime.now())
+	startTime = models.DateTimeField('start time')
+	endTime = models.DateTimeField('end time')
 	nConflicts = models.IntegerField(default = 0)
 
 	def __str__(self):
