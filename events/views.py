@@ -199,10 +199,11 @@ def manageCreator(request):
 		for i in invitees:
 			peopleList.append(i.name)
 		peopleList.append(event.creator)
-
-		fakeStart = datetime.now()
-		fakeEnd = datetime.now() + timedelta(hours=2)
-		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=fakeStart, endInDateTime=fakeEnd, organizer=event.creator, location=None,description=event.desc)
+		possIndex=int(requst.POST['skedgTime'])-1
+		possEvents = event.posstime_set.all()
+		start = possEvents[possIndex].startTime
+		end = possEvents[possIndex].endTime
+		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
 		return index(request)
 	else:
 		return index(request)

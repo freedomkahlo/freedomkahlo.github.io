@@ -329,8 +329,8 @@ def putTimeForMany(usernameList, eventName, startInDateTime, endInDateTime, orga
 	resultIDs = []
 	for username in usernameList:
 		service = buildService(username)
-		resultID = create_new_event(service=service, event_name=eventName, start=startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'), 
-			end=endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'), location=location, description=description, organizer=organizer)
+		resultID = create_new_event(service=service, event_name=eventName, start=startInDateTime.strftime('%Y-%m-%dT%H:%M:00-00:00'), 
+			end=endInDateTime.strftime('%Y-%m-%dT%H:%M:00-00:00'), location=location, description=description, organizer=organizer)
 		resultIDs.append(resultID)
 	return resultIDs
 	
