@@ -316,8 +316,8 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 	while (endInDateTime <= finalEndDateTime):
 		startTime = startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
 		endTime = endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-		startRoy = convertRFC3339toRoyTime(timeStart)
-		endRoy = convertRFC3339toRoyTime(timeEnd)
+		startRoy = convertRFC3339toRoyTime(startTime)
+		endRoy = convertRFC3339toRoyTime(endTime)
 		avail = avail + findTimes(events, startRoy, endRoy, duration)
 		
 		startInDateTime = startInDateTime + timedelta(1, 0, 0)
