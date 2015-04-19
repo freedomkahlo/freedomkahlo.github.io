@@ -30,7 +30,8 @@ class Instance(models.Model):
 		endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p')
 		if (startd >= endd):
 			raise ValidationError('Start time must occur before end time.')
-		if (startd < datetime.now() - timedelta(0, 60)):
+		# timedelta(hours=4) is a temporary fix. Forces EST.
+		if (startd < datetime.now() - timedelta(minutes=1) + timedelta(hours=4)):
 			raise ValidationError('Start date must occur in the future.')
 		self.pub_date = timezone.now()
 
