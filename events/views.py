@@ -5,6 +5,7 @@ from django.template import RequestContext
 from .models import Instance, Invitee, Notification, PossTime, UserProfile
 from .forms import UserForm, UserProfileForm
 from django.shortcuts import render_to_response
+from django.contrib.messages import error
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -91,7 +92,8 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	return redirect('/events/', {'alert':"Your event has been succesfully created!"})
+	error(request, 'Your event has been successfully created!')
+	return HttpResponseRedirect('/events/')
 
 def autocomplete_user(request):
     term = request.GET.get('term') #jquery-ui.autocomplete parameter

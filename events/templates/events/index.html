@@ -38,9 +38,11 @@
 
 	<script>
 		$(function(){
-			{% if alert %}
+			{% if messages %}
 				//Created event
-				alert('{{alert}}');
+				{% for message in messages %}
+					alert('{{message}}');
+				{% endfor %}
 			{% endif %}
 			//Set default for create event
 			{% if not time_range %}
