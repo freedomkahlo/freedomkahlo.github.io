@@ -170,7 +170,7 @@ def buildService(username):
 
 def create_new_event(service, event_name, start, end, location=None, description=None, organizer=None, calendar_id=None):
 	if (calendar_id == None):
-		calendar_id = CALENDAR_ID
+		calendar_id = 'primary'
 	try:
 		event = {
 			'start': {
@@ -195,7 +195,7 @@ def create_new_event(service, event_name, start, end, location=None, description
 
 def update_event(service, event_id, event_name=None, start=None, end=None, location=None, description=None, organizer=None, calendar_id=None):
 	if (calendar_id == None):
-		calendar_id = CALENDAR_ID
+		calendar_id = 'primary'
 	try:
 		event = service.events().get(calendarId=calendar_id, eventId=event_id).execute()
 		if (event_name != None):
@@ -230,7 +230,7 @@ def get_event_list(service, start, end, calendar_id=None):
 
 def get_event(service, event_id, calendar_id=None):
 	if (calendar_id == None):
-		calendar_id = CALENDAR_ID
+		calendar_id = 'primary'
 	try:
 		return service.events().get(calendarId=calendar_id, eventId=event_id).execute()
 	except AccessTokenRefreshError:
@@ -324,6 +324,16 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 		endInDateTime = endInDateTime + datetime.timedelta(1, 0, 0)
 	
 	return avail
+
+def putTimeForMany(usernameList, eventName, startInDateTime, endInDateTime, organizer=None, location=None,description=None):
+	resultIDs = []
+	for username in usernameList:
+		service = buildService(username)
+		resultID = create_new_event(service=service, event_name=eventName, start=startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'), 
+			end=endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'), location=location, description=description, organizer=organizer)['id']
+		resultIDs.append(resultID)
+	return resultIDs
+	
 
 def printAvail(avail):
 	for i in range(0, len(avail)):
