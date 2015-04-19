@@ -202,7 +202,7 @@ def manageCreator(request):
 
 		fakeStart = datetime.now()
 		fakeEnd = datetime.now() + timedelta(hours=2)
-		cal.putTimeForMany(usernameList=inviteeList, eventName=event.title, startInDateTime=fakeStart, endInDateTime=fakeEnd, organizer=event.creator, location=None,description=event.desc)
+		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=fakeStart, endInDateTime=fakeEnd, organizer=event.creator, location=None,description=event.desc)
 		return index(request)
 	else:
 		return index(request)
