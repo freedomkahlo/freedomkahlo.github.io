@@ -113,6 +113,17 @@
 	    color:blue;
 	}
 
+	.ui-slider .ui-slider-handle {
+	    height: 10px;
+	    width: 5px;
+	    padding-left: 5px; //add this
+	}
+
+	#slider-range {
+		width: 500px;
+		margin: 0 auto;
+	}
+
 /*********************************************************************************/
 /* Form Style                                                                    */
 /*********************************************************************************/
