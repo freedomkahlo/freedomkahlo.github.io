@@ -386,7 +386,7 @@
 							{% for invitee in event.invitee_set.all %}
 								<!-- not time efficient but works for reasonable amount of data -->
 								{% if invitee.name == user.username and not invitee.rsvpAccepted %}
-									{% i event.posstime_set.all|length > 0 %}
+									{% if event.posstime_set.all|length > 0 %}
 										<p id="warning" style="color:red">Your calendar will not be taken into account.</p>
 									{% endif %}
 									<form action="{% url 'events:manageInvitee' %}" method="post">
