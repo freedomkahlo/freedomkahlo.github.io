@@ -46,7 +46,10 @@ class PossTime(models.Model):
 	nConflicts = models.IntegerField(default = 0)
 
 	def __str__(self):
-		return self.startTime.strftime("%Y/%m/%d %H:%M:%S") + " to " + self.endTime.strftime("%Y/%m/%d %H:%M:%S") + "-- Conflicts: " + str(self.nConflicts)
+		return self.startTime.strftime("%b %d %I:%M %p") + " to " + self.endTime.strftime("%b %d %I:%M %p")
+
+	def strCreator(self):
+		return self.startTime.strftime("%b %d %I:%M %p") + " to " + self.endTime.strftime("%b %d %I:%M %p") + "-- Conflicts: " + str(self.nConflicts)
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
