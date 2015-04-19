@@ -199,7 +199,7 @@ def manageCreator(request):
 		for i in invitees:
 			peopleList.append(i.name)
 		peopleList.append(event.creator)
-		possIndex=int(request.POST['skedgTime'])-1
+		possIndex=int(request.POST['skedgeTime'])-1
 		possEvents = event.posstime_set.all()
 		start = possEvents[possIndex].startTime
 		end = possEvents[possIndex].endTime
