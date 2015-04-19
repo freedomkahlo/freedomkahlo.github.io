@@ -39,12 +39,14 @@
 	<script>
 		$(function(){
 			{% if alert %}
-				//whatever conditions and js code
+				//Created event
 				alert('{{alert}}');
 			{% endif %}
+			//Set default for create event
 			{% if not time_range %}
 				$("#time_range") = "2:00 PM-5:00 PM";
 				$("#event_length") = "1:0";
+			{% endif %}
 		});
 	</script>
 
