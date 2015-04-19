@@ -91,7 +91,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	return HttpResponseRedirect('/events/')
+	return redirect('/events/', {'alert':"Your event has been succesfully created!"})
 
 def autocomplete_user(request):
     term = request.GET.get('term') #jquery-ui.autocomplete parameter
