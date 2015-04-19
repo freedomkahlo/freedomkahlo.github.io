@@ -1,31 +1,64 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Register</title>
-    </head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% load staticfiles %}
 
-    <body>
-        <h1>Register</h1>
+<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
 
-        {% if registered %}
-        <strong>Thank you for registering! Check your email to verify your account.</strong>
-        <a href="/events/">Return to the homepage.</a><br />
-        {% else %}
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <form id="user_form" method="post" action="/events/register/"
-                enctype="multipart/form-data">
+<title>Skedg Register</title>
+</head>
 
-            {% csrf_token %}
+<body>
 
-            <!-- Display each form. The as_p method wraps each element in a paragraph
-                 (<p>) element. This ensures each element appears on a new line,
-                 making everything look neater. -->
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
+<div id="main">
+    <div id="header-wrapper">
+        <div id="header" class="container">
+            <div id="logo">
+                <h1><a href="#">Skedg.</a></h1>
+            </div>
+        </div>
+    </div>
 
-            <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Register" />
-        </form>
-        {% endif %}
-    </body>
+    <div class="wrapper">
+        <div id="banner" class="container">
+                
+        <h1> Register for an account!</h1><br>
+            {% if registered %}
+            <strong>Thank you for registering! Check your email to verify your account.</strong>
+            <a href="/events/">Return to the homepage.</a><br />
+            {% else %}
+
+            <form id="user_form" method="post" action="/events/register/" enctype="multipart/form-data" style:"margins: auto;">
+
+                {% csrf_token %}
+
+                <!-- Display each form. The as_p method wraps each element in a paragraph
+                     (<p>) element. This ensures each element appears on a new line,
+                     making everything look neater. -->
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+
+                <!-- Provide a button to click to submit the form. -->
+                <input type="submit" name="submit" value="Register" />
+            </form>
+            {% endif %}
+        </div>
+        <div id="welcome" class="container">
+            <div class="title">
+                <h2>Welcome to Skedg.</h2>
+            </div>
+            <p>A new way to look at your calendar. Let us deal with your Skedge. Jonathan is the bomb.com.</p>
+        </div>
+    </div>
+
+    <div id="footer">
+        Yeah ok social media and stuff will go here eventually...
+    </div>
+
+    <div id="copyright">
+        <p> "All rights reserverd. Whatever." </p>
+    </div>
+</body>
 </html>
