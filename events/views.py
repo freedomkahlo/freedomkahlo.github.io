@@ -147,7 +147,8 @@ def manageCreator(request):
 		many.append(event.creator)
 
 		for i in event.invitee_set.all():
-			many.append(i.name)
+			if i.rsvpAccepted:
+				many.append(i.name)
 		duration = int(event.event_length.split(':')[0]) * 3600 + int(event.event_length.split(':')[1]) * 60
 
 		#TEMPORARY: fixed time zone
