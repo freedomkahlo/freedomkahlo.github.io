@@ -324,6 +324,12 @@
 										<p> Not responded: {{ i }} </p>
 										{% endif %}
 									{% endfor %}
+
+									<script>
+									if (!$("input[name='skedgeTime']:checked").val()) {
+										   alert('Nothing is checked!');
+										}
+									</script>
 									</form>
 									</li>
 								{% endif %}
