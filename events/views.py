@@ -70,6 +70,15 @@ def add(request):
 	if (time_range == ''):
 		returnMsg['error'] = 'Time Range Cannot Be Blank'
 		return render(request, 'events/index.html', returnMsg)
+
+	#Parse the time range
+	timeSplit = event_length.split()
+	if len(timeSplit) == 4: #both hours and minutes
+		event_length = timeSplit[0] + ':' + timeSplit[2]
+	elif timeSplit[1][0] == 'h': #only hours
+		event_length = timeSplit[0] + ':0'
+	else:
+		event_length = '0:' + timeSplit[0]
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
 		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1], event_length=event_length, creator=creator)
 

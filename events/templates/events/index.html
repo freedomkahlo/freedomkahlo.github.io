@@ -47,7 +47,7 @@
 			//Set default for create event
 			{% if not time_range %}
 				$("#time_range").val("2:00 PM-5:00 PM");
-				$("#event_length").val("1:0");
+				$("#event_length").val("1 hour 30 minutes");
 				//Get current date
 				var d = new Date();
 				var dString = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
@@ -150,12 +150,16 @@
 	<!-- JQuery Time Picker-->
 	<script>
 		$(function(){
+			var times = $("#time_range").val().split('-');
+			var start_minutes = Date.parse("January 1, 1970, " + times[0] + " UTC") / (60 * 1000);
+			var end_minutes = Date.parse("January 1, 1970, " + times[1] + " UTC") / (60 * 1000);
+			var start = 100;
 			$( "#time_slider" ).slider({
 				range: true,
 				min: 0,
 				max: 1440,
 				step: 15,
-				values: [ 840, 1020 ], //2pm to 5pm
+				values: [start_minutes, end_minutes], //Set it to the current time
 				slide: function(e, ui) {
 					var hours1 = Math.floor(ui.values[0] / 60);
 					var minutes1 = ui.values[0] - (hours1 * 60);
@@ -218,31 +222,40 @@
 	<!-- Slider for event length -->
 	<script>
 		$(function(){
-		$("#eventLengthSlider").slider(
-		{
-			value:60,
-			min: 0,
-			max: 720,
-			step: 15,
-			slide: function( event, ui ) {
-				var hours = Math.floor(ui.value / 60);
-				var minutes = ui.value - (hours * 60);
-
-				var output = "";
-				if (hours == 1)
-					output = output + "1 hour";
-				if (hours > 1)
-					output = output + hours + " hours";
-
-				if (minutes > 0) {
-					if (hours > 0)
-						output = output + " and ";
-					output = output + minutes + " minutes";
-				}
-				$( "#event_length" ).val(output);
-				$("#event_length").val(hours + ":" + minutes);
+			var eventLength = $("#event_length").val().split(' ');
+			var lengthPos;
+			if (eventLength.length == 4)
+				lengthPos = parseInt(eventLength[0]) * 60 + parseInt(eventLength[2]);
+			else {
+				if (eventLength[1].charAt(0) == 'h') //only hours
+					lengthPos = parseInt(eventLength[0]) * 60;
+				else //Only minutes
+					lengthPos = parseInt(eventLength[0]);
 			}
-		});
+			$("#eventLengthSlider").slider(
+			{
+				value:lengthPos,
+				min: 0,
+				max: 720,
+				step: 15,
+				slide: function( event, ui ) {
+					var hours = Math.floor(ui.value / 60);
+					var minutes = ui.value - (hours * 60);
+
+					var output = "";
+					if (hours == 1)
+						output = output + "1 hour";
+					if (hours > 1)
+						output = output + hours + " hours";
+
+					if (minutes > 0) {
+						if (hours > 0)
+							output = output + " ";
+						output = output + minutes + " minutes";
+					}
+					$( "#event_length" ).val(output);
+				}
+			});
 		});
 	</script>
 </head>
