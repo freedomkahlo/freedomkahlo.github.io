@@ -5,7 +5,7 @@ from django.template import RequestContext
 from .models import Instance, Invitee, Notification, PossTime, UserProfile
 from .forms import UserForm, UserProfileForm
 from django.shortcuts import render_to_response
-from django.contrib.messages import error
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -92,7 +92,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	error(request, 'Your event has been successfully created!')
+	messages.success(request, 'Your event has been successfully created!')
 	return HttpResponseRedirect('/events/')
 
 def autocomplete_user(request):
@@ -212,7 +212,7 @@ def manageCreator(request):
 		start = possEvents.get(id=possIndex).startTime
 		end = possEvents.get(id=possIndex).endTime
 		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
-		error(request, 'Your event has been successfully skedged!')
+		messages.success(request, 'Your event has been successfully skedged!')
 		event.delete()
 		return HttpResponseRedirect('/events/')
 	else:
@@ -312,6 +312,7 @@ def register_confirm(request, activation_key):
 	user = user_profile.user
 	user.is_active=True
 	user.save()
+	messages.success(request, "Your account has been successfully activated!")
 	return HttpResponseRedirect('/events/')
 
 def user_login(request):

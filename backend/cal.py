@@ -262,43 +262,43 @@ def convertRoyTimeToDateTime(RoyTime):
 #startTime and endTime are in RoyTime
 #timeLength in seconds
 def findTimes(events, startTime, endTime, timeLength):
-    h = []
-    #print convertRFC3339toRoyTime(events[1]['start']['dateTime'])
-    if (endTime - startTime < timeLength or timeLength <= 0):
-        return h
-    for i in range(0, len(events)):
-      try:
-        heappush(h, [convertRFC3339toRoyTime(events[i]['start']['dateTime']), True])
-        heappush(h, [convertRFC3339toRoyTime(events[i]['end']['dateTime']), False])
-        #print events[i]['summary'], events[i]['start']['dateTime'], events[i]['end']['dateTime']
-      except:
-        pass
-    freeTime = []
-    currentConflicts = 0
-    currentStart = startTime
-    while (len(h) != 0 and h[0][0] <= startTime):
-        if (h[0][1]):
-            currentConflicts += 1
-        else:
-            currentConflicts -= 1
-        heappop(h)
-    if(len(h) == 0):
-        return [{'conflicts':0, 'startTime':convertRoyTimeToDateTime(startTime), 'endTime':convertRoyTimeToDateTime(endTime)}]
-    while (len(h) != 0 and h[0][0] <= endTime):
-        if (h[0][0] - currentStart >= timeLength):
-            freeTime.append({'conflicts':currentConflicts, 'startTime':
-                                 convertRoyTimeToDateTime(currentStart), 'endTime':convertRoyTimeToDateTime(h[0][0])})
-        currentStart = h[0][0]
-        while (len(h) != 0 and h[0][0] == currentStart):
-            if (h[0][1]):
-                currentConflicts += 1
-            else:
-                currentConflicts -= 1
-            heappop(h)
-    if (endTime - currentStart >= timeLength):
-        freeTime.append({'conflicts':currentConflicts, 'startTime':
-                             convertRoyTimeToDateTime(currentStart), 'endTime':convertRoyTimeToDateTime(endTime)})
-    return sorted(freeTime)
+	h = []
+	#print convertRFC3339toRoyTime(events[1]['start']['dateTime'])
+	if (endTime - startTime < timeLength or timeLength <= 0):
+		return h
+	for i in range(0, len(events)):
+		try:
+			heappush(h, [convertRFC3339toRoyTime(events[i]['start']['dateTime']), True])
+			heappush(h, [convertRFC3339toRoyTime(events[i]['end']['dateTime']), False])
+			#print events[i]['summary'], events[i]['start']['dateTime'], events[i]['end']['dateTime']
+		except:
+			pass
+	freeTime = []
+	currentConflicts = 0
+	currentStart = startTime
+	while (len(h) != 0 and h[0][0] <= startTime):
+		if (h[0][1]):
+			currentConflicts += 1
+		else:
+			currentConflicts -= 1
+		heappop(h)
+	if(len(h) == 0):
+		return [{'conflicts':0, 'startTime':convertRoyTimeToDateTime(startTime), 'endTime':convertRoyTimeToDateTime(endTime)}]
+	while (len(h) != 0 and h[0][0] <= endTime):
+		if (h[0][0] - currentStart >= timeLength):
+			freeTime.append({'conflicts':currentConflicts, 'startTime':
+								 convertRoyTimeToDateTime(currentStart), 'endTime':convertRoyTimeToDateTime(h[0][0])})
+		currentStart = h[0][0]
+		while (len(h) != 0 and h[0][0] == currentStart):
+			if (h[0][1]):
+				currentConflicts += 1
+			else:
+				currentConflicts -= 1
+			heappop(h)
+	if (endTime - currentStart >= timeLength):
+		freeTime.append({'conflicts':currentConflicts, 'startTime':
+							 convertRoyTimeToDateTime(currentStart), 'endTime':convertRoyTimeToDateTime(endTime)})
+	return sorted(freeTime)
 
 # timeStart and timeEnd are strings formatted RFC3339
 # duration is in seconds
@@ -350,11 +350,11 @@ def main():
 	'''
 	if (sys.argv[0] == 'create'):
 		result = create_new_event(event_name = sys.argv[1], 
-	    					start = sys.argv[2], 
-	    					end = sys.argv[3], 
-	    					location = sys.argv[4],
-	    					description = sys.argv[5],
-	    					organizer = sys.argv[6])
+							start = sys.argv[2], 
+							end = sys.argv[3], 
+							location = sys.argv[4],
+							description = sys.argv[5],
+							organizer = sys.argv[6])
 		print json.dumps(result)
 
 	print create_new_event(event_name = 'ChillFest 2015', 
@@ -424,4 +424,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+	main()

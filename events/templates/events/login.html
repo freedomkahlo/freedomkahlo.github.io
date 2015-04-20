@@ -1,83 +1,93 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML>
+<html>
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 <title>Skedg Login</title>
 </head>
 
 <body>
-
+<script>
+	$(function(){
+		{% if messages %}
+			//Created event
+			{% for message in messages %}
+				alert('{{message}}');
+			{% endfor %}
+		{% endif %}
+	});
+</script>
 <div id="main">
-    <div id="header-wrapper">
-       <!--  <div id="login-box" class="login-popup">
-              <form method="post" class="signin" action="#">
-                    <fieldset class="textbox">
-                    <label class="username">
-                    <span>Username/email</span>
-                    <input id="username" name="username" value="" type="text" autocomplete="on" placeholder="Username">
-                    </label>
-                    <br />
-                    <label class="password">
-                    <span>Password</span>
-                    <input id="password" name="password" value="" type="password" placeholder="Password">
-                    </label>
-                    <br />
-                    <button class="submit button" type="button">Sign in</button>
-                    <p>
-                    <a class="forgot" href="#">Forgot your password?</a>
-                    </p>        
-                    </fieldset>
-              </form>
-        </div> -->
-        <div id="header" class="container">
-            <div id="logo">
-                <h1><a href="#">Skedg.</a></h1>
-            </div>
-        </div>
-    </div>
+	<div id="header-wrapper">
+	   <!--  <div id="login-box" class="login-popup">
+			  <form method="post" class="signin" action="#">
+					<fieldset class="textbox">
+					<label class="username">
+					<span>Username/email</span>
+					<input id="username" name="username" value="" type="text" autocomplete="on" placeholder="Username">
+					</label>
+					<br />
+					<label class="password">
+					<span>Password</span>
+					<input id="password" name="password" value="" type="password" placeholder="Password">
+					</label>
+					<br />
+					<button class="submit button" type="button">Sign in</button>
+					<p>
+					<a class="forgot" href="#">Forgot your password?</a>
+					</p>        
+					</fieldset>
+			  </form>
+		</div> -->
+		<div id="header" class="container">
+			<div id="logo">
+				<h1><a href="#">Skedg.</a></h1>
+			</div>
+		</div>
+	</div>
 
 
 
-    <div class="wrapper">
-            <div id="banner" class="container">
-                <table><tr>
-                    <td><img src={% static 'events/images/team.jpg' %} width="90%" alt="slideshow will go here eventually"></td>
-                    <td>
-                        <h3> Don't have an account? <br> <a href="./../register">Register here!</a></h3>
-                        <form id="login_form" method="post" action="/events/login/">
-                        {% csrf_token %}
-                        <p>
-                        Username: <input type="text" name="username" value="{{username}}" size="50" />
-                        <br />
-                        Password: <input type="password" name="password" value="" size="50" />
-                        <br />
-                        <input class="button button-small" type="submit" value="submit" />
-                        </p>
-                        </form>
-                        <font color='red'>{{invalidLogin}}</font>
-                    </td>
-                </tr></table>
-            </div>
-            <div id="welcome" class="container">
-                <div class="title">
-                    <h2>Welcome to Skedg.</h2>
-                </div>
-                <p>A new way to look at your calendar. Let us deal with your Skedge. Jonathan is the bomb.com.</p>
-            </div>
-    </div>
+	<div class="wrapper">
+			<div id="banner" class="container">
+				<table><tr>
+					<td><img src={% static 'events/images/team.jpg' %} width="90%" alt="slideshow will go here eventually"></td>
+					<td>
+						<h3> Don't have an account? <br> <a href="./../register">Register here!</a></h3>
+						<form id="login_form" method="post" action="/events/login/">
+						{% csrf_token %}
+						<p>
+						Username: <input type="text" name="username" value="{{username}}" size="50" />
+						<br />
+						Password: <input type="password" name="password" value="" size="50" />
+						<br />
+						<input class="button button-small" type="submit" value="submit" />
+						</p>
+						</form>
+						<font color='red'>{{invalidLogin}}</font>
+					</td>
+				</tr></table>
+			</div>
+			<div id="welcome" class="container">
+				<div class="title">
+					<h2>Welcome to Skedg.</h2>
+				</div>
+				<p>A new way to look at your calendar. Let us deal with your Skedge. Jonathan is the bomb.com.</p>
+			</div>
+	</div>
 
-    <div id="footer">
-        Yeah ok social media and stuff will go here eventually...
-    </div>
+	<div id="footer">
+		Yeah ok social media and stuff will go here eventually...
+	</div>
 
-    <div id="copyright">
-        <p> "All rights reserverd. Whatever." </p>
-        <p> <bold><a href="http://goo.gl/forms/yFULhAFLJk">Let us know what you think!</a> </bold></p>
-    </div>
+	<div id="copyright">
+		<p> "All rights reserverd. Whatever." </p>
+		<p> <bold><a href="http://goo.gl/forms/yFULhAFLJk">Let us know what you think!</a> </bold></p>
+	</div>
 </body>
 </html>
