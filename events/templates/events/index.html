@@ -325,12 +325,13 @@
 					 <ul id="stage2">
 						{% for event in latest_event_list %}
 							{% if event.creator == user.username and event.posstime_set.all|length > 0 %}
-								   <li><h4> {{ event.title }} </h4>
+								   <li><h4>Event Name: {{ event.title }} </h4>
 									<form action="{% url 'events:manageCreator' %}" method="post">
 										{% csrf_token %}
 										<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
 										<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
 										<input onclick="checkSkedge()" type="submit" name="skedg" value="Skedg Event"/>
+										<br/><br/>
 									{% for p in event.posstime_set.all %}
 										{% if forloop.counter <= 3 %}
 											{% if forloop.counter == 1 %}
@@ -344,11 +345,13 @@
 										{% endif %}
 									{% endfor %}
 
+									Not responded: 
 									{% for i in event.invitee_set.all %}
 										{% if not i.hasVoted %}
-										<p> Not responded: {{ i }} </p>
+										{{ i }}
 										{% endif %}
 									{% endfor %}
+									<br/><br/>
 									<script>
 									function checkSkedge() {
 										if (!$("input[name='skedgeTime']:checked").val()) {
@@ -372,15 +375,17 @@
 									{% csrf_token %}
 									<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
 									<li>
-										<a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
+										<bold> Event Name: </bold> <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a> <br/>
 										<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
 										<input type="submit" name="getTimes" value="Get Times" />
+										<br/> Not Responded:
 										{% for invitee in event.invitee_set.all %}
 											{% if not invitee.rsvpAccepted %}
-												<p> Not Responded: {{ invitee.name }} </p>
+												{{ invitee.name }}
 											{% endif %}
 										{% endfor %}
 									</li>
+									<br/>
 								</form>
 							{% endif %}</li>
 						{% endfor %}
@@ -389,14 +394,14 @@
 				</div>
 			<!-- Events invited to -->
 				<div id="otherEvents">
-				<h2>Events Invited To</h2><br/>
+				<h2>Events Invited To</h2><br/><br/>
 					<h3> Vote down times for approved events: </h3>
 					<h3><ul id="stage2">
 						{% for event in latest_event_list %}
 							{% for invitee in event.invitee_set.all %}
 								{% if invitee.name == user.username and event.posstime_set.all|length > 0 and invitee.rsvpAccepted and not invitee.hasVoted %}
 
-								   <li><h4> {{ event.title }} </h4>
+								   <li><h4>{{ event.title }} </h4>
 									<form action="{% url 'events:manageInvitee' %}" method="post">    
 									{% csrf_token %} 
 									<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
