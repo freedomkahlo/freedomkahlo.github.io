@@ -358,7 +358,7 @@ def vetoPoss(request):
 	e_id = request.POST['eventID']
 	event = get_object_or_404(Instance, pk=e_id)
 	possTimes = event.posstime_set.all()
-	requestTimes = [int(x) for x in request.POST['vetoTimes']]
+	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
 		p = possTimes.get(id=pID)
 		p.nConflicts += 1
