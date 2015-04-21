@@ -321,7 +321,7 @@
 		<div id="eventsPage" class="tabPage">
 			<div id="myEvents">
 				<h2>My Events</h2><br/><br/>
-					<h3>Stage 2: What have people responded?</h3>
+					<h3>Select a time for your events: </h3>
 					 <ul id="stage2">
 						{% for event in latest_event_list %}
 							{% if event.creator == user.username and event.posstime_set.all|length > 0 %}
@@ -361,7 +361,7 @@
 								{% endif %}
 						{% endfor %}
 						</ul>
-					<h3>Stage 1: View how many people have responded to your requests </h3>
+					<h3>Acceptances to your events: </h3>
 					{% if latest_event_list %}
 					<ul id="stage1">
 						{% for event in latest_event_list %}
@@ -389,7 +389,8 @@
 				</div>
 			<!-- Events invited to -->
 				<div id="otherEvents">
-				<h2>Events Invited To</h2><br/><br/>
+				<h2>Events Invited To</h2><br/>
+					<h3> Vote down times for approved events: </h3>
 					<h3><ul id="stage2">
 						{% for event in latest_event_list %}
 							{% for invitee in event.invitee_set.all %}
@@ -414,7 +415,7 @@
 							{% endfor %}
 						{% endfor %}
 						</ul></h3>
-					<h3>Accept/Decline Events:</h3>
+					<h3>Accept invites to events:</h3>
 					{% if latest_event_list %}
 					<ul>
 						{% for event in latest_event_list %}
@@ -440,7 +441,7 @@
 						<p>No events are available.</p>
 					{% endif %}
 
-					<h3>Pending Events:</h3>
+					<h3>Your pending events:</h3>
 					{% if latest_event_list %}
 					<ul>
 						{% for event in latest_event_list %}
