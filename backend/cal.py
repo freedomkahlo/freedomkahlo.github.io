@@ -300,6 +300,92 @@ def findTimes(events, startTime, endTime, timeLength):
 							 convertRoyTimeToDateTime(currentStart), 'endTime':convertRoyTimeToDateTime(endTime)})
 	return sorted(freeTime)
 
+#events is a list events. Events are a dictionary with fields string 'creator' and datetimes 'startTime', 'endTime'
+#startTime, endTime are both datetimes, timeLength is a timedelta
+#Returns a list of dictionaries, each with the fields: integer 'numFree', list of strings 'participants', datetime 'start/endTime'
+def findTimes2(events, startTime, endTime, timeLength):
+	eventList = []
+	if (endTime - startTime < timeLength or timeLength == timedelta(0)): #search interval too short
+		return eventList
+
+	#List of people who have events
+	people = []
+	#populate the event list with the events
+	for i in range(0, len(events)):
+		try:
+			eventList.append([events[i]['start']['dateTime'], True, events[i]['creator']])
+			eventList.append([events[i]['end']['dateTime'], False, events[i]['creator']])
+			people.append(events[i]['creator'])
+		except:
+			#Ignore events without a dateTime (all day events)
+			pass
+
+	eventList = sorted(eventList, key=lambda event:event[0]) #Sort events by the datetime
+	#List of dictionaries
+	freeTime = []
+	participants = 2 ** len(people) - 1 #The people who can attend, stored as bits
+	incr = 0 #current position in the eventList
+	busyMeter = [0 for x in range(len(people))] #Lists how many events each participant is in at a time
+
+	while incr < len(eventList) and eventList[incr][0] <= startTime: #Parse through all the events that start before the starttime
+		if eventList[incr][0]: #If it is an event start time
+			busyMeter[people.index(eventList[incr][2])] += 1
+			if busyMeter[people.index(eventList[incr][2])] == 1: #If this participant was free before
+				participants -= 2 ** people.index(eventList[incr][2])
+		else: #If event was an end time
+			busyMeter[people.index(eventList[incr][2])] -= 1
+			if busyMeter[people.index(eventList[incr][2])] == 0: #If this participant is now free
+				participants += 2 ** people.index(eventList[incr][2])
+		incr += 1
+
+	if incr == len(eventList): #If no events occur during the search time
+		return [{'numFree':len(people), 'participants':people, 'startTime':startTime, 'endTime':endTime}]
+
+	dateList = [[startTime, participants]] #Only save the unique start/end times along with who can make it starting at that time
+	while incr < len(eventList) and eventList[incr][0] <= endTime:
+		currTime = eventList[incr][0]
+		while incr < len(eventList) and eventList[incr][0] == currTime: #Parse through all the events that start or end at the current time
+			if eventList[incr][0]: #If it is an event start time
+				busyMeter[people.index(eventList[incr][2])] += 1
+				if busyMeter[people.index(eventList[incr][2])] == 1: #If this participant was free before
+					participants -= 2 ** people.index(eventList[incr][2])
+			else: #If event was an end time
+				busyMeter[people.index(eventList[incr][2])] -= 1
+				if busyMeter[people.index(eventList[incr][2])] == 0: #If this participant is now free
+					participants += 2 ** people.index(eventList[incr][2])
+			incr += 1
+		dateList.append([currTime, participants])
+	if dateList[-1][0] < endTime:
+		dateList.append([endTime, participants])
+
+	#Find the time intervals now
+	participants = -1
+	for i in range(len(dateList)):
+		if participants == dateList[i][1]:
+			pass
+		participants = dateList[i][1]
+		interval = findInterval(dateList, i)
+		peeps = getPeople(people, dateList[i][1])
+		freeTime.append({'numFree':len(peeps), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
+
+	return freeTime
+
+
+#Helper function for find Times2 which finds the time intervals for a given participant set
+def findInterval(dateList, curr):
+	start = curr
+	while start > 0 and dateList[start][1] & dateList[curr][1] == dateList[curr][1]:
+		start -= 1
+	end = curr
+	while end + 1 < len(dateList) and dateList[end][1] & dateList[curr][1] == dateList[curr][1]:
+		end += 1
+	return [start end]
+
+#Helper function for findTimes2 which, given a participant list in bit form, returns the list of participants in string form
+def getPeople(people, participants):
+	return [people[i] for i in range(len(people)) if participants & 2 ** i > 0]
+
+
 # timeStart and timeEnd are strings formatted RFC3339
 # duration is in seconds
 ######!!!!! When we implement having multiple time ranges, we will have to 
