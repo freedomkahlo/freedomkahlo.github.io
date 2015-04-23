@@ -368,7 +368,7 @@ def findTimes2(events, startTime, endTime, timeLength):
 		peeps = getPeople(people, dateList[i][1])
 		freeTime.append({'numFree':len(peeps), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
 
-	return freeTime
+	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)
 
 
 #Helper function for find Times2 which finds the time intervals for a given participant set
