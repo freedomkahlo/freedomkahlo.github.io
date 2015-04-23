@@ -11,4 +11,17 @@
 
 {% endif %}
 
+<!-- only if not in -->
+<form action="{% url 'events:manageInvitee' %}" method="post">   
+	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
+	<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span> 							
+	<input type="submit" name="join" value="Join Event"/>
+</form>
+
+<form action="{% url 'events:manageInvitee' %}" method="post">   
+	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
+	<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span> 							
+	<input type="submit" name="decline" value="Join Event"/>
+</form>
+
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
