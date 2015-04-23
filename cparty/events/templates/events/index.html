@@ -319,150 +319,21 @@
 		</div>
 
 		<div id="eventsPage" class="tabPage">
-			<div id="myEvents">
-				<h2>My Events</h2><br/><br/>
-					<h3>Select a time for your events: </h3>
-					 <ul id="stage2">
-						{% for event in latest_event_list %}
-							{% if event.creator == user.username and event.posstime_set.all|length > 0 %}
-								   <li><h4>Event Name: {{ event.title }} </h4>
-									<form action="{% url 'events:manageCreator' %}" method="post">
-										{% csrf_token %}
-										<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
-										<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
-										<input onclick="checkSkedge()" type="submit" name="skedg" value="Skedg Event"/>
-										<br/><br/>
-									{% for p in event.posstime_set.all %}
-										{% if forloop.counter <= 3 %}
-											{% if forloop.counter == 1 %}
-												<p>{{ p }} ; Conflicts: {{ p.nConflicts }}
-												<input type="radio" name="skedgeTime" value="{{ p.id }}" checked="checked"/></p>
-											{% else %}
-												<p>{{ p }} ; Conflicts: {{ p.nConflicts }}
-												<input type="radio" name="skedgeTime" value="{{ p.id }}"/></p>
-											{% endif %}
-											
-										{% endif %}
-									{% endfor %}
+			<h2>My Events</h2><br/><br/>
+				{% for event in latest_event_list %}
+					{% if event.creator == user.username %}
+						<bold> Event Name: </bold> <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a> <br/>
+					{% endif%}
+				{% endfor %}
 
-									Not responded: 
-									{% for i in event.invitee_set.all %}
-										{% if not i.hasVoted %}
-										{{ i }}
-										{% endif %}
-									{% endfor %}
-									<br/><br/>
-									<script>
-									function checkSkedge() {
-										if (!$("input[name='skedgeTime']:checked").val()) {
-											   alert('Nothing is checked!');
-											}
-										}
-									</script>
-									</form>
-									</li>
-								{% endif %}
-						{% endfor %}
-						</ul>
-					<h3>Acceptances to your events: </h3>
-					{% if latest_event_list %}
-					<ul id="stage1">
-						{% for event in latest_event_list %}
-							<!-- not time efficient but works for reasonable amount of data -->
-							<li>
-							{% if event.creator == user.username or user.username == "admin" %}
-								<form action="{% url 'events:manageCreator' %}" method="post">
-									{% csrf_token %}
-									<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
-									<li>
-										<bold> Event Name: </bold> <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a> <br/>
-										<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
-										<input type="submit" name="getTimes" value="Get Times" />
-										<br/> Not Responded:
-										{% for invitee in event.invitee_set.all %}
-											{% if not invitee.rsvpAccepted %}
-												{{ invitee.name }}
-											{% endif %}
-										{% endfor %}
-									</li>
-									<br/>
-								</form>
-							{% endif %}</li>
-						{% endfor %}
-					</ul>
-					{% endif %}
-				</div>
-			<!-- Events invited to -->
-				<div id="otherEvents">
-				<h2>Events Invited To</h2><br/><br/>
-					<h3> Vote down times for approved events: </h3>
-					<h3><ul id="stage2">
-						{% for event in latest_event_list %}
-							{% for invitee in event.invitee_set.all %}
-								{% if invitee.name == user.username and event.posstime_set.all|length > 0 and invitee.rsvpAccepted and not invitee.hasVoted %}
-
-								   <li><h4>{{ event.title }} </h4>
-									<form action="{% url 'events:manageInvitee' %}" method="post">    
-									{% csrf_token %} 
-									<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
-									<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>                
-									{% for p in event.posstime_set.all %}
-										{% if forloop.counter <= 3 %}
-											<p>{{ p }}
-											<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
-										{% endif %}
-									{% endfor %}
-										<input type="submit" name="vetoPoss" value="Veto"/>
-										<input type="submit" name="decline" value="Decline"/>
-									</form>
-									</li>
-								{% endif %}
-							{% endfor %}
-						{% endfor %}
-						</ul></h3>
-					<h3>Accept invites to events:</h3>
-					{% if latest_event_list %}
-					<ul>
-						{% for event in latest_event_list %}
-							{% for invitee in event.invitee_set.all %}
-								<!-- not time efficient but works for reasonable amount of data -->
-								{% if invitee.name == user.username and not invitee.rsvpAccepted %}
-									{% if event.posstime_set.all|length > 0 %}
-										<p id="warning" style="color:red">Your calendar will not be taken into account.</p>
-									{% endif %}
-									<form action="{% url 'events:manageInvitee' %}" method="post">
-									{% csrf_token %}
-									<li><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
-										<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"/></span>
-										<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>
-										<input type="submit" name="accept" value="Accept"/>
-										<input type="submit" name="decline" value="Decline"/></li>
-									</form>
-								{% endif %}
-							{% endfor %}
-						{% endfor %}
-					</ul>
-					{% else %}
-						<p>No events are available.</p>
-					{% endif %}
-
-					<h3>Your pending events:</h3>
-					{% if latest_event_list %}
-					<ul>
-						{% for event in latest_event_list %}
-							{% for invitee in event.invitee_set.all %}
-								<!-- not time efficient but works for reasonable amount of data -->
-								{% if invitee.name == user.username and invitee.rsvpAccepted and not event.isScheduled %}
-									<p><a href="{% url 'events:detail' event.id %}">{{ event.title }}</a></p>
-								{% endif %}
-							{% endfor %}
-						{% endfor %}
-					</ul>
-
-					{% else %}
-						<p>No events are available.</p>
-					{% endif %}
-			</div>
+			<h2>Other Events</h2><br/><br/>
+				{% for event in latest_event_list %}
+					{% for invitee in event.invitee_set.all %}
+						{% if invitee.name == user.username %}
+							<bold> Event Name: </bold> <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a> <br/>
+						{% endif%}
+					{% endfor %}
+				{% endfor %}
 		</div>
 	</div>
 </body>

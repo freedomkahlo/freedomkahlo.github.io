@@ -35,7 +35,6 @@ class Instance(models.Model):
 			raise ValidationError('Start date must occur in the future.')
 		self.pub_date = timezone.now()
 
-
 	def save(self, **kwargs):
 		self.regValidate()
 		return super(Instance, self).save(**kwargs)
@@ -61,9 +60,7 @@ class PossTime(models.Model):
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
-	userID = models.IntegerField(default='0')
 	name = models.CharField(max_length=100)
-	rsvpAccepted = models.BooleanField(default=None)
 	hasVoted = models.BooleanField(default=False)
 	def __str__(self):
 		return self.name

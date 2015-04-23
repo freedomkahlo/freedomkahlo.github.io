@@ -47,24 +47,7 @@ def add(request):
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	returnMsg = {'error': '', 'latest_event_list': latest_event_list,
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'time_range':time_range,
-			'event_length':event_length, 'creator':creator, 'invitees':request.POST.get('invitees', '')}
-
-	invitees = [x for x in request.POST.get('invitees', '').split(' ') if x.replace(' ', '') != '']
-	if len(invitees) != len(set(invitees)):
-		returnMsg['error'] = 'Duplicate invitees included.'
-		return render(request, 'events/index.html', returnMsg)
-
-	for i in invitees:
-		try:
-			u = User.objects.get(username = i)
-			if u is User.objects.get(username = creator):
-				returnMsg['error'] = 'Cannot invite yourself to your own event.'
-				return render(request, 'events/index.html', returnMsg)
-
-		except User.DoesNotExist as e:
-			returnMsg['error'] = 'User: %s does not exist' % i
-			return render(request, 'events/index.html', returnMsg)
-
+			'event_length':event_length, 'creator':creator}
 
 	is_scheduled=False
 	if (time_range == ''):
@@ -92,12 +75,6 @@ def add(request):
 
 	#nstr = e.creator + " has invited you to " + e.title + "!" 
 	#n = Notification(desc=nstr, pub_date=datetime.now())
-	for i in invitees:
-		newInvitee = Invitee(name=i, userID=User.objects.get(username=i).id, rsvpAccepted=False)
-		e.invitee_set.add(newInvitee)
-		emailTitle = '%s Has Invited You To %s!' % (e.creator, e.title)
-		emailMsg = 'Event description: %s, with %s. Login and respond!' % (e.desc, e.invitee_set.all())
-		send_mail(emailTitle, emailMsg, 'skedg.notify@gmail.com', [User.objects.get(username=i).email], fail_silently=False)
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
@@ -129,6 +106,7 @@ def delete(request):
 	event.delete()
 	return HttpResponseRedirect('/events/')
 
+#creator can boot someone, delete/skedge/getTimes on event.
 def manageCreator(request):
 	
 	roundToMin = 15 #minutes
@@ -142,6 +120,12 @@ def manageCreator(request):
 		# // is a floor division, not a comment on following line:
 		rounding = (seconds+roundTo) // roundTo * roundTo
 		return timedelta(0,rounding-seconds,-dt.microsecond)
+	if 'boot' in request.POST:
+		e_id = request.POST['eventID']
+		event = get_object_or_404(Instance, pk=e_id)
+		i_name = request.POST['invitee_name']
+		invitee = get_object_or_404(Invitee, name=i_name)
+		invitee.delete();
 
 	if 'delete' in request.POST:
 		return delete(request)
@@ -198,8 +182,6 @@ def manageCreator(request):
 		#possTime = PossTime()
 		#event.posstime_set.add(possTime)
 		return HttpResponseRedirect('/events/')
-	if 'vetoPoss' in request.POST:
-		return vetoPoss(request)
 	if 'skedg' in request.POST:			
 		e_id = request.POST['eventID']
 		event = get_object_or_404(Instance, pk=e_id)
@@ -227,23 +209,18 @@ def manageCreator(request):
 	else:
 		return index(request)
 
+#user can join, remove self, and vote
 def manageInvitee(request):
 	e_id = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, pk=e_id)
 	username = request.POST['username']
-	inviteeSet = event.invitee_set.all()
-	invitee = inviteeSet.get(name=username)
 
-	if 'vetoPoss' in request.POST:
-		invitee.hasVoted = True
+	if 'join' in request.POST:
+		invitee = Invitee(name=username)
 		invitee.save()
-		return vetoPoss(request)
-	
-	if 'accept' in request.POST:
-		invitee.rsvpAccepted = True
-		invitee.save()
+		event.invitee_set.add(invitee)
 		return HttpResponseRedirect('/events/')
-	else:
+	if 'decline' in request.POST:
 		ntstr = username + " has been removed from " + event.title
 		n = Notification(desc=ntstr, pub_date=datetime.now())
 		creator = get_object_or_404(User, username=event.creator)
@@ -251,6 +228,10 @@ def manageInvitee(request):
 		invitee.delete()
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		return HttpResponseRedirect('/events/')
+	if 'vote' in request.POST:
+		invitee.hasVoted = True
+		invitee.save()
+		return vetoPoss(request)	
 
 def manageNotification(request):
 	if 'dismiss' in request.POST:
