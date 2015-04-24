@@ -216,13 +216,19 @@ def update_event(service, event_id, event_name=None, start=None, end=None, locat
 	except AccessTokenRefreshError:
 		print ('Credentials have been revoked')
 
-def get_event_list(service, start, end, calendar_id=None):
-	if (calendar_id == None):
-		calendar_id = 'primary'
+def get_event_list(service, start, end):
 	try:
+		# first grab list of calendar names
+		calendar_list = service.calendarList().list(fields='items(id,summary)').execute()
+		calIDlist = [calendar_list_entry['id'] for calendar_list_entry in calendar_list['items']]
+
 		##### Check if 'items exists'
-		return service.events().list(calendarId=calendar_id, timeMin=start, timeMax=end,
-			singleEvents = True, orderBy="startTime", fields='items(end,location,start,summary)').execute()['items']
+		events = []
+		for calendar_id in calIDlist:
+			events += (service.events().list(calendarId=calendar_id, timeMin=start, timeMax=end,
+				singleEvents = True, orderBy="startTime", fields='items(end,location,start,summary)').execute()['items']
+
+		return events
 
 	except AccessTokenRefreshError:
 		print('Credentials have been revoked')
