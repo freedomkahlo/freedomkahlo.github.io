@@ -277,7 +277,7 @@
 			<h3> {{error}} </h3>
 				<form action="{% url 'events:add' %}" method="post">    
 					{% csrf_token %}
-					<span style="display: none;"><input type="text" name="creator" id="creator" value="{{ user.username }}"/></span> 
+					<span style="display: none;"><input type="text" name="username" id="creator" value="{{ user.username }}"/></span> 
 					<p>Title: <input type="text" name="title" id="" size="50" value="{{ title }}"></p>
 					Description: <br> <textarea type="text" style="resize:none" name="desc" cols="50" rows="3" id="" value="{{ desc }}"></textarea> <br> <br>
 					<p>Start Date: <input type="text" style="position:relative; z-index: 100000;border: 0; color: #666666; font-weight: bold;" name="start_date" id="from" value="{{ start_date }}"readonly></p>
