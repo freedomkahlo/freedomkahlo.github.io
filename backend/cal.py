@@ -225,7 +225,7 @@ def get_event_list(service, start, end):
 		##### Check if 'items exists'
 		events = []
 		for calendar_id in calIDlist:
-			events += (service.events().list(calendarId=calendar_id, timeMin=start, timeMax=end,
+			events += service.events().list(calendarId=calendar_id, timeMin=start, timeMax=end,
 				singleEvents = True, orderBy="startTime", fields='items(end,location,start,summary)').execute()['items']
 
 		return events
