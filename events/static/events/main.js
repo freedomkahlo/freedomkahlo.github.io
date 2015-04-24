@@ -1,4 +1,4 @@
-<script>
+
 	$(document).ready(function(){
 		if (typeof sessionStorage['currPage'] == 'string' && $.inArray(sessionStorage['currPage'], ['0', '1', '2']) > -1) {
 			$("#wrapper").children("div:eq('" + sessionStorage['currPage'] + "')").show().siblings().hide();
@@ -15,9 +15,7 @@
 			});
 		}); 
 	});
-	</script>
 
-	<script>
 		$(function(){
 			{% if messages %}
 				//Created event
@@ -36,9 +34,7 @@
 				$("#to").val(dString);
 			{% endif %}
 		});
-	</script>
 
-	<script>
 		$(document).ready(function(){
 			function split( val ) {
 				return val.split( / \s*/ );
@@ -95,10 +91,8 @@
 					}
 				}); 
 		});
-	</script>
 
-	<!-- JQuery Date Picker-->
-	<script>
+	/* JQuery Date Picker */
 		$(function() {
 			$( "#from" ).datepicker({
 				defaultDate: "+1w",
@@ -117,19 +111,15 @@
 				}
 			});
 		});
-	</script>
 
-	<script>
 		$(function(){
 			$('#timelength').combodate({
 				firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
 				minuteStep: 15
 			});  
 		});
-	</script>
 
-	<!-- JQuery Time Picker-->
-	<script>
+	/* JQuery Time Picker */
 		$(function(){
 			var times = $("#time_range").val().split('-');
 			var start_minutes = Date.parse("January 1, 1970, " + times[0] + " UTC") / (60 * 1000);
@@ -198,10 +188,8 @@
 				}
 			});
 		});
-	</script>
 
-	<!-- Slider for event length -->
-	<script>
+	/* Slider for event length */
 		$(function(){
 			var eventLength = $("#event_length").val().split(' ');
 			var lengthPos;
@@ -238,4 +226,3 @@
 				}
 			});
 		});
-	</script>
