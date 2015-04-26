@@ -28,6 +28,16 @@
 		</noscript>
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+		<script>
+			$(function(){
+				{% if messages %}
+					//Created event
+					{% for message in messages %}
+						alert('{{message}}');
+					{% endfor %}
+				{% endif %}
+			});
+		</script>
 	</head>
 	<body class="index">
 
@@ -96,11 +106,13 @@
 								</ul>
 								<div id = "id_of_div" class ="divs" style="display:none">
 									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
-									<form method="post" id="new_message" action="/messages">
-										<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
+									<form method="post" id="login_form" action="/events/login/">
+										{% csrf_token %}
+										<center><label for="username">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
-										<p><center><input type="submit" value="Login" name="login" id="login" class="button special" /></center></p>
+										<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
 									</form>
+									<font color='red'>{{invalidLogin}}</font>
 								</div>
 								<div id = "id_of_div2" class="divs" style="display:none">
 									<!-- <h2><strong><center>Register for an account</center></strong></h2> -->
