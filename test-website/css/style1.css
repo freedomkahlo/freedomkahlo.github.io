@@ -6,6 +6,7 @@
 	top: 0;
 	left: 0;
 	background: rgba(0,0,0,0.6);
+	z-index: 100;
 }
 
 /* Overlay closing cross */
@@ -21,7 +22,7 @@
 	text-indent: 200%;
 	color: transparent;
 	outline: none;
-	z-index: 10000000;
+	z-index: 1000;
 }
 
 /* Menu style */

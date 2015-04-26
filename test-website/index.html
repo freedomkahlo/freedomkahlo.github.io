@@ -19,29 +19,31 @@
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
 		<noscript>
-			<link href="css/bootstrapTheme.css" rel="stylesheet">
-			<link href="css/custom.css" rel="stylesheet">
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-wide.css" />
 			<link rel="stylesheet" href="css/style-noscript.css" />
-			<link rel="stylesheet" type="text/css" href="slick-1.5.0/slick/slick.css"/>
-			<link rel="stylesheet" type="text/css" href="slick-1.5.0/slick/slick-theme.css"/>
 		</noscript>
-
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
 	</head>
 	<body class="index">
+
 		<!-- Header -->
-			<header id="header" class="alt">
+			<header id="header" class="skel-layers-fixed">
 				<h1 id="logo"><a href="index.html">Skedg <span> - Let us check your schedule!  </span></a></h1>
 				<nav id="nav">
 					<ul>
 						<li class="current"><a href="index.html">Home</a></li>
-						<li class="current"><a href="event.html">Event</a></li>
-						<li><a href="#" class="button special">Register</a></li>
-						<li><a href="#" class="button special">Login</a></li>
+						<li class="submenu">
+							<a href="">Events</a>
+							<ul>
+								<li><a href="user.html">User</a></li>
+								<li><a href="event.html">Creator</a></li>
+								<li><a href="invitee.html">Invitee</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:;" id="trigger-overlay" class="special button">Login/Register</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -56,7 +58,6 @@
 					appropriate (<br />).
 				-->
 				<div class="inner">
-
 					<header>
 						<h2>SKEDG</h2>
 					</header>
@@ -69,13 +70,54 @@
 							<li><a href="#" class="button special">Create an Event</a></li>
 						</ul>
 					</footer>
-
 				</div>
 
 			</section>
 
 		<!-- Main -->
 			<article id="main">
+				<div class="content">
+					<section>
+						<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+						<link rel="stylesheet" type="text/css" href="css/demo.css" />
+						<link rel="stylesheet" type="text/css" href="css/style1.css" />
+						<!-- open/close -->
+						<br />
+						<div class="overlay overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register" style="margin-top: 100px;"> <br/ >
+								<ul class="buttons">
+									<li><a href="#id_of_div" class="links button special" id="trigger-overlay">Login</a></li> 
+									<li><a href="#id_of_div2" class="links button special" id="trigger-overlay">Register</a></li>
+									<br/ > 
+									<br />
+								</ul>
+								<div id = "id_of_div" class ="divs" style="display:none">
+									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
+									<form method="post" id="new_message" action="/messages">
+										<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
+										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<p><center><input type="submit" value="Login" name="login" id="login" class="button special" /></center></p>
+									</form>
+								</div>
+								<div id = "id_of_div2" class="divs" style="display:none">
+									<!-- <h2><strong><center>Register for an account</center></strong></h2> -->
+									<form method="post" id="new_message" action="/messages">
+										<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
+										<center><label for="name">Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="name" id="name" size="30" />
+										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%; height: 10%;" type="password" name="password" id="password" size="25" />
+										<p><center><input type="submit" value="Register" name="register" id="register" class="button special" /></center></p>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<link rel="stylesheet" href="css/skel.css" />
+						<link rel="stylesheet" href="css/style.css" />
+						<link rel="stylesheet" href="css/style-wide.css" />
+					</section>
+				</div>
 
 				<header class="special container">
 					<span class="icon fa-clock-o"></span>
@@ -90,37 +132,13 @@
 				</header>
 
 				<!-- One -->
-					<section class="wrapper style2 container special-alt">
+					<section class="wrapper style2 container special-alt" style="z-index: 100">
 						<div class="row 50%">
-							<div class="8u 12u(narrower)">
+							<div class="12u 12u(narrower)">
 								<header>
 									<h2>Hopefully we can put a <strong>carousel</strong> here... </h2>
 								</header>
 								<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu comteger ut fermentum lorem. Lorem ipsum dolor sit amet. Sed tristique purus vitae volutpat ultrices. eu elit eget commodo. Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo.</p>
-							</div>
-							<div id="demo">
-								<div class="container">
-									<div class="row">
-										<div class="span12">
-											<div id="owl-demo" class="owl-carousel">
-												<div class="item"><img src="http://canyouactually.com/wp-content/uploads/Ridiculous-Stock-Images-05-Optimized.jpg" alt="The Last of us"></div>
-												<div class="item"><img src="http://1.bp.blogspot.com/_wwqzK9LZN_A/TUvyYGEXdwI/AAAAAAAAB8o/eNkMMWQTQW8/s1600/Untitled.jpg" alt="GTA V"></div>
-												<div class="item"><img src="http://churchm.ag/wp-content/uploads/2014/10/Ridiculous-Stock-Images-01.jpg" alt="Mirror Edge"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="4u 12u(narrower) important(narrower)">
-								<ul class="featured-icons">
-									<li><span class="icon fa-clock-o"><span class="label">Feature 1</span></span></li>
-									<li><span class="icon fa-volume-up"><span class="label">Feature 2</span></span></li>
-									<li><span class="icon fa-laptop"><span class="label">Feature 3</span></span></li>
-									<li><span class="icon fa-inbox"><span class="label">Feature 4</span></span></li>
-									<li><span class="icon fa-lock"><span class="label">Feature 5</span></span></li>
-									<li><span class="icon fa-cog"><span class="label">Feature 6</span></span></li>
-								</ul>
-
 							</div>
 						</div>
 					</section>
@@ -133,60 +151,21 @@
 				</header>
 				<footer>
 					<ul class="buttons">
-						<li><a href="#" class="button"> Send suggestions </a></li>
+						<li><a href="http://goo.gl/forms/yFULhAFLJk" class="button"> Send suggestions </a></li>
 					</ul>
 				</footer>
 			</section>
-
-		<script type="text/javascript" src="slick-1.5.0/slick/slick.min.js"></script>
-		<script>
+	<script>
 		$(document).ready(function(){
-			$('.single-item').slick();
+		    $('a.links').click(function (e){
+			   e.preventDefault();
+			   var div_id = $('a.links').index($(this))
+			   $('.divs').hide().eq(div_id).show();
+			});
 		});
-		</script>
-		<link rel="stylesheet" href="css/owl.carousel.css" />
-		<link rel="stylesheet" href="css/owl.theme.css" />
-		<link href="css/prettify.css" rel="stylesheet">
-			<link rel="stylesheet" href="css/owl.transitions.css" />
-		<script src="js/bootstrap-collapse.js"></script>
-		<script src="js/bootstrap-transition.js"></script>
-		<script src="js/bootstrap-tab.js"></script>
-		    <script src="js/owl.carousel.js"></script>
-
-
-    <!-- Demo -->
-
-    <style>
-    #owl-demo .item img{
-        display: block;
-        width: 100%;
-        height: auto;
-    }
-    </style>
-
-    <script>
-    $(document).ready(function() {
-      $("#owl-demo").owlCarousel({
-
-      navigation : true,
-      slideSpeed : 300,
-      paginationSpeed : 400,
-      singleItem : true
-
-      // "singleItem:true" is a shortcut for:
-      // items : 1, 
-      // itemsDesktop : false,
-      // itemsDesktopSmall : false,
-      // itemsTablet: false,
-      // itemsMobile : false
-
-      });
-    });
-    </script>
-
-    <script src="js/bootstrap-collapse.js"></script>
-    <script src="js/bootstrap-transition.js"></script>
-    <script src="js/bootstrap-tab.js"></script>
-
+	</script>
+		<script src="js/modernizr.custom.js"></script>
+		<script src="js/classie.js"></script>
+		<script src="js/demo1.js"></script>
 	</body>
 </html>
