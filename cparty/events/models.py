@@ -14,7 +14,7 @@ class Instance(models.Model):
 	end_time = models.CharField(max_length=20, default='')
 	event_length = models.CharField(max_length=20, default='')
 	creator = models.CharField(max_length=100, default='')
-	eventID = models.CharField(max_length=32, default='')
+	eventID = models.CharField(max_length=40, default='')
 
 	is_scheduled = models.BooleanField(default='False')
 
