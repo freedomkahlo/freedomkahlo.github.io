@@ -294,7 +294,7 @@
 			<h2>My Events</h2><br/><br/>
 				{% for event in latest_event_list %}
 					{% if event.creator == user.username %}
-						<bold> Event Name: </bold> <a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> <br/>
+						<bold> Event Name: </bold> <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a> <br/>
 					{% endif%}
 				{% endfor %}
 
