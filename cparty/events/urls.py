@@ -4,7 +4,7 @@ from . import views
 from backend import cal
 
 urlpatterns = [
-	url(r'^events/(?P<eventID>\w+)/', views.detail, name='detail'),
+	url(r'^eventDetails/(?P<eventID>\w+)/', views.detail, name='detail'),
 	url(r'^add/', views.add, name='add'),
 	url(r'^manageCreator/', views.manageCreator, name='manageCreator'),
 	url(r'^manageInvitee/', views.manageInvitee, name='manageInvitee'),
