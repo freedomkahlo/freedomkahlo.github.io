@@ -30,7 +30,7 @@
 	<form action="{% url 'events:manageInvitee' %}" method="post">   
 		{% csrf_token %}
 		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
-		<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span> 		
+		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span> 		
 		<input type="submit" name="join" value="Join Event"/>					
 		<input type="submit" name="decline" value="Decline Events"/>
 		</form>
