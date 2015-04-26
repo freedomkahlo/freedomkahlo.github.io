@@ -1,93 +1,173 @@
 <!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-{% load staticfiles %}
+	<head>
+		{% load staticfiles %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
+		<title>Skedg - Let us check your skedg! </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="{% static "events/js/jquery.min.js" %}"></script>
+		<script src="{% static "events/js/jquery.dropotron.min.js" %}"></script>
+		<script src="{% static "events/js/jquery.scrolly.min.js" %}"></script>
+		<script src="{% static "events/js/jquery.scrollgress.min.js" %}"></script>
+		<script src="{% static "events/js/skel.min.js" %}"></script>
+		<script src="{% static "events/js/skel-layers.min.js" %}"></script>
+		<script src="{% static "events/js/init.js" %}"></script>
+		<noscript>
+			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+	</head>
+	<body class="index">
 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<!-- Header -->
+			<header id="header" class="skel-layers-fixed">
+				<h1 id="logo"><a href="index.html">Skedg <span> - Let us check your schedule!  </span></a></h1>
+				<nav id="nav">
+					<ul>
+						<li class="current"><a href="index.html">Home</a></li>
+						<li class="submenu">
+							<a href="">Events</a>
+							<ul>
+								<li><a href="user.html">User</a></li>
+								<li><a href="event.html">Creator</a></li>
+								<li><a href="invitee.html">Invitee</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:;" id="trigger-overlay" class="special button">Login/Register</a></li>
+					</ul>
+				</nav>
+			</header>
 
-<title>Skedg Login</title>
-</head>
+		<!-- Banner -->
+			<section id="banner">
 
-<body>
-<script>
-	$(function(){
-		{% if messages %}
-			//Created event
-			{% for message in messages %}
-				alert('{{message}}');
-			{% endfor %}
-		{% endif %}
-	});
-</script>
-<div id="main">
-	<div id="header-wrapper">
-	   <!--  <div id="login-box" class="login-popup">
-			  <form method="post" class="signin" action="#">
-					<fieldset class="textbox">
-					<label class="username">
-					<span>Username/email</span>
-					<input id="username" name="username" value="" type="text" autocomplete="on" placeholder="Username">
-					</label>
+				<!--
+					".inner" is set up as an inline-block so it automatically expands
+					in both directions to fit whatever's inside it. This means it won't
+					automatically wrap lines, so be sure to use line breaks where
+					appropriate (<br />).
+				-->
+				<div class="inner">
+					<header>
+						<h2>SKEDG</h2>
+					</header>
+					<p>This is <strong>Skedg</strong>, a novel
 					<br />
-					<label class="password">
-					<span>Password</span>
-					<input id="password" name="password" value="" type="password" placeholder="Password">
-					</label>
-					<br />
-					<button class="submit button" type="button">Sign in</button>
-					<p>
-					<a class="forgot" href="#">Forgot your password?</a>
-					</p>        
-					</fieldset>
-			  </form>
-		</div> -->
-		<div id="header" class="container">
-			<div id="logo">
-				<h1><a href="#">Skedg.</a></h1>
-			</div>
-		</div>
-	</div>
-
-
-
-	<div class="wrapper">
-			<div id="banner" class="container">
-				<table><tr>
-					<td><img src={% static 'events/images/team.jpg' %} width="90%" alt="slideshow will go here eventually"></td>
-					<td>
-						<h3> Don't have an account? <br> <a href="./../register">Register here!</a></h3>
-						<form id="login_form" method="post" action="/events/login/">
-						{% csrf_token %}
-						<p>
-						Username: <input type="text" name="username" value="{{username}}" size="50" />
-						<br />
-						Password: <input type="password" name="password" value="" size="50" />
-						<br />
-						<input class="button button-small" type="submit" value="submit" />
-						</p>
-						</form>
-						<font color='red'>{{invalidLogin}}</font>
-					</td>
-				</tr></table>
-			</div>
-			<div id="welcome" class="container">
-				<div class="title">
-					<h2>Welcome to Skedg.</h2>
+					event scheduler. </p>
+					<footer>
+						<ul class="buttons vertical">
+							<li><a href="#main" class="button fit scrolly">Learn more</a></li>
+							<li><a href="#" class="button special">Create an Event</a></li>
+						</ul>
+					</footer>
 				</div>
-				<p>A new way to look at your calendar. Let us deal with your Skedge. Jonathan is the bomb.com.</p>
-			</div>
-	</div>
 
-	<div id="footer">
-		Yeah ok social media and stuff will go here eventually...
-	</div>
+			</section>
 
-	<div id="copyright">
-		<p> "All rights reserverd. Whatever." </p>
-		<p> <bold><a href="http://goo.gl/forms/yFULhAFLJk">Let us know what you think!</a> </bold></p>
-	</div>
-</body>
+		<!-- Main -->
+			<article id="main">
+				<div class="content">
+					<section>
+						<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+						<link rel="stylesheet" type="text/css" href="css/demo.css" />
+						<link rel="stylesheet" type="text/css" href="css/style1.css" />
+						<!-- open/close -->
+						<br />
+						<div class="overlay overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register" style="margin-top: 100px;"> <br/ >
+								<ul class="buttons">
+									<li><a href="#id_of_div" class="links button special" id="trigger-overlay">Login</a></li> 
+									<li><a href="#id_of_div2" class="links button special" id="trigger-overlay">Register</a></li>
+									<br/ > 
+									<br />
+								</ul>
+								<div id = "id_of_div" class ="divs" style="display:none">
+									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
+									<form method="post" id="new_message" action="/messages">
+										<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
+										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<p><center><input type="submit" value="Login" name="login" id="login" class="button special" /></center></p>
+									</form>
+								</div>
+								<div id = "id_of_div2" class="divs" style="display:none">
+									<!-- <h2><strong><center>Register for an account</center></strong></h2> -->
+									<form method="post" id="new_message" action="/messages">
+										<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
+										<center><label for="name">Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="name" id="name" size="30" />
+										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%; height: 10%;" type="password" name="password" id="password" size="25" />
+										<p><center><input type="submit" value="Register" name="register" id="register" class="button special" /></center></p>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<link rel="stylesheet" href="css/skel.css" />
+						<link rel="stylesheet" href="css/style.css" />
+						<link rel="stylesheet" href="css/style-wide.css" />
+					</section>
+				</div>
+
+				<header class="special container">
+					<span class="icon fa-clock-o"></span>
+					<h2>Hate finding a <strong>time</strong> that works for everyone?
+					<br />
+					Introducing the new event scheduler, <strong>Skedg</strong>.</h2>
+					<p><strong>Skedg</strong> is synchronized with Google Calendar, and uses your calendar and
+					<br />
+					our algorithm to find the optimal meeting time for you and your friends.
+					<br />
+					Best of all, its easy and free to use! </p>
+				</header>
+
+				<!-- One -->
+					<section class="wrapper style2 container special-alt" style="z-index: 100">
+						<div class="row 50%">
+							<div class="12u 12u(narrower)">
+								<header>
+									<h2>Hopefully we can put a <strong>carousel</strong> here... </h2>
+								</header>
+								<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu comteger ut fermentum lorem. Lorem ipsum dolor sit amet. Sed tristique purus vitae volutpat ultrices. eu elit eget commodo. Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo.</p>
+							</div>
+						</div>
+					</section>
+			</article>
+
+		<!-- CTA -->
+			<section id="cta">
+				<header>
+					<h2>Please give us your <strong>feedback</strong>!</h2>
+				</header>
+				<footer>
+					<ul class="buttons">
+						<li><a href="http://goo.gl/forms/yFULhAFLJk" class="button"> Send suggestions </a></li>
+					</ul>
+				</footer>
+			</section>
+	<script>
+		$(document).ready(function(){
+		    $('a.links').click(function (e){
+			   e.preventDefault();
+			   var div_id = $('a.links').index($(this))
+			   $('.divs').hide().eq(div_id).show();
+			});
+		});
+	</script>
+		<script src="js/modernizr.custom.js"></script>
+		<script src="js/classie.js"></script>
+		<script src="js/demo1.js"></script>
+	</body>
 </html>
