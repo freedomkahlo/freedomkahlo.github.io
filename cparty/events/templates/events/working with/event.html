@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Skedg - Let us check your skedg! </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/jquery.scrolly.min.js"></script>
+		<script src="js/jquery.scrollgress.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-wide.css" />
+			<link rel="stylesheet" href="css/style-noscript.css" />
+			<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+	</head>
+	<body class="no-sidebar">
+
+		<!-- Header -->
+			<header id="header" class="skel-layers-fixed">
+				<h1 id="logo"><a href="index.html">Skedg <span> - Let us check your schedule!  </span></a></h1>
+				<nav id="nav">
+					<ul>
+						<li ><a href="index.html">Home</a></li>
+						<li class="submenu current">
+							<a href="">Events</a>
+							<ul>
+								<li><a href="user.html">User</a></li>
+								<li><a href="event.html">Creator</a></li>
+								<li><a href="invitee.html">Invitee</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:;" id="trigger-overlay" class="special button">Login/Register</a></li>
+					</ul>
+				</nav>
+			</header>
+
+
+		<!-- Main -->
+			<article id="main">
+				<div class="content">
+					<section>
+						<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+						<link rel="stylesheet" type="text/css" href="css/demo.css" />
+						<link rel="stylesheet" type="text/css" href="css/style1.css" />
+
+						<br />
+						<div class="overlay overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register" style="margin-top: 100px;"> <br/ >
+								<ul class="buttons">
+									<li><a href="#id_of_div" class="links button special" id="trigger-overlay">Login</a></li> 
+									<li><a href="#id_of_div2" class="links button special" id="trigger-overlay">Register</a></li>
+									<br/ > 
+									<br />
+								</ul>
+								<div id = "id_of_div" class ="divs" style="display:none">
+									<form method="post" id="new_message" action="/messages">
+										<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
+										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<p><center><input type="submit" value="Login" name="login" id="login" class="button special" /></center></p>
+									</form>
+								</div>
+								<div id = "id_of_div2" class="divs" style="display:none">
+									<form method="post" id="new_message" action="/messages">
+										<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
+										<center><label for="name">Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="name" id="name" size="30" />
+										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%; height: 10%;" type="password" name="password" id="password" size="25" />
+										<p><center><input type="submit" value="Register" name="register" id="register" class="button special" /></center></p>
+									</form>
+								</div>
+							</div>
+						</div>
+						<link rel="stylesheet" href="css/skel.css" />
+						<link rel="stylesheet" href="css/style.css" />
+						<link rel="stylesheet" href="css/style-wide.css" />
+						<noscript>
+							<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+						</noscript>
+					</section>
+				</div>
+
+				<!-- One -->
+					<section class="wrapper style4 container">
+
+						<!-- Content -->
+							<div class="content">
+								<section>
+									<!-- <a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a> -->
+									<div class="navbarBody">
+										<div class="navbar">
+											<div align="right">
+												<button class="navIconButton"><i class="fa fa-clock-o"></i></button>
+												<button class="navIconButton"><i class="fa fa-remove"></i></button>
+
+											</div>
+										</div>
+									</div>
+									<div class = "eventContainer">
+										<header>
+											<h2><strong>Title:</strong></h2>
+										</header>
+										<header>
+											<h2><strong>Description:</strong></h2>
+										</header>
+										<div class="row">
+											<div class="6u 12u(narrower)">
+												<section>
+													<header>
+														<h3>Invitees</h3>
+													</header>
+													<p>Sed tristique purus vitae volutpat commodo suscipit amet sed nibh. Proin a ullamcorper sed blandit. Sed tristique purus vitae volutpat commodo suscipit ullamcorper sed blandit lorem ipsum dolore.</p>
+												</section>
+
+											</div>
+											<div class="6u 12u(narrower)">
+
+												<section>
+													<header>
+														<h3>Message Board</h3>
+													</header>
+													<p>Sed tristique purus vitae volutpat commodo suscipit amet sed nibh. Proin a ullamcorper sed blandit. Sed tristique purus vitae volutpat commodo suscipit ullamcorper sed blandit lorem ipsum dolore.</p>
+												</section>
+
+											</div>
+										</div>
+										<section id="friends">
+											Current Times.
+										</section>
+									</div>
+								</section>
+							</div>
+					</section>
+			</article>
+
+
+			<section id="cta">
+				<header>
+					<h2>Please give us your <strong>feedback</strong>!</h2>
+				</header>
+				<footer>
+					<ul class="buttons">
+						<li><a href="http://goo.gl/forms/yFULhAFLJk" class="button"> Send suggestions </a></li>
+					</ul>
+				</footer>
+			</section>
+		<script>
+			$(document).ready(function(){
+			    $('a.links').click(function (e){
+				   e.preventDefault();
+				   var div_id = $('a.links').index($(this))
+				   $('.divs').hide().eq(div_id).show();
+				});
+			});
+		</script>
+		<script src="js/modernizr.custom.js"></script>
+		<script src="js/classie.js"></script>
+		<script src="js/demo1.js"></script>
+	</body>
+</html>
