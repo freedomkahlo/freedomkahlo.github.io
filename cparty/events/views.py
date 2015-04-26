@@ -94,8 +94,8 @@ def autocomplete_user(request):
     return HttpResponse(json.dumps(res))
 
 def delete(request):
-	e_id = request.POST['eventID']
-	event = get_object_or_404(Instance, eventID=e_id)
+	eventID = request.POST['eventID']
+	event = get_object_or_404(Instance, eventID=eventID)
 
 	ntstr = event.creator + " has cancelled " + event.title
 	n = Notification(desc=ntstr, pub_date=datetime.now())
@@ -108,8 +108,8 @@ def delete(request):
 	event.delete()
 	return HttpResponseRedirect('/events/')
 def getTimes(request):
-	e_id = request.POST['eventID']
-	event = get_object_or_404(Instance, eventID=e_id)
+	eventID = request.POST['eventID']
+	event = get_object_or_404(Instance, eventID=eventID)
 	event.is_scheduled = True
 	event.save()
 	
@@ -176,8 +176,8 @@ def manageCreator(request):
 		rounding = (seconds+roundTo) // roundTo * roundTo
 		return timedelta(0,rounding-seconds,-dt.microsecond)
 	if 'boot' in request.POST:
-		e_id = request.POST['eventID']
-		event = get_object_or_404(Instance, eventID=e_id)
+		eventID = request.POST['eventID']
+		event = get_object_or_404(Instance, eventID=eventID)
 		i_name = request.POST['invitee_name']
 		invitee = get_object_or_404(Invitee, name=i_name)
 		invitee.delete();
@@ -187,8 +187,8 @@ def manageCreator(request):
 	if 'getTimes' in request.POST:
 		return getTimes(request)
 	if 'skedg' in request.POST:			
-		e_id = request.POST['eventID']
-		event = get_object_or_404(Instance, eventID=e_id)
+		eventID = request.POST['eventID']
+		event = get_object_or_404(Instance, eventID=eventID)
 		invitees = event.invitee_set.all()
 		peopleList = []
 
@@ -215,8 +215,8 @@ def manageCreator(request):
 
 #user can join, remove self, and vote
 def manageInvitee(request):
-	e_id = request.POST.get('eventID', -1)
-	event = get_object_or_404(Instance, eventID=e_id)
+	eventID = request.POST.get('eventID', -1)
+	event = get_object_or_404(Instance, eventID=eventID)
 	username = request.POST['username']
 
 	if 'join' in request.POST:
@@ -226,7 +226,7 @@ def manageInvitee(request):
 		else:
 			invitee = Invitee(name=username)
 			event.invitee_set.add(invitee)
-			return detail(request, e_id)
+			return detail(request, eventID)
 	if 'decline' in request.POST:
 		if (len(event.invitee_set.filter(name = username)) > 0):
 			ntstr = username + " has been removed from " + event.title
@@ -236,7 +236,7 @@ def manageInvitee(request):
 
 			invitee = get_object_or_404(Invitee, name=username)
 			invitee.delete()
-			return detail(request, e_id)
+			return detail(request, eventID)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
 			messages.success(request, "You were not invited, foo.")
@@ -259,8 +259,8 @@ def manageNotification(request):
 
 	return HttpResponseRedirect('/events/')
 
-def results(request, instance_id):
-	event = get_object_or_404(Question, eventID=instance_id)
+def results(request, eventID):
+	event = get_object_or_404(Question, eventID=eventID)
 	return render(request, 'events/results.html', {'event': event})
 	
 def register(request):
@@ -350,8 +350,8 @@ def user_logout(request):
 	return HttpResponseRedirect('/events/')
 
 def vetoPoss(request):
-	e_id = request.POST['eventID']
-	event = get_object_or_404(Instance, eventID=e_id)
+	eventID = request.POST['eventID']
+	event = get_object_or_404(Instance, eventID=eventID)
 	possTimes = event.posstime_set.all()
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
