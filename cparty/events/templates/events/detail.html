@@ -16,9 +16,9 @@
 	{% if event.creator == user.username %}
 	<form action="{% url 'events:manageCreator' %}" method="post">
 		{% csrf_token %}
-		<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
+		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 		<li>
-			<bold> Event Name: </bold> <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a> <br/>
+			<bold> Event Name: </bold> <a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> <br/>
 			<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
 			<input type="submit" name="skedg" value="Skedgule Event" />
 			<br/>

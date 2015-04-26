@@ -93,7 +93,7 @@ def autocomplete_user(request):
 
 def delete(request):
 	e_id = request.POST['eventID']
-	event = get_object_or_404(Instance, pk=e_id)
+	event = get_object_or_404(Instance, eventID=e_id)
 
 	ntstr = event.creator + " has cancelled " + event.title
 	n = Notification(desc=ntstr, pub_date=datetime.now())
@@ -107,7 +107,7 @@ def delete(request):
 	return HttpResponseRedirect('/events/')
 def getTimes(request):
 	e_id = request.POST['eventID']
-	event = get_object_or_404(Instance, pk=e_id)
+	event = get_object_or_404(Instance, eventID=e_id)
 	event.is_scheduled = True
 	event.save()
 	
@@ -175,7 +175,7 @@ def manageCreator(request):
 		return timedelta(0,rounding-seconds,-dt.microsecond)
 	if 'boot' in request.POST:
 		e_id = request.POST['eventID']
-		event = get_object_or_404(Instance, pk=e_id)
+		event = get_object_or_404(Instance, eventID=e_id)
 		i_name = request.POST['invitee_name']
 		invitee = get_object_or_404(Invitee, name=i_name)
 		invitee.delete();
@@ -186,7 +186,7 @@ def manageCreator(request):
 		return getTimes(request)
 	if 'skedg' in request.POST:			
 		e_id = request.POST['eventID']
-		event = get_object_or_404(Instance, pk=e_id)
+		event = get_object_or_404(Instance, eventID=e_id)
 		invitees = event.invitee_set.all()
 		peopleList = []
 
@@ -214,7 +214,7 @@ def manageCreator(request):
 #user can join, remove self, and vote
 def manageInvitee(request):
 	e_id = request.POST.get('eventID', -1)
-	event = get_object_or_404(Instance, pk=e_id)
+	event = get_object_or_404(Instance, eventID=e_id)
 	username = request.POST['username']
 
 	if 'join' in request.POST:
@@ -258,7 +258,7 @@ def manageNotification(request):
 	return HttpResponseRedirect('/events/')
 
 def results(request, instance_id):
-	event = get_object_or_404(Question, pk=instance_id)
+	event = get_object_or_404(Question, eventID=instance_id)
 	return render(request, 'events/results.html', {'event': event})
 	
 def register(request):
@@ -349,7 +349,7 @@ def user_logout(request):
 
 def vetoPoss(request):
 	e_id = request.POST['eventID']
-	event = get_object_or_404(Instance, pk=e_id)
+	event = get_object_or_404(Instance, eventID=e_id)
 	possTimes = event.posstime_set.all()
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
