@@ -39,6 +39,33 @@
 				});
  
 			});
+
+			function deselect(e) {
+			  $('.pop').slideFadeToggle(function() {
+			    e.removeClass('selected');
+			  });    
+			}
+
+			$(function() {
+			  $('#register').on('click', function() {
+			    if($(this).hasClass('selected')) {
+			      deselect($(this));               
+			    } else {
+			      $(this).addClass('selected');
+			      $('.pop').slideFadeToggle();
+			    }
+			    return false;
+			  });
+
+			  $('.close').on('click', function() {
+			    deselect($('#contact'));
+			    return false;
+			  });
+			});
+
+			$.fn.slideFadeToggle = function(easing, callback) {
+			  return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+			};
 		</script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel.css" />
@@ -62,9 +89,16 @@
 				<nav id="nav">
 					<ul>
 						<li class="current"><a href="index.html">Home</a></li>
-						<li class="current"><a href="event.html">Event</a></li>
-						<li><a href="#" class="button special">Register</a></li>
-						<li><a href="#" class="button special">Login</a></li>
+						<li class="submenu">
+							<a href="">Events</a>
+							<ul>
+								<li><a href="user.html">User</a></li>
+								<li><a href="event.html">Creator</a></li>
+								<li><a href="invitee.html">Invitee</a></li>
+							</ul>
+						</li>
+						<li><a href="register.html" >Register</a></li>
+						<li><a href="login.html">Login</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -121,21 +155,6 @@
 								</header>
 								<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu comteger ut fermentum lorem. Lorem ipsum dolor sit amet. Sed tristique purus vitae volutpat ultrices. eu elit eget commodo. Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo.</p>
 							</div>
-							<div id="demo">
-        <div class="container">
-          <div class="row">
-            <div class="span12">
-              <div id="owl-demo" class="owl-carousel">
-
-                <div class="item"><img src="http://canyouactually.com/wp-content/uploads/Ridiculous-Stock-Images-05-Optimized.jpg" alt="The Last of us"></div>
-                <div class="item"><img src="http://1.bp.blogspot.com/_wwqzK9LZN_A/TUvyYGEXdwI/AAAAAAAAB8o/eNkMMWQTQW8/s1600/Untitled.jpg" alt="GTA V"></div>
-                <div class="item"><img src="http://churchm.ag/wp-content/uploads/2014/10/Ridiculous-Stock-Images-01.jpg" alt="Mirror Edge"></div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
 							<div class="4u 12u(narrower) important(narrower)">
 								<ul class="featured-icons">
 									<li><span class="icon fa-clock-o"><span class="label">Feature 1</span></span></li>

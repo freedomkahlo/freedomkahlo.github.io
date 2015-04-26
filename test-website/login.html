@@ -44,8 +44,8 @@
 								<li><a href="invitee.html">Invitee</a></li>
 							</ul>
 						</li>
-						<li><a href="register.html" >Register</a></li>
-						<li><a href="login.html">Login</a></li>
+						<li><a href="register.html">Register</a></li>
+						<li class="current"><a href="login.html">Login</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -54,65 +54,21 @@
 			<article id="main">
 				<!-- One -->
 					<section class="wrapper style4 container">
-
 						<!-- Content -->
 							<div class="content">
 								<section>
 									<!-- <a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a> -->
-									<div class="navbarBody">
-										<div class="navbar">
-											<div align="right">
-												<button><i class="fa fa-clock-o"></i></button>
-												<button><i class="fa fa-remove"></i></button>
-
-											</div>
-										</div>
-									</div>
-	
 									<header>
-										<h4>Event Title:</h4>
+										<h2><strong><center>Login to your account</center></strong></h2>
 									</header>
-									<p> <header> <h4> Description: </h4>  </header> </p>
-									<div class="row">
-										<div class="4u 12u(narrower)">
-											<section>
-												<span class="icon fa-clock-o"></span>
-												<header>
-													<h3>My Events</h3>
-												</header>
-												<p>Filler text is here. What am I saying... uhm. Minseung is stupid! </p>
-											</section>
 
-										</div>
-										<div class="4u 12u(narrower)">
-
-											<section>
-												<span class="icon fa-clock-o"></span>
-												<header>
-													<h3>Time 2</h3>
-												</header>
-												<p>Filler text is here. What am I saying... uhm. Roy is stupid! </p>
-											</section>
-
-										</div>
-										<div class="4u 12u(narrower)">
-
-											<section>
-												<span class="icon fa-clock-o"></span>
-												<header>
-													<h3>Time 3</h3>
-												</header>
-												<p>Filler text is here. What am I saying... uhm. Crystal is stupid! </p>
-											</section>
-
-										</div>
+									<div class ="register">
+										<form method="post" id="new_message" action="/messages">
+											<p><label for="email">Email Address</label><input type="text" size="30" name="email" id="email" /></p>
+											<p><label for="password">Password</label><input type="password" name="password" id="password" size="30" /></p>
+											<p><center><input type="submit" value="Login" name="login" id="login" class="button special" /><center></p>
+										</form>
 									</div>
-									<section id="friends">
-										People who have joined. <br />
-										<button><i class="fa fa-user-plus"></i></button>
-										<button><i class="fa fa-user-times"></i></button>
-									</section>
-									<div class="inner">
 								</section>
 							</div>
 					</section>
@@ -128,20 +84,5 @@
 					</ul>
 				</footer>
 			</section>
-		<!-- Footer -->
-<!-- 			<footer id="footer">
-
-				<ul class="icons">
-					<li><a href="#" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
-					<li><a href="#" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
-					<li><a href="#" class="icon circle fa-google-plus"><span class="label">Google+</span></a></li>
-					<li><a href="#" class="icon circle fa-github"><span class="label">Github</span></a></li>
-					<li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li>
-				</ul>
-
-				<ul class="copyright">
-					<li>&copy; Skedge</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-				</ul>
-			</footer> -->
 	</body>
 </html>
