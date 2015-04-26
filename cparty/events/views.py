@@ -12,6 +12,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 from datetime import *
 from heapq import *
 import json
@@ -30,8 +31,8 @@ def index(request):
 	request.path_info = '/events/'
 	return render(request, 'events/index.html', context)
 
-def detail(request, instance_id):
-	event = get_object_or_404(Instance, pk=instance_id)
+def detail(request, eventID):
+	event = get_object_or_404(Instance, eventID=eventID)
 	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
@@ -42,7 +43,8 @@ def add(request):
 	end_date=request.POST.get('end_date', '')
 	time_range=request.POST.get('time_range', '')
 	event_length=request.POST.get('event_length', '')
-	creator=request.POST.get['username']
+	creator = request.POST['username']
+	eventID = get_random_string(length=32)
 
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	returnMsg = {'error': '', 'latest_event_list': latest_event_list,
@@ -63,7 +65,7 @@ def add(request):
 	else:
 		event_length = '0:' + timeSplit[0]
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
-		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1], event_length=event_length, creator=creator)
+		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1], event_length=event_length, creator=creator, eventID=eventID)
 
 	#try catch here check validity
 	try:
@@ -78,7 +80,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	messages.success(request, 'Your event has been successfully created!')
+	messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/' + eventID)
 	return HttpResponseRedirect('/events/')
 
 def autocomplete_user(request):
@@ -92,8 +94,8 @@ def autocomplete_user(request):
     return HttpResponse(json.dumps(res))
 
 def delete(request):
-	e_id = request.POST['eventID']
-	event = get_object_or_404(Instance, pk=e_id)
+	eventID = request.POST['eventID']
+	event = get_object_or_404(Instance, eventID=eventID)
 
 	ntstr = event.creator + " has cancelled " + event.title
 	n = Notification(desc=ntstr, pub_date=datetime.now())
@@ -105,8 +107,61 @@ def delete(request):
 
 	event.delete()
 	return HttpResponseRedirect('/events/')
+def getTimes(request):
+	eventID = request.POST['eventID']
+	event = get_object_or_404(Instance, eventID=eventID)
+	event.is_scheduled = True
+	event.save()
+	
+	many = []
+	many.append(event.creator)
 
+	for i in event.invitee_set.all():
+		if i.rsvpAccepted:
+			many.append(i.name)
+	duration = int(event.event_length.split(':')[0]) * 3600 + int(event.event_length.split(':')[1]) * 60
+
+	#TEMPORARY: fixed time zone
+	startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
+	endInDateTime = datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
+	finalEndDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
+	
+	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
+	
+	print times
+	# 30 minute intervals for starting time; rounding start time; etc.
+	processedTimes = []
+	for t in times:
+		roundBy = roundUpByTimeDelta(t['startTime'])
+		startEvent = t['startTime']
+		# if rounding makes the event go beyond endtime, then just add the time range and call it good.
+		#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
+		if startEvent + roundBy + timedelta(seconds=duration) > endInDateTime:
+			endEvent = startEvent + timedelta(seconds=duration)
+			priorityValue = int(t['conflicts'])*1000
+			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'conflicts':t['conflicts']})
+			continue
+		else:
+			startEvent += timedelta(minutes=roundToMin)
+			endEvent = startEvent + timedelta(seconds=duration)
+			i = 0
+			while endEvent < t['endTime']:
+				priorityValue = int(t['conflicts'])*1000 + i
+				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'conflicts':t['conflicts']})
+				i += 1
+				startEvent += timedelta(minutes=roundToMin)
+				endEvent = startEvent + timedelta(seconds=duration)
+	#list.sort(processedTimes)
+	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
+
+	for t in processedTimes:
+		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
+		event.posstime_set.add(possTime)
+	#possTime = PossTime()
+	#event.posstime_set.add(possTime)
+	return HttpResponseRedirect('/events/')
 #creator can boot someone, delete/skedge/getTimes on event.
+
 def manageCreator(request):
 	
 	roundToMin = 15 #minutes
@@ -121,8 +176,8 @@ def manageCreator(request):
 		rounding = (seconds+roundTo) // roundTo * roundTo
 		return timedelta(0,rounding-seconds,-dt.microsecond)
 	if 'boot' in request.POST:
-		e_id = request.POST['eventID']
-		event = get_object_or_404(Instance, pk=e_id)
+		eventID = request.POST['eventID']
+		event = get_object_or_404(Instance, eventID=eventID)
 		i_name = request.POST['invitee_name']
 		invitee = get_object_or_404(Invitee, name=i_name)
 		invitee.delete();
@@ -130,61 +185,10 @@ def manageCreator(request):
 	if 'delete' in request.POST:
 		return delete(request)
 	if 'getTimes' in request.POST:
-		e_id = request.POST['eventID']
-		event = get_object_or_404(Instance, pk=e_id)
-		event.is_scheduled = True
-		event.save()
-		
-		many = []
-		many.append(event.creator)
-
-		for i in event.invitee_set.all():
-			if i.rsvpAccepted:
-				many.append(i.name)
-		duration = int(event.event_length.split(':')[0]) * 3600 + int(event.event_length.split(':')[1]) * 60
-
-		#TEMPORARY: fixed time zone
-		startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
-		endInDateTime = datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
-		finalEndDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
-		
-		times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
-		
-		print times
-		# 30 minute intervals for starting time; rounding start time; etc.
-		processedTimes = []
-		for t in times:
-			roundBy = roundUpByTimeDelta(t['startTime'])
-			startEvent = t['startTime']
-			# if rounding makes the event go beyond endtime, then just add the time range and call it good.
-			#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
-			if startEvent + roundBy + timedelta(seconds=duration) > endInDateTime:
-				endEvent = startEvent + timedelta(seconds=duration)
-				priorityValue = int(t['conflicts'])*1000
-				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'conflicts':t['conflicts']})
-				continue
-			else:
-				startEvent += timedelta(minutes=roundToMin)
-				endEvent = startEvent + timedelta(seconds=duration)
-				i = 0
-				while endEvent < t['endTime']:
-					priorityValue = int(t['conflicts'])*1000 + i
-					processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'conflicts':t['conflicts']})
-					i += 1
-					startEvent += timedelta(minutes=roundToMin)
-					endEvent = startEvent + timedelta(seconds=duration)
-		#list.sort(processedTimes)
-		processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
-
-		for t in processedTimes:
-			possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
-			event.posstime_set.add(possTime)
-		#possTime = PossTime()
-		#event.posstime_set.add(possTime)
-		return HttpResponseRedirect('/events/')
+		return getTimes(request)
 	if 'skedg' in request.POST:			
-		e_id = request.POST['eventID']
-		event = get_object_or_404(Instance, pk=e_id)
+		eventID = request.POST['eventID']
+		event = get_object_or_404(Instance, eventID=eventID)
 		invitees = event.invitee_set.all()
 		peopleList = []
 
@@ -211,23 +215,33 @@ def manageCreator(request):
 
 #user can join, remove self, and vote
 def manageInvitee(request):
-	e_id = request.POST.get('eventID', -1)
-	event = get_object_or_404(Instance, pk=e_id)
+	eventID = request.POST.get('eventID', -1)
+	event = get_object_or_404(Instance, eventID=eventID)
 	username = request.POST['username']
 
 	if 'join' in request.POST:
-		invitee = Invitee(name=username)
-		invitee.save()
-		event.invitee_set.add(invitee)
-		return HttpResponseRedirect('/events/')
+		if (len(event.invitee_set.filter(name = username)) > 0):
+			messages.success(request, "You already part of the party, yo.")
+			return index(request)
+		else:
+			invitee = Invitee(name=username)
+			event.invitee_set.add(invitee)
+			return detail(request, eventID)
 	if 'decline' in request.POST:
-		ntstr = username + " has been removed from " + event.title
-		n = Notification(desc=ntstr, pub_date=datetime.now())
-		creator = get_object_or_404(User, username=event.creator)
-		creator.notification_set.add(n)
-		invitee.delete()
+		if (len(event.invitee_set.filter(name = username)) > 0):
+			ntstr = username + " has been removed from " + event.title
+			n = Notification(desc=ntstr, pub_date=datetime.now())
+			creator = get_object_or_404(User, username=event.creator)
+			creator.notification_set.add(n)
+
+			invitee = get_object_or_404(Invitee, name=username)
+			invitee.delete()
+			return detail(request, eventID)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
-		return HttpResponseRedirect('/events/')
+		else:
+			messages.success(request, "You were not invited, foo.")
+			return index(request)
+			#return detail(request, e_id)
 	if 'vote' in request.POST:
 		invitee.hasVoted = True
 		invitee.save()
@@ -245,8 +259,8 @@ def manageNotification(request):
 
 	return HttpResponseRedirect('/events/')
 
-def results(request, instance_id):
-	event = get_object_or_404(Question, pk=instance_id)
+def results(request, eventID):
+	event = get_object_or_404(Question, eventID=eventID)
 	return render(request, 'events/results.html', {'event': event})
 	
 def register(request):
@@ -336,8 +350,8 @@ def user_logout(request):
 	return HttpResponseRedirect('/events/')
 
 def vetoPoss(request):
-	e_id = request.POST['eventID']
-	event = get_object_or_404(Instance, pk=e_id)
+	eventID = request.POST['eventID']
+	event = get_object_or_404(Instance, eventID=eventID)
 	possTimes = event.posstime_set.all()
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:

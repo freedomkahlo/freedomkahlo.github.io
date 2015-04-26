@@ -12,36 +12,29 @@
 {% endif %}
 
 <!-- only if not in -->
-<div> <h1>IF IS INVITEE</h1>
-	<form action="{% url 'events:manageInvitee' %}" method="post">  
-		{% csrf_token %} 
-		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
-		<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span> 							
-		<input type="submit" name="join" value="Join Event"/>
-	</form>
-</div>
-
-<div> <h1>IF IS NOT INVITEE</h1>
-<p> Not implemented yet, but ONLY click if you are a member.</p>
-<form action="{% url 'events:manageInvitee' %}" method="post">   
-	{% csrf_token %}
-	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
-	<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span> 							
-	<input type="submit" name="decline" value="Delete From My Events"/>
-</form>
-
 <div><h1>IF CREATOR </h1>
-<form action="{% url 'events:manageCreator' %}" method="post">
-	{% csrf_token %}
-	<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
-	<li>
-		<bold> Event Name: </bold> <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a> <br/>
-		<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
-		<input type="submit" name="getTimes" value="Get Times" />
+	{% if event.creator == user.username %}
+	<form action="{% url 'events:manageCreator' %}" method="post">
+		{% csrf_token %}
+		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+		<li>
+			<bold> Event Name: </bold> <a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> <br/>
+			<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
+			<input type="submit" name="skedg" value="Skedgule Event" />
+			<br/>
+		</li>
 		<br/>
-	</li>
-	<br/>
-</form>
+	</form>
 
+	{% else %}
+	<form action="{% url 'events:manageInvitee' %}" method="post">   
+		{% csrf_token %}
+		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
+		<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span> 		
+		<input type="submit" name="join" value="Join Event"/>					
+		<input type="submit" name="decline" value="Decline Events"/>
+		</form>
+	{% endif %}
+</div>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 </div>
