@@ -12,6 +12,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 from datetime import *
 from heapq import *
 import json
@@ -43,6 +44,7 @@ def add(request):
 	time_range=request.POST.get('time_range', '')
 	event_length=request.POST.get('event_length', '')
 	creator = request.POST['username']
+	eventID = get_random_string(length=32)
 
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	returnMsg = {'error': '', 'latest_event_list': latest_event_list,
@@ -63,7 +65,7 @@ def add(request):
 	else:
 		event_length = '0:' + timeSplit[0]
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
-		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1], event_length=event_length, creator=creator)
+		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1], event_length=event_length, creator=creator, eventID=eventID)
 
 	#try catch here check validity
 	try:
@@ -78,7 +80,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	messages.success(request, 'Your event has been successfully created!')
+	messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/' + eventID)
 	return HttpResponseRedirect('/events/')
 
 def autocomplete_user(request):
