@@ -18,44 +18,21 @@
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
-		<script src="js/owl.carousel.js"></script>
-		<script>
-			$(document).ready(function() {
- 
-				$("#owl-demo").owlCarousel({
-
-					navigation : true, // Show next and prev buttons
-					slideSpeed : 300,
-					paginationSpeed : 400,
-					singleItem:true
-
-					// "singleItem:true" is a shortcut for:
-					// items : 1, 
-					// itemsDesktop : false,
-					// itemsDesktopSmall : false,
-					// itemsTablet: false,
-					// itemsMobile : false
-
-				});
- 
-			});
-		</script>
 		<noscript>
+			<link href="css/bootstrapTheme.css" rel="stylesheet">
+			<link href="css/custom.css" rel="stylesheet">
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-wide.css" />
 			<link rel="stylesheet" href="css/style-noscript.css" />
-			<link rel="stylesheet" href="css/owl.carousel.css" />
-			<link rel="stylesheet" href="css/owl.theme.css" />
-			<link rel="stylesheet" href="css/owl.transitions.css" />
 			<link rel="stylesheet" type="text/css" href="slick-1.5.0/slick/slick.css"/>
 			<link rel="stylesheet" type="text/css" href="slick-1.5.0/slick/slick-theme.css"/>
 		</noscript>
+
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
 	</head>
 	<body class="index">
-
 		<!-- Header -->
 			<header id="header" class="alt">
 				<h1 id="logo"><a href="index.html">Skedg <span> - Let us check your schedule!  </span></a></h1>
@@ -122,20 +99,18 @@
 								<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu comteger ut fermentum lorem. Lorem ipsum dolor sit amet. Sed tristique purus vitae volutpat ultrices. eu elit eget commodo. Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo.</p>
 							</div>
 							<div id="demo">
-        <div class="container">
-          <div class="row">
-            <div class="span12">
-              <div id="owl-demo" class="owl-carousel">
-
-                <div class="item"><img src="http://canyouactually.com/wp-content/uploads/Ridiculous-Stock-Images-05-Optimized.jpg" alt="The Last of us"></div>
-                <div class="item"><img src="http://1.bp.blogspot.com/_wwqzK9LZN_A/TUvyYGEXdwI/AAAAAAAAB8o/eNkMMWQTQW8/s1600/Untitled.jpg" alt="GTA V"></div>
-                <div class="item"><img src="http://churchm.ag/wp-content/uploads/2014/10/Ridiculous-Stock-Images-01.jpg" alt="Mirror Edge"></div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
+								<div class="container">
+									<div class="row">
+										<div class="span12">
+											<div id="owl-demo" class="owl-carousel">
+												<div class="item"><img src="http://canyouactually.com/wp-content/uploads/Ridiculous-Stock-Images-05-Optimized.jpg" alt="The Last of us"></div>
+												<div class="item"><img src="http://1.bp.blogspot.com/_wwqzK9LZN_A/TUvyYGEXdwI/AAAAAAAAB8o/eNkMMWQTQW8/s1600/Untitled.jpg" alt="GTA V"></div>
+												<div class="item"><img src="http://churchm.ag/wp-content/uploads/2014/10/Ridiculous-Stock-Images-01.jpg" alt="Mirror Edge"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="4u 12u(narrower) important(narrower)">
 								<ul class="featured-icons">
 									<li><span class="icon fa-clock-o"><span class="label">Feature 1</span></span></li>
@@ -169,5 +144,49 @@
 			$('.single-item').slick();
 		});
 		</script>
+		<link rel="stylesheet" href="css/owl.carousel.css" />
+		<link rel="stylesheet" href="css/owl.theme.css" />
+		<link href="css/prettify.css" rel="stylesheet">
+			<link rel="stylesheet" href="css/owl.transitions.css" />
+		<script src="js/bootstrap-collapse.js"></script>
+		<script src="js/bootstrap-transition.js"></script>
+		<script src="js/bootstrap-tab.js"></script>
+		    <script src="js/owl.carousel.js"></script>
+
+
+    <!-- Demo -->
+
+    <style>
+    #owl-demo .item img{
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+    </style>
+
+    <script>
+    $(document).ready(function() {
+      $("#owl-demo").owlCarousel({
+
+      navigation : true,
+      slideSpeed : 300,
+      paginationSpeed : 400,
+      singleItem : true
+
+      // "singleItem:true" is a shortcut for:
+      // items : 1, 
+      // itemsDesktop : false,
+      // itemsDesktopSmall : false,
+      // itemsTablet: false,
+      // itemsMobile : false
+
+      });
+    });
+    </script>
+
+    <script src="js/bootstrap-collapse.js"></script>
+    <script src="js/bootstrap-transition.js"></script>
+    <script src="js/bootstrap-tab.js"></script>
+
 	</body>
 </html>

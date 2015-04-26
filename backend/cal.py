@@ -365,14 +365,17 @@ def findTimes2(events, startTime, endTime, timeLength):
 		dateList.append([endTime, participants])
 
 	#Find the time intervals now
-	participants = -1
 	for i in range(len(dateList)):
-		if participants == dateList[i][1]:
-			pass
-		participants = dateList[i][1]
-		interval = findInterval(dateList, i)
-		peeps = getPeople(people, dateList[i][1])
-		freeTime.append({'numFree':len(peeps), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
+		participants = -1
+		for j in range(i, len(dateList)):
+			if participants & dateList[i][1] == participants:
+				pass
+			participants &= dateList[i][1]
+			interval = findInterval(dateList, i)
+			if (dateList[interval[1]][0] - dateList[interval[0]][0] < timeLength):
+				pass
+			peeps = getPeople(people, dateList[i][1])
+			freeTime.append({'numFree':len(peeps), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
 
 	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)
 
@@ -400,17 +403,13 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 	events = []
 	for username in usernameList:
 		service = buildService(username)
-		events = events + (get_event_list(service=service, start=startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'),
-		 end=finalEndDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')))
+		events = events + [x for x in (get_event_list(service=service, start=startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'),
+		 end=finalEndDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'))) if x.update({'creator':username})]
 	avail = []
 	
 	#Get times for each interval
 	while (endInDateTime <= finalEndDateTime):
-		startTime = startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-		endTime = endInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00')
-		startRoy = convertRFC3339toRoyTime(startTime)
-		endRoy = convertRFC3339toRoyTime(endTime)
-		avail = avail + findTimes(events, startRoy, endRoy, duration)
+		avail = avail + findTimes2(events, startInDateTime, endInDateTime, duration)
 		
 		startInDateTime = startInDateTime + datetime.timedelta(1, 0, 0)
 		endInDateTime = endInDateTime + datetime.timedelta(1, 0, 0)
