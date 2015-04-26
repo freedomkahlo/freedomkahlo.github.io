@@ -30,8 +30,8 @@ def index(request):
 	request.path_info = '/events/'
 	return render(request, 'events/index.html', context)
 
-def detail(request, instance_id):
-	event = get_object_or_404(Instance, pk=instance_id)
+def detail(request, eventID):
+	event = get_object_or_404(Instance, eventID=eventID)
 	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
