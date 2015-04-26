@@ -44,7 +44,7 @@ def add(request):
 	time_range=request.POST.get('time_range', '')
 	event_length=request.POST.get('event_length', '')
 	creator = request.POST['username']
-	eventID = get_random_string(length=32)
+	eventID = 'eventID:' + get_random_string(length=40)
 
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	returnMsg = {'error': '', 'latest_event_list': latest_event_list,
