@@ -31,6 +31,7 @@ def index(request):
 	request.path_info = '/events/'
 	return render(request, 'events/index.html', context)
 
+@login_required
 def detail(request, eventID):
 	event = get_object_or_404(Instance, eventID=eventID)
 	return render(request, 'events/detail.html', {'event': event})
