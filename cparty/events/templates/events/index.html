@@ -302,7 +302,7 @@
 				{% for event in latest_event_list %}
 					{% for invitee in event.invitee_set.all %}
 						{% if invitee.name == user.username %}
-							<bold> Event Name: </bold> <a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> <br/>
+							<bold> Event Name: </bold> <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a> <br/>
 						{% endif%}
 					{% endfor %}
 				{% endfor %}
