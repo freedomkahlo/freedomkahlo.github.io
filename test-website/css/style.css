@@ -25,9 +25,11 @@
 		font-size: 30px;
 	}
 	.register {
-		width: 50%;
+		width: 35%;
 		display: block;
 		margin: 0 auto;
+		color: #000000;
+		background-color: #FFFFFF;
 	}
 
 	.navbar {
@@ -874,7 +876,8 @@
 			-o-animation-fill-mode: forwards;
 			-ms-animation-fill-mode: forwards;
 			animation-fill-mode: forwards;
-			background: rgba(52, 27, 43, 0.5);
+			/*background: rgba(52, 27, 43, 0.5);*/
+			background: rgba(255, 0, 0, 0.3);
 			color: white;
 			display: inline-block;
 			opacity: 0;
