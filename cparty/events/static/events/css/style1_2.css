@@ -1,5 +1,5 @@
 /* Overlay style */
-.overlay, .overlay2 {
+.overlay2 {
 	position: fixed;
 	width: 100%;
 	height: 100%;
@@ -11,7 +11,7 @@
 }
 
 /* Overlay closing cross */
-.overlay .overlay-close, .overlay2 .overlay-close {
+.overlay2 .overlay-close {
 	width: 30px;
 	height: 30px;
 	position: absolute;
@@ -27,7 +27,7 @@
 }
 
 /* Menu style */
-.overlay nav {
+.overlay2 nav {
 	text-align: center;
 	position: relative;
 	top: 50%;
@@ -37,7 +37,7 @@
 	transform: translateY(-50%);
 }
 
-.overlay ul {
+.overlay2 ul {
 	list-style: none;
 	padding: 0;
 	margin: 0 auto;
@@ -46,14 +46,14 @@
 	position: relative;
 }
 
-.overlay ul li {
+.overlay2 ul li {
 	display: block;
 	height: 20%;
 	height: calc(100% / 5);
 	min-height: 54px;
 }
 
-.overlay ul li a {
+.overlay2 ul li a {
 	font-weight: 300;
 	display: block;
 	color: #fff;
@@ -61,32 +61,32 @@
 	transition: color 0.2s;
 }
 
-.overlay ul li a:hover,
-.overlay ul li a:focus {
+.overlay2 ul li a:hover,
+.overlay2 ul li a:focus {
 	color: #e3fcb1;
 }
 
 /* Effects */
-.overlay-hugeinc {
+.overlay2-hugeinc {
 	opacity: 0;
 	visibility: hidden;
 	-webkit-transition: opacity 0.5s, visibility 0s 0.5s;
 	transition: opacity 0.5s, visibility 0s 0.5s;
 }
 
-.overlay-hugeinc.open {
+.overlay2-hugeinc.open {
 	opacity: 1;
 	visibility: visible;
 	-webkit-transition: opacity 0.5s;
 	transition: opacity 0.5s;
 }
 
-.overlay-hugeinc nav {
+.overlay2-hugeinc nav {
 	-webkit-perspective: 1200px;
 	perspective: 1200px;
 }
 
-.overlay-hugeinc nav ul {
+.overlay2-hugeinc nav ul {
 	opacity: 0.4;
 	-webkit-transform: translateY(-25%) rotateX(35deg);
 	transform: translateY(-25%) rotateX(35deg);
@@ -94,23 +94,23 @@
 	transition: transform 0.5s, opacity 0.5s;
 }
 
-.overlay-hugeinc.open nav ul {
+.overlay2-hugeinc.open nav ul {
 	opacity: 1;
 	-webkit-transform: rotateX(0deg);
 	transform: rotateX(0deg);
 }
 
-.overlay-hugeinc.close nav ul {
+.overlay2-hugeinc.close nav ul {
 	-webkit-transform: translateY(25%) rotateX(-35deg);
 	transform: translateY(25%) rotateX(-35deg);
 }
 
 @media screen and (max-height: 30.5em) {
-	.overlay nav {
+	.overlay2 nav {
 		height: 70%;
 		font-size: 34px;
 	}
-	.overlay ul li {
+	.overlay2 ul li {
 		min-height: 34px;
 	}
 }
