@@ -7,6 +7,15 @@
 <html>
 	<head>
 		{% load staticfiles %}
+		<script>
+			var mobileStyle = '{% static 'events/css/style-mobile.css' %}';
+			var style = '{% static 'events/css/style.css' %}';
+			var wideStyle = '{% static 'events/css/style-wide.css' %}';
+			var narrowStyle = '{% static 'events/css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'events/css/style-narrower.css' %}';
+			var normalStyle = '{% static 'events/css/style-normal.css' %}';;
+		</script>
+
 		<title>Skedg - Let us check your skedg! </title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
@@ -18,13 +27,12 @@
 		<script src="{% static 'events/js/jquery.scrollgress.min.js' %}"></script>
 		<script src="{% static 'events/js/skel.min.js' %}"></script>
 		<script src="{% static 'events/js/skel-layers.min.js' %}"></script>
-		<script src="js/init.js"></script>
+		<script src="{% static 'events/js/init.js' %}"></script>
 		<noscript>
 			<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
 			<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
 			<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
 			<link rel="stylesheet" href="{% static 'events/css/style-noscript.css' %}" />
-			<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 		</noscript>
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
@@ -47,10 +55,33 @@
 					<section>
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
-						<link rel="stylesheet" type="text/css" href="{% static 'events/css/style1.css' %}" />
+						<!-- <link rel="stylesheet" type="text/css" href="{% static 'events/css/style1.css' %}" /> -->
 
 						<br />
-						
+						<div class="overlay overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register"> <br/ >
+								<div id = "id_of_div" class ="divs">
+									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
+									<form method="post" id="create_event" action="#">
+										Create your event!
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="overlay2 overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register"> <br/ >
+								<div id = "id_of_div" class ="divs">
+									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
+									<form method="post" id="create_event" action="#">
+										Create your event!
+									</form>
+								</div>
+							</div>
+						</div>
+
 						<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
 						<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
 						<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
@@ -69,11 +100,10 @@
 									<!-- <a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a> -->
 									<div class="navbarBody">
 										<div class="navbar">
-
 											<div align="right">
-												<button class="navIconButton"><i class="fa fa-plus" ></i></button>
-												<button class="navIconButton"><i class="fa fa-calendar"></i></button>
-												<button class="navIconButton"><i class="fa fa-newspaper-o"></i></button>
+												<a class="special button" style="margin-right: -5px;" href="javascript:;" id="trigger-overlay">Create Event</a>
+												<a class="special button" style="margin-right: -5px;" href="javascript:;" id="">Calendar</a>
+												<a class="special button" href="javascript:;" id="">Notifications</a>
 											</div>
 										</div>
 									</div>
@@ -126,17 +156,8 @@
 					</ul>
 				</footer>
 			</section>
-			<script>
-				$(document).ready(function(){
-				    $('a.links').click(function (e){
-					   e.preventDefault();
-					   var div_id = $('a.links').index($(this))
-					   $('.divs').hide().eq(div_id).show();
-					});
-				});
-			</script>
-			<script src="js/modernizr.custom.js"></script>
-			<script src="js/classie.js"></script>
-			<script src="js/demo1.js"></script>
+		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'events/js/classie.js' %}"></script>
+		<script src="{% static 'events/js/demo1.js' %}"></script>
 	</body>
 </html>

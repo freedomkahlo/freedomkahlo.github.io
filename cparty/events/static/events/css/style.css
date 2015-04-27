@@ -119,7 +119,7 @@
 	}
 
 	.navIconButton{
-		background: pink;
+		background: white;
 		margin: 3px;
 		border-radius: 8px;
 	}
@@ -148,6 +148,7 @@
 		color: #888;
 		display: block;
 		padding: 8px;
+		float: right;
 		margin-bottom: 10px;
 		overflow: hidden;
 		width: 100%;
