@@ -304,7 +304,7 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 		profile_form = UserProfileForm()
 
 	return render_to_response(
-			'events/index.html',
+			'events/login.html',
 			{'registered': registered},
 			context)
 
