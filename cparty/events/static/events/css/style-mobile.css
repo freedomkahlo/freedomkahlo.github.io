@@ -4,6 +4,66 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+	.navIconButton{
+		background:white;
+		margin: 3px;
+		border-radius: 8px;
+	}
+
+	.navIconButton i{
+		color: black;
+		font-size: 30px;
+	}
+	.register {
+		width: 35%;
+		display: block;
+		margin: 0 auto;
+		margin-top: 100px;
+		color: #000000;
+		border: 2px solid;
+    	border-radius: 25px;
+		background-color: #FFFFFF;
+	}
+
+	.navbar {
+		background-color: #F56f75;
+		border: 1px solid #dedede;
+		border-radius: 10px;
+		box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.055);
+		color: #888;
+		display: block;
+		padding: 8px;
+		margin-bottom: 10px;
+		overflow: hidden;
+		width: 100%;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+		font-weight: 300;
+		font-size: 15px;
+		color: #222;
+	}
+
+	.eventContainer header h4 {
+		font-family: times, Times New Roman, times-roman, georgia, serif;
+		color: #444;
+		margin: 0;
+		padding: 0px 0px 6px 0px;
+		font-size: 30px;
+		line-height: 44px;
+		letter-spacing: -2px;
+		font-weight: bold;
+	}
+
+	.eventContainer {
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	#owl-demo .item img{
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
 /* Basic */
 
 	body {

@@ -1,19 +1,122 @@
 @import url("font-awesome.min.css");
 @import url("http://fonts.googleapis.com/css?family=Lato:300,400,900");
 
-/*
-	Twenty by HTML5 UP
-	html5up.net | @n33co
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
+	/* Overlay style */
+	.overlay, .overlay2 {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background: rgba(0,0,0,0.6);
+		z-index: 100;
+		overflow-y:scroll
+	}
 
-/*	.navbarBody {
-		background-color: #F56f75;
-		color: #222;
-		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	/* Overlay closing cross */
+	.overlay .overlay-close, .overlay2 .overlay-close {
+		width: 30px;
+		height: 30px;
+		position: absolute;
+		right: 30px;
+		top: 80px;
+		overflow: hidden;
+		border: none;
+		background: url(../images/cross.png) no-repeat center center;
+		text-indent: 200%;
+		color: transparent;
+		outline: none;
+		z-index: 1000;
+	}
+
+	/* Menu style */
+	.overlay nav {
+		text-align: center;
+		position: relative;
+		top: 50%;
+		height: 60%;
+		font-size: 54px;
+		-webkit-transform: translateY(-50%);
+		transform: translateY(-50%);
+	}
+
+	.overlay ul {
+		list-style: none;
+		padding: 0;
+		margin: 0 auto;
+		display: inline-block;
+		height: 100%;
+		position: relative;
+	}
+
+	.overlay ul li {
+		display: block;
+		height: 20%;
+		height: calc(100% / 5);
+		min-height: 54px;
+	}
+
+	.overlay ul li a {
 		font-weight: 300;
-		font-size: 15px;
-	}*/
+		display: block;
+		color: #fff;
+		-webkit-transition: color 0.2s;
+		transition: color 0.2s;
+	}
+
+	.overlay ul li a:hover,
+	.overlay ul li a:focus {
+		color: #e3fcb1;
+	}
+
+	/* Effects */
+	.overlay-hugeinc {
+		opacity: 0;
+		visibility: hidden;
+		-webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+		transition: opacity 0.5s, visibility 0s 0.5s;
+	}
+
+	.overlay-hugeinc.open {
+		opacity: 1;
+		visibility: visible;
+		-webkit-transition: opacity 0.5s;
+		transition: opacity 0.5s;
+	}
+
+	.overlay-hugeinc nav {
+		-webkit-perspective: 1200px;
+		perspective: 1200px;
+	}
+
+	.overlay-hugeinc nav ul {
+		opacity: 0.4;
+		-webkit-transform: translateY(-25%) rotateX(35deg);
+		transform: translateY(-25%) rotateX(35deg);
+		-webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+		transition: transform 0.5s, opacity 0.5s;
+	}
+
+	.overlay-hugeinc.open nav ul {
+		opacity: 1;
+		-webkit-transform: rotateX(0deg);
+		transform: rotateX(0deg);
+	}
+
+	.overlay-hugeinc.close nav ul {
+		-webkit-transform: translateY(25%) rotateX(-35deg);
+		transform: translateY(25%) rotateX(-35deg);
+	}
+
+	@media screen and (max-height: 30.5em) {
+		.overlay nav {
+			height: 70%;
+			font-size: 34px;
+		}
+		.overlay ul li {
+			min-height: 34px;
+		}
+	}
 
 	.navIconButton{
 		background:white;
