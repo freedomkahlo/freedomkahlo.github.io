@@ -33,6 +33,7 @@
 		border: 2px solid;
     	border-radius: 25px;
 		background-color: #FFFFFF;
+		overflow: scroll;
 	}
 
 	.navbar {
