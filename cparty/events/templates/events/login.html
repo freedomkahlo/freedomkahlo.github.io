@@ -132,15 +132,14 @@
 									<form id="user_form" method="post" action="/events/register/" enctype="multipart/form-data" style:"margins: auto;">
 									  	{% csrf_token %}
 						
-									<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" size="30" />
-									<center><label for="name">Last Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="last_name" id="last_name" size="30" />
-									<center><label for="name">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="username" id="username" size="30" />
+									<center><label for="name">Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" size="30" />
+									<!-- <center><label for="name">Last Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="last_name" id="last_name" size="30" /> -->
+									<!-- <center><label for="name">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="username" id="username" size="30" /> -->
 									<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
 									<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
 									<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%; height: 10%;" type="password" name="password" id="password" size="25" />
 									<p><center><input type="submit" value="Register" name="submit" id="register" class="button special" /></center></p>
 									</form>
-									<br /> <br />
 								</div>
 							</div>
 						</div>
