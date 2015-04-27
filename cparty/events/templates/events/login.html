@@ -7,7 +7,15 @@
 <html>
 	<head>
 		{% load staticfiles %}
-
+		<script>
+			var mobileStyle = '{% static 'events/css/style-mobile.css' %}';
+			var style = '{% static 'events/css/style.css' %}';
+			var wideStyle = '{% static 'events/css/style-wide.css' %}';
+			var narrowStyle = '{% static 'events/css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'events/css/style-narrower.css' %}';
+			var normalStyle = '{% static 'events/css/style-normal.css' %}';;
+		</script>
+		
 		<title>Skedg - Let us check your skedg! </title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
@@ -46,8 +54,8 @@
 				<h1 id="logo"><a href="index.html">Skedg <span> - Let us check your schedule!  </span></a></h1>
 				<nav id="nav">
 					<ul>
-						<li><a href="" id="trigger-overlay" class="links ">Login</a></li>
-						<li><a href="" id="trigger-overlay-two" class="links ">Register</a></li>
+						<li><a href="" id="trigger-overlay" class="links button special ">Login</a></li>
+						<li><a href="" id="trigger-overlay-two" class="links button special ">Register</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -179,15 +187,6 @@
 					</ul>
 				</footer>
 			</section>
-	// <script>
-	// 	$(document).ready(function(){
-	// 	    $('a.links').click(function (e){
-	// 		   e.preventDefault();
-	// 		   var div_id = $('a.links').index($(this))
-	// 		   $('.divs').hide().eq(div_id).show();
-	// 		});
-	// 	});
-	// </script>
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
 		<script src="{% static 'events/js/demo1.js' %}"></script>
