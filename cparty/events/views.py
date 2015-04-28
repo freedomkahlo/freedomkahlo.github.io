@@ -81,9 +81,8 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	getTimes(request, eventID)
 	messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/eventDetails/' + eventID)
-	return HttpResponseRedirect('/events/')
+	return getTimes(request, eventID)
 
 def autocomplete_user(request):
     term = request.GET.get('term') #jquery-ui.autocomplete parameter
@@ -109,7 +108,10 @@ def delete(request):
 
 	event.delete()
 	return HttpResponseRedirect('/events/')
+
 def getTimes(request, eventID=None):
+	roundToMin = 15 #minutes
+
 	def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
 		"""Round a datetime object to any time laps in seconds
 		dt : datetime.datetime object, default now.
@@ -124,6 +126,7 @@ def getTimes(request, eventID=None):
 		eventID = eventID
 	else: 
 		eventID = request.POST['eventID']
+	
 	event = get_object_or_404(Instance, eventID=eventID)
 	event.is_scheduled = True
 	event.save()
@@ -178,18 +181,6 @@ def getTimes(request, eventID=None):
 	
 #creator can boot someone, delete/skedge/getTimes on event.
 def manageCreator(request):
-	
-	roundToMin = 15 #minutes
-
-	def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
-		"""Round a datetime object to any time laps in seconds
-		dt : datetime.datetime object, default now.
-		roundTo : Closest number of seconds to round up to, default 15 minutes.
-		"""
-		seconds = (dt - dt.min).seconds
-		# // is a floor division, not a comment on following line:
-		rounding = (seconds+roundTo) // roundTo * roundTo
-		return timedelta(0,rounding-seconds,-dt.microsecond)
 	if 'boot' in request.POST:
 		eventID = request.POST['eventID']
 		event = get_object_or_404(Instance, eventID=eventID)
@@ -213,10 +204,9 @@ def manageCreator(request):
 		n = Notification(desc=ntstr, pub_date=datetime.now())
 		
 		for i in invitees:
-			if i.rsvpAccepted:
-				peopleList.append(i.name)
-				u = get_object_or_404(User, username=i.name)
-				u.notification_set.add(n)
+			peopleList.append(i.name)
+			u = get_object_or_404(User, username=i.name)
+			u.notification_set.add(n)
 		peopleList.append(event.creator)
 		possIndex=int(request.POST['skedgeTime'])
 		possEvents = event.posstime_set.all()
