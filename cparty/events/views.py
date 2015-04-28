@@ -81,7 +81,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/' + eventID)
+	messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/eventDetails/' + eventID)
 	return HttpResponseRedirect('/events/')
 
 def autocomplete_user(request):
@@ -227,6 +227,7 @@ def manageInvitee(request):
 		else:
 			invitee = Invitee(name=username)
 			event.invitee_set.add(invitee)
+			getTimes(request)
 			return detail(request, eventID)
 	if 'decline' in request.POST:
 		if (len(event.invitee_set.filter(name = username)) > 0):
@@ -237,6 +238,7 @@ def manageInvitee(request):
 
 			invitee = get_object_or_404(Invitee, name=username)
 			invitee.delete()
+			getTimes(request)
 			return detail(request, eventID)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
