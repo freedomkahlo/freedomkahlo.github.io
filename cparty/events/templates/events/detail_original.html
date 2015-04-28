@@ -1,0 +1,40 @@
+{% if event %}
+<h2>Event title: {{ event.title }}</h2>
+<p>Event description: {{ event.desc }}</p>
+<p>Event creator: {{ event.creator }}</p>
+
+<p> Made on: {{ event.pub_date }}</p>
+<h2>Invitees: 
+{% for invitee in event.invitee_set.all %}
+<p> {{ invitee.name }} </p>
+{% endfor %}
+
+{% endif %}
+
+<!-- only if not in -->
+<div><h1>IF CREATOR </h1>
+	{% if event.creator == user.username %}
+	<form action="{% url 'events:manageCreator' %}" method="post">
+		{% csrf_token %}
+		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+		<li>
+			<bold> Event Name: </bold> <a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> <br/>
+			<input type="submit" name="delete" id="delete_button" value="Delete Event"/>
+			<input type="submit" name="skedg" value="Skedgule Event" />
+			<br/>
+		</li>
+		<br/>
+	</form>
+
+	{% else %}
+	<form action="{% url 'events:manageInvitee' %}" method="post">   
+		{% csrf_token %}
+		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
+		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span> 		
+		<input type="submit" name="join" value="Join Event"/>					
+		<input type="submit" name="decline" value="Decline Events"/>
+		</form>
+	{% endif %}
+</div>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+</div>
