@@ -81,7 +81,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	getTimes(request)
+	getTimes(request, eventID)
 	messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/eventDetails/' + eventID)
 	return HttpResponseRedirect('/events/')
 
@@ -109,7 +109,7 @@ def delete(request):
 
 	event.delete()
 	return HttpResponseRedirect('/events/')
-def getTimes(request):
+def getTimes(request, eventID=None):
 	def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
 		"""Round a datetime object to any time laps in seconds
 		dt : datetime.datetime object, default now.
@@ -120,7 +120,10 @@ def getTimes(request):
 		rounding = (seconds+roundTo) // roundTo * roundTo
 		return timedelta(0,rounding-seconds,-dt.microsecond)
 
-	eventID = request.POST['eventID']
+	if request.POST['eventID'] in [None, ""]:
+		eventID = eventID
+	else: 
+		eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 	event.is_scheduled = True
 	event.save()
