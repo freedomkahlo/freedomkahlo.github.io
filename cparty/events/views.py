@@ -122,7 +122,7 @@ def getTimes(request, eventID=None):
 		rounding = (seconds+roundTo) // roundTo * roundTo
 		return timedelta(0,rounding-seconds,-dt.microsecond)
 
-	if request.POST['eventID'] in [None, ""]:
+	if 'campaign_id_crid' not in request.args:
 		eventID = eventID
 	else: 
 		eventID = request.POST['eventID']
