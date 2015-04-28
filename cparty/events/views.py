@@ -81,6 +81,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
+	getTimes(request)
 	messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/eventDetails/' + eventID)
 	return HttpResponseRedirect('/events/')
 
@@ -182,6 +183,7 @@ def manageCreator(request):
 		i_name = request.POST['invitee_name']
 		invitee = get_object_or_404(Invitee, name=i_name)
 		invitee.delete();
+		getTimes(request)
 
 	if 'delete' in request.POST:
 		return delete(request)
