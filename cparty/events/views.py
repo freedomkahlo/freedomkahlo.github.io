@@ -203,10 +203,9 @@ def manageCreator(request):
 		n = Notification(desc=ntstr, pub_date=datetime.now())
 		
 		for i in invitees:
-			if i.rsvpAccepted:
-				peopleList.append(i.name)
-				u = get_object_or_404(User, username=i.name)
-				u.notification_set.add(n)
+			peopleList.append(i.name)
+			u = get_object_or_404(User, username=i.name)
+			u.notification_set.add(n)
 		peopleList.append(event.creator)
 		possIndex=int(request.POST['skedgeTime'])
 		possEvents = event.posstime_set.all()
