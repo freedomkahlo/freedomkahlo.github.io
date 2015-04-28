@@ -131,6 +131,8 @@ def getTimes(request):
 		rounding = (seconds+roundTo) // roundTo * roundTo
 		return timedelta(0,rounding-seconds,-dt.microsecond)
 
+	roundToMin = 15 #minutes
+
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 	event.is_scheduled = True
@@ -186,8 +188,6 @@ def getTimes(request):
 	
 #creator can boot someone, delete/skedge/getTimes on event.
 def manageCreator(request):
-	roundToMin = 15 #minutes
-
 	if 'boot' in request.POST:
 		eventID = request.POST['eventID']
 		event = get_object_or_404(Instance, eventID=eventID)
