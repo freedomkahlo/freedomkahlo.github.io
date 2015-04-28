@@ -105,8 +105,8 @@
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 														<li>
-															<input class="navIconButton" type="submit" name="skedg" value="Skedgule Event"><i class="fa fa-clock-o"></i></input>
-															<input class="navIconButton" type="submit" name="delete" value="Delete Event"><i class="fa fa-remove"></i></input>
+															<button class="navIconButton" type="submit" name="skedg"><i class="fa fa-clock-o"></i></input>
+															<button class="navIconButton" type="submit" name="delete"><i class="fa fa-remove"></i></input>
 														</li>
 														<br/>
 													</form>
@@ -116,8 +116,8 @@
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span> 
-														<input class="navIconButton" type="submit" name="join" value="Join Event"><i class="fa fa-user-plus"></i></input>
-														<input class="navIconButton" type="submit" name="decline" value="Decline Event"><i class="fa fa-user-times"></i></input>		
+														<button class="navIconButton" type="submit" name="join"><i class="fa fa-user-plus"></i></input>
+														<button class="navIconButton" type="submit" name="decline"><i class="fa fa-user-times"></i></input>		
 														</form>
 												{% endif %}
 												<br/>									
