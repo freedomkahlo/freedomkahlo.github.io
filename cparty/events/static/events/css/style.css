@@ -1,6 +1,17 @@
 @import url("font-awesome.min.css");
 @import url("http://fonts.googleapis.com/css?family=Lato:300,400,900");
 
+	/* Sketchy Responsive Stuff*/
+	.sampleClass {
+		float: left;
+	}
+	@media only screen and (max-width: 2000px){
+		.sampleClass {
+			float: none;
+			width: 20px;
+		}
+	}
+
 	/* Overlay style */
 	.overlay, .overlay2 {
 		position: fixed;
