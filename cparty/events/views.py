@@ -160,9 +160,9 @@ def getTimes(request):
 		event.posstime_set.add(possTime)
 	#possTime = PossTime()
 	#event.posstime_set.add(possTime)
-	return HttpResponseRedirect('/events/')
+	return detail(request, eventID)
+	
 #creator can boot someone, delete/skedge/getTimes on event.
-
 def manageCreator(request):
 	
 	roundToMin = 15 #minutes
@@ -227,7 +227,7 @@ def manageInvitee(request):
 		else:
 			invitee = Invitee(name=username)
 			event.invitee_set.add(invitee)
-			return detail(request, eventID)
+			return getTimes(request)
 	if 'decline' in request.POST:
 		if (len(event.invitee_set.filter(name = username)) > 0):
 			ntstr = username + " has been removed from " + event.title

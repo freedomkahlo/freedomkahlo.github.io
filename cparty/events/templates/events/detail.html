@@ -104,10 +104,10 @@
 													<form action="{% url 'events:manageCreator' %}" method="post">
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-														<li>
-															<button class="navIconButton" type="submit" name="skedg"><i class="fa fa-clock-o"></i></input>
-															<button class="navIconButton" type="submit" name="delete"><i class="fa fa-remove"></i></input>
-														</li>
+														
+														<button class="navIconButton" type="submit" name="skedg"><i class="fa fa-clock-o"></i></input>
+														<button class="navIconButton" type="submit" name="delete"><i class="fa fa-remove"></i></input>
+														
 														<br/>
 													</form>
 												{% else %}
@@ -132,7 +132,7 @@
 											<h2><strong>Description: {{ event.desc }}</strong></h2>
 										</header>
 										<header>
-											<h2><strong>Creator: {{ event.creator }}</strong></h2>
+											<h3><strong>Creator: {{ event.creator }}</strong></h3>
 										</header>
 										<div class="row">
 											<div class="6u 12u(narrower)">
@@ -158,7 +158,9 @@
 											</div>
 										</div>
 										<section id="friends">
-											Current Times.
+												{% for time in event.posstime_set.all %}
+													<p> {{ time }} </p>
+												{% endfor %}
 										</section>
 									</div>
 								</section>
