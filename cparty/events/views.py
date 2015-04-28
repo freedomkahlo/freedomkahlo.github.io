@@ -110,6 +110,16 @@ def delete(request):
 	event.delete()
 	return HttpResponseRedirect('/events/')
 def getTimes(request):
+	def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
+		"""Round a datetime object to any time laps in seconds
+		dt : datetime.datetime object, default now.
+		roundTo : Closest number of seconds to round up to, default 15 minutes.
+		"""
+		seconds = (dt - dt.min).seconds
+		# // is a floor division, not a comment on following line:
+		rounding = (seconds+roundTo) // roundTo * roundTo
+		return timedelta(0,rounding-seconds,-dt.microsecond)
+
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 	event.is_scheduled = True
