@@ -7,6 +7,7 @@
 <html>
 	<head>
 		{% load staticfiles %}
+
 		<title>Skedg - Let us check your skedg! </title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
@@ -48,9 +49,9 @@
 			<article id="main">
 				<div class="content">
 					<section>
-						<link rel="stylesheet" type="text/css" href="css/normalize.css" />
-						<link rel="stylesheet" type="text/css" href="css/demo.css" />
-						<link rel="stylesheet" type="text/css" href="css/style1.css" />
+						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'events/css/style1.css' %}" />
 
 						<br />
 						<div class="overlay overlay-hugeinc">
@@ -80,9 +81,9 @@
 								</div>
 							</div>
 						</div>
-						<link rel="stylesheet" href="css/skel.css" />
-						<link rel="stylesheet" href="css/style.css" />
-						<link rel="stylesheet" href="css/style-wide.css" />
+						<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
+						<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
+						<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
 						<noscript>
 							<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 						</noscript>
@@ -185,8 +186,8 @@
 				});
 			});
 		</script>
-		<script src="js/modernizr.custom.js"></script>
-		<script src="js/classie.js"></script>
-		<script src="js/demo1.js"></script>
+		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'events/js/classie.js' %}"></script>
+		<script src="{% static 'events/js/demo1.js' %}"></script>
 	</body>
 </html>
