@@ -1,7 +1,5 @@
 (function() {
-	var triggerBttn = document.getElementById( 'trigger-overlay' ),
-		triggerBttnTwo = document.getElementById( 'trigger-overlay-two' ),
-		triggerBttnMobile = document.getElementsByClassName( 'link depth-0' ),
+	var triggerBttnMobile = document.getElementsByClassName( 'link depth-0' ),
 		overlay = document.querySelector( 'div.overlay' ),
 		overlay2 = document.querySelector( 'div.overlay2' ),
 		closeBttn = overlay.querySelector( 'button.overlay-close' );
@@ -68,9 +66,8 @@
 		}
 	}
 
-	console.log(triggerBttnMobile.length);
-	triggerBttn.addEventListener( 'click', toggleOverlay);
+	triggerBttnMobile[0].addEventListener( 'click', toggleOverlay);
 	closeBttn.addEventListener( 'click', toggleOverlay);
-	triggerBttnTwo.addEventListener( 'click', toggleOverlay2 );
+	triggerBttnMobile[1].addEventListener( 'click', toggleOverlay2 );
 	closeBttnTwo.addEventListener( 'click', toggleOverlay2 );
 })();

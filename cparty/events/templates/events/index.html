@@ -28,6 +28,10 @@
 		<script src="{% static 'events/js/skel.min.js' %}"></script>
 		<script src="{% static 'events/js/skel-layers.min.js' %}"></script>
 		<script src="{% static 'events/js/init.js' %}"></script>
+		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<script src="{% static 'events/js/moment.js' %}"></script> 
+		<script src="{% static 'events/js/combodate.js' %}"></script> 
+		<script src="{% static 'events/js/jquery.ui.touch-punch.js' %}"></script>
 
 		<!-- I am perfectly capable of putting this in a new file myself, BUT I HAVE TOLD YOU CHUMPS LIKE FIVE TIMES TO DO THIS SO I'M
 		CARRYING THIS OVER TO PROVE A POINT. -->
@@ -280,7 +284,6 @@
 					<section>
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
-						<!-- <link rel="stylesheet" type="text/css" href="{% static 'events/css/style1.css' %}" /> -->
 
 						<br />
 						<div class="overlay overlay-hugeinc">
@@ -290,6 +293,7 @@
 									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
 									<h2>Create Event</h2> 
 									<h3> {{error}} </h3>
+
 										<form action="{% url 'events:add' %}" method="post">    
 											{% csrf_token %}
 											<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
