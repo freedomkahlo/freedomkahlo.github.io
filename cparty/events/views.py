@@ -240,6 +240,7 @@ def manageInvitee(request):
 		else:
 			invitee = get_object_or_404(Invitee, name=username)
 			event.invitee_set.add(invitee)
+			print "blahhhhh"
 			return getTimes(request)
 	if 'decline' in request.POST:
 		if (len(event.invitee_set.filter(name = username)) > 0):
@@ -251,6 +252,7 @@ def manageInvitee(request):
 
 			invitee = get_object_or_404(Invitee, name=username)
 			invitee.delete()
+			print "heeee"
 			return getTimes(request)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
