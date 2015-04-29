@@ -74,7 +74,7 @@
 			z-index: 11;
 		}
 		#notification_count {
-			padding: 7px 7px 7px 7px;
+			padding: 0px 0px 0px 0px;
 			vertical-align: text-top;
 			background: #cc0000;
 			color: #ffffff;
