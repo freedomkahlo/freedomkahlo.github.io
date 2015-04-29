@@ -129,7 +129,7 @@ def getTimes(request, eventID=None):
 	if eventID == None:
 		eventID = request.POST['eventID']
 
-	if eventID == None || eventID == '':
+	if eventID == None or eventID == '':
 		print "get fucked"
 	
 	many = []
