@@ -81,8 +81,8 @@
 			margin-left: 140px;
 			border-radius: 9px;
 			position: absolute;
-			height: 20px;
-			margin-top: -3px;
+			/*height: 20px;*/
+			margin-top: -5px;
 			font-size: 11px;
 			z-index: 11;
 		}
