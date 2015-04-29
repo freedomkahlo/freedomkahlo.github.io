@@ -140,7 +140,7 @@ def auth(request):
 	# no error, so there must be an authentication code
 	authcode = request.GET['code']
 
-	post_data = {'code':authcode, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'redirect_uri':'http://skedg.tk/auth/', 'grant_type':'authorization_code'}
+	post_data = {'code':authcode, 'client_id':CLIENT_SECRETS_JSON['client_id'], 'client_secret':CLIENT_SECRETS_JSON['client_secret'], 'redirect_uri':'http://skedg.tk:82/auth/', 'grant_type':'authorization_code'}
 	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data).json()
 	
 	if 'refresh_token' not in result:
