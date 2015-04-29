@@ -47,14 +47,14 @@ class PossTime(models.Model):
 	nConflicts = models.IntegerField(default = 0)
 
 	def __str__(self):
-		# This is temporary
+		# This is temporary timezone
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
 		return startPrint.strftime("%b %d %I:%M %p") + " - " + endPrint.strftime("%I:%M %p")
 
 	@property
 	def strCreator(self):
-		# This is temporary
+		# This is temporary timezone
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
 		return startPrint.strftime("%b %d %I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "-- Conflicts: " + str(self.nConflicts)

@@ -173,6 +173,7 @@ def getTimes(request, eventID=None):
 	#list.sort(processedTimes)
 	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
 
+	event.posstime_set.clear(possTime)
 	for t in processedTimes:
 		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
 		event.posstime_set.add(possTime)
@@ -246,9 +247,9 @@ def manageInvitee(request):
 			#creator = get_object_or_404(User, username=event.creator)
 			#creator.notification_set.add(n)
 
-			invitee = Invitee(name=username)
+			inviteeSet = event.invitee_set.all()
+			invitee = inviteeSet.get(name=username)
 			invitee.delete()
-			print "heeee"
 			return getTimes(request)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
