@@ -123,7 +123,7 @@ def getTimes(request, eventID=None):
 		return timedelta(0,rounding-seconds,-dt.microsecond)
 
 	if 'eventID' not in request:
-		eventID = eventID
+		eventID = event.eventID
 	else: 
 		eventID = request.POST['eventID']
 	
