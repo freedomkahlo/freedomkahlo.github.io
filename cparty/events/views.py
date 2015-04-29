@@ -31,7 +31,7 @@ def index(request):
 	request.path_info = '/events/'
 	return render(request, 'events/index.html', context)
 
-@login_required
+#@login_required
 def detail(request, eventID):
 	event = get_object_or_404(Instance, eventID=eventID)
 	return render(request, 'events/detail.html', {'event': event})
@@ -173,7 +173,7 @@ def getTimes(request, eventID=None):
 	#list.sort(processedTimes)
 	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
 
-	event.posstime_set.clear(possTime)
+	event.posstime_set.clear()
 	for t in processedTimes:
 		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
 		event.posstime_set.add(possTime)
