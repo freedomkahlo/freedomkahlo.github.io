@@ -131,6 +131,8 @@ def getTimes(request, eventID=None):
 
 	if eventID == None or eventID == '':
 		print "get fucked"
+
+	print eventID
 	
 	many = []
 	many.append(event.creator)
@@ -179,6 +181,8 @@ def getTimes(request, eventID=None):
 		event.posstime_set.add(possTime)
 	#possTime = PossTime()
 	#event.posstime_set.add(possTime)
+
+	print "almost there!"
 	return detail(request, eventID)
 	
 #creator can boot someone, delete/skedge/getTimes on event.
