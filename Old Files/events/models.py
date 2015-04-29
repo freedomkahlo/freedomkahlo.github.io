@@ -35,7 +35,6 @@ class Instance(models.Model):
 			raise ValidationError('Start date must occur in the future.')
 		self.pub_date = timezone.now()
 
-
 	def save(self, **kwargs):
 		self.regValidate()
 		return super(Instance, self).save(**kwargs)
@@ -48,18 +47,18 @@ class PossTime(models.Model):
 	peopleList = models.CharField(max_length=100, default='')
 
 	def __str__(self):
-		# This is temporary
+		# This is temporary timezone
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
 		return startPrint.strftime("%b %d %I:%M %p") + " - " + endPrint.strftime("%I:%M %p")
 
 	@property
 	def strCreator(self):
-		# This is temporary
+		# This is temporary timezon
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
 		return startPrint.strftime("%b %d %I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "-- People: " + self.peopleList
-		
+
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
 	name = models.CharField(max_length=100)

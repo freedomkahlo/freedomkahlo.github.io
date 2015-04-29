@@ -379,7 +379,6 @@ def findTimes2(events, startTime, endTime, timeLength):
 
 	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)
 
-
 #Helper function for find Times2 which finds the time intervals for a given participant set
 def findInterval(dateList, curr):
 	start = curr

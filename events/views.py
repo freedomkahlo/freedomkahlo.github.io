@@ -112,7 +112,6 @@ def delete(request):
 def getTimes(request, eventID=None):
 	roundToMin = 15 #minutes
 
-
 	def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
 		"""Round a datetime object to any time laps in seconds
 		dt : datetime.datetime object, default now.
@@ -136,7 +135,7 @@ def getTimes(request, eventID=None):
 
 	for i in event.invitee_set.all():
 		many.append(i.name)
-	duration = int(event.event_length.split(':')[0]) * 3600 + int(event.event_length.split(':')[1]) * 60
+	duration = timedelta(int(event.event_length.split(':')[0]) * 60 + int(event.event_length.split(':')[1]))
 
 	#TEMPORARY: fixed time zone
 	startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
@@ -155,28 +154,28 @@ def getTimes(request, eventID=None):
 		startEvent = t['startTime']
 		# if rounding makes the event go beyond endtime, then just add the time range and call it good.
 		#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
-		if startEvent + roundBy + timedelta(seconds=duration) > endInDateTime:
-			endEvent = startEvent + timedelta(seconds=duration)
-			priorityValue = int(t['conflicts'])*1000
-			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'conflicts':t['conflicts']})
+		if startEvent + roundBy + duration > endInDateTime:
+			endEvent = startEvent + duration
+			priorityValue = -int(t['numFree'])*1000
+			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 			continue
 		else:
 			startEvent += timedelta(minutes=roundToMin)
-			endEvent = startEvent + timedelta(seconds=duration)
+			endEvent = startEvent + duration
 			i = 0
 			while endEvent < t['endTime']:
-				priorityValue = int(t['conflicts'])*1000 + i
-				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'conflicts':t['conflicts']})
+				priorityValue = -int(t['conflicts'])*1000 + i
+				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
-				endEvent = startEvent + timedelta(seconds=duration)
+				endEvent = startEvent + duration
 	#list.sort(processedTimes)
 	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
 
 	###### we need to clear before calling getTimes again, but I can't get it to work.
 	#event.posstime_set.clear()
 	for t in processedTimes:
-		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nConflicts=t['conflicts'])
+		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'].__str__())
 		event.posstime_set.add(possTime)
 	#possTime = PossTime()
 	#event.posstime_set.add(possTime)

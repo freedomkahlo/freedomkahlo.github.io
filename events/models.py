@@ -44,7 +44,8 @@ class PossTime(models.Model):
 	event = models.ForeignKey(Instance)
 	startTime = models.DateTimeField('start time')
 	endTime = models.DateTimeField('end time')
-	nConflicts = models.IntegerField(default = 0)
+	nFree = models.IntegerField(default = 0)
+	peopleList = models.CharField(max_length=100, default='')
 
 	def __str__(self):
 		# This is temporary timezone
@@ -54,10 +55,10 @@ class PossTime(models.Model):
 
 	@property
 	def strCreator(self):
-		# This is temporary timezone
+		# This is temporary timezon
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
-		return startPrint.strftime("%b %d %I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "-- Conflicts: " + str(self.nConflicts)
+		return startPrint.strftime("%b %d %I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "-- People: " + self.peopleList
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
