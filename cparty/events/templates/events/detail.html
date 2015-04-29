@@ -103,7 +103,7 @@
 												{% if event.creator == user.username %}
 													<form action="{% url 'events:manageCreator' %}" method="post">
 														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 														
 													<!-- 	<button class="navIconButton" type="submit" name="skedg"><i class="fa fa-clock-o"></i></input>
 														<button class="navIconButton" type="submit" name="delete"><i class="fa fa-remove"></i></input> -->
@@ -117,10 +117,10 @@
 	
 													<form action="{% url 'events:manageInvitee' %}" method="post">   
 														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
-														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span> 
-														<button class="special button" style="margin-right: -5px" type="submit" name="join">Join Event</input>
-														<button class="special button" style="margin-right: -5px" type="submit" name="decline">Leave Event</input>		
+														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+														<button class="special button" style="margin-right: -5px" type="submit" name="join">Join Event</button>
+														<button class="special button" style="margin-right: -5px" type="submit" name="decline">Leave Event</button>		
 													</form>
 												{% endif %}						
 											</div>
