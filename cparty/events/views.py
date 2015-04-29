@@ -233,8 +233,7 @@ def manageInvitee(request):
 		else:
 			invitee = Invitee(name=username)
 			event.invitee_set.add(invitee)
-			getTimes(request)
-			return HttpResponseRedirect('/events/')
+			return getTimes(request)
 	if 'decline' in request.POST:
 		if (len(event.invitee_set.filter(name = username)) > 0):
 			ntstr = username + " has been removed from " + event.title
@@ -244,8 +243,7 @@ def manageInvitee(request):
 
 			invitee = get_object_or_404(Invitee, name=username)
 			invitee.delete()
-			getTimes(request)
-			return HttpResponseRedirect('/events/')
+			return getTimes(request)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
 			messages.success(request, "You were not invited, foo.")
