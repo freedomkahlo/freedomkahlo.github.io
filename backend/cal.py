@@ -307,21 +307,18 @@ def findTimes(events, startTime, endTime, timeLength):
 	return sorted(freeTime)
 
 #events is a list events. Events are a dictionary with fields string 'creator' and datetimes 'startTime', 'endTime'
-#startTime, endTime are both datetimes, timeLength is a timedelta
+#startTime, endTime are both datetimes, timeLength is a timedelta, people is a list of everyone attending
 #Returns a list of dictionaries, each with the fields: integer 'numFree', list of strings 'participants', datetime 'start/endTime'
-def findTimes2(events, startTime, endTime, timeLength):
+def findTimes2(events, startTime, endTime, timeLength, people):
 	eventList = []
 	if (endTime - startTime < timeLength or timeLength == datetime.timedelta(0)): #search interval too short
 		return eventList
 
-	#List of people who have events
-	people = []
 	#populate the event list with the events
 	for i in range(0, len(events)):
 		try:
 			eventList.append([events[i]['start']['dateTime'], True, events[i]['creator']])
 			eventList.append([events[i]['end']['dateTime'], False, events[i]['creator']])
-			people.append(events[i]['creator'])
 		except:
 			#Ignore events without a dateTime (all day events)
 			pass
@@ -408,7 +405,7 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 	
 	#Get times for each interval
 	while (endInDateTime <= finalEndDateTime):
-		avail = avail + findTimes2(events, startInDateTime, endInDateTime, duration)
+		avail = avail + findTimes2(events, startInDateTime, endInDateTime, duration, usernameList)
 		
 		startInDateTime = startInDateTime + datetime.timedelta(1, 0, 0)
 		endInDateTime = endInDateTime + datetime.timedelta(1, 0, 0)
