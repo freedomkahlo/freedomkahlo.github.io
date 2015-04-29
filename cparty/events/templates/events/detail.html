@@ -127,18 +127,22 @@
 										</div>
 									</div>
 									<div class = "eventContainer">
-										<header>
-											<h2><strong>{{ event.title }}</strong></h2>
-										</header>
-										<header>
-										<h3><strong>Creator: {{ event.creator }}</strong></h3>
-										</header>
-										<header>
-											<h3>Description: {{ event.desc }}</h3>
-										</header>
 
 										<div class="row">
 											<div class="6u 12u(narrower)">
+												<header>
+													<h2><strong>{{ event.title }}</strong></h2>
+												</header>
+												<header>
+												<h3><strong>Creator: {{ event.creator }}</strong></h3>
+												</header>
+												<header>
+													<h3>Description: {{ event.desc }}</h3>
+												</header>
+
+											</div>
+											<div class="6u 12u(narrower)">
+
 												<section>
 													<header>
 														<h3>Invitees</h3>
@@ -146,16 +150,6 @@
 													{% for invitee in event.invitee_set.all %}
 													<p> {{ invitee.name }} </p>
 													{% endfor %}
-												</section>
-
-											</div>
-											<div class="6u 12u(narrower)">
-
-												<section>
-													<header>
-														<h3>Message Board</h3>
-													</header>
-													<p>Sed tristique purus vitae volutpat commodo suscipit amet sed nibh. Proin a ullamcorper sed blandit. Sed tristique purus vitae volutpat commodo suscipit ullamcorper sed blandit lorem ipsum dolore.</p>
 												</section>
 
 											</div>
