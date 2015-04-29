@@ -97,7 +97,7 @@
 							<div class="content">
 								<section>
 									<!-- <a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a> -->
-									<div class="navbarBody">
+									<!-- <div class="navbarBody"> -->
 										<div class="navbar">
 											<div align="right">
 												{% if event.creator == user.username %}
@@ -108,8 +108,10 @@
 													<!-- 	<button class="navIconButton" type="submit" name="skedg"><i class="fa fa-clock-o"></i></input>
 														<button class="navIconButton" type="submit" name="delete"><i class="fa fa-remove"></i></input> -->
 
-														<a class="special button" style="margin-right: -5px;" href="javascript:;">Skedg Event</a>
-														<a class="special button" href="javascript:;">Delete Event</a>
+														<ul id="nav">
+															<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay">Skedg Event</a> </li>
+															<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="">Delete Event</a></li>
+														</ul>
 														
 														<br/>
 													</form>
@@ -119,13 +121,18 @@
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
-														<button class="special button" style="margin-right: -5px" type="submit" name="join">Join Event</button>
-														<button class="special button" style="margin-right: -5px" type="submit" name="decline">Leave Event</button>		
+
+														<ul id="nav">
+															<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay" name="join">Join Event</a> </li>
+															<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" name="decline" id="">Leave Event</a></li>
+														</ul>
+<!-- 														<button class="special button" style="margin-right: -5px" type="submit" name="join">Join Event</button>
+														<button class="special button" style="margin-right: -5px" type="submit" name="decline">Leave Event</button>		 -->
 													</form>
 												{% endif %}						
 											</div>
 										</div>
-									</div>
+									<!-- </div> -->
 									<div class = "eventContainer">
 
 										<div class="row">
