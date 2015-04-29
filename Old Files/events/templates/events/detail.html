@@ -1,0 +1,14 @@
+{% if event %}
+<h2>Event title: {{ event.title }}</h2>
+<p>Event description: {{ event.desc }}</p>
+<p>Event creator: {{ event.creator }}</p>
+
+<p> Made on: {{ event.pub_date }}</p>
+<h2>Invitees: 
+{% for invitee in event.invitee_set.all %}
+<p> {{ invitee.name }} </p>
+{% endfor %}
+
+{% endif %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
