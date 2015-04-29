@@ -201,7 +201,7 @@ def manageCreator(request):
 		peopleList = []
 
 		#add notification
-		ntstr = event.creator + " has skedguled " + event.title + " and it has been added to your calendar! GG, everyone."
+		ntstr = event.creator + " has skedged " + event.title + " and it has been added to your calendar! GG, everyone."
 		n = Notification(desc=ntstr, pub_date=datetime.now())
 		
 		for i in invitees:
@@ -226,10 +226,12 @@ def manageInvitee(request):
 	event = get_object_or_404(Instance, eventID=eventID)
 	username = request.POST['username']
 
+	print request.POST
+
 	if 'join' in request.POST:
 		if (len(event.invitee_set.filter(name = username)) > 0):
 			messages.success(request, "You already part of the party, yo.")
-			return index(request)
+			return detail(request, eventID)
 		else:
 			invitee = Invitee(name=username)
 			event.invitee_set.add(invitee)
@@ -247,7 +249,7 @@ def manageInvitee(request):
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
 			messages.success(request, "You were not invited, foo.")
-			return index(request)
+			return detail(request, eventID)
 			#return detail(request, e_id)
 	if 'vote' in request.POST:
 		invitee.hasVoted = True
