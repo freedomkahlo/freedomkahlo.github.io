@@ -96,7 +96,7 @@ def getCredClient(username):
 	expirationTime = datetime.datetime.now() + datetime.timedelta(minutes=10)
 	tempStore = (username, tempCode, expirationTime)
 	tempStorageForChecking.append(tempStore)
-	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk/auth/')
+	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk:82/auth/')
 	FLOW.params['access_type'] = 'offline'
 	FLOW.params['approval_prompt'] = 'force'
 	FLOW.params['state'] = tempCode + '%' + username
