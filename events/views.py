@@ -135,7 +135,7 @@ def getTimes(request, eventID=None):
 
 	for i in event.invitee_set.all():
 		many.append(i.name)
-	duration = timedelta(int(event.event_length.split(':')[0]) * 60 + int(event.event_length.split(':')[1]))
+	duration = timedelta(minutes=(int(event.event_length.split(':')[0]) * 60 + int(event.event_length.split(':')[1])))
 
 	#TEMPORARY: fixed time zone
 	startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
