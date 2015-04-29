@@ -243,7 +243,7 @@ def manageInvitee(request):
 
 			invitee = get_object_or_404(Invitee, name=username)
 			invitee.delete()
-			return getTimes(request)
+			return index(request)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
 			messages.success(request, "You were not invited, foo.")
