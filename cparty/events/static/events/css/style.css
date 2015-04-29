@@ -78,11 +78,11 @@
 			background: #cc0000;
 			color: #ffffff;
 			font-weight: bold;
-			margin-left: 0px;
+			margin-left: 140px;
 			border-radius: 9px;
 			position: absolute;
 			height: 20px;
-			margin-top: 0px;
+			margin-top: -3px;
 			font-size: 11px;
 			z-index: 11;
 		}
