@@ -107,6 +107,9 @@
 														
 														<button class="navIconButton" type="submit" name="skedg"><i class="fa fa-clock-o"></i></input>
 														<button class="navIconButton" type="submit" name="delete"><i class="fa fa-remove"></i></input>
+
+														<a class="special button" style="margin-right: -5px;" href="javascript:;">Skedg Event</a>
+														<a class="special button" style="margin-right: -5px;" href="javascript:;">Delete Event</a>
 														
 														<br/>
 													</form>
@@ -114,10 +117,9 @@
 	
 													<form action="{% url 'events:manageInvitee' %}" method="post">   
 														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
-														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span> 
-														<button class="navIconButton" type="submit" name="join"><i class="fa fa-user-plus"></i></input>
-														<button class="navIconButton" type="submit" name="decline"><i class="fa fa-user-times"></i></input>		
+														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span></input>     
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span></input>
+														<a class="special button" style="margin-right: -5px;" href="javascript:;">Join Event</a>	
 														</form>
 												{% endif %}
 												<br/>									
