@@ -119,8 +119,8 @@
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
-														<input class="special button" style="margin-right: -5px" type="submit" name="join">Join Event</button>
-														<input class="special button" style="margin-right: -5px" type="submit" name="decline">Leave Event</button>		
+														<button class="special button" style="margin-right: -5px" type="submit" name="join">Join Event</button>
+														<button class="special button" style="margin-right: -5px" type="submit" name="decline">Leave Event</button>		
 													</form>
 												{% endif %}						
 											</div>
