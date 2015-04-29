@@ -78,10 +78,10 @@
 			background: #cc0000;
 			color: #ffffff;
 			font-weight: bold;
-			/*margin-left: 20px;*/
+			margin-left: 150px;
 			border-radius: 9px;
 			position: absolute;
-			/*margin-top: -11px;*/
+			margin-top: -4px;
 			font-size: 11px;
 			z-index: 11;
 		}
