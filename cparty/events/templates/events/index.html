@@ -57,6 +57,30 @@
 		});
 		</script>
 
+		<script type="text/javascript" >
+		$(document).ready(function()
+		{
+			$("#notificationLink").click(function()
+			{
+				$("#notificationContainer").fadeToggle(300);
+				$("#notification_count").fadeOut("slow");
+				return false;
+			});
+
+			//Document Click
+			$(document).click(function()
+			{
+				$("#notificationContainer").hide();
+			});
+			//Popup Click
+				$("#notificationContainer").click(function()
+			{
+			return false
+			});
+
+		});
+		</script>
+
 		<script>
 			$(document).ready(function(){
 				function split( val ) {
@@ -343,7 +367,18 @@
 											<div align="right">
 												<a class="special button" style="margin-right: -5px;" href="javascript:;" id="trigger-overlay">Create Event</a>
 												<a class="special button" style="margin-right: -5px;" href="javascript:;" id="">Calendar</a>
-												<a class="special button" href="javascript:;" id="">Notifications</a>
+												<li id="notification_li">
+													<span id="notification_count">3</span>
+													<a href="#" id="notificationLink">Notifications</a>
+													<div id="notificationContainer">
+														<div id="notificationTitle">Notifications
+														</div>
+														<div id="notificationsBody" class="notifications">
+														</div>
+														<div id="notificationFooter"><a href="#">See All</a>
+														</div>
+													</div>
+												</li>
 											</div>
 										</div>
 									</div>
