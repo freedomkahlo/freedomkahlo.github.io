@@ -19,6 +19,7 @@
 			margin-right: 20px;
 			font-size: 14px;
 			font-weight:bold;
+			z-index: 100001;
 		}
 		#nav li a{color:#333333;text-decoration:none}
 		#nav li a:hover{color:#006699;text-decoration:none}
@@ -46,6 +47,7 @@
 			border-color: transparent transparent white;
 			margin-top: -20px;
 			margin-left: 188px;
+			z-index: 100001;
 		}
 		#notificationTitle {
 			z-index: 1000;
@@ -55,10 +57,12 @@
 			background-color: #ffffff;
 			width: 384px;
 			border-bottom: 1px solid #dddddd;
+			z-index: 100001;
 		}
 		#notificationsBody {
 			padding: 33px 0px 0px 0px !important;
 			min-height:300px;
+			z-index: 100001;
 		}
 		#notificationFooter {
 			background-color: #e9eaed;
@@ -67,6 +71,7 @@
 			padding: 8px;
 			font-size: 12px;
 			border-top: 1px solid #dddddd;
+			z-index: 100001;
 		}
 		#notification_count {
 			padding: 3px 7px 3px 7px;
@@ -78,6 +83,7 @@
 			position: absolute;
 			margin-top: -11px;
 			font-size: 11px;
+			z-index: 100001;
 		}
 
 	/* Overlay style */
