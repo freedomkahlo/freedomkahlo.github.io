@@ -126,11 +126,11 @@ def getTimes(request, eventID=None):
 		rounding = (seconds+roundTo) // roundTo * roundTo
 		return timedelta(0,rounding-seconds,-dt.microsecond)
 
-	if 'eventID' not in request:
-		eventID = event.eventID
-	else: 
+	if eventID == None:
 		eventID = request.POST['eventID']
 
+	if eventID == None || eventID == '':
+		print "get fucked"
 	
 	many = []
 	many.append(event.creator)
