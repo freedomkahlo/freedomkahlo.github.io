@@ -135,12 +135,13 @@ def getTimes(request, eventID=None):
 	many.append(event.creator)
 
 	for i in event.invitee_set.all():
-		if i.rsvpAccepted:
-			many.append(i.name)
+		many.append(i.name)
 	duration = int(event.event_length.split(':')[0]) * 3600 + int(event.event_length.split(':')[1]) * 60
 
 	#TEMPORARY: fixed time zone
 	startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
+	if startInDateTime < datetime.now():
+		startInDateTime = datetime.now()
 	endInDateTime = datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
 	finalEndDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
 	
