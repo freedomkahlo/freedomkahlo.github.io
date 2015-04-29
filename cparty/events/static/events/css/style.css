@@ -74,14 +74,14 @@
 			z-index: 100001;
 		}
 		#notification_count {
-			padding: 3px 7px 3px 7px;
+			/*padding: 3px 7px 3px 7px;*/
 			background: #cc0000;
 			color: #ffffff;
 			font-weight: bold;
-			margin-left: 20px;
+			/*margin-left: 20px;*/
 			border-radius: 9px;
 			position: absolute;
-			margin-top: -11px;
+			/*margin-top: -11px;*/
 			font-size: 11px;
 			z-index: 100001;
 		}
