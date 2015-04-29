@@ -164,7 +164,7 @@ def getTimes(request, eventID=None):
 			endEvent = startEvent + duration
 			i = 0
 			while endEvent < t['endTime']:
-				priorityValue = -int(t['conflicts'])*1000 + i
+				priorityValue = -int(t['numFree'])*1000 + i
 				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)

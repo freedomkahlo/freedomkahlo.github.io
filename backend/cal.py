@@ -311,7 +311,7 @@ def findTimes(events, startTime, endTime, timeLength):
 #Returns a list of dictionaries, each with the fields: integer 'numFree', list of strings 'participants', datetime 'start/endTime'
 def findTimes2(events, startTime, endTime, timeLength):
 	eventList = []
-	if (endTime - startTime < timeLength or timeLength == timedelta(0)): #search interval too short
+	if (endTime - startTime < timeLength or timeLength == datetime.timedelta(0)): #search interval too short
 		return eventList
 
 	#List of people who have events
