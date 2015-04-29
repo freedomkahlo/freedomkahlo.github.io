@@ -122,7 +122,7 @@ def getTimes(request, eventID=None):
 		rounding = (seconds+roundTo) // roundTo * roundTo
 		return timedelta(0,rounding-seconds,-dt.microsecond)
 
-	if 'campaign_id_crid' not in request:
+	if 'eventID' not in request:
 		eventID = eventID
 	else: 
 		eventID = request.POST['eventID']
@@ -243,7 +243,7 @@ def manageInvitee(request):
 
 			invitee = get_object_or_404(Invitee, name=username)
 			invitee.delete()
-			return index(request)
+			return getTimes(request)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
 			messages.success(request, "You were not invited, foo.")
