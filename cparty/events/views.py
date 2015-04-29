@@ -126,12 +126,8 @@ def getTimes(request, eventID=None):
 	if eventID == None:
 		eventID = request.POST['eventID']
 
-	if eventID == None or eventID == '':
-		print "get fucked"
-	
-	print eventID
 	event = get_object_or_404(Instance, eventID=eventID)
-	print "fuckkkkk"
+
 	event.is_scheduled = True
 	event.save()
 
@@ -241,7 +237,6 @@ def manageInvitee(request):
 		else:
 			invitee = Invitee(name=username)
 			event.invitee_set.add(invitee)
-			print "blahhhhh"
 			return getTimes(request)
 	if 'decline' in request.POST:
 		if (len(event.invitee_set.filter(name = username)) > 0):
