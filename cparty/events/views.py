@@ -112,11 +112,6 @@ def delete(request):
 def getTimes(request, eventID=None):
 	roundToMin = 15 #minutes
 
-	print eventID
-	event = get_object_or_404(Instance, eventID=eventID)
-	print "fuckkkkk"
-	event.is_scheduled = True
-	event.save()
 
 	def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
 		"""Round a datetime object to any time laps in seconds
@@ -133,9 +128,13 @@ def getTimes(request, eventID=None):
 
 	if eventID == None or eventID == '':
 		print "get fucked"
-
-	print eventID
 	
+	print eventID
+	event = get_object_or_404(Instance, eventID=eventID)
+	print "fuckkkkk"
+	event.is_scheduled = True
+	event.save()
+
 	many = []
 	many.append(event.creator)
 
