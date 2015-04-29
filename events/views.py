@@ -172,6 +172,8 @@ def getTimes(request, eventID=None):
 	#list.sort(processedTimes)
 	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
 
+	#Delete all previous possTimes 
+	event.posstime_set.all().delete()
 	###### we need to clear before calling getTimes again, but I can't get it to work.
 	#event.posstime_set.clear()
 	for t in processedTimes:
