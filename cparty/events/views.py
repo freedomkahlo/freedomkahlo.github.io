@@ -233,15 +233,16 @@ def manageInvitee(request):
 			messages.success(request, "You already part of the party, yo.")
 			return detail(request, eventID)
 		else:
-			invitee = Invitee(name=username)
+			invitee = get_object_or_404(Invitee, name=username)
 			event.invitee_set.add(invitee)
 			return getTimes(request)
 	if 'decline' in request.POST:
 		if (len(event.invitee_set.filter(name = username)) > 0):
-			ntstr = username + " has been removed from " + event.title
-			n = Notification(desc=ntstr, pub_date=datetime.now())
-			creator = get_object_or_404(User, username=event.creator)
-			creator.notification_set.add(n)
+			# commenting out notification for now
+			#ntstr = username + " has been removed from " + event.title
+			#n = Notification(desc=ntstr, pub_date=datetime.now())
+			#creator = get_object_or_404(User, username=event.creator)
+			#creator.notification_set.add(n)
 
 			invitee = get_object_or_404(Invitee, name=username)
 			invitee.delete()
