@@ -117,12 +117,11 @@
 	
 													<form action="{% url 'events:manageInvitee' %}" method="post">   
 														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span></input>     
-														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span></input>
+														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></span>     
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 														<a class="special button" style="margin-right: -5px;" href="javascript:;">Join Event</a>	
 														</form>
-												{% endif %}
-												<br/>									
+												{% endif %}						
 											</div>
 										</div>
 									</div>
