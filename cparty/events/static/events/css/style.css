@@ -19,7 +19,7 @@
 			margin-right: 20px;
 			font-size: 14px;
 			font-weight:bold;
-			z-index: 100001;
+			z-index: 11;
 		}
 		#nav li a{color:#333333;text-decoration:none}
 		#nav li a:hover{color:#006699;text-decoration:none}
@@ -33,7 +33,7 @@
 			top: 30px;
 			margin-left: -170px;
 			width: 400px;
-			z-index: 100000;
+			z-index: 10;
 			display: none;
 		}
 		#notificationContainer:before {
@@ -47,7 +47,7 @@
 			border-color: transparent transparent black;
 			margin-top: -20px;
 			margin-left: 188px;
-			z-index: 100001;
+			z-index: 11;
 		}
 		#notificationTitle {
 			z-index: 1000;
@@ -57,12 +57,12 @@
 			background-color: #ffffff;
 			width: 384px;
 			border-bottom: 1px solid #dddddd;
-			z-index: 100001;
+			z-index: 11;
 		}
 		#notificationsBody {
 			padding: 33px 0px 0px 0px !important;
 			min-height:300px;
-			z-index: 100001;
+			z-index: 11;
 		}
 		#notificationFooter {
 			background-color: #e9eaed;
@@ -71,10 +71,10 @@
 			padding: 8px;
 			font-size: 12px;
 			border-top: 1px solid #dddddd;
-			z-index: 100001;
+			z-index: 11;
 		}
 		#notification_count {
-			/*padding: 3px 7px 3px 7px;*/
+			padding: 3px 7px 3px 7px;
 			background: #cc0000;
 			color: #ffffff;
 			font-weight: bold;
@@ -83,7 +83,7 @@
 			position: absolute;
 			/*margin-top: -11px;*/
 			font-size: 11px;
-			z-index: 100001;
+			z-index: 11;
 		}
 
 	/* Overlay style */
