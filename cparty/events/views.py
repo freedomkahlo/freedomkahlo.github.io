@@ -238,7 +238,7 @@ def manageInvitee(request):
 			messages.success(request, "You already part of the party, yo.")
 			return detail(request, eventID)
 		else:
-			invitee = get_object_or_404(Invitee, name=username)
+			invitee = Invitee(name=username)
 			event.invitee_set.add(invitee)
 			print "blahhhhh"
 			return getTimes(request)
@@ -250,7 +250,7 @@ def manageInvitee(request):
 			#creator = get_object_or_404(User, username=event.creator)
 			#creator.notification_set.add(n)
 
-			invitee = get_object_or_404(Invitee, name=username)
+			invitee = Invitee(name=username)
 			invitee.delete()
 			print "heeee"
 			return getTimes(request)
