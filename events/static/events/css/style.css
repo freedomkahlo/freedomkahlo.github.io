@@ -65,7 +65,7 @@
 		}
 		#notificationsBody {
 			padding: 0px 0px 0px 0px !important;
-			min-height:300px;
+			min-height: 300px;
 			z-index: 11;
 		}
 
@@ -77,7 +77,7 @@
 		}
 
 		#notificationsBodyContainer {
-			width: 85%;
+			width: 75%;
 		}
 
 		#notificationFooter {
@@ -114,7 +114,7 @@
 	    border-radius: 30px;
 	    background: #605F61;
 	    font-size: 31px;
-	    height: 25px;
+	    height: 30px;
 	    font-weight: bold;
 	    display: inline-block;
 	    line-height: 0px;
