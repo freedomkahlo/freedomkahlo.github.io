@@ -219,6 +219,7 @@
 		color: black;
 		font-size: 30px;
 	}
+
 	.register {
 		width: 35%;
 		display: block;
@@ -241,6 +242,12 @@
 		border: 2px solid;
     	border-radius: 25px;
 		background-color: #FFFFFF;
+	}
+
+	.startendTime {
+	    -webkit-columns: 45% 2; /* Chrome, Safari, Opera */
+	    -moz-columns: 45% 2; /* Firefox */
+	    columns: 45% 2;
 	}
 
 	.navbar {
