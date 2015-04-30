@@ -373,12 +373,18 @@
 													<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay">Create Event</a> </li>
 													<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="">Calendar</a></li>
 													<li id="notification_li">
-														<span id="notification_count">3</span>
+														<span id="notification_count">[{{ user.notification_set.all|length }}]</span>
 														<a class = "special button" style="background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="#" id="notificationLink">Notifications</a>
 														<div id="notificationContainer">
 															<div id="notificationTitle">Notifications</div>
 															<div id="notificationsBody" class="notifications">
-																<!-- Put notifications Here -->
+																{% for notification in user.notification_set.all %}
+																<form action="{% url 'events:manageNotification' %}" method="post">
+																{% csrf_token %}
+																	<p> {{ notification }} <input type="submit" name="dismiss" value="Dismiss"/></p>
+																		<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
+																</form>
+																{% endfor %}
 															</div>
 															<div id="notificationFooter"><a href="#">See All</a></div>
 														</div>
