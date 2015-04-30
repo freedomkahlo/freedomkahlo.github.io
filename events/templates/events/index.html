@@ -403,6 +403,15 @@
 																	</form>
 																	</li>
 																	{% endfor %}
+																	{% for notification in user.notification_set.all %}
+																	<li>
+																	<form action="{% url 'events:manageNotification' %}" method="post">
+																	{% csrf_token %}
+																		<p> {{ notification }} <a class="boxclose" id="boxclose"></a></p>														<!-- <input type="submit" name="dismiss" value="x"/></p> -->
+																		<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
+																	</form>
+																	</li>
+																	{% endfor %}
 																</ul>
 															</div>
 															<div id="notificationFooter"> <input type="submit" name="clear" value="Clear All"/></div>
