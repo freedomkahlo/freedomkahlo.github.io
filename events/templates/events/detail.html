@@ -194,23 +194,23 @@
 										<!-- should only show if in event or is creator -->
 										<!-- creator view -->
 										{% if event.creator == user.username %}
-											<section id="friends"><div class="row">
+											<section id="friends">
 												I AM CREATOR
-													
-												{% for time in event.posstime_set.all %}
-							
-														<div class="4u 12u(narrower)">
-															<section>
-																<span class="icon fa-clock-o"></span>
-																<header>
-																	<h3>Time: {{ time }} </h3>
-																</header>
-																<p>People who are coming.</p>
-															</section>
-														</div>
-	
-												{% endfor %}
-											</div>
+												<div class="row">
+													{% for time in event.posstime_set.all %}
+								
+															<div class="4u 12u(narrower)">
+																<section>
+																	<span class="icon fa-clock-o"></span>
+																	<header>
+																		<h3>Time: {{ time }} </h3>
+																	</header>
+																	<p>People who are coming.</p>
+																</section>
+															</div>
+		
+													{% endfor %}
+												</div>
 											</section>
 										{% endif %}
 
