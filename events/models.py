@@ -50,7 +50,7 @@ class PossTime(models.Model):
 	@property
 	def date(self):
 		startPrint = self.startTime - timedelta(hours=4)
-		return "Date: " + startPrint.strftime("%b %d").lstrip("0").replace("0", " ")
+		return startPrint.strftime("%b %d").lstrip("0").replace("0", " ")
 	
 	@property
 	def time(self):
@@ -66,7 +66,7 @@ class PossTime(models.Model):
 		# This is temporary timezone
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
-		return "Date: " + startPrint.strftime("%b %d") + "\n " + startPrint.strftime("%I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "\n People: " + self.peopleList
+		return startPrint.strftime("%b %d") + "\n " + startPrint.strftime("%I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "\n People: " + self.peopleList
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
