@@ -34,7 +34,7 @@
 			<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
 			<link rel="stylesheet" href="{% static 'events/css/style-noscript.css' %}" />
 		</noscript>
-		
+
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
 	</head>
@@ -158,10 +158,6 @@
 														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
 
-<!-- 														<ul id="nav">
-															<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay" name="join">Join Event</a> </li>
-															<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" name="decline" id="">Leave Event</a></li>
-														</ul> -->
 														<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="join">Join Event</button>
 														<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="decline">Leave Event</button>		
 													</form>
