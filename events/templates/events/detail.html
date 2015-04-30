@@ -157,6 +157,7 @@
 
 											</div>
 										</div>
+
 										<!-- why is this section friends -->
 										<!-- should only show if in event or is creator -->
 										<!-- creator view -->
@@ -182,6 +183,48 @@
 											</section>
 											{% endif %}
 										{% endfor %}
+
+										<div class="row">
+											<div class="4u 12u(narrower)">
+
+												<section>
+													<span class="icon fa-clock-o"></span>
+													<header>
+														<h3>Time 1: </h3>
+													</header>
+													<p>People who are coming. Voting.</p>
+												</section>
+
+											</div>
+											<div class="4u 12u(narrower)">
+
+												<section>
+													<span class="icon fa-clock-o"></span>
+													<header>
+														<h3>Time 2: </h3>
+													</header>
+													<p>People who are coming. Voting. </p>
+												</section>
+
+											</div>
+											<div class="4u 12u(narrower)">
+
+												<section>
+													<span class="icon fa-clock-o"></span>
+													<header>
+														<h3>Time 3: </h3>
+													</header>
+													<p>People who are coming. Voting. </p>
+												</section>
+
+											</div>
+										</div>
+
+										<section id="friends">
+												{% for time in event.posstime_set.all %}
+													<p> {{ time }} </p>
+												{% endfor %}
+										</section>
 									</div>
 								</section>
 							</div>
