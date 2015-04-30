@@ -342,7 +342,10 @@ def findTimes2(events, startTime, endTime, timeLength, people):
 		incr += 1
 
 	if incr == len(eventList): #If no events occur during the search time
-		return [{'numFree':len(people), 'participants':people, 'startTime':startTime, 'endTime':endTime}]
+		s = ''
+		for x in people:
+			s += x + ', '
+		return [{'numFree':len(people), 'participants':s[:-2], 'startTime':startTime, 'endTime':endTime}]
 
 	dateList = [[startTime, participants]] #Only save the unique start/end times along with who can make it starting at that time
 	while incr < len(eventList) and eventList[incr][0] <= endTime:
