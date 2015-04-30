@@ -64,7 +64,7 @@
 			z-index: 11;
 		}
 		#notificationsBody {
-			padding: 0px 0px 0px 0px !important;
+			padding: -33px 0px 0px 0px !important;
 			min-height: 300px;
 			z-index: 11;
 		}
@@ -77,7 +77,7 @@
 		}
 
 		#notificationsBodyContainer {
-			width: 70%;
+			width: 90%;
 		}
 
 		#notificationFooter {
