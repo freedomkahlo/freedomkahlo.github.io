@@ -388,7 +388,10 @@ def findInterval(dateList, curr):
 
 #Helper function for findTimes2 which, given a participant list in bit form, returns the list of participants in string form
 def getPeople(people, participants):
-	return [people[i] for i in range(len(people)) if participants & 2 ** i > 0]
+	s = ''
+	for x in [people[i] for i in range(len(people)) if participants & 2 ** i > 0]:
+		s += x + ', '
+	return s[:-2]
 
 
 # timeStart and timeEnd are strings formatted RFC3339

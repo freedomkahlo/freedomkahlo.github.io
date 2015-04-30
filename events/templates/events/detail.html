@@ -166,7 +166,6 @@
 										</div>
 									<!-- </div> -->
 									<div class = "eventContainer">
-
 										<div class="row">
 											<div class="6u 12u(narrower)">
 												<header>
@@ -195,8 +194,7 @@
 										<!-- creator view -->
 										{% if event.creator == user.username %}
 											<section id="friends">
-												I AM CREATOR
-												<div class="row">
+												<div class="row" style="margin-top: -20px">
 													{% for time in event.posstime_set.all %}
 								
 															<div class="4u 12u(narrower)">
