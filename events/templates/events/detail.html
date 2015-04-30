@@ -157,11 +157,31 @@
 
 											</div>
 										</div>
-										<section id="friends">
-												{% for time in event.posstime_set.all %}
-													<p> {{ time }} </p>
-												{% endfor %}
-										</section>
+										<!-- why is this section friends -->
+										<!-- should only show if in event or is creator -->
+										<!-- creator view -->
+										{% if event.creator == user.username %}
+											<section id="friends">
+												I AM CREATOR
+													<!-- voting mechanism -->
+													{% for time in event.posstime_set.all %}
+														<p> {{ time }} </p>
+													{% endfor %}
+											</section>
+										{% endif %}
+
+										<!-- invitee view -->
+										{% for i in event.invitee_set.all %}
+											{% if i.name == user.username %}
+												<section id="friends">
+												INVITEE
+													<!-- voting mechanism -->
+													{% for time in event.posstime_set.all %}
+														<p> {{ time }} </p>
+													{% endfor %}
+											</section>
+											{% endif %}
+										{% endfor %}
 									</div>
 								</section>
 							</div>
