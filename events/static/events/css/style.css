@@ -64,7 +64,7 @@
 			z-index: 11;
 		}
 		#notificationsBody {
-			padding: 33px 0px 0px 0px !important;
+			padding: 0px 0px 0px 0px !important;
 			min-height:300px;
 			z-index: 11;
 		}
@@ -72,8 +72,12 @@
 		#notificationsBody li {
 		    border-bottom: 1px solid #dddddd;
 		    height: 100px;
+		    text-align: left;
 		}
 
+		#notificationsBodyContainer {
+			width: 85%;
+		}
 
 		#notificationFooter {
 			background-color: #e9eaed;
@@ -109,6 +113,7 @@
 	    border-radius: 30px;
 	    background: #605F61;
 	    font-size: 31px;
+	    height: 20px;
 	    font-weight: bold;
 	    display: inline-block;
 	    line-height: 0px;
