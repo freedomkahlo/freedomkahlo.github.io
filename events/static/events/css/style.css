@@ -231,6 +231,18 @@
 		background-color: #FFFFFF;
 	}
 
+	.createEvent {
+		width: 45%;
+		display: block;
+		margin: 0 auto;
+		margin-top: 100px;
+		margin-bottom: 25px;
+		color: #000000;
+		border: 2px solid;
+    	border-radius: 25px;
+		background-color: #FFFFFF;
+	}
+
 	.navbar {
 		background-color: #d3d3d3;
 		border: 1px solid #dedede;
