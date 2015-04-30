@@ -47,19 +47,29 @@ class PossTime(models.Model):
 	nFree = models.IntegerField(default = 0)
 	peopleList = models.CharField(max_length=100, default='')
 
+	@property
+	def date(self):
+		startPrint = self.startTime - timedelta(hours=4)
+		return "Date: " + startPrint.strftime("%b %d")
+	
+	@property
+	def time(self):
+		startPrint = self.startTime - timedelta(hours=4)
+		endPrint = self.endTime - timedelta(hours=4)
+		return "Time: " + startPrint.strftime("%I:%M %p") + " - " + endPrint.strftime("%I:%M %p")
+
+	@property
+	def people(self):
+		s = ''
+		for x in self.peopleList:
+			s += x + ', '
+		return s[:-2]
+	
 	def __str__(self):
 		# This is temporary timezone
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
 		return "Date: " + startPrint.strftime("%b %d") + "\n Time: " + startPrint.strftime("%I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "\n People: " + self.peopleList
-
-	@property
-	def strCreator(self):
-		# This is temporary timezone
-		startPrint = self.startTime - timedelta(hours=4)
-		endPrint = self.endTime - timedelta(hours=4)
-		return "Date: " + startPrint.strftime("%b %d") + "\n Time: " + startPrint.strftime("%I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "\n People: " + self.peopleList
-
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
