@@ -51,7 +51,7 @@ class PossTime(models.Model):
 		# This is temporary timezone
 		startPrint = self.startTime - timedelta(hours=4)
 		endPrint = self.endTime - timedelta(hours=4)
-		return startPrint.strftime("%b %d") + "\n " + startPrint.strftime("%I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "\n People: " + self.peopleList
+		return "Date: " + startPrint.strftime("%b %d") + "\n Time: " + startPrint.strftime("%I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "\n People: " + self.peopleList
 
 	@property
 	def strCreator(self):
