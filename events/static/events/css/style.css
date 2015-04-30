@@ -68,6 +68,13 @@
 			min-height:300px;
 			z-index: 11;
 		}
+
+		#notificationsBody li {
+		    border-bottom: 1px solid #dddddd;
+		    height: 100px;
+		}
+
+
 		#notificationFooter {
 			background-color: #e9eaed;
 			text-align: center;
@@ -103,11 +110,9 @@
 	    background: #605F61;
 	    font-size: 31px;
 	    font-weight: bold;
-	    height: 100px;
 	    display: inline-block;
 	    line-height: 0px;
-	    padding: 11px 3px;
-	    border-bottom: 1px solid #dddddd;     
+	    padding: 11px 3px;  
 	}
 
 .boxclose:before {
