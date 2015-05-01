@@ -351,7 +351,7 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 	for username in usernameList:
 		service = buildService(username)
 		events = events + [x for x in (get_event_list(service=service, start=startInDateTime.isoformat('T'),
-		end=finalEndDateTime.isofmrat('T'))) if x.update({'creator':username})]
+		end=finalEndDateTime.isoformat('T'))) if x.update({'creator':username})]
 	avail = []
 	
 	#Get times for each interval
