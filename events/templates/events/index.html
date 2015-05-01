@@ -38,12 +38,6 @@
 		CARRYING THIS OVER TO PROVE A POINT. -->
 		<script>
 		$(function(){
-			{% if messages %}
-				//Created event
-				{% for message in messages %}
-					alert('{{message}}');
-				{% endfor %}
-			{% endif %}
 			//Set default for create event
 			{% if not time_range %}
 				$("#time_range").val("2:00 PM-5:00 PM");

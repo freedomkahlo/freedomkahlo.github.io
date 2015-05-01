@@ -34,6 +34,14 @@
 			<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
 			<link rel="stylesheet" href="{% static 'events/css/style-noscript.css' %}" />
 		</noscript>
+		<script type="text/javascript">
+			{% if messages %}
+				//Created event
+				{% for message in messages %}
+					alert('{{message}}');
+				{% endfor %}
+			{% endif %}
+		</script>
 
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
