@@ -22,7 +22,7 @@ import requests
 #import string
 #import random
 from heapq import *
-from datetime import datetime, timezone
+from datetime import datetime, timedelta
 import pytz
 import argparse
 from django.http import HttpResponseRedirect
