@@ -194,7 +194,7 @@
 										<!-- creator view -->
 										{% if event.creator == user.username %}
 											<section id="friends">
-												<div class="row" style="margin-top: -100px"><form action="{% url 'events:manageCreator' %}" method="post">
+												<div class="row" style="margin-top: -100px">
 													{% for time in event.posstime_set.all %}
 															<div class="4u 12u(narrower)">
 																<section>
@@ -203,22 +203,13 @@
 																		<h3> {{ time.date }} </h3>
 																		<p> {{ time.time }} </p>
 																		<p> {{ time.people }} </p>
-																		{% if forloop.counter == 1 %}
-																			<p>
-																			<input type="radio" name="skedgeTime" value="{{ time.id }}" checked="checked"/></p>
-																		{% else %}
-																			<p>
-																			<input type="radio" name="skedgeTime" value="{{ time.id }}"/></p>
-																		{% endif %}
-																		</p>
 																	</header>
 
 																	<p>People who are coming.</p>
 																</section>
 															</div>
-		
 													{% endfor %}
-												</form></div>
+												</div>
 											</section>
 										{% endif %}
 
