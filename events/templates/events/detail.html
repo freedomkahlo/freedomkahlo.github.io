@@ -217,10 +217,11 @@
 										
 										{% for i in event.invitee_set.all %}
 											{% if i.name == user.username %}
+												<form action="{% url 'events:manageInvitee' %}" method="post">
+															{% csrf_token %}
 												<section id="friends">
 												<div class="row" style="margin-top: -100px">
-													<form action="{% url 'events:manageInvitee' %}" method="post">
-														{% csrf_token %}
+													
 														{% for time in event.posstime_set.all %}
 															{% if forloop.counter <= 3 %}
 																<div class="4u 12u(narrower)">
@@ -236,14 +237,14 @@
 															{% endif %}
 														{% endfor %}
 														<input type="submit" name="vetoPoss" value="Veto"/>
-													</form>
+													
 												</div>
 											{% endif %}
 										{% endfor %}
 										<br/><br/>
 										
 										</section>
-											
+											</form>
 									</div>
 								</section>
 							</div>
