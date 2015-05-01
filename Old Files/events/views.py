@@ -361,6 +361,6 @@ def vetoPoss(request):
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
 		p = possTimes.get(id=pID)
-		p.nConflicts += 1
+		#p.nConflicts += 1
 		p.save()
 	return HttpResponseRedirect('/events/')
