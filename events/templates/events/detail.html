@@ -227,20 +227,20 @@
 																<section>
 																	<span class="icon fa-clock-o"></span>
 																	<header>
+																		<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
 																		<h3> {{ time.date }} </h3>
 																		<p> {{ time.time }} </p>
-																		<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
 																	</header>
 																</section>
 															</div>
 														{% endif %}
 													{% endfor %}
 												</div>
-											</section>
 											{% endif %}
 										{% endfor %}
 										<br/><br/>
 										<input type="submit" name="vetoPoss" value="Veto"/>
+										</section>
 										</form>
 	
 									</div>
