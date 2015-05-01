@@ -214,6 +214,7 @@
 										{% endif %}
 
 										<!-- invitee view -->
+										<form action="{% url 'events:manageCreator' %}" method="post">
 										{% for i in event.invitee_set.all %}
 											{% if i.name == user.username %}
 												<section id="friends">
@@ -235,6 +236,7 @@
 											</section>
 											{% endif %}
 										{% endfor %}
+										</form>
 	
 									</div>
 								</section>
