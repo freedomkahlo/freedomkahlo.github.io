@@ -60,7 +60,7 @@
 					</ul>
 				</nav>
 			</header>
-
+			<div class="loading" id="loadingOverlay" style="display:none">Loading&#8230;</div>
 		<!-- Main -->
 			<article id="main">
 				<div class="content">
@@ -248,11 +248,12 @@
 					</ul>
 				</footer>
 			</section>
-		<div class="loading" id="loadingOverlay" style="display:none">Loading&#8230;</div>
+
+
 
 		<script>
 			$(document).ready(function(){
-			    $("#loadingOverlay").click(function() {
+			    $("#join").click(function() {
 				    $("#loadingOverlay").show();
 				});
 			});	
