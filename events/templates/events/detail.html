@@ -216,6 +216,7 @@
 										<!-- invitee view -->
 										
 										<form action="{% url 'events:manageInvitee' %}" method="post">
+											{% csrf_token %}
 										{% for i in event.invitee_set.all %}
 											{% if i.name == user.username %}
 												<section id="friends">
@@ -238,6 +239,7 @@
 											</section>
 											{% endif %}
 										{% endfor %}
+										<br/><br/>
 										<input type="submit" name="vetoPoss" value="Veto"/>
 										</form>
 	
