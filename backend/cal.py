@@ -403,17 +403,19 @@ def getPeople(people, participants):
 ########### do the timeStart and timeEnd as a list of tuple(timeStart, timeEnd)
 def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTime, duration):
 	events = []
+	people = []
 	for username in usernameList:
 		service = buildService(username)
 		user = User.objects.get(username=username)
 		name = user.first_name + ' ' + user.last_name
+		people.append(name)
 		events = events + [x for x in (get_event_list(service=service, start=startInDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'),
 		end=finalEndDateTime.strftime('%Y-%m-%dT%H:%M:00-04:00'))) if x.update({'creator':name})]
 	avail = []
 	
 	#Get times for each interval
 	while (endInDateTime <= finalEndDateTime):
-		avail = avail + findTimes2(events, startInDateTime, endInDateTime, duration, usernameList)
+		avail = avail + findTimes2(events, startInDateTime, endInDateTime, duration, paople)
 		
 		startInDateTime = startInDateTime + datetime.timedelta(1, 0, 0)
 		endInDateTime = endInDateTime + datetime.timedelta(1, 0, 0)
