@@ -214,11 +214,10 @@
 										{% endif %}
 
 										<!-- invitee view -->
-										<input type="submit" name="vetoPoss" value="Veto"/>
+										
 										<form action="{% url 'events:manageInvitee' %}" method="post">
 										{% for i in event.invitee_set.all %}
 											{% if i.name == user.username %}
-												<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
 												<section id="friends">
 												<div class="row" style="margin-top: -100px">
 													{% for time in event.posstime_set.all %}
@@ -229,6 +228,7 @@
 																	<header>
 																		<h3> {{ time.date }} </h3>
 																		<p> {{ time.time }} </p>
+																		<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
 																	</header>
 																</section>
 															</div>
@@ -238,6 +238,7 @@
 											</section>
 											{% endif %}
 										{% endfor %}
+										<input type="submit" name="vetoPoss" value="Veto"/>
 										</form>
 	
 									</div>
