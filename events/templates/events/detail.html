@@ -169,7 +169,7 @@
 											</div>
 											<div class="6u 12u(narrower)">
 												<body>
-												    <textarea rows="5" cols="20" wrap="hard" onblur="CopyToClipboard(this)">YOLO</textarea>
+												    <textarea readonly rows="1" cols="20" wrap="hard" onClick="this.select();" style="resize:none">{{ event.eventID }}</textarea>
 												</body>
 
 												<section>
@@ -252,13 +252,6 @@
 				    $("#loadingOverlay").show();
 				});
 			});	
-		</script>
-
-		<script language="JavaScript">
-		function CopyToClipboard(text) {
-		    Copied = text.createTextRange();
-		    Copied.execCommand("Copy");
-		}
 		</script>
 
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
