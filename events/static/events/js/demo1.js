@@ -20,6 +20,9 @@
 			classie.remove( overlay2, 'open' );
 		}
 		if( classie.has( overlay, 'open' ) ) {
+			if(sessionStorage) {
+				sessionStorage['currPage'] = '0';
+			}
 			classie.remove( overlay, 'open' );
 			classie.add( overlay, 'close' );
 			var onEndTransitionFn = function( ev ) {
@@ -37,10 +40,10 @@
 			}
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
+			if(sessionStorage) {
+				sessionStorage['currPage'] = '1';
+			}
 			classie.add( overlay, 'open' );
-		}
-		if(sessionStorage) {
-			sessionStorage['currPage'] = '1';
 		}
 	}
 
@@ -49,6 +52,9 @@
 			classie.remove( overlay, 'open' );
 		}
 		if( classie.has( overlay2, 'open' ) ) {
+			if(sessionStorage) {
+				sessionStorage['currPage'] = '2';
+			}
 			classie.remove( overlay2, 'open' );
 			classie.add( overlay2, 'close' );
 			var onEndTransitionFn = function( ev ) {
@@ -66,6 +72,9 @@
 			}
 		}
 		else if( !classie.has( overlay2, 'close' ) ) {
+			if(sessionStorage) {
+				sessionStorage['currPage'] = '0';
+			}
 			classie.add( overlay2, 'open' );
 		}
 	}
