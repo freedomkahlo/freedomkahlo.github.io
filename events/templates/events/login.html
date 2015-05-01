@@ -109,7 +109,7 @@
 									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
 									<form method="post" id="login_form" action="/events/login/">
 										{% csrf_token %}
-										<center><label for="email">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" value="{{email}}"id="email" />
+										<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
 										<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
 									</form>
@@ -134,7 +134,7 @@
 									  	{% csrf_token %}
 										<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" size="30" />
 										<center><label for="name">Last Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="last_name" id="last_name" size="30" />
-										<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
+										<center><label for="username">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
 										<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%; height: 10%;" type="password" name="password2" id="password2" size="25" />
 										<p><center><input type="submit" value="Register" name="submit" id="register" class="button special" /></center></p>

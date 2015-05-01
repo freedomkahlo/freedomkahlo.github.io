@@ -8,7 +8,7 @@ class UserForm(forms.ModelForm):
 
 	class Meta:
 		model = User
-		fields = ('first_name', 'last_name', 'email', 'password')
+		fields = ('first_name', 'last_name', 'username', 'password')
 
 	def clean(self):
 		from django.core.validators import validate_email
@@ -16,12 +16,11 @@ class UserForm(forms.ModelForm):
 
 		password1 = self.cleaned_data.get('password')
 		password2 = self.cleaned_data.get('password2')
-		print password1, password2
 		if password1 and password1!= password2:
 			raise ValidationError("Passwords don't match")
-		email = self.cleaned_data.get('email')
+		email = self.cleaned_data.get('username')
 		validate_email(email)
-		if User.objects.filter(email=email).exists():
+		if User.objects.filter(username=email).exists():
 			raise ValidationError("This email is already used")
 		return self.cleaned_data
 

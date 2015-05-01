@@ -55,13 +55,13 @@ def clearTempStorageForChecking():
 	tempStorageForChecking = tempStorageForChecking[i:]
 
 def validateToken(email):
-	u = User.objects.get(email=email)
+	u = User.objects.get(username=email)
 	refreshToken = u.UserProfile.refToken
 	#print refreshToken
 	if refreshToken == '':
-		return getCredClient(username)
+		return getCredClient(email)
 	else:
-		getCredFromRefToken(username) #Just to check that their refresh token is good
+		getCredFromRefToken(email) #Just to check that their refresh token is good
 		return HttpResponseRedirect('/events/')
 
 # given username, assume that the user has a refresh token and get the credentials

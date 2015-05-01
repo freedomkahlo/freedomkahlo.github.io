@@ -285,7 +285,8 @@ def register(request):
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		profile_form = UserProfileForm(data=request.POST)
-
+		print 'hi'
+		print type(user_form), user_form
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
 			#user.is_active = False
@@ -294,7 +295,7 @@ def register(request):
 			profile = profile_form.save(commit=False)
 			profile.user = user
 
-			email = user.email
+			email = user.username
 			key = hashlib.sha1(str(random.random())).hexdigest()[:5]
 			key = hashlib.sha1(key + email).hexdigest()
 			profile.activation_key = key
@@ -339,10 +340,10 @@ def user_login(request):
 	context = RequestContext(request)
 
 	if request.method == 'POST':
-		email = request.POST.get('email', '')
+		email = request.POST.get('username', '')
 		password = request.POST.get('password', '')
 
-		user = authenticate(email=email, password=password)
+		user = authenticate(username=email, password=password)
 
 		if user:
 			if user.is_active:
@@ -355,7 +356,7 @@ def user_login(request):
 				return HttpResponse("Your Skedge account is disabled.")
 		else:
 			print ("Invalid login details: {0}, {1}".format(email, password))
-			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'email': email})
+			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'username': email})
 
 	else:
 		return render_to_response('events/login.html', {}, context)
