@@ -134,7 +134,7 @@
 	}
 
 	.boxclose:before {
-	    content: &#10006;
+	    content: "&#10006";
 	}
 
 	/* Overlay style */
