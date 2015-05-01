@@ -448,6 +448,8 @@
 	.eventContainer {
 		width: 90%;
 		margin: 0 auto;
+		background-color: #eeeeee;
+		border-radius: 5px;
 	}
 
 	#owl-demo .item img{
