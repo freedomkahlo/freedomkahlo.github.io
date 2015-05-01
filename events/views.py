@@ -44,7 +44,7 @@ def add(request):
 	end_date=request.POST.get('end_date', '')
 	time_range=request.POST.get('time_range', '')
 	event_length=request.POST.get('event_length', '')
-	creator = request.POST['first_name']
+	creator = request.POST['username']
 	eventID = get_random_string(length=32)
 
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
