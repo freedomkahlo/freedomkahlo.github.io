@@ -182,6 +182,8 @@ def getTimes(request, eventID=None):
 			event.posstime_set.add(possTime)
 		#possTime = PossTime()
 		#event.posstime_set.add(possTime)
+		startInDateTime += timedelta(minutes=60*24)
+		endInDateTime += timedelta(minutes=60*24)
 
 	print "almost there!"
 	return HttpResponseRedirect('/events/eventDetails/' + eventID)
