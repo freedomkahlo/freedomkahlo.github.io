@@ -132,10 +132,6 @@
 									<!-- <div class="navbarBody"> -->
 										<div class="navbar">
 											<div align="right">
-												<span>
-													EVENT LINK:
-												    <input value="skedg.tk:82/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" onClick="this.select();" style="resize:none; overflow-x:hidden;"></input>
-											    </span>
 												{% if event.creator == user.username %}
 													<form action="{% url 'events:manageCreator' %}" method="post">
 														{% csrf_token %}
@@ -170,6 +166,10 @@
 											</div>
 											<div class="6u 12u(narrower)">
 												<section>
+													<div>
+														<strong>EVENT LINK:</strong>
+												    	<input value="skedg.tk:82/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" onClick="this.select();" style="resize:none; overflow-x:hidden;"></input>
+											   		</div>
 													<header>
 														<h3>Invitees</h3>
 													</header>
