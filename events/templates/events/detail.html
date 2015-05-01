@@ -196,6 +196,12 @@
 													{% if forloop.counter <= 3 %}
 														<div class="4u 12u(narrower)">
 															<section><form action="{% url 'events:manageCreator' %}" method="post">
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
+																{% if forloop.counter == 1 %}
+																	<input type="radio" name="skedgeTime" value="{{ p.id }}" checked="checked"/></p>
+																{% else %}
+																	<input type="radio" name="skedgeTime" value="{{ p.id }}"/></p>
+																{% endif %}
 																<span class="icon fa-clock-o"></span>
 																<header>
 																	<h3> {{ time.date }} </h3>
@@ -205,7 +211,7 @@
 														</div>
 													{% endif %}
 												{% endfor %}
-												
+
 											</div>
 											</section>
 										{% endif %}
