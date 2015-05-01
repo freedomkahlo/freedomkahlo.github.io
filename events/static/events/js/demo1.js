@@ -16,7 +16,6 @@
 		support = { transitions : Modernizr.csstransitions };
 
 	function toggleOverlay() {
-		console.log("toggleOverlay")
 		if (classie.has( overlay2, 'open') ) {
 			classie.remove( overlay2, 'open' );
 		}
