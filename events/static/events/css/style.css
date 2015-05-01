@@ -16,6 +16,30 @@
 		font-family:arial
 	}
 
+	/* Dropdown Select Menu */
+	.styled-select select {
+	   background: transparent;
+	   margin: 0 auto;
+	   width: 100%;
+	   padding: 5px;
+	   font-size: 16px;
+	   line-height: 1;
+	   border: 0;
+	   border-radius: 0;
+	   height: 34px;
+	   -webkit-appearance: none;
+   }
+
+   .styled-select {
+	   width: 60%;
+	   height: 34px;
+	   margin: 0 auto;
+	   overflow: hidden;
+	   /*background: url({% static 'events/images/down_arrow_select.jpg' %}) no-repeat right #ddd;*/
+	   border: 1px solid #ccc;
+	   margin-bottom: 10px;
+   }
+
 	/* Absolute Center CSS Spinner */
 	.loading {
 	  position: fixed;
