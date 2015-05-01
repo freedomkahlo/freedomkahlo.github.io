@@ -204,11 +204,11 @@
 																		<p> {{ time.time }} </p>
 																		<p> {{ time.people }} </p>
 																		{% if forloop.counter == 1 %}
-																			<p>{{ p }} ; Conflicts: {{ p.nConflicts }}
-																			<input type="radio" name="skedgeTime" value="{{ p.id }}" checked="checked"/></p>
+																			<p>
+																			<input type="radio" name="skedgeTime" value="{{ time.id }}" checked="checked"/></p>
 																		{% else %}
-																			<p>{{ p }} ; Conflicts: {{ p.nConflicts }}
-																			<input type="radio" name="skedgeTime" value="{{ p.id }}"/></p>
+																			<p>
+																			<input type="radio" name="skedgeTime" value="{{ time.id }}"/></p>
 																		{% endif %}
 																		</p>
 																	</header>
