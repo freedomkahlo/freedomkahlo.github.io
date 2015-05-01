@@ -140,18 +140,11 @@
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 														
-													<!-- 	<button class="navIconButton" type="submit" name="skedg"><i class="fa fa-clock-o"></i></input>
-														<button class="navIconButton" type="submit" name="delete"><i class="fa fa-remove"></i></input> -->
-
-														<ul id="nav">
-															<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay"><input onclick="checkSkedge()" type="submit" name="skedg" value="Skedg Event"/></a> </li>
-															<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id=""><input type="submit" name="delete" id="delete_button" value="Delete Event"/></a></li>
-														</ul>
-														
+														<button class="special button" id="join" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="skedg">Skedg Event</button>
+														<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="delete">Delete Event</button>	
 														<br/>
 													</form>
 												{% else %}
-	
 													<form action="{% url 'events:manageInvitee' %}" method="post">   
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
@@ -222,7 +215,6 @@
 																	<header>
 																		<h3> {{ time.date }} </h3>
 																		<p> {{ time.time }} </p>
-																		<p> {{ time.people }} </p>
 																	</header>
 																</section>
 															</div>
