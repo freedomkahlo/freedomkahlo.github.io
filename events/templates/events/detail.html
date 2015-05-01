@@ -78,18 +78,12 @@
 					<section>
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
-						<!-- <link rel="stylesheet" type="text/css" href="{% static 'events/css/style1.css' %}" /> -->
+
 						<!-- open/close -->
 						<br />
 						<div class="overlay overlay-hugeinc">
 							<button type="button" class="overlay-close">Close</button>
 							<div class="register"> <br/ >
-<!-- 								<ul class="buttons">
-									<li><a href="#id_of_div" class="links button special" id="trigger-overlay">Login</a></li> 
-									<li><a href="#id_of_div2" class="links button special" id="trigger-overlay">Register</a></li>
-									<br/ > 
-									<br />
-								</ul> -->
 								<div id = "id_of_div" class ="divs">
 									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
 									<form method="post" id="login_form" action="/events/login/">
@@ -106,14 +100,7 @@
 						<div class="overlay2 overlay-hugeinc">
 							<button type="button" class="overlay-close">Close</button>
 							<div class="register"> <br/ >
-<!-- 								<ul class="buttons">
-									<li><a href="#id_of_div" class="links button special" id="trigger-overlay">Login</a></li> 
-									<li><a href="#id_of_div2" class="links button special" id="trigger-overlay">Register</a></li>
-									<br/ > 
-									<br />
-								</ul> -->
 								<div id = "id_of_div2" class="divs">
-									<!-- <h2><strong><center>Register for an account</center></strong></h2> -->
 				
 									<form id="user_form" method="post" action="/events/register/" enctype="multipart/form-data" style:"margins: auto;">
 									  	{% csrf_token %}
@@ -142,9 +129,12 @@
 						<!-- Content -->
 							<div class="content">
 								<section>
-									<!-- <a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a> -->
 									<!-- <div class="navbarBody"> -->
 										<div class="navbar">
+												<div>
+													<strong>EVENT LINK:</strong>
+												    <input value="skedg.tk:82/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" onClick="this.select();" style="resize:none; overflow-x:hidden;"></input>
+											    </div>
 											<div align="right">
 												{% if event.creator == user.username %}
 													<form action="{% url 'events:manageCreator' %}" method="post">
@@ -179,11 +169,6 @@
 
 											</div>
 											<div class="6u 12u(narrower)">
-												<div>
-													<strong>EVENT LINK:</strong>
-												    <input value="skedg.tk:82/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" onClick="this.select();" style="resize:none; overflow-x:hidden;"></input>
-											    </div>
-											    <br />
 												<section>
 													<header>
 														<h3>Invitees</h3>

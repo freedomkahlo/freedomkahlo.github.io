@@ -414,7 +414,7 @@
 													</header>
 													{% for event in latest_event_list %}
 														{% if event.creator == user.username %}
-															<bold> Event Name: </bold> <a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> <br/>
+															<a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> ({{ user.notification_set.all|length }} attending) <br/>
 														{% endif%}
 													{% endfor %}
 												</section>
@@ -428,7 +428,7 @@
 													{% for event in latest_event_list %}
 														{% for invitee in event.invitee_set.all %}
 															{% if invitee.name == user.username %}
-																<bold> Event Name: </bold> <a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> <br/>
+																<bold> Event Name: </bold> <a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> ({{ user.notification_set.all|length }} attending) <br/>
 															{% endif%}
 														{% endfor %}
 													{% endfor %}
