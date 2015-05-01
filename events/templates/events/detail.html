@@ -217,7 +217,16 @@
 												<section id="friends">
 													<!-- voting mechanism -->
 													{% for time in event.posstime_set.all %}
-														<p> {{ time }} </p>
+															<div class="4u 12u(narrower)">
+																<section>
+																	<span class="icon fa-clock-o"></span>
+																	<header>
+																		<h3> {{ time.date }} </h3>
+																		<p> {{ time.time }} </p>
+																		<p> {{ time.people }} </p>
+																	</header>
+																</section>
+															</div>
 													{% endfor %}
 												</section>
 											{% endif %}
