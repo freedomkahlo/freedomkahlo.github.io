@@ -1,23 +1,20 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
-from django.core.urlresolvers import reverse
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext
 from .models import Instance, Invitee, Notification, PossTime, UserProfile
 from .forms import UserForm, UserProfileForm
-from django.shortcuts import render_to_response
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.utils import timezone
 from django.utils.crypto import get_random_string
-from datetime import *
-from heapq import *
+from datetime import timedelta, datetime
 import json
 import hashlib, random
 from backend import cal
+
 
 def home(request):
 	return render(request, './index.html')
@@ -52,7 +49,7 @@ def add(request):
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'time_range':time_range,
 			'event_length':event_length, 'creator':creator}
 
-	is_scheduled=False
+	# is_scheduled=False
 	if (time_range == ''):
 		returnMsg['error'] = 'Time Range Cannot Be Blank'
 		return render(request, 'events/index.html', returnMsg)
@@ -275,10 +272,6 @@ def manageNotification(request):
 			n.delete()
 
 	return HttpResponseRedirect('/events/')
-
-def results(request, eventID):
-	event = get_object_or_404(Question, eventID=eventID)
-	return render(request, 'events/results.html', {'event': event})
 	
 def register(request):
 	context = RequestContext(request)
@@ -287,7 +280,6 @@ def register(request):
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		profile_form = UserProfileForm(data=request.POST)
-		print 'hi'
 		print type(user_form), user_form
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
@@ -375,6 +367,5 @@ def vetoPoss(request):
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
 		p = possTimes.get(id=pID)
-		p.nConflicts += 1
 		p.save()
 	return HttpResponseRedirect('/events/')

@@ -22,6 +22,8 @@ class UserForm(forms.ModelForm):
 		validate_email(email)
 		if User.objects.filter(username=email).exists():
 			raise ValidationError("This email is already used")
+		if (not self.cleaned_data.get('first_name')) or (not self.cleaned_data.get('last_name')):
+			raise ValidationError("Please enter your name")
 		return self.cleaned_data
 
 
@@ -29,5 +31,5 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
-		fields = ('picture','activation_key')
+		fields = ('picture','activation_key', 'timezone')
 		exclude = ['activation_key']

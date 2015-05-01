@@ -1,8 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.utils import timezone
-from datetime import *
+from datetime import datetime, timedelta
 from django.contrib.auth.models import User
+import pytz
 
 class Instance(models.Model):
 	title = models.CharField(max_length=20, default='')
@@ -15,6 +15,7 @@ class Instance(models.Model):
 	event_length = models.CharField(max_length=20, default='')
 	creator = models.CharField(max_length=100, default='')
 	eventID = models.CharField(max_length=32, default='')
+	timezone = models.CharField(max_length=20, default='Eastern')
 
 	is_scheduled = models.BooleanField(default='False')
 
@@ -27,14 +28,14 @@ class Instance(models.Model):
 			raise ValidationError('Times cannot be left blank.')
 		if self.event_length == '':
 			raise ValidationError('Event Length cannot be left blank.')
-		startd = datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p')
-		endd = datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p')
+		tz = pytz.timezone('US/' + self.timezone)
+		startd = tz.localize(datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p'))
+		endd = tz.localize(datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
 		if (startd >= endd):
 			raise ValidationError('Start time must occur before end time.')
-		# timedelta(hours=4) is a temporary fix. Forces EST.
-		if (startd.date() < datetime.now().date()):
+		if (startd.date() < datetime.now(tz).date()):
 			raise ValidationError('Start date must occur in the future.')
-		self.pub_date = timezone.now()
+		self.pub_date = datetime.now(tz)
 
 	def save(self, **kwargs):
 		self.regValidate()
@@ -49,24 +50,18 @@ class PossTime(models.Model):
 
 	@property
 	def date(self):
-		startPrint = self.startTime - timedelta(hours=4)
-		return startPrint.strftime("%b %d").lstrip("0").replace("0", " ")
+		return self.startTime.strftime("%b %d").lstrip("0").replace("0", " ")
 	
 	@property
 	def time(self):
-		startPrint = self.startTime - timedelta(hours=4)
-		endPrint = self.endTime - timedelta(hours=4)
-		return startPrint.strftime("%I:%M %p").lstrip("0").replace(" 0", " ") + " - " + endPrint.strftime("%I:%M %p").lstrip("0").replace(" 0", " ")
+		return self.startTime.strftime("%I:%M %p").lstrip("0").replace(" 0", " ") + " - " + self.endTime.strftime("%I:%M %p %Z").lstrip("0").replace(" 0", " ")
 
 	@property
 	def people(self):
 		return self.peopleList
 	
 	def __str__(self):
-		# This is temporary timezone
-		startPrint = self.startTime - timedelta(hours=4)
-		endPrint = self.endTime - timedelta(hours=4)
-		return startPrint.strftime("%b %d") + "\n " + startPrint.strftime("%I:%M %p") + " - " + endPrint.strftime("%I:%M %p") + "\n People: " + self.peopleList
+		return self.startTime.strftime("%I:%M %p").lstrip("0").replace(" 0", " ") + " - " + self.endTime.strftime("%I:%M %p %Z").lstrip("0").replace(" 0", " ")
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
@@ -104,6 +99,7 @@ class UserProfile(models.Model):
     refToken = models.CharField(max_length=100, default='')
     picture = models.ImageField(upload_to='profile_images', blank=True)
     activation_key = models.CharField(max_length=40, blank=True)
+    timezone = models.CharField(max_length=20, default='Eastern')
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
