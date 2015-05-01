@@ -33,9 +33,8 @@ def index(request):
 
 #@login_required
 def detail(request, eventID):
-	return HttpResponseRedirect('events/eventDetails/' + eventID)
-	#event = get_object_or_404(Instance, eventID=eventID)
-	#return render(request, 'events/detail.html', {'event': event})
+	event = get_object_or_404(Instance, eventID=eventID)
+	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
 def add(request):	
@@ -183,7 +182,7 @@ def getTimes(request, eventID=None):
 	#event.posstime_set.add(possTime)
 
 	print "almost there!"
-	return detail(request, eventID)
+	return HttpResponseRedirect('/events/eventDetails/' + eventID)
 	
 #creator can boot someone, delete/skedge/getTimes on event.
 def manageCreator(request):
