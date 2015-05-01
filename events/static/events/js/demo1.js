@@ -16,6 +16,7 @@
 		support = { transitions : Modernizr.csstransitions };
 
 	function toggleOverlay() {
+		console.log("toggleOverlay")
 		if (classie.has( overlay2, 'open') ) {
 			classie.remove( overlay2, 'open' );
 		}
@@ -53,7 +54,7 @@
 		}
 		if( classie.has( overlay2, 'open' ) ) {
 			if(sessionStorage) {
-				sessionStorage['currPage'] = '2';
+				sessionStorage['currPage'] = '0';
 			}
 			classie.remove( overlay2, 'open' );
 			classie.add( overlay2, 'close' );
@@ -73,7 +74,7 @@
 		}
 		else if( !classie.has( overlay2, 'close' ) ) {
 			if(sessionStorage) {
-				sessionStorage['currPage'] = '0';
+				sessionStorage['currPage'] = '2';
 			}
 			classie.add( overlay2, 'open' );
 		}
