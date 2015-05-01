@@ -191,21 +191,21 @@
 														<p> No times found. </p>
 												{% endif %}
 												
-												<form action="{% url 'events:manageCreator' %}" method="post">
+												
 												{% for time in event.posstime_set.all %}
 													{% if forloop.counter <= 3 %}
 														<div class="4u 12u(narrower)">
-															<section>
+															<section><form action="{% url 'events:manageCreator' %}" method="post">
 																<span class="icon fa-clock-o"></span>
 																<header>
 																	<h3> {{ time.date }} </h3>
 																	<p> {{ time.time }} </p>
 																</header>
-															</section>
+															</form></section>
 														</div>
 													{% endif %}
 												{% endfor %}
-												</form>
+												
 											</div>
 											</section>
 										{% endif %}
