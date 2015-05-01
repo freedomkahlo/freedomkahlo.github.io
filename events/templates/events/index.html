@@ -38,12 +38,6 @@
 		CARRYING THIS OVER TO PROVE A POINT. -->
 		<script>
 		$(function(){
-			{% if messages %}
-				//Created event
-				{% for message in messages %}
-					alert('{{message}}');
-				{% endfor %}
-			{% endif %}
 			//Set default for create event
 			{% if not time_range %}
 				$("#time_range").val("2:00 PM-5:00 PM");
@@ -308,6 +302,9 @@
 				</nav>
 			</header>
 
+		<!-- Loading Overlay -->
+		<div class="loading" id="loadingOverlay" style="display:none">Loading&#8230;</div>
+
 		<!-- Main -->
 			<article id="main">
 				<div class="content">
@@ -348,7 +345,7 @@
 												</div>
 											</div>
 											<br /> 
-											<input style="margin: 0 auto 20 auto;" type="submit" value="Add" /> <br /> <br />
+											<input style="margin: 0 auto 20 auto;" type="submit" id="create" value="Add" /> <br /> <br />
 										</form>
 								</div>
 							</div>
@@ -404,7 +401,7 @@
 																		<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
 																		<input type="submit" class="special button" name="dismiss" value="x"/>
 																		</div>
-																	</form>
+																	
 																	</li>
 																	{% endfor %}
 																</ul>
@@ -412,6 +409,7 @@
 															<div id="notificationFooter"> 
 																<input type="submit" class="special button" name="clear" value="Clear All"/>
 															</div>
+															</form>
 														</div>
 													</li>
 												</ul>
@@ -466,6 +464,14 @@
 					</ul>
 				</footer>
 			</section>
+
+		<script>
+			$(document).ready(function(){
+			    $("#create").click(function() {
+				    $("#loadingOverlay").show();
+				});
+			});	
+		</script>
 
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
