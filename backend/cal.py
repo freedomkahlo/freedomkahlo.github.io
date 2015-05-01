@@ -358,8 +358,8 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 	while (endInDateTime <= finalEndDateTime):
 		avail = avail + findTimes(events, startInDateTime, endInDateTime, duration, people)
 		
-		startInDateTime = startInDateTime + datetime.timedelta(minutes=60*24)
-		endInDateTime = endInDateTime + datetime.timedelta(minutes=60*24)
+		startInDateTime = startInDateTime + timedelta(minutes=60*24)
+		endInDateTime = endInDateTime + timedelta(minutes=60*24)
 	
 	return avail
 
