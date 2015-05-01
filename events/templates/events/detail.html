@@ -219,6 +219,7 @@
 												<section id="friends">
 												<div class="row" style="margin-top: -100px">
 													{% for time in event.posstime_set.all %}
+														{% if forloop.counter <= 3 %}
 															<div class="4u 12u(narrower)">
 																<section>
 																	<span class="icon fa-clock-o"></span>
@@ -228,6 +229,7 @@
 																	</header>
 																</section>
 															</div>
+														{% endif %}
 													{% endfor %}
 												</div>
 											</section>
