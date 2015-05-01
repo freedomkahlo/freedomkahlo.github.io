@@ -146,7 +146,6 @@ def getTimes(request, eventID=None):
 	
 	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
 	
-	print times
 	# 30 minute intervals for starting time; rounding start time; etc.
 	processedTimes = []
 	for t in times:
@@ -313,6 +312,7 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
 			print (user_form.errors, profile_form.errors)
+			messages.error(request, user_form.errors)
 
 	else:
 		user_form = UserForm()
@@ -339,23 +339,23 @@ def user_login(request):
 	context = RequestContext(request)
 
 	if request.method == 'POST':
-		username = request.POST.get('username', '')
+		email = request.POST.get('email', '')
 		password = request.POST.get('password', '')
 
-		user = authenticate(username=username, password=password)
+		user = authenticate(email=email, password=password)
 
 		if user:
 			if user.is_active:
 				login(request, user)
-				resp = cal.validateToken(username)
+				resp = cal.validateToken(email)
 				if (resp != None):
 					return resp
 				return HttpResponseRedirect('/events/')
 			else:
 				return HttpResponse("Your Skedge account is disabled.")
 		else:
-			print ("Invalid login details: {0}, {1}".format(username, password))
-			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'username': username})
+			print ("Invalid login details: {0}, {1}".format(email, password))
+			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'email': email})
 
 	else:
 		return render_to_response('events/login.html', {}, context)

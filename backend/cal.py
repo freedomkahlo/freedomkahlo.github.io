@@ -54,8 +54,8 @@ def clearTempStorageForChecking():
 		i = i + 1
 	tempStorageForChecking = tempStorageForChecking[i:]
 
-def validateToken(username):
-	u = User.objects.get(username=username)
+def validateToken(email):
+	u = User.objects.get(email=email)
 	refreshToken = u.UserProfile.refToken
 	#print refreshToken
 	if refreshToken == '':

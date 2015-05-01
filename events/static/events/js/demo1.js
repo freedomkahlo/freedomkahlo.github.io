@@ -40,6 +40,10 @@
 		else if( !classie.has( overlay, 'close' ) ) {
 			classie.add( overlay, 'open' );
 		}
+		console.log("hi");
+		if(sessionStorage) {
+			sessionStorage['currPage'] = '1';
+		}
 	}
 
 	function toggleOverlay2() {
@@ -65,6 +69,9 @@
 		}
 		else if( !classie.has( overlay2, 'close' ) ) {
 			classie.add( overlay2, 'open' );
+		}
+		if(sessionStorage) {
+			sessionStorage['currPage'] = '2';
 		}
 	}
 	triggerBttn.addEventListener( 'click', toggleOverlay);

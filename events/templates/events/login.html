@@ -48,99 +48,6 @@
 			});
 		</script>
 
-		<!-- Sketchy Responsive Stuff -->
-		<script>
-			$(document).ready(function() {
-			    // run test on initial page load
-			    checkSize();
-
-			    // run test on resize of the window
-			    $(window).resize(checkSize);
-			});
-
-			//Function to the css rule
-			function checkSize(){
-				console.log($(".register").css("width"));
-			    if ($(".register").css("width") == "none" ){
-					console.log("HI");			    	
-			        (function() {
-						var triggerBttnMobile = document.getElementsByClassName( 'link depth-0' ),
-							overlay = document.querySelector( 'div.overlay' ),
-							overlay2 = document.querySelector( 'div.overlay2' ),
-							closeBttn = overlay.querySelector( 'button.overlay-close' );
-							closeBttnTwo = overlay2.querySelector( 'button.overlay-close' );
-							transEndEventNames = {
-								'WebkitTransition': 'webkitTransitionEnd',
-								'MozTransition': 'transitionend',
-								'OTransition': 'oTransitionEnd',
-								'msTransition': 'MSTransitionEnd',
-								'transition': 'transitionend'
-							},
-							transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
-							support = { transitions : Modernizr.csstransitions };
-
-						function toggleOverlay() {
-							if (classie.has( overlay2, 'open') ) {
-								classie.remove( overlay2, 'open' );
-							}
-							if( classie.has( overlay, 'open' ) ) {
-								classie.remove( overlay, 'open' );
-								classie.add( overlay, 'close' );
-								var onEndTransitionFn = function( ev ) {
-									if( support.transitions ) {
-										if( ev.propertyName !== 'visibility' ) return;
-										this.removeEventListener( transEndEventName, onEndTransitionFn );
-									}
-									classie.remove( overlay, 'close' );
-								};
-								if( support.transitions ) {
-									overlay.addEventListener( transEndEventName, onEndTransitionFn );
-								}
-								else {
-									onEndTransitionFn();
-								}
-							}
-							else if( !classie.has( overlay, 'close' ) ) {
-								classie.add( overlay, 'open' );
-							}
-						}
-
-						function toggleOverlay2() {
-							if (classie.has( overlay, 'open') ) {
-								classie.remove( overlay, 'open' );
-							}
-							if( classie.has( overlay2, 'open' ) ) {
-								classie.remove( overlay2, 'open' );
-								classie.add( overlay2, 'close' );
-								var onEndTransitionFn = function( ev ) {
-									if( support.transitions ) {
-										if( ev.propertyName !== 'visibility' ) return;
-										this.removeEventListener( transEndEventName, onEndTransitionFn );
-									}
-									classie.remove( overlay2, 'close' );
-								};
-								if( support.transitions ) {
-									overlay2.addEventListener( transEndEventName, onEndTransitionFn );
-								}
-								else {
-									onEndTransitionFn();
-								}
-							}
-							else if( !classie.has( overlay2, 'close' ) ) {
-								classie.add( overlay2, 'open' );
-							}
-						}
-
-						console.log(triggerBttnMobile.length);
-						triggerBttnMobile[0].addEventListener( 'click', toggleOverlay);
-						closeBttn.addEventListener( 'click', toggleOverlay);
-						triggerBttnMobile[1].addEventListener( 'click', toggleOverlay2 );
-						closeBttnTwo.addEventListener( 'click', toggleOverlay2 );
-					})();
-			    }
-			}
-		</script>
-
 	</head>
 	<body class="index">
 		<!-- Header -->
@@ -202,7 +109,7 @@
 									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
 									<form method="post" id="login_form" action="/events/login/">
 										{% csrf_token %}
-										<center><label for="username">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
+										<center><label for="email">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" value="{{email}}"id="email" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
 										<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
 									</form>
@@ -227,10 +134,9 @@
 									  	{% csrf_token %}
 										<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" size="30" />
 										<center><label for="name">Last Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="last_name" id="last_name" size="30" />
-										<center><label for="name">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="username" id="username" size="30" />
 										<center><label for="email">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="email" id="email" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
-										<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%; height: 10%;" type="password" name="password" id="password" size="25" />
+										<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%; height: 10%;" type="password" name="password2" id="password2" size="25" />
 										<p><center><input type="submit" value="Register" name="submit" id="register" class="button special" /></center></p>
 									</form>
 								</div>
@@ -282,5 +188,20 @@
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
 		<script src="{% static 'events/js/demo1.js' %}"></script>
+
+		<!-- Save overlays on reload -->
+		<script>
+			$(document).ready(function(){
+				toggleOverlay();
+				if (typeof sessionStorage['currPage'] == 'string' && $.inArray(sessionStorage['currPage'], ['1', '2']) > -1) {
+					if (sessionStorage['currPage'] == '1') {
+						toggleOverlay();
+					}
+					else {
+						toggleOverlay2();
+					}
+				}
+			});
+		</script>
 	</body>
 </html>
