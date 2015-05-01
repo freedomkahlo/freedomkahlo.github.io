@@ -254,20 +254,16 @@
 
 			<script>
 				$(document).ready(function() { 
-				    $('#join').click(function() { 
-				        $.blockUI({ css: { 
-				            border: 'none', 
-				            padding: '15px', 
-				            backgroundColor: '#000', 
-				            '-webkit-border-radius': '10px', 
-				            '-moz-border-radius': '10px', 
-				            opacity: .5, 
-				            color: '#fff' 
-				        } }); 
-				 
-				        setTimeout($.unblockUI, 2000); 
-				    }); 
+				    var loading = function() {
+			        // add the overlay with loading image to the page
+			        var over = '<div id="loadOverlay">' +
+			            '<img id="loading" src="http://bit.ly/pMtW1K">' +
+			            '</div>';
+				        $(over).appendTo('body');
+				   }
 				});
+
+				$('#join').click(loading);
         	</script>
 
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
