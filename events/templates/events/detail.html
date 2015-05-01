@@ -133,13 +133,7 @@
 										<div class="navbar">
 											<div align="right">
 												{% if event.creator == user.username %}
-													<form action="{% url 'events:manageCreator' %}" method="post">
-														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
-														
-														
-														<br/>
-													</form>
+													
 												{% else %}
 													<form action="{% url 'events:manageInvitee' %}" method="post">   
 														{% csrf_token %}
