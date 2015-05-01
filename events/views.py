@@ -139,8 +139,8 @@ def getTimes(request, eventID=None):
 
 	#TEMPORARY: fixed time zone
 	startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
-	# if startInDateTime < datetime.now():
-	# 	startInDateTime = datetime.now()
+	#if startInDateTime < datetime.now():
+
 	endInDateTime = datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
 	finalEndDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
 	
@@ -151,6 +151,8 @@ def getTimes(request, eventID=None):
 	for t in times:
 		roundBy = roundUpByTimeDelta(t['startTime'])
 		startEvent = t['startTime']
+		if startEvent < datetime.now():
+			continue
 		# if rounding makes the event go beyond endtime, then just add the time range and call it good.
 		#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
 		if startEvent + roundBy + duration > endInDateTime:
