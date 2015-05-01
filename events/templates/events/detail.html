@@ -61,7 +61,7 @@
 				</nav>
 			</header>
 
-			<div class="loadingOverlay">Loading&#8230;</div>
+			<div class="loading">Loading&#8230;</div>
 		<!-- Main -->
 			<article id="main">
 				<div class="content">
@@ -258,10 +258,10 @@
 		<script>
 			$(document).ready(function(){
 			    $('#join').live('click', function(event) {        
-			         $('#loadingOverlay').toggle('show');
+			         $('#loading').toggle('show');
 			    });
 
-			    $('#loadingOverlay').toggle('show');
+			    $('#loading').toggle('show');
 			});	
 		</script>
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
