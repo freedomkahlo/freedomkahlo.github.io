@@ -390,24 +390,13 @@
 														<div id="notificationContainer">
 															<div id="notificationTitle">Notifications</div>
 															<div id="notificationsBody" style="margin-top: -30px">
+																uh hi
 																<ul>
 																	{% for notification in user.notification_set.all %}
 																	<li>
 																	<form action="{% url 'events:manageNotification' %}" method="post">
 																	{% csrf_token %}
-																		<a class="boxclose" id="boxclose"></a>
-																		<div style="width: 90%;">
-																		{{ notification }}
-																		<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																		</div>
-																	</form>
-																	</li>
-																	{% endfor %}
-																	{% for notification in user.notification_set.all %}
-																	<li>
-																	<form action="{% url 'events:manageNotification' %}" method="post">
-																	{% csrf_token %}
-																		<a class="boxclose" id="boxclose"></a>
+																		
 																		<div style="width: 90%;">
 																		{{ notification }}
 																		<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
