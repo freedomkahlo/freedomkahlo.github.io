@@ -168,6 +168,9 @@
 
 											</div>
 											<div class="6u 12u(narrower)">
+												<body>
+												    <textarea rows="5" cols="20" wrap="hard" onblur="CopyToClipboard(this)">YOLO</textarea>
+												</body>
 
 												<section>
 													<header>
@@ -249,6 +252,13 @@
 				    $("#loadingOverlay").show();
 				});
 			});	
+		</script>
+
+		<script language="JavaScript">
+		function CopyToClipboard(text) {
+		    Copied = text.createTextRange();
+		    Copied.execCommand("Copy");
+		}
 		</script>
 
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
