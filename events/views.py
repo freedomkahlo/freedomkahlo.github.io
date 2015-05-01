@@ -33,8 +33,9 @@ def index(request):
 
 #@login_required
 def detail(request, eventID):
-	event = get_object_or_404(Instance, eventID=eventID)
-	return render(request, 'events/detail.html', {'event': event})
+	return HttpResponseRedirect('events/eventDetails/' + eventID)
+	#event = get_object_or_404(Instance, eventID=eventID)
+	#return render(request, 'events/detail.html', {'event': event})
 
 @login_required
 def add(request):	
