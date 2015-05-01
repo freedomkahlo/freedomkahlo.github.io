@@ -187,6 +187,9 @@
 										{% if event.creator == user.username %}
 											<section id="friends">
 												<div class="row" style="margin-top: -100px">
+													HIIIIII
+
+													{{ event.posstime_set.all|length }}
 													<form action="{% url 'events:manageCreator' %}" method="post">
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
