@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<link rel='stylesheet' href='../lib/cupertino/jquery-ui.min.css' />
+<link href='../fullcalendar.css' rel='stylesheet' />
+<link href='../fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='../lib/moment.min.js'></script>
+<script src='../lib/jquery.min.js'></script>
+<script src='../fullcalendar.min.js'></script>
+<script>
+
+	$(document).ready(function() {
+
+		$('#calendar').fullCalendar({
+			eventClick: function(event) {
+				if (!event.google) {
+					if (event.selected) {
+						$(this).css('border-color', '#3a87ad');
+						$(this).css('background-color', '#5293b5');
+						event.selected = false;
+						// put this on a list with id for each event associated with it, so that we can increase veto count
+					}
+					else {
+						$(this).css('border-color', '#003CFF');
+						$(this).css('background-color', '#14FCAF');
+						event.selected = true;
+					}
+				}
+			},
+			theme: false,
+			defaultView: 'agendaWeek',
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			defaultDate: '2015-02-12',
+			editable: false,
+			allDaySlot: false,
+			eventLimit: true, // allow "more" link when too many events
+			events: [
+				{
+					start: '2015-02-12T10:15:00',
+					end: '2015-02-12T12:50:00'
+				},
+				{
+					start: '2015-02-12T12:15:00',
+					end: '2015-02-12T14:50:00'
+				},
+				{
+					start: '2015-02-12T16:15:00',
+					end: '2015-02-12T18:50:00'
+				},
+				{
+					title: 'Lunch',
+					start: '2015-02-12T12:00:00',
+					google: true,
+					color: 'gray'
+				},
+				{
+					title: 'Meeting',
+					start: '2015-02-12T14:30:00',
+					google: true,
+					color: 'gray'
+				},
+				{
+					title: 'Happy Hour',
+					start: '2015-02-12T17:30:00',
+					google: true,
+					color: 'gray'
+				},
+				{
+					title: 'Dinner',
+					start: '2015-02-12T20:00:00',
+					google: true,
+					color: 'gray'
+				},
+				{
+					title: 'Birthday Party',
+					start: '2015-02-13T07:00:00',
+					google: true,
+					color: 'gray'
+				}
+			],
+			color: '#5293b5'
+		});
+		
+	});
+
+</script>
+<style>
+
+	body {
+		margin: 40px 10px;
+		padding: 0;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-size: 14px;
+	}
+
+	#calendar {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+
+</style>
+</head>
+<body>
+
+	<div id='calendar'></div>
+
+</body>
+</html>
