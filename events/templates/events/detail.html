@@ -61,7 +61,7 @@
 				</nav>
 			</header>
 
-
+			<div class="loadingOverlay">Loading&#8230;</div>
 		<!-- Main -->
 			<article id="main">
 				<div class="content">
@@ -249,7 +249,15 @@
 					</ul>
 				</footer>
 			</section>
-		<div class="loading" style="display:none;">Loading&#8230;</div>
+		<script>
+			$(document).ready(function(){
+			    $('#join').live('click', function(event) {        
+			         $('#loadingOverlay').toggle('show');
+			    });
+
+			    $('#loadingOverlay').toggle('show');
+			});	
+		</script>
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
 		<script src="{% static 'events/js/demo1.js' %}"></script>
