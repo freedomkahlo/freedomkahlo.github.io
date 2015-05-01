@@ -92,15 +92,14 @@ class Notification(models.Model):
 	def __str__(self):
 		return self.desc + " at " + str(self.pub_date)
 class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User, related_name="UserProfile")
+	# This line is required. Links UserProfile to a User model instance.
+	user = models.OneToOneField(User, related_name="UserProfile")
 
-    # The additional attributes we wish to include.
-    refToken = models.CharField(max_length=100, default='')
-    picture = models.ImageField(upload_to='profile_images', blank=True)
-    activation_key = models.CharField(max_length=40, blank=True)
-    timezone = models.CharField(max_length=20, default='Eastern')
+	# The additional attributes we wish to include.
+	refToken = models.CharField(max_length=100, default='')
+	picture = models.ImageField(upload_to='profile_images', blank=True)
+	activation_key = models.CharField(max_length=40, blank=True)
 
-    # Override the __unicode__() method to return out something meaningful!
-    def __unicode__(self):
-        return self.user.username
+	# Override the __unicode__() method to return out something meaningful!
+	def __unicode__(self):
+		return self.user.username

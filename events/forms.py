@@ -31,5 +31,5 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
-		fields = ('picture','activation_key', 'timezone')
+		fields = ('picture','activation_key')
 		exclude = ['activation_key']

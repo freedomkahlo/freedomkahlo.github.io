@@ -96,7 +96,7 @@ def delete(request):
 	event = get_object_or_404(Instance, eventID=eventID)
 
 	ntstr = event.creator + " has cancelled " + event.title
-	n = Notification(desc=ntstr, pub_date=datetime.now())
+	n = Notification(desc=ntstr, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 	for invitee in event.invitee_set.all():
 		user = get_object_or_404(User, username=invitee.name)
@@ -134,12 +134,10 @@ def getTimes(request, eventID=None):
 		many.append(i.name)
 	duration = timedelta(minutes=(int(event.event_length.split(':')[0]) * 60 + int(event.event_length.split(':')[1])))
 
-	#TEMPORARY: fixed time zone
-	startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
-	#if startInDateTime < datetime.now():
-
-	endInDateTime = datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
-	finalEndDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
+	tz = pytz.timezone('US/' + event.timezone)
+	startInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p'))
+	endInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
+	finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
 	
 	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
 	
@@ -148,7 +146,7 @@ def getTimes(request, eventID=None):
 	for t in times:
 		roundBy = roundUpByTimeDelta(t['startTime'])
 		startEvent = t['startTime']
-		if startEvent < datetime.now():
+		if startEvent < datetime.now(tz):
 			continue
 		# if rounding makes the event go beyond endtime, then just add the time range and call it good.
 		#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
@@ -172,10 +170,8 @@ def getTimes(request, eventID=None):
 
 	#Delete all previous possTimes 
 	event.posstime_set.all().delete()
-	###### we need to clear before calling getTimes again, but I can't get it to work.
-	#event.posstime_set.clear()
 	for t in processedTimes:
-		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'].__str__())
+		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'])
 		event.posstime_set.add(possTime)
 	#possTime = PossTime()
 	#event.posstime_set.add(possTime)
