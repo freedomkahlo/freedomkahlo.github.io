@@ -214,9 +214,11 @@
 										{% endif %}
 
 										<!-- invitee view -->
-										<form action="{% url 'events:manageCreator' %}" method="post">
+										<input type="submit" name="vetoPoss" value="Veto"/>
+										<form action="{% url 'events:manageInvitee' %}" method="post">
 										{% for i in event.invitee_set.all %}
 											{% if i.name == user.username %}
+												<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
 												<section id="friends">
 												<div class="row" style="margin-top: -100px">
 													{% for time in event.posstime_set.all %}
