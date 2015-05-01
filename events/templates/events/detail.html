@@ -131,11 +131,11 @@
 								<section>
 									<!-- <div class="navbarBody"> -->
 										<div class="navbar">
+											<div align="right">
 												<span>
 													EVENT LINK:
 												    <input value="skedg.tk:82/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" onClick="this.select();" style="resize:none; overflow-x:hidden;"></input>
 											    </span>
-											<div align="right">
 												{% if event.creator == user.username %}
 													<form action="{% url 'events:manageCreator' %}" method="post">
 														{% csrf_token %}
