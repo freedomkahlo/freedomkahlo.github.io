@@ -195,14 +195,34 @@
 					</ul>
 				</footer>
 			</section>
+
+		<tr><td><button id="demo2">Run</button><td>iPhoto (ish)</td>
+        <script>
+        	$(document).ready(function() {
+			    $('#demo2').click(function() {
+			        $.blockUI({ css: {
+			            border: 'none',
+			            padding: '15px',
+			            backgroundColor: '#000',
+			            '-webkit-border-radius': '10px',
+			            '-moz-border-radius': '10px',
+			            opacity: .5,
+			            color: '#fff'
+			        } });
+
+			        setTimeout($.unblockUI, 2000);
+			    });
+			});
+     	</script>
+
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
 		<script src="{% static 'events/js/demo1.js' %}"></script>
 
+
 		<!-- Save overlays on reload -->
-		<script>
+		<script type='text/javascript'>
 			$(document).ready(function(){
-				toggleOverlay();
 				if (typeof sessionStorage['currPage'] == 'string' && $.inArray(sessionStorage['currPage'], ['1', '2']) > -1) {
 					if (sessionStorage['currPage'] == '1') {
 						toggleOverlay();
