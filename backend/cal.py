@@ -415,7 +415,7 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 	
 	#Get times for each interval
 	while (endInDateTime <= finalEndDateTime):
-		avail = avail + findTimes2(events, startInDateTime, endInDateTime, duration, paople)
+		avail = avail + findTimes2(events, startInDateTime, endInDateTime, duration, people)
 		
 		startInDateTime = startInDateTime + datetime.timedelta(1, 0, 0)
 		endInDateTime = endInDateTime + datetime.timedelta(1, 0, 0)
