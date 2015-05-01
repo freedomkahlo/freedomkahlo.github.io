@@ -215,7 +215,7 @@
 										{% for i in event.invitee_set.all %}
 											{% if i.name == user.username %}
 												<section id="friends">
-													<!-- voting mechanism -->
+												<div class="row" style="margin-top: -100px">
 													{% for time in event.posstime_set.all %}
 															<div class="4u 12u(narrower)">
 																<section>
@@ -228,7 +228,8 @@
 																</section>
 															</div>
 													{% endfor %}
-												</section>
+												</div>
+											</section>
 											{% endif %}
 										{% endfor %}
 	
