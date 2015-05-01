@@ -81,7 +81,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/eventDetails/' + eventID)
+	#messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/eventDetails/' + eventID)
 	return getTimes(request, eventID)
 
 def autocomplete_user(request):
