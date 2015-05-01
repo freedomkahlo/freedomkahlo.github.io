@@ -302,6 +302,9 @@
 				</nav>
 			</header>
 
+		<!-- Loading Overlay -->
+		<div class="loading" id="loadingOverlay" style="display:none">Loading&#8230;</div>
+
 		<!-- Main -->
 			<article id="main">
 				<div class="content">
@@ -342,7 +345,7 @@
 												</div>
 											</div>
 											<br /> 
-											<input style="margin: 0 auto 20 auto;" type="submit" value="Add" /> <br /> <br />
+											<input style="margin: 0 auto 20 auto;" type="submit" id="create" value="Add" /> <br /> <br />
 										</form>
 								</div>
 							</div>
@@ -471,6 +474,14 @@
 					</ul>
 				</footer>
 			</section>
+
+		<script>
+			$(document).ready(function(){
+			    $("#create").click(function() {
+				    $("#loadingOverlay").show();
+				});
+			});	
+		</script>
 
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
