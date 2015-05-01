@@ -139,47 +139,49 @@ def getTimes(request, eventID=None):
 
 	#TEMPORARY: fixed time zone
 	startInDateTime = datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p')
-	if startInDateTime < datetime.now():
-		startInDateTime = datetime.now()
+	# if startInDateTime < datetime.now():
+	# 	startInDateTime = datetime.now()
 	endInDateTime = datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
 	finalEndDateTime = datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p')
-	
-	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
-	
-	# 30 minute intervals for starting time; rounding start time; etc.
-	processedTimes = []
-	for t in times:
-		roundBy = roundUpByTimeDelta(t['startTime'])
-		startEvent = t['startTime']
-		# if rounding makes the event go beyond endtime, then just add the time range and call it good.
-		#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
-		if startEvent + roundBy + duration > endInDateTime:
-			endEvent = startEvent + duration
-			priorityValue = -int(t['numFree'])*1000
-			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
-			continue
-		else:
-			startEvent += timedelta(minutes=roundToMin)
-			endEvent = startEvent + duration
-			i = 0
-			while endEvent < t['endTime']:
-				priorityValue = -int(t['numFree'])*1000 + i
-				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
-				i += 1
-				startEvent += timedelta(minutes=roundToMin)
-				endEvent = startEvent + duration
-	#list.sort(processedTimes)
-	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
 
 	#Delete all previous possTimes 
 	event.posstime_set.all().delete()
-	###### we need to clear before calling getTimes again, but I can't get it to work.
-	#event.posstime_set.clear()
-	for t in processedTimes:
-		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'].__str__())
-		event.posstime_set.add(possTime)
-	#possTime = PossTime()
-	#event.posstime_set.add(possTime)
+	
+	while endInDateTime <= finalEndDateTime:
+		times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
+		
+		# 30 minute intervals for starting time; rounding start time; etc.
+		processedTimes = []
+		for t in times:
+			roundBy = roundUpByTimeDelta(t['startTime'])
+			startEvent = t['startTime']
+			# if rounding makes the event go beyond endtime, then just add the time range and call it good.
+			#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
+			if startEvent + roundBy + duration > endInDateTime:
+				endEvent = startEvent + duration
+				priorityValue = -int(t['numFree'])*1000
+				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
+				continue
+			else:
+				startEvent += timedelta(minutes=roundToMin)
+				endEvent = startEvent + duration
+				i = 0
+				while endEvent < t['endTime']:
+					priorityValue = -int(t['numFree'])*1000 + i
+					processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
+					i += 1
+					startEvent += timedelta(minutes=roundToMin)
+					endEvent = startEvent + duration
+		#list.sort(processedTimes)
+		processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
+
+		###### we need to clear before calling getTimes again, but I can't get it to work.
+		#event.posstime_set.clear()
+		for t in processedTimes:
+			possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'].__str__())
+			event.posstime_set.add(possTime)
+		#possTime = PossTime()
+		#event.posstime_set.add(possTime)
 
 	print "almost there!"
 	return HttpResponseRedirect('/events/eventDetails/' + eventID)
