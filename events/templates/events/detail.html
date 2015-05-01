@@ -197,7 +197,7 @@
 														<div class="4u 12u(narrower)">
 															<section><form action="{% url 'events:manageCreator' %}" method="post">
 																{% csrf_token %}
-																<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 																<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
 																<button class="icon fa-clock-o" type="submit" name="skedg"></button>
 																<header>
@@ -219,9 +219,9 @@
 											{% if i.name == user.username %}
 												<form action="{% url 'events:manageInvitee' %}" method="post">
 															{% csrf_token %}
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 												<section id="friends">
 												<div class="row" style="margin-top: -100px">
-													
 														{% for time in event.posstime_set.all %}
 															{% if forloop.counter <= 3 %}
 																<div class="4u 12u(narrower)">
