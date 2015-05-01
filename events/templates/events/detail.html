@@ -191,6 +191,11 @@
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
 														<br/><br/>
+
+													<!-- NO EVENT -->
+													{% if event.posstime_set.all|length == 0 %}
+														<p> No times found. </p>
+													{% endif %}
 													{% for time in event.posstime_set.all %}
 														{% if forloop.counter <= 3 %}
 															<div class="4u 12u(narrower)">
