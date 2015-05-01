@@ -191,7 +191,29 @@
 														<p> No times found. </p>
 												{% endif %}
 														
+													<form action="{% url 'events:manageCreator' %}" method="post">
+														{% csrf_token %}
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
+														<br/><br/>
+														<!-- NO EVENT -->
+														{% for time in event.posstime_set.all %}
+															{% if forloop.counter <= 3 %}
+																<div class="4u 12u(narrower)">
+																	<section>
+																		<span class="icon fa-clock-o"></span>
+																		<header>
+																			<h3> {{ time.date }} </h3>
+																			<p> {{ time.time }} </p>
+																			<p> {{ time.people }} </p>
+																		</header>
+																	</section>
+																</div>
+															{% endif %}
+														{% endfor %}
+													</form>
+
 												{% for time in event.posstime_set.all %}
+
 														<div class="4u 12u(narrower)">
 															<section>
 																<span class="icon fa-clock-o"></span>
