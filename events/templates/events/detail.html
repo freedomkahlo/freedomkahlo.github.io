@@ -187,29 +187,31 @@
 										{% if event.creator == user.username %}
 											<section id="friends">
 												<div class="row" style="margin-top: -100px">
+													{% if event.posstime_set.all|length == 0 %}
+														<p> No times found. </p>
+													{% endif %}
+
 													<form action="{% url 'events:manageCreator' %}" method="post">
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
 														<br/><br/>
 													<!-- NO EVENT -->
-													{% if event.posstime_set.all|length == 0 %}
-														<p> No times found. </p>
-													{% endif %}
-													{% for time in event.posstime_set.all %}
-														{% if forloop.counter <= 3 %}
-															<div class="4u 12u(narrower)">
-																<section>
-																	<span class="icon fa-clock-o"></span>
-																	<header>
-																		<h3> {{ time.date }} </h3>
-																		<p> {{ time.time }} </p>
-																		<p> {{ time.people }} </p>
-																	</header>
-																</section>
-															</div>
-														{% endif %}
-													{% endfor %}
+														{% for time in event.posstime_set.all %}
+															{% if forloop.counter <= 3 %}
+																<div class="4u 12u(narrower)">
+																	<section>
+																		<span class="icon fa-clock-o"></span>
+																		<header>
+																			<h3> {{ time.date }} </h3>
+																			<p> {{ time.time }} </p>
+																			<p> {{ time.people }} </p>
+																		</header>
+																	</section>
+																</div>
+															{% endif %}
+														{% endfor %}
 													</form>
+													
 												</div>
 											</section>
 										{% endif %}
