@@ -203,6 +203,7 @@ def manageCreator(request):
 	if 'skedg' in request.POST:			
 		eventID = request.POST['eventID']
 		event = get_object_or_404(Instance, eventID=eventID)
+		event.is_scheduled = True;
 		invitees = event.invitee_set.all()
 		peopleList = []
 
@@ -221,7 +222,7 @@ def manageCreator(request):
 		end = possEvents.get(id=possIndex).endTime
 		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
 		messages.success(request, 'Your event has been successfully skedged!')
-		event.delete()
+
 		return HttpResponseRedirect('/events/')
 	else:
 		return index(request)
