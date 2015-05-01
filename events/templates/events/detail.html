@@ -187,7 +187,12 @@
 										{% if event.creator == user.username %}
 											<section id="friends">
 												<div class="row" style="margin-top: -100px">
+													<form action="{% url 'events:manageCreator' %}" method="post">
+														{% csrf_token %}
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.id }}"</input></span>
+														<br/><br/>
 													{% for time in event.posstime_set.all %}
+														{% if forloop.counter <= 3 %}
 															<div class="4u 12u(narrower)">
 																<section>
 																	<span class="icon fa-clock-o"></span>
@@ -198,7 +203,9 @@
 																	</header>
 																</section>
 															</div>
+														{% endif %}
 													{% endfor %}
+													</form>
 												</div>
 											</section>
 										{% endif %}
