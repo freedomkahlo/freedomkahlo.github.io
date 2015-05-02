@@ -144,7 +144,7 @@
 															<li><button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="delete">Delete Event</button> </li>
 														</form>
 													{% elif user.is_authenticated %}
-														<form action="{% url 'events:manageInvitee' %}" method="post">   
+														<form action="/events/manageInvitee" method="post">   
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
