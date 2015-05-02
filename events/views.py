@@ -119,7 +119,10 @@ def deletePastPossTimes(request, eventID=None):
 	tz = pytz.timezone('US/' + event.timezone)
 
 	possTimes = event.posstime_set.all()
+	print possTimes
+
 	newPossTimes = [x for x in possTimes if x.startTime > datetime.now(tz)]
+	print newPossTimes
 
 	event.posstime_set.all().delete()
 	for x in newPossTimes:
