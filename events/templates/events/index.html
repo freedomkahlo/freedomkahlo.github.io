@@ -66,13 +66,14 @@
 				{
 					$("#notificationContainer").hide();
 				});
+
+				$("#notificationBox").click(function()
+				{
+					window.location = '/events/manageNotification';
+				});
 				//Popup Click
 				$("#notificationContainer").click(function()
 				{
-					$("#notificationBox").click(function()
-					{
-						$("#notificationBox").attr("action", "/events/manageNotification"); 
-					});
 					return false;
 				});
 
