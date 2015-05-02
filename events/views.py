@@ -270,6 +270,7 @@ def manageInvitee(request):
 		return vetoPoss(request)	
 
 def manageNotification(request):
+	print request.POST
 	if 'dismiss' in request.POST:
 		n_id = request.POST['notificationID']
 		notification = get_object_or_404(Notification, pk=n_id)
