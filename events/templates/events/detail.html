@@ -131,14 +131,25 @@
 								<section>
 									<!-- <div class="navbarBody"> -->
 										<div class="navbar">
-											<div align="right">
-												<ul id="nav">
+											<div class="eventLink">
+												<strong>EVENT LINK: &nbsp; </strong>
+												<input value="skedg.tk:82/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="40" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline-block; padding: 5px;"></input>
+											</div>
+											<ul id="nav">
 													{% if event.creator == user.username %}
-														<form action="{% url 'events:manageCreator' %}" method="post">
+														<form style="display: inline-block;" action="{% url 'events:manageCreator' %}" method="post">
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 															
 															<li><button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="delete">Delete Event</button> </li>
+														</form>
+													{% elif user.is_authenticated %}
+														<form action="{% url 'events:manageInvitee' %}" method="post">   
+															{% csrf_token %}
+															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+
+															<li><a class="special button" id="join" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="join">Join Event</a></li>
 														</form>
 													{% else %}
 														<form action="{% url 'events:manageInvitee' %}" method="post">   
@@ -146,12 +157,10 @@
 															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
 
-															<li><a class="special button" id="join" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="join">Join Event</a></li>
-															<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="decline">Leave Event</a></li>
+															<li><a class="button" id="join2" style="font-size: 9pt; margin-right: -5px; background-color: #ff9999; border-color: #ff9999; border-radius: 5px;" name="join2">Login to Join</a></li>
 														</form>
 													{% endif %}
-												</ul>						
-											</div>
+											</ul>						
 										</div>
 									<!-- </div> -->
 									<div class = "eventContainer">
@@ -159,23 +168,24 @@
 											<div class="6u 12u(narrower)">
 												<header>
 													<h2><strong>{{ event.title }}</strong></h2>
-													<h3>Creator: {{ event.creator }}</h3>
 												</header>
+												<div style="margin-top:-30px; margin-left: 70px;" width="80%" align="left">
+													Event created by: {{ event.creator }}<br />
+													Where: 
+												</div>
 												<p style="-12px">{{ event.desc }}</p>
 
 											</div>
 											<div class="6u 12u(narrower)">
 												<section>
-													<div>
-														<strong>EVENT LINK:</strong>
-												    	<input value="skedg.tk:82/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" onClick="this.select();" style="resize:none; overflow-x:hidden;"></input>
-											   		</div> <br />
 													<header>
 														<h3>Invitees</h3>
 													</header>
-													{% for invitee in event.invitee_set.all %}
-													<p> {{ invitee.name }} </p>
-													{% endfor %}
+													<p> 
+														{% for invitee in event.invitee_set.all %}
+															{{ invitee.name }}
+														{% endfor %}
+													</p>
 												</section>
 
 											</div>
