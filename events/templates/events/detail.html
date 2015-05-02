@@ -155,6 +155,7 @@
 																<button class="special button" id="join" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="join">Join Event</a>
 															</form>
 														</li>
+														<!-- WE NEED THIS TO BE LEAVE EVENT!!!!! -->
 													{% else %}
 														<!-- <form action="{% url 'events:manageInvitee' %}" method="post">   
 															{% csrf_token %}
@@ -228,37 +229,35 @@
 										{% endif %}
 
 										<!-- invitee view -->
-										
-										{% for i in event.invitee_set.all %}
-											{% if i.name == user.username %}
-												<form action="{% url 'events:manageInvitee' %}" method="post">
-															{% csrf_token %}
-															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-												<section id="friends">
-												<div class="row" style="margin-top: -100px">
-														{% for time in event.posstime_set.all %}
-															{% if forloop.counter <= 3 %}
-																<div class="4u 12u(narrower)">
-																	<section>
-																		<span class="icon fa-clock-o"></span>
-																		<header>
-																			<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
-																			<h3> {{ time.date }} </h3>
-																			<p> {{ time.time }} </p>
-																		</header>
-																	</section>
-																</div>
-															{% endif %}
-														{% endfor %}
-														<input type="submit" name="vetoPoss" value="Veto"/>
+										<section id="friends">
+											{% for i in event.invitee_set.all %}
+												{% if i.name == user.username %}
+													<form action="{% url 'events:manageInvitee' %}" method="post">
+														{% csrf_token %}
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 													
-												</div>
-											{% endif %}
-										{% endfor %}
-										<br/><br/>
-										
+														<div class="row" style="margin-top: -100px">
+															{% for time in event.posstime_set.all %}
+																{% if forloop.counter <= 3 %}
+																	<div class="4u 12u(narrower)">
+																		<section>
+																			<span class="icon fa-clock-o"></span>
+																			<header>
+																				<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
+																				<h3> {{ time.date }} </h3>
+																				<p> {{ time.time }} </p>
+																			</header>
+																		</section>
+																	</div>
+																{% endif %}
+															{% endfor %}
+															<input type="submit" name="vetoPoss" value="Veto"/>
+														</div>
+													</form>
+												{% endif %}
+											{% endfor %}
+										<br/> <br/>
 										</section>
-											</form>
 									</div>
 								</section>
 							</div>
