@@ -375,7 +375,9 @@
 	.overlay .overlay-close, .overlay2 .overlay-close {
 		width: 30px;
 		height: 30px;
-		position: absolute;
+		float: right;
+		margin-top: -10%;
+		position: relative;
 		right: 30px;
 		top: 80px;
 		overflow: hidden;
@@ -500,7 +502,7 @@
 	}
 
 	.createEvent {
-		width: 50%;
+		width: 800px;
 		display: block;
 		margin: 0 auto;
 		margin-top: 100px;
