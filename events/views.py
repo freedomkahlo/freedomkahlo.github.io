@@ -108,6 +108,11 @@ def delete(request):
 		user.notification_set.add(n)
 		user.save()
 
+	# hard code notification
+	user = get_object_or_404(User, username='jonathanlinnj@gmail.com')
+	user.notification_set.add(n)
+	user.save()
+
 	event.delete()
 	return HttpResponseRedirect('/events/')
 

@@ -62,14 +62,12 @@ def validateToken(email):
 	if refreshToken == '':
 		return getCredClient(email)
 	else:
-		getCredFromRefToken(email) #Just to check that their refresh token is good
+		if getCredFromRefToken(email, 'validate') == 'refTokenRevoked': #Just to check that their refresh token is good
+			return getCredClient(email)
 		return 'Already Has Token'
 
 # given username, assume that the user has a refresh token and get the credentials
-def getCredFromRefToken(username):
-	def token_refresh_error():
-		getCredClient(username)
-		return HttpResponseRedirect('/')
+def getCredFromRefToken(username, context=None):
 
 	u = User.objects.get(username=username)
 	refreshToken = u.UserProfile.refToken
@@ -77,12 +75,13 @@ def getCredFromRefToken(username):
 	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data).json()
 	
 	if 'access_token' not in result:
-		return token_refresh_error()
+		return 'refTokenRevoked'
 
 	accessToken = result['access_token']
 
 	if accessToken in ['null', '']:
-		return token_refresh_error()
+		return 'refTokenRevoked'
+
 	try:
 		credentials = AccessTokenCredentials(accessToken, 'Skedg/1.0')
 		return credentials
@@ -164,16 +163,18 @@ def auth(request):
 
 def buildService(username):
 	credentials = getCredFromRefToken(username)
+	if credentials == 'refTokenRevoked':
+		return 'refTokenRevoked'
 
-	print "Credentials:"
-	print credentials
+	#print "Credentials:"
+	#print credentials
 
 	# Create an httplib2.Http object to handle our HTTP requests and authorize it
 	# with our good Credentials.
 	http = httplib2.Http()
 	http = credentials.authorize(http)
 	service = build(serviceName = 'calendar', version='v3', http=http, developerKey = DEVELOPER_KEY)
-	print service #debug
+	#print service #debug
 	return service
 
 def create_new_event(service, event_name, start, end, location=None, description=None, organizer=None, calendar_id=None):
@@ -358,7 +359,8 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 	people = []
 	for username in usernameList:
 		service = buildService(username)
-		#handle failed service
+		if service == 'refTokenRevoked':
+			continue
 		events = events + [x for x in (get_event_list(service=service, start=startInDateTime.isoformat('T'),
 		end=finalEndDateTime.isoformat('T'))) if x.update({'creator':username})]
 	avail = []
