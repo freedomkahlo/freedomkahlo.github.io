@@ -124,14 +124,18 @@ def deletePastPossTimes(request, eventID=None):
 	tz = pytz.timezone('US/' + event.timezone)
 
 	possTimes = event.posstime_set.all()
-	for x in possTimes:
-		if x.startTime > datetime.now(tz):
-			x.delete()
+	newPossTimes = [x for x in possTimes if x.startTime > datetime.now(tz)]
+
+	event.posstime_set.all().delete()
+	for x in newPossTimes:
+		event.posstime_set.add(x)
 
 	vetoTimes = event.vetotime_set.all()
-	for x in vetoTimes:
-		if x.startTime > datetime.now(tz):
-			x.delete()
+	newVetoTimes = [x for x in vetoTimes if x.startTime > datetime.now(tz)]
+
+	event.vetotime_set.all().delete()
+	for x in newPossTimes:
+		event.vetotime_set.add(x)
 	#if len(newPossTimes) == 0:
 		#ya fucked
 
