@@ -402,7 +402,9 @@
 														<span id="notification_count">{{ user.notification_set.all|length }}</span>
 														{% endif %}
 														<a class = "special button" style="background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="#" id="notificationLink">Notifications</a>
-														<form action="{% url 'events:manageNotification' %}" method="post">   
+
+														<div id="notificationContainer">
+															<form action="{% url 'events:manageNotification' %}" method="post">   
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
@@ -410,7 +412,6 @@
 
 															<button class="special button" id="dismiss" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="dismiss">Clear All</button>
 														</form>
-														<div id="notificationContainer">
 															<div id="notificationTitle">Notifications</div>
 															<div id="notificationsBody" style="margin-top: -30px">
 																<ul>
