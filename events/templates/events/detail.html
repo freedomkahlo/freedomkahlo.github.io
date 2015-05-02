@@ -235,6 +235,7 @@
 													<form action="{% url 'events:manageInvitee' %}" method="post">
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
 													
 														<div class="row" style="margin-top: -100px">
 															{% for time in event.posstime_set.all %}
@@ -243,7 +244,7 @@
 																		<section>
 																			<span class="icon fa-clock-o"></span>
 																			<header>
-																				<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/></p>
+																				<input type="checkbox" name="vetoTimes" value="{{ p.id }}"/>
 																				<h3> {{ time.date }} </h3>
 																				<p> {{ time.time }} </p>
 																			</header>
