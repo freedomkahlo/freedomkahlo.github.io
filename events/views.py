@@ -116,9 +116,10 @@ def deletePastPossTimes(request, eventID=None):
 		eventID = request.POST['eventID']
 
 	event = get_object_or_404(Instance, eventID=eventID)
+	tz = pytz.timezone('US/' + event.timezone)
 
 	possTimes = event.posstime_set.all()
-	newPossTimes = [x for x in possTimes if x.startTime > datetime.now()]
+	newPossTimes = [x for x in possTimes if x.startTime > datetime.now(tz)]
 
 	event.posstime_set.all().delete()
 	event.posstime_set.add(*newPossTimes)
@@ -367,10 +368,10 @@ def user_login(request):
 
 		if user:
 			if user.is_active:
-				login(request, user)
 				resp = cal.validateToken(email)
 				if (resp != None):
 					return resp
+				login(request, user)
 				return HttpResponseRedirect('/events/')
 			else:
 				return HttpResponse("Your Skedge account is disabled.")
