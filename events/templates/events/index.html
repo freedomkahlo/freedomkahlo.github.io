@@ -340,15 +340,16 @@
 													<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
 													<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
 													<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
-													Time Zone:
-													<div class="styled-select">
-													   <select id="timezone" name="timezone">
-													      <option>Eastern</option>
-													      <option>Central</option>
-													      <option>Mountain</option>
-													      <option>Pacific</option>
-													   </select>
-													</div> 
+													Time Zone: <br />
+													<div class="dropdown">
+												    	<select name="timezone" id="timezone" class="dropdown-select">
+												        	<option value="1">Eastern</option>
+												        	<option value="2">Central</option>
+												        	<option value="3">Mountain</option>
+												        	<option value="4">Pacific</option>
+												      </select>
+												    </div>
+													<br />
 													<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
 													<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
 													Time Range: <input type="text" name="time_range" id="time_range" style="border: 1px solid; color: #666666; margin: 0 auto; width: 90%; text-align: center; border-radius: 5px;" value="{{ time_range }}" readonly/> <br />
@@ -460,7 +461,6 @@
 														{% endfor %}
 													{% endfor %}
 												</section>
-
 											</div>
 										</div>
 									</div>

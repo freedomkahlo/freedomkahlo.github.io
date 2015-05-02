@@ -16,29 +16,91 @@
 		font-family:arial
 	}
 
-	/* Dropdown Select Menu */
-	.styled-select select {
-	   background: transparent;
-	   margin: 0 auto;
-	   width: 100%;
-	   padding: 5px;
-	   font-size: 16px;
-	   line-height: 1;
-	   border: 0;
-	   border-radius: 0;
-	   height: 34px;
-	   -webkit-appearance: none;
-   }
+	/* dropdown select */
+	.dropdown {
+	  display: inline-block;
+	  position: relative;
+	  overflow: hidden;
+	  height: 30px;
+	  width: 150px;
+	  background: #f2f2f2;
+	  border: 1px solid;
+	  border-color: white #f7f7f7 #f5f5f5;
+	  border-radius: 3px;
+	  background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.02));
+	  background-image: -moz-linear-gradient(top, transparent, rgba(0, 0, 0, 0.02));
+	  background-image: -o-linear-gradient(top, transparent, rgba(0, 0, 0, 0.02));
+	  background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.02));
+	  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+	  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+	}
+	.dropdown:before, .dropdown:after {
+	  content: '';
+	  position: absolute;
+	  z-index: 2;
+	  top: 9px;
+	  right: 10px;
+	  width: 0;
+	  height: 0;
+	  border: 4px dashed;
+	  border-color: #888 transparent;
+	  pointer-events: none;
+	}
+	.dropdown:before {
+	  border-bottom-style: solid;
+	  border-top: none;
+	}
+	.dropdown:after {
+	  margin-top: 7px;
+	  border-top-style: solid;
+	  border-bottom: none;
+	}
 
-   .styled-select {
-	   width: 60%;
-	   height: 34px;
-	   margin: 0 auto;
-	   overflow: hidden;
-	   /*background: url({% static 'events/images/down_arrow_select.jpg' %}) no-repeat right #ddd;*/
-	   border: 1px solid #ccc;
-	   margin-bottom: 10px;
-   }
+	.dropdown-select {
+	  position: relative;
+	  width: 130%;
+	  margin: 0;
+	  padding: 6px 8px 6px 10px;
+	  height: 28px;
+	  line-height: 14px;
+	  font-size: 12px;
+	  color: #62717a;
+	  text-shadow: 0 1px white;
+	  /* Fallback for IE 8 */
+	  background: #f2f2f2;
+	  /* "transparent" doesn't work with Opera */
+	  background: rgba(0, 0, 0, 0) !important;
+	  border: 0;
+	  border-radius: 0;
+	  -webkit-appearance: none;
+	}
+	.dropdown-select:focus {
+	  z-index: 3;
+	  width: 100%;
+	  color: #394349;
+	  outline: 2px solid #49aff2;
+	  outline: 2px solid -webkit-focus-ring-color;
+	  outline-offset: -2px;
+	}
+	.dropdown-select > option {
+	  margin: 3px;
+	  padding: 6px 8px;
+	  text-shadow: none;
+	  background: #f2f2f2;
+	  border-radius: 3px;
+	  cursor: pointer;
+	}
+
+	/* Fix for IE 8 putting the arrows behind the select element. */
+	.lt-ie9 .dropdown {
+	  z-index: 1;
+	}
+	.lt-ie9 .dropdown-select {
+	  z-index: -1;
+	}
+	.lt-ie9 .dropdown-select:focus {
+	  z-index: 3;
+	}
 
 	/* Absolute Center CSS Spinner */
 	.loading {
