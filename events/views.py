@@ -184,10 +184,10 @@ def getTimes(request, eventID=None):
 			startEvent += timedelta(minutes=roundToMin)
 		if startEvent < datetime.now(tz):
 			continue
+		endEvent = startEvent + duration
 		# if rounding makes the event go beyond endtime, then just add the time range and call it good.
 		#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
 		if startEvent + roundBy + duration > finalEndDateTime:
-			endEvent = startEvent + duration
 			priorityValue = -int(t['numFree'])*1000
 			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 			continue
