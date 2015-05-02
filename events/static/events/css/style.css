@@ -26,6 +26,7 @@
 	  background: #f2f2f2;
 	  border: 1px solid;
 	  border-color: white #f7f7f7 #f5f5f5;
+	  margin-bottom: 10px;
 	  border-radius: 3px;
 	  background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.02));
 	  background-image: -moz-linear-gradient(top, transparent, rgba(0, 0, 0, 0.02));
@@ -38,7 +39,7 @@
 	  content: '';
 	  position: absolute;
 	  z-index: 2;
-	  top: 9px;
+	  top: 11px;
 	  right: 10px;
 	  width: 0;
 	  height: 0;
