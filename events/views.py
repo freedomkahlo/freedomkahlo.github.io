@@ -33,7 +33,7 @@ def index(request):
 #@login_required
 def detail(request, eventID):
 	event = get_object_or_404(Instance, eventID=eventID)
-	#deletePastPossTimes(request, eventID)
+	deletePastPossTimes(request, eventID)
 	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
@@ -122,7 +122,8 @@ def deletePastPossTimes(request, eventID=None):
 	newPossTimes = [x for x in possTimes if x.startTime > datetime.now(tz)]
 
 	event.posstime_set.all().delete()
-	event.posstime_set.add(*newPossTimes)
+	for x in newPossTimes:
+		event.posstime_set.add(x)
 
 	#if len(newPossTimes) == 0:
 		#ya fucked
