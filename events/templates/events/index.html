@@ -61,6 +61,12 @@
 					return false;
 				});
 
+				$('#notificationBox').on('submit', function(event){
+				    event.preventDefault();
+				    console.log("form submitted!")  // sanity check
+				    create_post();
+				});
+
 				//Document Click
 				$(document).click(function()
 				{
@@ -70,12 +76,6 @@
 				$("#notificationContainer").click(function()
 				{
 					return false;
-				});
-
-				$('#notificationBox').on('submit', function(event){
-				    event.preventDefault();
-				    console.log("form submitted!")  // sanity check
-				    create_post();
 				});
 
 				function create_post() {
