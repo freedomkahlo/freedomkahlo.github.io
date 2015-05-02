@@ -165,6 +165,9 @@ def auth(request):
 def buildService(username):
 	credentials = getCredFromRefToken(username)
 
+	print "Credentials:"
+	print credentials
+
 	# Create an httplib2.Http object to handle our HTTP requests and authorize it
 	# with our good Credentials.
 	http = httplib2.Http()
