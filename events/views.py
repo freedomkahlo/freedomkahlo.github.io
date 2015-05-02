@@ -115,7 +115,7 @@ def getTimes(request, eventID=None):
 		dt : datetime.datetime object, default now.
 		roundTo : Closest number of seconds to round up to, default 15 minutes.
 		"""
-		seconds = dt.seconds
+		seconds = 60 * dt.minute + dt.second
 		# // is a floor division, not a comment on following line:
 		rounding = (seconds+roundTo) // roundTo * roundTo
 		return timedelta(0,rounding-seconds,-dt.microsecond)
