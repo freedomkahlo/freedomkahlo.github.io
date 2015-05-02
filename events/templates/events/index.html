@@ -67,10 +67,14 @@
 					$("#notificationContainer").hide();
 				});
 				//Popup Click
-				// $("#notificationContainer").click(function()
-				// 	{
-				// 	return true
-				// 	});
+				$("#notificationContainer").click(function()
+				{
+					return false
+				});
+				$("#notificationBox").click(function()
+				{
+					return true
+				});
 
 			});
 		</script>
@@ -404,7 +408,7 @@
 														<a class = "special button" style="background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="#" id="notificationLink">Notifications</a>
 
 														<div id="notificationContainer">
-															<form action="{% url 'events:manageNotification' %}" method="post">   
+															<form id="notificationBox" action="{% url 'events:manageNotification' %}" method="post">   
 																{% csrf_token %}
 																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
