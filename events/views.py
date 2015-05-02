@@ -33,6 +33,7 @@ def index(request):
 #@login_required
 def detail(request, eventID):
 	event = get_object_or_404(Instance, eventID=eventID)
+	deletePastPossTimes(request, eventID)
 	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
@@ -109,6 +110,22 @@ def delete(request):
 
 	event.delete()
 	return HttpResponseRedirect('/events/')
+
+def deletePastPossTimes(request, eventID=None):
+	if eventID == None:
+		eventID = request.POST['eventID']
+
+	event = get_object_or_404(Instance, eventID=eventID)
+
+	possTimes = event.posstime_set.all()
+	newPossTimes = [x for x in possTimes if x.startTime > datetime.now()]
+
+	event.posstime_set.all().delete()
+	event.posstime_set.add(*newPossTimes)
+
+	#if len(newPossTimes) == 0:
+		#ya fucked
+
 
 def getTimes(request, eventID=None):
 	roundToMin = 15 #minutes

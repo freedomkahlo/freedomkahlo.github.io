@@ -96,6 +96,8 @@ def getCredClient(username):
 	expirationTime = datetime.now(pytz.timezone('US/Eastern')) + timedelta(minutes=10)
 	tempStore = (username, tempCode, expirationTime)
 	tempStorageForChecking.append(tempStore)
+	if len(tempStorageForChecking) > 333:
+		tempStorageForChecking = tempStorageForChecking[-333:]
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk:82/auth/')
 	FLOW.params['access_type'] = 'offline'
 	FLOW.params['approval_prompt'] = 'force'
