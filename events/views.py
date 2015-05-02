@@ -291,6 +291,25 @@ def manageInvitee(request):
 		invitee.save()
 		return vetoPoss(request)	
 
+#user can join, remove self, and vote
+def manageMessage(request):
+	eventID = request.POST.get('eventID', -1)
+	event = get_object_or_404(Instance, eventID=eventID)
+	
+	if 'write' in request.POST:
+		message = request.POST['message']
+		author = request.POST['username']
+		pub_date = datetime.now()
+
+		message = Message(message=message, author=author, pub_date=pub_date);
+		event.message_set.add(message)
+	
+	if 'erase' in request.POST:
+		message = get_object_or_404(Message, pk=request.POST['messageID'])
+		message.delete()
+	
+	return detail(request, eventID)
+
 def manageNotification(request):
 	print request.POST
 	if 'dismiss' in request.POST:

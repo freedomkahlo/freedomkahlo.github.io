@@ -89,6 +89,14 @@ class Invitee(models.Model):
 #	time = models.DateTimeField('potential time')
 #	votes = models.IntegerField(default = 0)
 	
+class Message(models.Model):
+	event = models.ForeignKey(Instance)
+	text = models.CharField(max_length=200)
+	author = models.CharField(max_length=100)
+	pub_date = models.DateTimeField('date made')
+	def __str__(self):
+		return text + " \n " + author + " at " pub_date
+
 class Notification(models.Model):
 	user = models.ForeignKey(User)
 	desc = models.CharField(max_length=100)
