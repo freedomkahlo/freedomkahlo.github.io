@@ -428,4 +428,4 @@ def vetoPoss(request):
 		p = possTimes.get(id=pID)
 		vetoTime = VetoTime(event=event, invitee=invitee, startTime=p.startTime, endTime=p.endTime)
 		vetoTime.save()
-	return HttpResponseRedirect('/events/')
+	return getTimes(request)
