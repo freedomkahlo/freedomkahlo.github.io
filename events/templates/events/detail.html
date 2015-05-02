@@ -152,13 +152,13 @@
 															<li><a class="special button" id="join" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="join">Join Event</a></li>
 														</form>
 													{% else %}
-														<form action="{% url 'events:manageInvitee' %}" method="post">   
+														<!-- <form action="{% url 'events:manageInvitee' %}" method="post">   
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
-															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>  -->
 
 															<li><a class="button" id="join2" style="font-size: 9pt; margin-right: -5px; background-color: #ff9999; border-color: #ff9999; border-radius: 5px;" name="join2">Login to Join</a></li>
-														</form>
+														<!-- </form> -->
 													{% endif %}
 											</ul>						
 										</div>
