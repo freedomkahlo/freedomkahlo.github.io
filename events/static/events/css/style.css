@@ -274,7 +274,7 @@
 		z-index: 10;
 		display: none;
 	}
-	#notificationContainer:before {
+/*	#notificationContainer:before {
 		display: block;
 		position: absolute;
 		width: 0;
@@ -285,7 +285,7 @@
 		margin-top: -20px;
 		margin-left: 188px;
 		z-index: 11;
-	}
+	}*/
 	#notificationTitle {
 		z-index: 1000;
 		font-weight: bold;
