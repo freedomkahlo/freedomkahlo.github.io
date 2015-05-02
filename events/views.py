@@ -419,7 +419,7 @@ def user_logout(request):
 def vetoPoss(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
-	invitee = event.invitee_set.all().get(name=username)
+	invitee = event.invitee_set.all().get(name=request.POST['username'])
 	invitee.hasVoted = True
 	invitee.save()
 	possTimes = event.posstime_set.all()
