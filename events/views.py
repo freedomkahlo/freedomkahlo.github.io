@@ -134,7 +134,7 @@ def deletePastPossTimes(request, eventID=None):
 	newVetoTimes = [x for x in vetoTimes if x.startTime > datetime.now(tz)]
 
 	event.vetotime_set.all().delete()
-	for x in newPossTimes:
+	for x in newVetoTimes:
 		event.vetotime_set.add(x)
 	#if len(newPossTimes) == 0:
 		#ya fucked
