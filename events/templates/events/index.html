@@ -403,7 +403,7 @@
 														{% endif %}
 														<a class = "special button" style="background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="#" id="notificationLink">Notifications</a>
 
-														<div id="notificationContainer">
+														<div id="asdf">
 															<form action="{% url 'events:manageNotification' %}" method="post">   
 																{% csrf_token %}
 																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
