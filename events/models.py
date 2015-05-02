@@ -51,13 +51,13 @@ class PossTime(models.Model):
 	@property
 	def date(self):
 		tz = pytz.timezone('US/' + self.event.timezone)
-		return (tz.localize(self.startTime)).strftime("%b %d").lstrip("0")
+		return (self.startTime.astimezone(tz)).strftime("%b %d").lstrip("0")
 	
 	@property
 	def time(self):
 		tz = pytz.timezone('US/' + self.event.timezone)
-		return ((tz.localize(self.startTime)).strftime("%I:%M %p").lstrip("0")
-			+ " - " + (tz.localize(self.endTime)).strftime("%I:%M %p %Z").lstrip("0"))
+		return ((self.startTime.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
+			+ " - " + (self.endTime.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0"))
 
 	@property
 	def people(self):
@@ -65,8 +65,8 @@ class PossTime(models.Model):
 	
 	def __str__(self):
 		tz = pytz.timezone('US/' + self.event.timezone)
-		return ((tz.localize(self.startTime)).strftime("%I:%M %p").lstrip("0")
-			+ " - " + (tz.localize(self.endTime)).strftime("%I:%M %p %Z").lstrip("0"))
+		return ((self.startTime.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
+			+ " - " + (self.endTime.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0"))
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
