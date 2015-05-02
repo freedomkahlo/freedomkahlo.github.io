@@ -69,11 +69,11 @@
 				//Popup Click
 				$("#notificationContainer").click(function()
 				{
-					return false
-				});
-				$("#notificationBox").click(function()
-				{
-					$("#notificationBox").attr("action", "/events/manageNotification"); 
+					$("#notificationBox").click(function()
+					{
+						$("#notificationBox").attr("action", "/events/manageNotification"); 
+					});
+					return false;
 				});
 
 			});
