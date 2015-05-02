@@ -158,7 +158,7 @@ def auth(request):
 	u.UserProfile.refToken = refreshToken
 	u.UserProfile.save()
 	u.save()
-	user.backend = 'django.contrib.auth.backends.ModelBackend'
+	u.backend = 'django.contrib.auth.backends.ModelBackend'
 	login(request, u)
 	return HttpResponseRedirect('/events/')
 
