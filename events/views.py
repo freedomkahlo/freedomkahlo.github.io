@@ -129,7 +129,7 @@ def getTimes(request, eventID=None):
 		diffmins = upmins - tm.minute
 		#newtime = tm + datetime.timedelta(minutes=diffmins)
 		#newtime = newtime.replace(second=0)
-		return datetime.timedelta(minutes=diffmins)
+		return timedelta(minutes=diffmins)
 
 	if eventID == None:
 		eventID = request.POST['eventID']
