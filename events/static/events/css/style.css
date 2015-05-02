@@ -376,8 +376,8 @@
 		width: 30px;
 		height: 30px;
 		float: right;
-		margin-top: -10%;
-		position: relative;
+		/*margin-top: -10%;*/
+		position: absolute;
 		right: 30px;
 		top: 80px;
 		overflow: hidden;
