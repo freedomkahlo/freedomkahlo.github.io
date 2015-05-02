@@ -252,7 +252,12 @@
 																	</div>
 																{% endif %}
 															{% endfor %}
-															<input type="submit" name="veto" value="veto"/>
+
+															{% if event.posstime_set.all|length == 0 %}
+																<p> No times found. </p>
+															{% else %}
+																<input type="submit" name="veto" value="veto"/>
+															{% endif %}
 														</div>
 													</form>
 												{% endif %}
