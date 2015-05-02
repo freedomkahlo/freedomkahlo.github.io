@@ -68,6 +68,17 @@ class PossTime(models.Model):
 		return ((self.startTime.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
 			+ " - " + (self.endTime.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0"))
 
+class VetoTime(models.Model):
+	event = models.ForeignKey(Instance)
+	invitee = models.ForeignKey(Invitee)
+	startTime = models.DateTimeField('start time')
+	endTime = models.DateTimeField('end time')
+
+	def __str__(self):
+		tz = pytz.timezone('US/' + self.event.timezone)
+		return ((self.startTime.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
+			+ " - " + (self.endTime.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0"))
+
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
 	name = models.CharField(max_length=100)

@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext
-from .models import Instance, Invitee, Notification, PossTime, UserProfile
+from .models import Instance, Invitee, Notification, PossTime, UserProfile, VetoTime
 from .forms import UserForm, UserProfileForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -124,15 +124,14 @@ def deletePastPossTimes(request, eventID=None):
 	tz = pytz.timezone('US/' + event.timezone)
 
 	possTimes = event.posstime_set.all()
-	print possTimes
+	for x in possTimes:
+		if x.startTime > datetime.now(tz):
+			x.delete()
 
-	newPossTimes = [x for x in possTimes if x.startTime > datetime.now(tz)]
-	print newPossTimes
-
-	event.posstime_set.all().delete()
-	for x in newPossTimes:
-		event.posstime_set.add(x)
-
+	vetoTimes = event.vetotime_set.all()
+	for x in vetoTimes:
+		if x.startTime > datetime.now(tz):
+			x.delete()
 	#if len(newPossTimes) == 0:
 		#ya fucked
 
@@ -177,8 +176,12 @@ def getTimes(request, eventID=None):
 	startInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p'))
 	endInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
 	finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
+
+	vetoedEvents = []
+	for e in event.vetotime_set.all():
+		vetoedEvents.append({'creator':e.invitee.name, 'start':{'dateTime':e.startTime}, 'end':{'dateTime':e.endTime}})
 	
-	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
+	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration, vetoedEvents)
 	
 	# 30 minute intervals for starting time; rounding start time; etc.
 	processedTimes = []
@@ -292,9 +295,6 @@ def manageInvitee(request):
 			return detail(request, eventID)
 			#return detail(request, e_id)
 	if 'veto' in request.POST:
-		invitee = event.invitee_set.all().get(name=username)
-		invitee.hasVoted = True
-		invitee.save()
 		return vetoPoss(request)	
 
 #user can join, remove self, and vote
@@ -419,10 +419,13 @@ def user_logout(request):
 def vetoPoss(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
+	invitee = event.invitee_set.all().get(name=username)
+	invitee.hasVoted = True
+	invitee.save()
 	possTimes = event.posstime_set.all()
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
 		p = possTimes.get(id=pID)
-		print p
-		p.save()
+		vetoTime = VetoTime(event=event, invitee=invitee, startTime=p.startTime, endTime=p.endTime)
+		vetoTime.save()
 	return HttpResponseRedirect('/events/')

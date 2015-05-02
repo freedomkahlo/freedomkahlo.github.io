@@ -193,6 +193,12 @@
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>
 			$(document).ready(function(){
+				{% if not messages and not invalidLogin %}
+					//Good
+					if (typeof sessionStorage['currPage'] == 'string'){
+						sessionStorage['currPage'] == '0';
+					}
+				{% endif %}
 				if (typeof sessionStorage['currPage'] == 'string' && $.inArray(sessionStorage['currPage'], ['1', '2']) > -1) {
 					if (sessionStorage['currPage'] == '1') {
 						toggleOverlay();

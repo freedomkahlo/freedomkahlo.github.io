@@ -354,15 +354,16 @@ def getPeople(people, participants):
 # duration is in seconds
 ######!!!!! When we implement having multiple time ranges, we will have to 
 ########### do the timeStart and timeEnd as a list of tuple(timeStart, timeEnd)
-def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTime, duration):
+def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTime, duration, vetoedTimes):
 	events = []
 	people = []
 	for username in usernameList:
 		service = buildService(username)
 		if service == 'refTokenRevoked':
 			continue
-		events = events + [x for x in (get_event_list(service=service, start=startInDateTime.isoformat('T'),
+		events += [x for x in (get_event_list(service=service, start=startInDateTime.isoformat('T'),
 		end=finalEndDateTime.isoformat('T'))) if x.update({'creator':username})]
+	events += vetoedTimes
 	avail = []
 	
 	#Get times for each interval
