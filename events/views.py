@@ -311,7 +311,7 @@ def manageMessage(request):
 	return detail(request, eventID)
 
 def manageNotification(request):
-	print request.POST
+	print "HI"
 	if 'dismiss' in request.POST:
 		n_id = request.POST['notificationID']
 		notification = get_object_or_404(Notification, pk=n_id)

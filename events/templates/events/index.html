@@ -406,28 +406,17 @@
 															<div id="notificationTitle">Notifications</div>
 															<div id="notificationsBody" style="margin-top: -30px">
 																<ul>
-																	<!-- {% for notification in user.notification_set.all %}
+																	{% for notification in user.notification_set.all %}
 																	<li>
 																	{% csrf_token %}
 																		<div style="width: 90%;">
 																		{{ notification }}
 																		<form action="/events/manageNotification/" method="post">
 																		<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																		<a type="submit" class="boxclose" id="boxclose"></a> 
-																		<input type="submit" name="dismiss" id="submit"value="x"/> 
+																		<!-- <a type="submit" class="boxclose" id="boxclose"></a>  -->
+																		<input type="submit" name="dismiss" id="submit" value="x"/> 
 																		</form>
 																		</div>
-																	</li>
-																	{% endfor %} -->
-																	{% for notification in user.notification_set.all %}
-																	<li>
-																	<form action="{% url 'events:manageNotification' %}" method="post">
-																		<div style="width: 90%;">
-																		{% csrf_token %}
-																			<p> {{ notification }} <input type="submit" name="dismiss" value="Dismiss"/></p>
-																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																		</div>
-																	</form>
 																	</li>
 																	{% endfor %}
 																</ul>
@@ -473,20 +462,6 @@
 													{% endfor %}
 												</section>
 											</div>
-										</div>
-
-										<div class="row">
-											{% for message in event.message_set.all %}
-												{{ message }}
-											{% endfor %}
-
-											<form action="{% url 'events:manageMessage' %}" method="post">    
-											{% csrf_token %}
-												<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-												<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
-												<input type="text" name="message" value="Write a message:"/>
-												<input type="submit" name="write" value="Submit message" />
-											</form>
 										</div>
 									</div>
 								</section>
