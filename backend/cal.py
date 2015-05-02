@@ -128,7 +128,7 @@ def auth(request):
 	while i < len(tempStorageForChecking):
 		if (tempStorageForChecking[i][0] == username and tempStorageForChecking[i][1] == tempCode):
 			break
-		i = i + 1
+		i += 1
 
 	# Not found
 	if i == len(tempStorageForChecking):
@@ -170,6 +170,7 @@ def buildService(username):
 	http = httplib2.Http()
 	http = credentials.authorize(http)
 	service = build(serviceName = 'calendar', version='v3', http=http, developerKey = DEVELOPER_KEY)
+	print service #debug
 	return service
 
 def create_new_event(service, event_name, start, end, location=None, description=None, organizer=None, calendar_id=None):
@@ -354,6 +355,7 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 	people = []
 	for username in usernameList:
 		service = buildService(username)
+		#handle failed service
 		events = events + [x for x in (get_event_list(service=service, start=startInDateTime.isoformat('T'),
 		end=finalEndDateTime.isoformat('T'))) if x.update({'creator':username})]
 	avail = []
