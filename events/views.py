@@ -292,6 +292,7 @@ def manageInvitee(request):
 			return detail(request, eventID)
 			#return detail(request, e_id)
 	if 'veto' in request.POST:
+		invitee = event.invitee_set.all().get(name=username)
 		invitee.hasVoted = True
 		invitee.save()
 		return vetoPoss(request)	
