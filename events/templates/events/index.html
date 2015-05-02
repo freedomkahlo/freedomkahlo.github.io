@@ -66,11 +66,6 @@
 				{
 					$("#notificationContainer").hide();
 				});
-
-				$("#notificationBox").click(function()
-				{
-					window.location = 'http://www.skedg.tk:82/events/manageNotification';
-				});
 				//Popup Click
 				$("#notificationContainer").click(function()
 				{
@@ -78,6 +73,15 @@
 				});
 
 			});
+
+			function notificationClick(){
+                $.ajax({
+                    type: 'POST',
+                    url: '/events/manageNotification/',
+                    success: function(){alert('DONE!');},
+                    error:function(){alert('ERROR!');},
+            });
+        }
 		</script>
 
 		<script>
@@ -409,13 +413,13 @@
 														<a class = "special button" style="background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="#" id="notificationLink">Notifications</a>
 
 														<div id="notificationContainer">
-															<form id="notificationBox" action="{% url 'events:manageNotification' %}" method="post">   
+															<form action="{% url 'events:manageNotification' %}" method="post">   
 																{% csrf_token %}
 																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
 																<span style="display: none;"><input type="text" name="dismiss" value="clear"></input></span>
 
-																<button class="special button" id="dismiss" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="dismiss">Clear All</button>
+																<button class="special button" id="dismiss" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="dismiss" onclick="notificationClick()">Clear All</button>
 															</form>
 															<div id="notificationTitle">Notifications</div>
 															<div id="notificationsBody" style="margin-top: -30px">
