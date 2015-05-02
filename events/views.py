@@ -112,15 +112,23 @@ def delete(request):
 def getTimes(request, eventID=None):
 	roundToMin = 15 #minutes
 
-	def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
-		"""Round a datetime object to any time laps in seconds
-		dt : datetime.datetime object, default now.
-		roundTo : Closest number of seconds to round up to, default 15 minutes.
-		"""
-		seconds = 60 * dt.minute + dt.second
-		# // is a floor division, not a comment on following line:
-		rounding = (seconds+roundTo) // roundTo * roundTo
-		return timedelta(0,rounding-seconds,-dt.microsecond)
+	#def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
+	#	"""Round a datetime object to any time laps in seconds
+	#	dt : datetime.datetime object, default now.
+	#	roundTo : Closest number of seconds to round up to, default 15 minutes.
+	#	"""
+	#	(dt - dt.min).seconds
+	#	seconds = 60 * dt.minute + dt.second
+	#	# // is a floor division, not a comment on following line:
+	#	rounding = (seconds+roundTo) // roundTo * roundTo
+	#	return timedelta(0,rounding-seconds,-dt.microsecond)
+
+	def roundUpByTimeDelta(tm):
+		upmins = math.ceil(float(tm.minute)/15)*15 #round up to nearest 15 minutes
+		diffmins = upmins - tm.minute
+		#newtime = tm + datetime.timedelta(minutes=diffmins)
+		#newtime = newtime.replace(second=0)
+		return datetime.timedelta(minutes=diffmins)
 
 	if eventID == None:
 		eventID = request.POST['eventID']
