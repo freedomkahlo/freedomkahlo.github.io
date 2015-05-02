@@ -33,7 +33,7 @@ def index(request):
 #@login_required
 def detail(request, eventID):
 	event = get_object_or_404(Instance, eventID=eventID)
-	deletePastPossTimes(request, eventID)
+	#deletePastPossTimes(request, eventID)
 	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
