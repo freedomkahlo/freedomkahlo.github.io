@@ -291,7 +291,7 @@ def manageInvitee(request):
 			messages.success(request, "You were not invited, foo.")
 			return detail(request, eventID)
 			#return detail(request, e_id)
-	if 'vote' in request.POST:
+	if 'veto' in request.POST:
 		invitee.hasVoted = True
 		invitee.save()
 		return vetoPoss(request)	
