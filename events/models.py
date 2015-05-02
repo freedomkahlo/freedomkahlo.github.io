@@ -95,7 +95,7 @@ class Message(models.Model):
 	author = models.CharField(max_length=100)
 	pub_date = models.DateTimeField('date made')
 	def __str__(self):
-		return text + " \n " + author + " at " pub_date
+		return text 
 
 class Notification(models.Model):
 	user = models.ForeignKey(User)
