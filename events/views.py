@@ -392,10 +392,10 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				resp = cal.validateToken(email)
-				if (resp != None):
-					return resp
-				login(request, user)
-				return HttpResponseRedirect('/events/')
+				if (resp =="Already Has Token":
+					login(request, user)
+					return HttpResponseRedirect('/events/'))
+				return resp
 			else:
 				return HttpResponse("Your Skedge account is disabled.")
 		else:
@@ -417,5 +417,6 @@ def vetoPoss(request):
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
 		p = possTimes.get(id=pID)
+		print p
 		p.save()
 	return HttpResponseRedirect('/events/')

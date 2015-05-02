@@ -105,6 +105,6 @@ STATIC_URL = '/static/'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'skedg.notify@gmail.com'
-EMAIL_HOST_PASSWORD = 'jon+annie'
+EMAIL_HOST_PASSWORD = 'jonandannie'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

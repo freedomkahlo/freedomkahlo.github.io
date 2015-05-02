@@ -62,7 +62,7 @@ def validateToken(email):
 		return getCredClient(email)
 	else:
 		getCredFromRefToken(email) #Just to check that their refresh token is good
-		return HttpResponseRedirect('/events/')
+		return 'Already Has Token'
 
 # given username, assume that the user has a refresh token and get the credentials
 def getCredFromRefToken(username):
@@ -157,7 +157,7 @@ def auth(request):
 	u.UserProfile.refToken = refreshToken
 	u.UserProfile.save()
 	u.save()
-
+	login(request, u)
 	return HttpResponseRedirect('/events/')
 
 def buildService(username):
