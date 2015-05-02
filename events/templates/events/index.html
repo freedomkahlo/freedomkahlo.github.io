@@ -138,17 +138,17 @@
 		<script>
 			$(function() {
 				$( "#from" ).datepicker({
-					defaultDate: "+1d",
+					defaultDate: "+0d",
 					changeMonth: false,
-					numberOfMonths: 2,
+					numberOfMonths: 1,
 					onClose: function( selectedDate ) {
 						$( "#to" ).datepicker( "option", "minDate", selectedDate );
 					}
 				});
 				$( "#to" ).datepicker({
-					defaultDate: "+1d",
+					defaultDate: "+0d",
 					changeMonth: false,
-					numberOfMonths: 2,
+					numberOfMonths: 1,
 					onClose: function( selectedDate ) {
 						$( "#from" ).datepicker( "option", "maxDate", selectedDate );
 					}
@@ -406,18 +406,28 @@
 															<div id="notificationTitle">Notifications</div>
 															<div id="notificationsBody" style="margin-top: -30px">
 																<ul>
-																	{% for notification in user.notification_set.all %}
+																	<!-- {% for notification in user.notification_set.all %}
 																	<li>
 																	{% csrf_token %}
 																		<div style="width: 90%;">
-																		
 																		{{ notification }}
 																		<form action="/events/manageNotification/" method="post">
 																		<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																		<!--<a type="submit" class="boxclose" id="boxclose"></a> -->
+																		<a type="submit" class="boxclose" id="boxclose"></a> 
 																		<input type="submit" name="dismiss" id="submit"value="x"/> 
 																		</form>
 																		</div>
+																	</li>
+																	{% endfor %} -->
+																	{% for notification in user.notification_set.all %}
+																	<li>
+																	<form action="{% url 'events:manageNotification' %}" method="post">
+																		<div style="width: 90%;">
+																		{% csrf_token %}
+																			<p> {{ notification }} <input type="submit" name="dismiss" value="Dismiss"/></p>
+																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
+																		</div>
+																	</form>
 																	</li>
 																	{% endfor %}
 																</ul>
