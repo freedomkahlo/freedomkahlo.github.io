@@ -410,11 +410,12 @@
 																	<li>
 																	{% csrf_token %}
 																		<div style="width: 90%;">
-																		<a type="submit" class="boxclose" id="boxclose"></a>
+																		
 																		{{ notification }}
 																		<form action="{% url 'events:manageNotification' %}" method="post">
 																		<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																		<!-- <input type="submit" name="dismiss" value="x"/> -->
+																		<!--<a type="submit" class="boxclose" id="boxclose"></a> -->
+																		<input type="submit" name="dismiss" value="x"/> 
 																		</form>
 																		</div>
 																	</li>
