@@ -177,12 +177,8 @@ def getTimes(request, eventID=None):
 	startInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p'))
 	endInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
 	finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
-
-	vetoedEvents = []
-	for e in event.vetotime_set.all():
-		vetoedEvents.append({'creator':e.invitee.name, 'start':{'dateTime':e.startTime}, 'end':{'dateTime':e.endTime}})
 	
-	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration, vetoedEvents)
+	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
 	
 	# 30 minute intervals for starting time; rounding start time; etc.
 	processedTimes = []
@@ -213,7 +209,13 @@ def getTimes(request, eventID=None):
 
 	#Delete all previous possTimes 
 	event.posstime_set.all().delete()
+
 	for t in processedTimes:
+		if len(event.vetotime_set.filter(startTime=t['startTime'])) > 0:
+			for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
+				if t['participants'].find(vetoed.invitee.name):
+					t['participants'] += ', ' + vetoed.invitee.name
+					t['numFree'] += 1
 		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'])
 		event.posstime_set.add(possTime)
 	#possTime = PossTime()

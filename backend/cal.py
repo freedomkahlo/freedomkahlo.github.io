@@ -328,7 +328,7 @@ def findTimes(events, startTime, endTime, timeLength, people):
 			if (dateList[interval[1]][0] - dateList[interval[0]][0] < timeLength):
 				pass
 			peeps = getPeople(people, dateList[i][1])
-			freeTime.append({'numFree':len(peeps), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
+			freeTime.append({'numFree':len(peeps.split(', ')), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
 
 	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)
 
@@ -354,7 +354,7 @@ def getPeople(people, participants):
 # duration is in seconds
 ######!!!!! When we implement having multiple time ranges, we will have to 
 ########### do the timeStart and timeEnd as a list of tuple(timeStart, timeEnd)
-def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTime, duration, vetoedTimes):
+def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTime, duration):
 	events = []
 	for username in usernameList:
 		service = buildService(username)
@@ -362,7 +362,6 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 			continue
 		events += [x for x in (get_event_list(service=service, start=startInDateTime.isoformat('T'),
 		end=finalEndDateTime.isoformat('T'))) if x.update({'creator':username})]
-	events += vetoedTimes
 	avail = []
 	
 	#Get times for each interval
