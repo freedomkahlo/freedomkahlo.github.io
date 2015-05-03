@@ -196,8 +196,7 @@
 												<section>
 													<h3>Current Messages:</h3>
 													{% for m in event.message_set.all %}
-														<p>{{ m.text }}</p>
-														<p> By {{m.author}} at {{m.pubdate}} </p>
+														<p>{{ m.text }} <span style="font-size:8px; color:#dddddd;"> - {{m.author}}</span></p>
 
 														{% if event.creator = user.username %}
 															<form action="{% url 'events:manageMessage' %}" method="post">
