@@ -329,11 +329,15 @@ def findTimes(events, startTime, endTime, timeLength, people):
 			if (dateList[interval[1]][0] - dateList[interval[0]][0] < timeLength):
 				continue
 			peeps = getPeople(people, dateList[i][1])
+			needToContinue = False
 			for d in freeTime:
 				if d['endTime'] == dateList[interval[1]][0] and d['startTime'] == dateList[interval[0]][0] and len(d['participants']) < len(peeps):
 					d['participants'] = peeps
 					d['numFree'] = len(filter(None, peeps.split(', ')))
-					continue
+					needToContinue = True
+					break
+			if needToContinue:
+				continue
 			freeTime.append({'numFree':len(filter(None, peeps.split(', '))), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
 
 	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)

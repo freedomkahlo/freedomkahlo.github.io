@@ -199,12 +199,16 @@ def getTimes(request, eventID=None):
 						t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
 						t['numFree'] -= 1
 			priorityValue = -int(t['numFree'])*1000
+			needToContinue = False
 			for d in processedTimes:
 				if d['endTime'] == endEvent and d['startTime'] == startEvent and d['priority'] < priorityValue:
 					d['participants'] = t['participants']
 					d['numFree'] = t['numFree']
 					d['priority'] = priorityValue
-					continue
+					needToContinue = True
+					break
+			if needToContinue:
+				continue
 			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 			continue
 		else:
@@ -213,18 +217,23 @@ def getTimes(request, eventID=None):
 				print len(event.vetotime_set.filter(startTime=startEvent))
 				if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
 					for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
+						print vetoed.invitee.name + ' has vetoed ' + t['startTime']
+						print t['participants']
 						if t['participants'].find(vetoed.invitee.name) > -1:
-							print vetoed.invitee.name + ' has vetoed ' + t['startTime']
 							t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
 							t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
 							t['numFree'] -= 1
 				priorityValue = -int(t['numFree'])*1000 + i
+				needToContinue = False
 				for d in processedTimes:
 					if d['endTime'] == endEvent and d['startTime'] == startEvent and d['priority'] < priorityValue:
 						d['participants'] = t['participants']
 						d['numFree'] = t['numFree']
 						d['priority'] = priorityValue
-						continue
+						needToContinue = True
+						break
+				if needToContinue:
+					continue
 				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
@@ -479,6 +488,13 @@ def vetoPoss(request):
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
 		p = possTimes.get(id=pID)
+		needToContinue = False
+		for x in event.vetotime_set.all():
+			if x.startTime == p.startTime and x.endTime == p.endTime:
+				needToContinue = True
+				break
+		if needToContinue:
+			continue
 		vetoTime = VetoTime(event=event, invitee=invitee, startTime=p.startTime, endTime=p.endTime)
 		vetoTime.save()
 	return getTimes(request)
