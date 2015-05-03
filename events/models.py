@@ -106,11 +106,14 @@ class Message(models.Model):
 
 class Notification(models.Model):
 	user = models.ForeignKey(User)
-	#originUser = models.ForeignKey(User)
+	notificationType = models.CharField(max_length=50)
+	originUserName = models.CharField(max_length=100)
 	desc = models.CharField(max_length=100)
 	pub_date = models.DateTimeField('date made')
 
 	def __str__(self):
+		if self.notificationType == "delete":
+			return self.originUserName + " has deleted the event '" + self.desc + "'."
 		return self.desc # + " at " + str(self.pub_date)
 class UserProfile(models.Model):
 	# This line is required. Links UserProfile to a User model instance.
