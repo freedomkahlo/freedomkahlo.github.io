@@ -331,7 +331,7 @@ def findTimes(events, startTime, endTime, timeLength, people):
 			peeps = getPeople(people, dateList[i][1])
 			needToContinue = False
 			print 'Checking For:' + dateList[interval[0]][0].isoformat() + ' to ' + dateList[interval[1]][0].isoformat()
-			print 'in:' freeTime
+			print 'in:' + freeTime.__str__()
 			for d in freeTime:
 				if d['endTime'] == dateList[interval[1]][0] and d['startTime'] == dateList[interval[0]][0]:
 					print 'Found'
