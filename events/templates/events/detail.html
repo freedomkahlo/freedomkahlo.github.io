@@ -277,6 +277,7 @@
 
 															{% if event.creator = user.username %}
 																<form action="{% url 'events:manageMessage' %}" method="post">
+																	{% csrf_token %}
 																	<input type="submit" name="erase" value="x"/>
 																</form>
 															{% endif %}
@@ -286,6 +287,7 @@
 													<div class="6u 12u(narrower)">
 														<h3>Compose:</h3>
 														<form action="{% url 'events:manageMessage' %}" method="post">
+															{% csrf_token %}
 															<input type="text" name="message"/>
 															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
 															<input type="submit" name="write" value="Submit"/>
