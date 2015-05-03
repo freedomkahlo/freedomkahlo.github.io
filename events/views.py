@@ -368,9 +368,9 @@ def manageMessage(request):
 			u.notification_set.add(n)
 			u.save()
 
-		u = get_object_or_404(User, username=event.creator)
-		u.notification_set.add(n)
-		u.save()
+		u2 = get_object_or_404(User, username=event.creator)
+		u2.notification_set.add(n)
+		u2.save()
 
 	if 'erase' in request.POST:
 		message = get_object_or_404(Message, pk=request.POST['messageID'])
