@@ -16,6 +16,64 @@
 		font-family:arial
 	}
 
+	#messagesTitle {
+		z-index: 1000;
+		font-weight: bold;
+		padding: 8px;
+		font-size: 13px;
+		background-color: #ffffff;
+		width: 384px;
+		border-bottom: 1px solid #dddddd;
+		z-index: 11;
+	}
+	#messagesBody {
+		padding: -33px 0px 0px 0px !important;
+		height: 300px;
+		z-index: 11;
+		/*height: 300px;*/
+		overflow-y: scroll;
+		word-wrap: break-word;
+		line-height: 1.2em;
+	}
+
+	#messagesBody button {
+		float: right;
+		text-align; right;
+		background: white; 
+		color: black;
+		display: inline-block;
+		padding: 0;
+		margin: 0;
+		margin-top: 6px;
+		font-size: 16px;
+	}
+
+	#messagesBody li {
+	    border-bottom: 1px solid #dddddd;
+	    height: 70px;
+	    padding-left: 10px;
+	    text-align: left;
+	    width: 370px;
+	   	font-weight: normal;
+	}
+
+	#messagesText {
+		padding: 10px;
+		width: 370px;
+	 	text-overflow: ellipsis;
+	 	font-weight: normal;
+	}
+
+	#messagesFooter {
+		background-color: #e9eaed;
+		text-align: center;
+		font-weight: bold;
+		padding: 8px;
+		font-size: 12px;
+		border-top: 1px solid #dddddd;
+		z-index: 11;
+	}
+
 	.eventLink {
 		display: inline-block;
 		text-align: left;
@@ -330,6 +388,7 @@
 
 	#notificationText {
 		padding: 10px;
+		width: 370px;
 	 	text-overflow: ellipsis;
 	 	font-weight: normal;
 	}
@@ -343,6 +402,7 @@
 		border-top: 1px solid #dddddd;
 		z-index: 11;
 	}
+
 	#notification_count {
 		padding: 0px 7px 4px 7px;
 		vertical-align: text-top;
