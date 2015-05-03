@@ -305,6 +305,7 @@
 
 	#notificationsBody li {
 	    border-bottom: 1px solid #dddddd;
+	    height: 60px;
 	    padding-left: 20px;
 	    text-align: left;
 	}
