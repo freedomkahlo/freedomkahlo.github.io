@@ -178,18 +178,40 @@
 													Hosted by: {{ event.creatorName }}<br />
 												</div>
 												<p style="-12px">{{ event.desc }}</p>
-
+												<header>
+													<h3>Invitees</h3>
+												</header>
+												<p> 
+													{% for invitee in event.invitee_set.all %}
+														{{ invitee.name }}
+													{% endfor %}
+												</p>
 											</div>
 											<div class="6u 12u(narrower)">
 												<section>
-													<header>
-														<h3>Invitees</h3>
-													</header>
-													<p> 
-														{% for invitee in event.invitee_set.all %}
-															{{ invitee.name }}
-														{% endfor %}
-													</p>
+													<h3>Current Messages:</h3>
+													{% for m in event.message_set.all %}
+														<p>{{ m.text }}</p>
+														<p> By {{m.author}} at {{m.pubdate}} </p>
+
+														{% if event.creator = user.username %}
+															<form action="{% url 'events:manageMessage' %}" method="post">
+																{% csrf_token %}
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
+																<span style="display: none;"><input type="text" name="messageID" value="{{ m.id }}"></span>
+																<input type="submit" name="erase" value="x"/>
+															</form>
+														{% endif %}
+													{% endfor %}
+
+													<h3>Compose:</h3>
+													<form action="{% url 'events:manageMessage' %}" method="post">
+														{% csrf_token %}
+														<input type="text" name="message"/>
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
+														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
+														<input type="submit" name="write" value="Submit"/>
+														</form>
 												</section>
 
 											</div>
@@ -269,29 +291,7 @@
 											<h2><strong>Messages</strong></h2>
 												<div class="row">
 													<div class="6u 12u(narrower)">
-														<h3>Current Messages:</h3>
-														{% for m in event.message_set.all %}
-															<p>{{ m.text }}</p>
-															<p> By {{m.author}} at {{m.pubdate}} </p>
-
-															{% if event.creator = user.username %}
-																<form action="{% url 'events:manageMessage' %}" method="post">
-																	{% csrf_token %}
-																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
-																	<span style="display: none;"><input type="text" name="messageID" value="{{ m.id }}"></span>
-																	<input type="submit" name="erase" value="x"/>
-																</form>
-															{% endif %}
-														{% endfor %}
-
-														<h3>Compose:</h3>
-														<form action="{% url 'events:manageMessage' %}" method="post">
-															{% csrf_token %}
-															<input type="text" name="message"/>
-															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
-															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
-															<input type="submit" name="write" value="Submit"/>
-														</form>
+														
 													</div>
 												</div>
 										</section>
