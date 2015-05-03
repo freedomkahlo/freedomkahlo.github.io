@@ -291,7 +291,7 @@ def manageCreator(request):
 		possEvents = event.posstime_set.all()
 		start = possEvents.get(id=possIndex).startTime
 		end = possEvents.get(id=possIndex).endTime
-		cal.putTimeForMany(usernameList=peopleList, desc=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
+		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
 		messages.success(request, 'Your event has been successfully skedged!')
 		event.delete()
 		return HttpResponseRedirect('/events/')
@@ -351,17 +351,17 @@ def manageMessage(request):
 	#print request.POST
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
-	username = request.POST['username']
+	postAuthor = request.POST['username']
 
 	if 'write' in request.POST:
 		message = request.POST['message']
-		author = username
+		author = postAuthor
 		pub_date = datetime.now()
 
 		message = Message(text=message, author=author, pub_date=pub_date)
 		event.message_set.add(message)
 
-		n = Notification(desc=event.title, originUserName=username, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+		n = Notification(desc=event.title, originUserName=postAuthor, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 		for i in event.invitee_set.all():
 			u = get_object_or_404(User, username=i.name)
@@ -374,12 +374,13 @@ def manageMessage(request):
 
 	if 'erase' in request.POST:
 		message = get_object_or_404(Message, pk=request.POST['messageID'])
-		message.delete()
-	
+		
 		n = Notification(desc=event.title, originUserName=event.creator, notificationType="eraseNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
-		user = get_object_or_404(User, username=username)
+		user = get_object_or_404(User, username=message.author)
 		user.notification_set.add(n)
 		user.save()
+		message.delete()
+	
 	return detail(request, eventID)
 
 def manageNotification(request):
