@@ -374,9 +374,9 @@ def manageMessage(request):
 		message.delete()
 	
 		n = Notification(desc=event.title, originUserName=event.creator, notificationType="eraseNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
-			user = get_object_or_404(User, username=username)
-			user.notification_set.add(n)
-			user.save()
+		user = get_object_or_404(User, username=username)
+		user.notification_set.add(n)
+		user.save()
 	return detail(request, eventID)
 
 def manageNotification(request):
