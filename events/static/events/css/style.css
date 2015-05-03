@@ -310,7 +310,8 @@
 	#notificationsBody button {
 		float: right;
 		text-align; right;
-
+		padding-top: 5px;
+		padding-bottom: 5px;
 		background: white; 
 		color: black;
 		display: inline-block;
@@ -322,7 +323,7 @@
 
 	#notificationsBody li {
 	    border-bottom: 1px solid #dddddd;
-	    height: 80px;
+	    height: 60px;
 	    padding-left: 20px;
 	    text-align: left;
 	    width: 370px;
