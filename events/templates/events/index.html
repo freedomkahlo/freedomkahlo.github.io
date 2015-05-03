@@ -418,7 +418,7 @@
 																		<form action="{% url 'events:manageNotification' %}" method="post">
 																			{% csrf_token %}
 																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																			<button style="border: 0; float: right; margin-bottom: 0px;" type="submit" name="dismiss" id="notificationBox">X</button> 
+																			<button style="float: right;" type="submit" name="dismiss" id="notificationBox">X</button> 
 																		</form>
 																		</div>
 
