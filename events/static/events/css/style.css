@@ -325,6 +325,8 @@
 	    padding-left: 10px;
 	    text-align: left;
 	    width: 370px;
+	    white-space: nowrap;
+	    overflow: hidden;
 	   	text-overflow: ellipsis;
 	   	font-weight: normal;
 	}
