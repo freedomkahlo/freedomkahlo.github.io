@@ -330,10 +330,14 @@ def findTimes(events, startTime, endTime, timeLength, people):
 				continue
 			peeps = getPeople(people, dateList[i][1])
 			needToContinue = False
+			print 'Checking For:' + dateList[interval[0]][0].isoformat() + ' to ' + dateList[interval[1]][0].isoformat()
+			print 'in:' freeTime
 			for d in freeTime:
-				if d['endTime'] == dateList[interval[1]][0] and d['startTime'] == dateList[interval[0]][0] and len(d['participants']) < len(peeps):
-					d['participants'] = peeps
-					d['numFree'] = len(filter(None, peeps.split(', ')))
+				if d['endTime'] == dateList[interval[1]][0] and d['startTime'] == dateList[interval[0]][0]:
+					print 'Found'
+					if len(d['participants']) < len(peeps)
+						d['participants'] = peeps
+						d['numFree'] = len(filter(None, peeps.split(', ')))
 					needToContinue = True
 					break
 			if needToContinue:
