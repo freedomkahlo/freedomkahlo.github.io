@@ -296,6 +296,7 @@ def manageInvitee(request):
 
 #user can join, remove self, and vote
 def manageMessage(request):
+	print request.POST
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
 	
