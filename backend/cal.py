@@ -228,12 +228,17 @@ def update_event(service, event_id, event_name=None, start=None, end=None, locat
 def get_event_list(service, start, end):
 	try:
 		# first grab list of calendar names
+		print "babe 1"
 		calendar_list = service.calendarList().list(fields='items(id,summary)').execute()
+		print "babe 2"
 		calIDlist = [calendar_list_entry['id'] for calendar_list_entry in calendar_list['items']]
+		print "babe 3"
 
 		##### Check if 'items exists'
 		events = []
 		for calendar_id in calIDlist:
+			print "babe 4"
+			print calendar_id
 			events += service.events().list(calendarId=calendar_id, timeMin=start, timeMax=end,
 				singleEvents = True, orderBy="startTime", fields='items(end,location,start,summary)').execute()['items']
 
