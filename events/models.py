@@ -110,7 +110,6 @@ class Notification(models.Model):
 	originUserName = models.CharField(max_length=100, default='')
 	#event name below, apparently
 	desc = models.CharField(max_length=100, default='')
-	desc2 = models.CharField(max_length=100, default='')
 	pub_date = models.DateTimeField('date made')
 
 	def __str__(self):
@@ -125,9 +124,9 @@ class Notification(models.Model):
 			return self.originUserName == " has left '" + self.desc + "'."
 
 		if self.notificationType == "composeNot":
-			return self.originUserName + " said '" + self.desc2 + "' in '" + self.desc + "'."
+			return self.originUserName + " wrote a message in '" + self.desc + "'."
 		if self.notificationType == "eraseNot":
-			return self.originUserName + " has deleted your message, '" + self.desc2 + "' in '" + self.desc + "'."
+			return self.originUserName + " deleted your message in '" + self.desc + "'."
 
 		return self.desc # + " at " + str(self.pub_date)
 class UserProfile(models.Model):

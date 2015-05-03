@@ -334,7 +334,7 @@ def manageMessage(request):
 		message = Message(text=message, author=author, pub_date=pub_date);
 		event.message_set.add(message)
 	
-		n = Notification(desc=event.title, originUserName=username, desc2=message, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+		n = Notification(desc=event.title, originUserName=username, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 		user = get_object_or_404(User, username=event.creator)
 		user.notification_set.add(n)
 		user.save()
@@ -348,7 +348,7 @@ def manageMessage(request):
 		message = get_object_or_404(Message, pk=request.POST['messageID'])
 		message.delete()
 	
-		n = Notification(desc=event.title, originUserName=event.creator, desc2=message, notificationType="eraseNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+		n = Notification(desc=event.title, originUserName=event.creator, notificationType="eraseNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 		user = get_object_or_404(User, username=username)
 		user.notification_set.add(n)
 		user.save()
