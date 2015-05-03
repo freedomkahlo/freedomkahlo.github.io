@@ -266,6 +266,7 @@
 
 										<!-- messages -->
 										<section>
+											<br>
 											<h2><strong>Messages</strong></h2>
 												<div class="row">
 													<div class="6u 12u(narrower)">
@@ -287,6 +288,7 @@
 														<form action="{% url 'events:manageMessage' %}" method="post">
 															<input type="text" name="message"/>
 															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
+															<input type="submit" name="write" value="Submit"/>
 														</form>
 													</div>
 												</div>
