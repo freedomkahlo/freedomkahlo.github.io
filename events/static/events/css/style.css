@@ -275,6 +275,7 @@
 		display: none;
 	}
 	#notificationContainer:before {
+		content: '';
 		display: block;
 		position: absolute;
 		width: 0;

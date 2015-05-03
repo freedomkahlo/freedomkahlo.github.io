@@ -417,7 +417,7 @@
 																		<form action="{% url 'events:manageNotification' %}" method="post">
 																			{% csrf_token %}
 																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																			<button class="button" type="submit" name="dismiss" id="notificationBox">X</button> 
+																			<button style="border: 0; float: right;" class="button" type="submit" name="dismiss" id="notificationBox">X</button> 
 																		</form>
 																		</div>
 																		<!-- </div> -->
@@ -434,7 +434,7 @@
 																	<form action="{% url 'events:manageNotification' %}" method="post">   
 																		{% csrf_token %}
 																		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
-																		
+
 																		<button class="button" type="submit" name="clear" id="notificationBox">Clear All</button> 
 																	</form>
 																</div>
