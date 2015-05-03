@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext
-from .models import Instance, Invitee, Notification, PossTime, UserProfile, VetoTime
+from .models import Instance, Invitee, Notification, PossTime, UserProfile, VetoTime, Message
 from .forms import UserForm, UserProfileForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
