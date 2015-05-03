@@ -335,7 +335,7 @@ def findTimes(events, startTime, endTime, timeLength, people):
 			for d in freeTime:
 				if d['endTime'] == dateList[interval[1]][0] and d['startTime'] == dateList[interval[0]][0]:
 					print 'Found'
-					if len(d['participants']) < len(peeps)
+					if len(d['participants']) < len(peeps):
 						d['participants'] = peeps
 						d['numFree'] = len(filter(None, peeps.split(', ')))
 					needToContinue = True
