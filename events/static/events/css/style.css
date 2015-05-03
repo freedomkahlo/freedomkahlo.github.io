@@ -314,6 +314,10 @@
 		margin: 0;
 	}
 
+	#notificationsBody ul {
+	    width: 100%;
+	}
+
 	#notificationsBody li {
 	    border-bottom: 1px solid #dddddd;
 	    height: 80px;
