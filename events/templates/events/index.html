@@ -500,6 +500,12 @@
 				});
 			});	
 		</script>
+		<script>
+			if ($('div.notificationText').text().length > 30)
+				var text = $('div.text').text();
+				text = text.substr(0,30) + '...';
+				$('div.notificationText').text(text);
+		</script>
 
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
