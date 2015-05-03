@@ -303,12 +303,14 @@
 		z-index: 11;
 		/*height: 300px;*/
 		overflow-y: scroll;
+		word-wrap: break-word;
+		line-height: 1.1em;
 	}
 
 	#notificationsBody button {
 		float: right;
 		text-align; right;
-		line-height: 1.1em;
+
 		background: white; 
 		color: black;
 		display: inline-block;
