@@ -30,6 +30,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
+from django.utils import dateparse
 
 from events.models import UserProfile
 
@@ -264,12 +265,6 @@ def delete_event(service, event_id, calendar_id=None):
 	except AccessTokenRefreshError:
 		print('Credentials have been revoked')
 
-#Change ISO format to a datetime
-def convertISOtoDateTime(isostring):
-	isostring = isostring[0:-3] + isostring[-2:]
-	date = datetime.strptime(isostring, '%Y-%m-%dT%H:%M:%S%z')
-	return date
-
 #events is a list events. Events are a dictionary with fields string 'creator' and datetimes 'startTime', 'endTime'
 #startTime, endTime are both datetimes, timeLength is a timedelta, people is a list of everyone attending
 #Returns a list of dictionaries, each with the fields: integer 'numFree', list of strings 'participants', datetime 'start/endTime'
@@ -281,11 +276,13 @@ def findTimes(events, startTime, endTime, timeLength, people):
 	#populate the event list with the events
 	for i in range(0, len(events)):
 		try:
-			eventList.append([convertISOtoDateTime(events[i]['start']['dateTime']), True, events[i]['creator']])
-			eventList.append([convertISOtoDateTime(events[i]['end']['dateTime']), False, events[i]['creator']])
+			eventList.append([dateparse.parse_datetime(events[i]['start']['dateTime']), True, events[i]['creator']])
+			eventList.append([dateparse.parse_datetime(events[i]['end']['dateTime']), False, events[i]['creator']])
 		except:
 			#Ignore events without a dateTime (all day events)
 			pass
+
+	print eventList
 
 	eventList = sorted(eventList, key=lambda event:event[0]) #Sort events by the datetime
 	#List of dictionaries
