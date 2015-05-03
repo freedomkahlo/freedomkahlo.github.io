@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from datetime import datetime, timedelta
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 import pytz
 
 class Instance(models.Model):
@@ -40,6 +41,11 @@ class Instance(models.Model):
 	def save(self, **kwargs):
 		self.regValidate()
 		return super(Instance, self).save(**kwargs)
+
+	@property 
+	def creatorName():
+		user = get_object_or_404(User, username=creator)
+		return user.first_name + ' ' + user.last_name
 
 class PossTime(models.Model):
 	event = models.ForeignKey(Instance)
