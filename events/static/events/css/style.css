@@ -304,7 +304,7 @@
 		/*height: 300px;*/
 		overflow-y: scroll;
 		word-wrap: break-word;
-		line-height: 1.1em;
+		line-height: 1.2em;
 	}
 
 	#notificationsBody button {
@@ -325,7 +325,7 @@
 	    padding-left: 10px;
 	    text-align: left;
 	    width: 370px;
-	    text-overflow: ellipsis
+	    text-overflow: ellipsis;
 	}
 
 	#notificationText {
