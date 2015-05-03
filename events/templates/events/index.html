@@ -431,7 +431,7 @@
 																	<button type="submit" class="special button" name="clear">Clear All</button>
 																</form> -->
 																<div id="notificationBox">
-																	<form action="{% url 'events:manageInvitee' %}" method="post">   
+																	<form action="{% url 'events:manageNotification' %}" method="post">   
 																		{% csrf_token %}
 																		<span style="display: none;"><input type="text" name="clear" value="clear" id="notificationBox"</input></span>
 																		<button class="button" type="submit" name="dismiss" id="notificationBox">Clear All</button> 
