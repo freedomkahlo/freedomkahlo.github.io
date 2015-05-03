@@ -126,7 +126,7 @@ class Notification(models.Model):
 
 		if self.notificationType == "composeNot":
 			return self.sourceName + " said '" + self.desc + "' in '" + self.eventName + "'."
-		if self.notificationType = "eraseNot":
+		if self.notificationType == "eraseNot":
 			return self.sourceName + " has deleted your message, '" + self.desc + "' in '" + self.eventName + "'."
 
 		return self.desc # + " at " + str(self.pub_date)
