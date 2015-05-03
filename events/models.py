@@ -43,7 +43,7 @@ class Instance(models.Model):
 		return super(Instance, self).save(**kwargs)
 
 	@property 
-	def creatorName():
+	def creatorName(self):
 		user = get_object_or_404(User, username=creator)
 		return user.first_name + ' ' + user.last_name
 
@@ -106,6 +106,7 @@ class Message(models.Model):
 
 class Notification(models.Model):
 	user = models.ForeignKey(User)
+	originUser = models.ForeignKey(User)
 	desc = models.CharField(max_length=100)
 	pub_date = models.DateTimeField('date made')
 
