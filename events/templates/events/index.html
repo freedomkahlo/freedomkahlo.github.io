@@ -67,9 +67,14 @@
 					$("#notificationContainer").hide();
 				});
 				//Popup Click
-				$("#notificationContainer").click(function()
+				$("#notificationContainer").click(function(evt)
 				{
-					return;
+					if(evt.target.id == "notificationsBody")
+						return;
+					//For descendants of menu_content being clicked, remove this check if you do not want to put constraint on descendants.
+					// if($(evt.target).closest('#menu_content').length)
+				 	//          return;  
+					return true;
 				});
 			});
 		</script>
@@ -403,14 +408,6 @@
 														<a class = "special button" style="background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="#" id="notificationLink">Notifications</a>
 
 														<div id="notificationContainer">
-															<form action="{% url 'events:manageNotification' %}" method="post">   
-																{% csrf_token %}
-																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
-																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
-																<span style="display: none;"><input type="text" name="dismiss" value="clear"></input></span>
-
-																<button class="special button" id="notificationBox" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="dismiss">Clear All</button>
-															</form>
 															<div id="notificationTitle">Notifications</div>
 															<div id="notificationsBody" style="margin-top: -30px">
 																<ul>
@@ -426,6 +423,16 @@
 																		<!-- </div> -->
 																	</li>
 																	{% endfor %}
+																	<li>
+																		<form action="{% url 'events:manageNotification' %}" method="post">   
+																		{% csrf_token %}
+																		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
+																		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+																		<span style="display: none;"><input type="text" name="dismiss" value="clear"></input></span>
+
+																		<button class="special button" id="notificationBox" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="dismiss">Clear All</button>
+																		</form>
+																	</li>
 																</ul>
 															</div>
 															<div id="notificationFooter"> 
