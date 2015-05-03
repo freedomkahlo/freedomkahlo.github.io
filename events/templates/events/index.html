@@ -69,7 +69,7 @@
 				//Popup Click
 				$("#notificationContainer").click(function(evt)
 				{
-					// Ignore click if its part of notification box
+					// Ignore click if its part of a notification
 					if(evt.target.id == "notificationBox")
 						return;
 					return false;
@@ -411,31 +411,31 @@
 																<ul>
 																	{% for notification in user.notification_set.all %}
 																	<li>
+																		<!-- <div style="width: 90%;"> -->
 																		{{ notification }}
 																		<div id="notificationBox">
 																		<form action="{% url 'events:manageNotification' %}" method="post">
 																			{% csrf_token %}
 																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																			<button style="border: 0px;" class="button" type="submit" name="dismiss" id="dismiss">X</button> 
+																			<button class="button" type="submit" name="dismiss" id="notificationBox">X</button> 
 																		</form>
 																		</div>
+																		<!-- </div> -->
 																	</li>
 																	{% endfor %}
-																	<li>
-																	<form action="{% url 'events:manageNotification' %}" method="post">
-																			{% csrf_token %}
-																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																			<button style="border: 0px;" class="button" type="submit" name="dismiss" id="dismiss">X</button> 
-																		</form>
-																	</li>
 																</ul>
 															</div>
 															<div id="notificationFooter"> 
-																<div id="notificationBox">
-																<form action="{% url 'events:manageNotification' %}" method="post">
+																<!-- <form action="{% url 'events:manageNotification' %}" method="post">
 																	<span style="display: none;"><input type="text" name="clear" value="clear"></input></span>
-																	<button type="submit" class="special button" name="dismiss">Clear All</button>
-																</form>
+																	<button type="submit" class="special button" name="clear">Clear All</button>
+																</form> -->
+																<div id="notificationBox">
+																	<form action="{% url 'events:manageInvitee' %}" method="post">   
+																		{% csrf_token %}
+																		<span style="display: none;"><input type="text" name="clear" value="clear" id="notificationBox"</input></span>
+																		<button class="button" type="submit" name="dismiss" id="notificationBox">Clear All</button> 
+																	</form>
 																</div>
 															</div>
 														</div>
