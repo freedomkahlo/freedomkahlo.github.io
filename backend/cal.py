@@ -282,8 +282,6 @@ def findTimes(events, startTime, endTime, timeLength, people):
 			#Ignore events without a dateTime (all day events)
 			pass
 
-	print eventList
-
 	eventList = sorted(eventList, key=lambda event:event[0]) #Sort events by the datetime
 	#List of dictionaries
 	freeTime = []
@@ -292,7 +290,7 @@ def findTimes(events, startTime, endTime, timeLength, people):
 	busyMeter = [0 for x in range(len(people))] #Lists how many events each participant is in at a time
 
 	while incr < len(eventList) and eventList[incr][0] <= startTime: #Parse through all the events that start before the starttime
-		if eventList[incr][0]: #If it is an event start time
+		if eventList[incr][1]: #If it is an event start time
 			busyMeter[people.index(eventList[incr][2])] += 1
 			if busyMeter[people.index(eventList[incr][2])] == 1: #If this participant was free before
 				participants -= 2 ** people.index(eventList[incr][2])
@@ -312,7 +310,7 @@ def findTimes(events, startTime, endTime, timeLength, people):
 	while incr < len(eventList) and eventList[incr][0] <= endTime:
 		currTime = eventList[incr][0]
 		while incr < len(eventList) and eventList[incr][0] == currTime: #Parse through all the events that start or end at the current time
-			if eventList[incr][0]: #If it is an event start time
+			if eventList[incr][1]: #If it is an event start time
 				busyMeter[people.index(eventList[incr][2])] += 1
 				if busyMeter[people.index(eventList[incr][2])] == 1: #If this participant was free before
 					participants -= 2 ** people.index(eventList[incr][2])
@@ -324,29 +322,31 @@ def findTimes(events, startTime, endTime, timeLength, people):
 		dateList.append([currTime, participants])
 	if dateList[-1][0] < endTime:
 		dateList.append([endTime, participants])
-
+		
 	#Find the time intervals now
 	for i in range(len(dateList)):
 		participants = -1
 		for j in range(i, len(dateList)):
-			if participants & dateList[i][1] == participants:
-				pass
-			participants &= dateList[i][1]
+			if participants & dateList[j][1] == participants:
+				continue
+			participants &= dateList[j][1]
 			interval = findInterval(dateList, i)
 			if (dateList[interval[1]][0] - dateList[interval[0]][0] < timeLength):
-				pass
+				continue
 			peeps = getPeople(people, dateList[i][1])
-			freeTime.append({'numFree':len(peeps.split(', ')), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
+			if (any(d['endTime'] == dateList[interval[1]][0] and d['startTime'] == dateList[interval[0]][0] for d in freeTime)):
+				continue
+			freeTime.append({'numFree':len(filter(None, peeps.split(', '))), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
 
 	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)
 
 #Helper function for find Times2 which finds the time intervals for a given participant set
 def findInterval(dateList, curr):
 	start = curr
-	while start > 0 and dateList[start][1] & dateList[curr][1] == dateList[curr][1]:
+	while start > 0 and dateList[start - 1][1] & dateList[curr][1] == dateList[curr][1]:
 		start -= 1
 	end = curr
-	while end + 1 < len(dateList) and dateList[end][1] & dateList[curr][1] == dateList[curr][1]:
+	while end + 1 < len(dateList) and dateList[end + 1][1] & dateList[curr][1] == dateList[curr][1]:
 		end += 1
 	return [start, end]
 
