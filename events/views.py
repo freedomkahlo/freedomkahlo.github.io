@@ -360,9 +360,9 @@ def manageMessage(request):
 		event.message_set.add(message)
 
 		n = Notification(desc=event.title, originUserName=username, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
-			user = get_object_or_404(User, username=event.creator)
-			user.notification_set.add(n)
-			user.save()
+		user = get_object_or_404(User, username=event.creator)
+		user.notification_set.add(n)
+		user.save()
 
 		for i in event.invitee_set.all():
 			u = get_object_or_404(User, username=i.name)
