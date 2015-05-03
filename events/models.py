@@ -44,7 +44,7 @@ class Instance(models.Model):
 
 	@property 
 	def creatorName(self):
-		user = get_object_or_404(User, username=creator)
+		user = get_object_or_404(User, username=self.creator)
 		return user.first_name + ' ' + user.last_name
 
 class PossTime(models.Model):
