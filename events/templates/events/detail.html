@@ -277,6 +277,8 @@
 															{% if event.creator = user.username %}
 																<form action="{% url 'events:manageMessage' %}" method="post">
 																	{% csrf_token %}
+																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
+																	<span style="display: none;"><input type="text" name="messageID" value="{{ m.id }}"></span>
 																	<input type="submit" name="erase" value="x"/>
 																</form>
 															{% endif %}
@@ -288,6 +290,7 @@
 														<form action="{% url 'events:manageMessage' %}" method="post">
 															{% csrf_token %}
 															<input type="text" name="message"/>
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
 															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
 															<input type="submit" name="write" value="Submit"/>
 														</form>
