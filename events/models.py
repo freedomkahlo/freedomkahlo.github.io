@@ -103,7 +103,7 @@ class Notification(models.Model):
 	pub_date = models.DateTimeField('date made')
 
 	def __str__(self):
-		return self.desc + " at " + str(self.pub_date)
+		return self.desc # + " at " + str(self.pub_date)
 class UserProfile(models.Model):
 	# This line is required. Links UserProfile to a User model instance.
 	user = models.OneToOneField(User, related_name="UserProfile")
