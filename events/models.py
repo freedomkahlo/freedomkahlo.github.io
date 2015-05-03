@@ -109,25 +109,25 @@ class Notification(models.Model):
 	notificationType = models.CharField(max_length=50, default='')
 	originUserName = models.CharField(max_length=100, default='')
 	#event name below, apparently
-	eventName = models.CharField(max_length=100, default='')
 	desc = models.CharField(max_length=100, default='')
+	desc2 = models.CharField(max_length=100, default='')
 	pub_date = models.DateTimeField('date made')
 
 	def __str__(self):
 		if self.notificationType == "deleteNot":
-			return self.originUserName + " has deleted '" + self.eventName + "'."
+			return self.originUserName + " has deleted '" + self.desc + "'."
 		if self.notificationType == "skedgNot":
-			return self.originUserName + " has skedguled '" + self.eventName + "' and it's in your calendar."
+			return self.originUserName + " has skedguled '" + self.desc + "' and it's in your calendar."
 
 		if self.notificationType == "joinNot":
-			return self.originUserName + " has joined '" + self.eventName + "'."
+			return self.originUserName + " has joined '" + self.desc + "'."
 		if self.notificationType == "leaveNot":
-			return self.originUserName == " has left '" + self.eventName + "'."
+			return self.originUserName == " has left '" + self.desc + "'."
 
 		if self.notificationType == "composeNot":
-			return self.originUserName + " said '" + self.desc + "' in '" + self.eventName + "'."
+			return self.originUserName + " said '" + self.desc2 + "' in '" + self.desc + "'."
 		if self.notificationType == "eraseNot":
-			return self.originUserName + " has deleted your message, '" + self.desc + "' in '" + self.eventName + "'."
+			return self.originUserName + " has deleted your message, '" + self.desc2 + "' in '" + self.desc + "'."
 
 		return self.desc # + " at " + str(self.pub_date)
 class UserProfile(models.Model):
