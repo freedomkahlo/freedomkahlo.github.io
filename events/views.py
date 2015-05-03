@@ -178,7 +178,7 @@ def getTimes(request, eventID=None):
 	finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
 	
 	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
-	
+	print 'Gotten Times:', times
 	# 30 minute intervals for starting time; rounding start time; etc.
 	processedTimes = []
 	for t in times:
@@ -234,9 +234,8 @@ def getTimes(request, eventID=None):
 							d['priority'] = priorityValue
 						needToContinue = True
 						break
-				if needToContinue:
-					continue
-				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
+				if not needToContinue:
+					processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
 				endEvent = startEvent + duration
