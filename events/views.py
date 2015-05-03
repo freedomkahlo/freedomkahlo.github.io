@@ -309,7 +309,7 @@ def manageMessage(request):
 		author = request.POST['username']
 		pub_date = datetime.now()
 
-		message = Message(message=message, author=author, pub_date=pub_date);
+		message = Message(text=message, author=author, pub_date=pub_date);
 		event.message_set.add(message)
 	
 	if 'erase' in request.POST:
