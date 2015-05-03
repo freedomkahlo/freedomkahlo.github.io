@@ -98,17 +98,17 @@ class Invitee(models.Model):
 	
 class Message(models.Model):
 	event = models.ForeignKey(Instance)
-	text = models.CharField(max_length=200)
-	author = models.CharField(max_length=100)
+	text = models.CharField(max_length=200, default='')
+	author = models.CharField(max_length=100, default='')
 	pub_date = models.DateTimeField('date made')
 	def __str__(self):
 		return text 
 
 class Notification(models.Model):
 	user = models.ForeignKey(User)
-	notificationType = models.CharField(max_length=50)
-	originUserName = models.CharField(max_length=100)
-	desc = models.CharField(max_length=100)
+	notificationType = models.CharField(max_length=50, default='')
+	originUserName = models.CharField(max_length=100, default='')
+	desc = models.CharField(max_length=100, default='')
 	pub_date = models.DateTimeField('date made')
 
 	def __str__(self):
