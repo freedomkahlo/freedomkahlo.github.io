@@ -193,12 +193,24 @@ def getTimes(request, eventID=None):
 		#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
 		if startEvent + roundBy + duration > finalEndDateTime:
 			priorityValue = -int(t['numFree'])*1000
+			if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
+				for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
+					if t['participants'].find(vetoed.invitee.name) > -1:
+						t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
+						t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
+						t['numFree'] -= 1
 			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 			continue
 		else:
 			i = 0
 			while endEvent <= t['endTime']:
 				priorityValue = -int(t['numFree'])*1000 + i
+				if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
+					for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
+						if t['participants'].find(vetoed.invitee.name) > -1:
+							t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
+							t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
+							t['numFree'] -= 1
 				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
@@ -210,12 +222,6 @@ def getTimes(request, eventID=None):
 	event.posstime_set.all().delete()
 
 	for t in processedTimes:
-		if len(event.vetotime_set.filter(startTime=t['startTime'])) > 0:
-			for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
-				if t['participants'].find(vetoed.invitee.name) > -1:
-					t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
-					t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
-					t['numFree'] -= 1
 		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'])
 		event.posstime_set.add(possTime)
 	#possTime = PossTime()
