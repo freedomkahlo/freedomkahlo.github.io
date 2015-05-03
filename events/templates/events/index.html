@@ -411,9 +411,6 @@
 																<ul>
 																	{% for notification in user.notification_set.all %}
 																	<li>
-																		<div style="width: 90%;">
-																			{{ notification }}
-																		</div>
 																		<div id="notificationBox" style="width: 100%;">
 																		<form action="{% url 'events:manageNotification' %}" method="post">
 																			{% csrf_token %}
@@ -421,7 +418,9 @@
 																			<button style="float: right;" type="submit" name="dismiss" id="notificationBox">X</button> 
 																		</form>
 																		</div>
-
+																		<div style="width: 90%;">
+																			{{ notification }}
+																		</div>
 																	</li>
 																	{% endfor %}
 																</ul>
