@@ -227,6 +227,7 @@ def getTimes(request, eventID=None):
 						needToContinue = True
 						break
 				if not needToContinue:
+					processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 					if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
 						for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
 							if processedTimes[-1]['participants'].find(vetoed.invitee.name) > -1:
@@ -234,7 +235,6 @@ def getTimes(request, eventID=None):
 								processedTimes[-1]['participants'] = processedTimes[-1]['participants'].replace(vetoed.invitee.name + ', ', '')
 								processedTimes[-1]['numFree'] -= 1
 								processedTimes[-1]['priority'] += 1000
-					processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
 				endEvent = startEvent + duration
