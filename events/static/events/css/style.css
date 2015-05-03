@@ -306,12 +306,10 @@
 	#notificationsBody button {
 		float: right;
 		text-align; right;
-		height: 20px; 
-		width: 20px; 
+		line-height: 1.1em;
 		background: white; 
 		color: black;
 		display: inline-block;
-	    font-size: 20px;
 	}
 
 	#notificationsBody li {
@@ -345,7 +343,7 @@
 		z-index: 11;
 	}
 
-	#notificationBody button {
+	a.boxclose{
 	    float:right;
 	    margin-top:2px;
 	    margin-right:-10px;
@@ -362,7 +360,7 @@
 	    padding: 11px 3px;  
 	}
 
-	#notificationBody:before button {
+	.boxclose:before {
 	    content: "x";
 	}
 
