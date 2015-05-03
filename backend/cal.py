@@ -264,6 +264,12 @@ def delete_event(service, event_id, calendar_id=None):
 	except AccessTokenRefreshError:
 		print('Credentials have been revoked')
 
+#Change ISO format to a datetime
+def convertISOtoDateTime(isostring):
+	isostring = isostring[0:-3] + isostring[-2:]
+	date = datetime.strptime(isostring, '%Y-%m-%dT%H:%M:%S%z')
+	return date
+
 #events is a list events. Events are a dictionary with fields string 'creator' and datetimes 'startTime', 'endTime'
 #startTime, endTime are both datetimes, timeLength is a timedelta, people is a list of everyone attending
 #Returns a list of dictionaries, each with the fields: integer 'numFree', list of strings 'participants', datetime 'start/endTime'
@@ -275,8 +281,8 @@ def findTimes(events, startTime, endTime, timeLength, people):
 	#populate the event list with the events
 	for i in range(0, len(events)):
 		try:
-			eventList.append([events[i]['start']['dateTime'], True, events[i]['creator']])
-			eventList.append([events[i]['end']['dateTime'], False, events[i]['creator']])
+			eventList.append([convertISOtoDateTime(events[i]['start']['dateTime']), True, events[i]['creator']])
+			eventList.append([convertISOtoDateTime(events[i]['end']['dateTime']), False, events[i]['creator']])
 		except:
 			#Ignore events without a dateTime (all day events)
 			pass
@@ -366,7 +372,7 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 		if service == 'refTokenRevoked':
 			continue
 		events += [x for x in (get_event_list(service=service, start=startInDateTime.isoformat('T'),
-		end=finalEndDateTime.isoformat('T'))) if x.update({'creator':username})]
+		end=finalEndDateTime.isoformat('T'))) if not x.update({'creator':username})]
 	avail = []
 	
 	#Get times for each interval
