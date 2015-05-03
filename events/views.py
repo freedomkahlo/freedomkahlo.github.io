@@ -192,12 +192,6 @@ def getTimes(request, eventID=None):
 		# if rounding makes the event go beyond endtime, then just add the time range and call it good.
 		#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
 		if startEvent + roundBy + duration > finalEndDateTime:
-			if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
-				for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
-					if t['participants'].find(vetoed.invitee.name) > -1:
-						t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
-						t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
-						t['numFree'] -= 1
 			priorityValue = -int(t['numFree'])*1000
 			needToContinue = False
 			for d in processedTimes:
@@ -211,19 +205,17 @@ def getTimes(request, eventID=None):
 			if needToContinue:
 				continue
 			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
+			if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
+				for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
+					if processedTimes[-1]['participants'].find(vetoed.invitee.name) > -1:
+						processedTimes[-1]['participants'] = processedTimes[-1]['participants'].replace(', ' + vetoed.invitee.name, '')
+						processedTimes[-1]['participants'] = processedTimes[-1]['participants'].replace(vetoed.invitee.name + ', ', '')
+						processedTimes[-1]['numFree'] -= 1
+						processedTimes[-1]['priority'] += 1000
 			continue
 		else:
 			i = 0
 			while endEvent <= t['endTime']:
-				print len(event.vetotime_set.filter(startTime=startEvent))
-				if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
-					for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
-						print vetoed.invitee.name + ' has vetoed ' + t['startTime'].isoformat()
-						print t['participants']
-						if t['participants'].find(vetoed.invitee.name) > -1:
-							t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
-							t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
-							t['numFree'] -= 1
 				priorityValue = -int(t['numFree'])*1000 + i
 				needToContinue = False
 				for d in processedTimes:
@@ -235,6 +227,13 @@ def getTimes(request, eventID=None):
 						needToContinue = True
 						break
 				if not needToContinue:
+					if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
+						for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
+							if processedTimes[-1]['participants'].find(vetoed.invitee.name) > -1:
+								processedTimes[-1]['participants'] = processedTimes[-1]['participants'].replace(', ' + vetoed.invitee.name, '')
+								processedTimes[-1]['participants'] = processedTimes[-1]['participants'].replace(vetoed.invitee.name + ', ', '')
+								processedTimes[-1]['numFree'] -= 1
+								processedTimes[-1]['priority'] += 1000
 					processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
