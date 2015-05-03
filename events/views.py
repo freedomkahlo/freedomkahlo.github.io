@@ -100,7 +100,7 @@ def delete(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 
-	ntstr = event.creatorName() + " has cancelled " + '"' + event.title + '"'
+	ntstr = event.creatorName() + " has cancelled " + event.title
 	n = Notification(desc=ntstr, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 	for invitee in event.invitee_set.all():
