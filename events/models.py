@@ -106,7 +106,7 @@ class Message(models.Model):
 
 class Notification(models.Model):
 	user = models.ForeignKey(User)
-	originUser = models.ForeignKey(User)
+	#originUser = models.ForeignKey(User)
 	desc = models.CharField(max_length=100)
 	pub_date = models.DateTimeField('date made')
 
