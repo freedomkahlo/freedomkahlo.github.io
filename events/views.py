@@ -213,8 +213,8 @@ def getTimes(request, eventID=None):
 		if len(event.vetotime_set.filter(startTime=t['startTime'])) > 0:
 			for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
 				if t['participants'].find(vetoed.invitee.name) > -1:
-					t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name)
-					t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ')
+					t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
+					t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
 					t['numFree'] -= 1
 		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'])
 		event.posstime_set.add(possTime)
