@@ -241,6 +241,8 @@ def getTimes(request, eventID=None):
 				endEvent = startEvent + duration
 	#list.sort(processedTimes)
 	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
+	print 'Processed:'
+	for t in processedTimes:
 
 	#Delete all previous possTimes 
 	event.posstime_set.all().delete()
@@ -491,7 +493,7 @@ def vetoPoss(request):
 		p = possTimes.get(id=pID)
 		needToContinue = False
 		for x in event.vetotime_set.all():
-			if x.startTime == p.startTime and x.endTime == p.endTime:
+			if x.startTime == p.startTime and x.endTime == p.endTime and x.invitee == invitee:
 				needToContinue = True
 				break
 		if needToContinue:
