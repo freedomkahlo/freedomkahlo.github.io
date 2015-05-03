@@ -128,7 +128,7 @@ def deletePastPossTimes(request, eventID=None):
 		x.delete()
 
 	vetoTimes = event.vetotime_set.all()
-	badVetoTimes = [x for x in vetoTimes if x.startTime > datetime.now(tz)]
+	badVetoTimes = [x for x in vetoTimes if x.startTime < datetime.now(tz)]
 
 	for x in badVetoTimes:
 		x.delete()
