@@ -345,7 +345,7 @@
 		z-index: 11;
 	}
 
-	a.boxclose{
+	#notificationBody button {
 	    float:right;
 	    margin-top:2px;
 	    margin-right:-10px;
@@ -362,7 +362,7 @@
 	    padding: 11px 3px;  
 	}
 
-	.boxclose:before {
+	#notificationBody:before button {
 	    content: "x";
 	}
 
