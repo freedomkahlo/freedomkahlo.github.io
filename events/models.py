@@ -107,13 +107,28 @@ class Message(models.Model):
 class Notification(models.Model):
 	user = models.ForeignKey(User)
 	notificationType = models.CharField(max_length=50, default='')
-	originUserName = models.CharField(max_length=100, default='')
+	sourceName = models.CharField(max_length=100, default='')
+	#event name below, apparently
+	eventName = models.CharField(max_length=100, default='')
 	desc = models.CharField(max_length=100, default='')
 	pub_date = models.DateTimeField('date made')
 
 	def __str__(self):
-		if self.notificationType == "delete":
-			return self.originUserName + " has deleted the event '" + self.desc + "'."
+		if self.notificationType == "deleteNot":
+			return self.sourceName + " has deleted '" + self.eventName + "'."
+		if self.notificationType == "skedgNot":
+			return self.sourceName + " has skedguled '" + self.eventName + "' and it's in your calendar."
+
+		if self.notificationType == "joinNot":
+			return self.sourceName + " has joined '" + self.eventName + "'."
+		if self.notificationType == "leaveNot":
+			return self.sourceName == " has left '" + self.eventName + "'."
+
+		if self.notificationType == "composeNot":
+			return self.sourceName + " said '" + self.desc + "' in '" + self.eventName + "'."
+		if self.notificationType = "eraseNot":
+			return self.sourceName + " has deleted your message, '" + self.desc + "' in '" + self.eventName + "'."
+
 		return self.desc # + " at " + str(self.pub_date)
 class UserProfile(models.Model):
 	# This line is required. Links UserProfile to a User model instance.

@@ -100,7 +100,7 @@ def delete(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 
-	n = Notification(desc=event.title, notificationType="delete", originUserName=event.creatorName, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+	n = Notification(eventName=event.title, notificationType="deleteNot", sourceName =event.creatorName, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 	for invitee in event.invitee_set.all():
 		user = get_object_or_404(User, username=invitee.name)
@@ -251,13 +251,14 @@ def manageCreator(request):
 		peopleList = []
 
 		#add notification
-		ntstr = event.creator + " has skedged " + event.title + " and it has been added to your calendar! GG, everyone."
-		n = Notification(desc=ntstr, pub_date=datetime.now())
-		
+		n = Notification(eventName=event.title, sourceName=event.creator, notificationType="skedgNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+
 		for i in invitees:
 			peopleList.append(i.name)
 			u = get_object_or_404(User, username=i.name)
 			u.notification_set.add(n)
+			u.save()
+
 		peopleList.append(event.creator)
 		possIndex=int(request.POST['skedgeTime'])
 		possEvents = event.posstime_set.all()
@@ -285,6 +286,12 @@ def manageInvitee(request):
 		else:
 			invitee = Invitee(name=username)
 			event.invitee_set.add(invitee)
+
+			n = Notification(eventName=event.title, sourceName=username, notificationType="joinNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+			user = get_object_or_404(User, username=event.creator)
+			user.notification_set.add(n)
+			user.save()
+
 			return getTimes(request)
 	if 'decline' in request.POST:
 		if (len(event.invitee_set.filter(name = username)) > 0):
@@ -297,6 +304,12 @@ def manageInvitee(request):
 			inviteeSet = event.invitee_set.all()
 			invitee = inviteeSet.get(name=username)
 			invitee.delete()
+
+			n = Notification(eventName=event.title, sourceName=username, notificationType="leaveNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+			user = get_object_or_404(User, username=event.creator)
+			user.notification_set.add(n)
+			user.save()
+
 			return getTimes(request)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
@@ -308,22 +321,38 @@ def manageInvitee(request):
 
 #user can join, remove self, and vote
 def manageMessage(request):
-	print request.POST
+	#print request.POST
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
-	
+	username = request.POST['username']
+
 	if 'write' in request.POST:
 		message = request.POST['message']
-		author = request.POST['username']
+		author = username
 		pub_date = datetime.now()
 
 		message = Message(text=message, author=author, pub_date=pub_date);
 		event.message_set.add(message)
 	
+		n = Notification(eventName=event.title, sourceName=username, desc=message, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+		user = get_object_or_404(User, username=event.creator)
+		user.notification_set.add(n)
+		user.save()
+
+		for i in event.invitee_set.all():
+			u = get_object_or_404(User, username=i.name)
+			u.notification_set.add(n)
+			u.save()
+
 	if 'erase' in request.POST:
 		message = get_object_or_404(Message, pk=request.POST['messageID'])
 		message.delete()
 	
+		n = Notification(eventName=event.title, sourceName=event.creator, desc=message, notificationType="eraseNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+		user = get_object_or_404(User, username=username)
+		user.notification_set.add(n)
+		user.save()
+
 	return detail(request, eventID)
 
 def manageNotification(request):
