@@ -174,19 +174,19 @@
 												<header align="left">
 													<h2><strong>{{ event.title }}</strong></h2>
 												</header>
-												<div style="margin-top:-30px; margin-left: 70px;" width="80%" align="left">
-													<strong>HOST</strong>: {{ event.creatorName }}<br />
+												<div class="column1" align ="left">
+													<strong>HOST</strong>: {{ event.creatorName }} <br />
+													{{ event.desc }} <br/>
+													<strong> TIME: </strong> <br />
+													<header align="left">
+														<h3>Invitees</h3>
+													</header>
+													<p> 
+														{% for invitee in event.invitee_set.all %}
+															{{ invitee.name }}
+														{% endfor %}
+													</p>
 												</div>
-												<p align="left">{{ event.desc }}</p>
-												<p align="left"><strong> TIME: </strong> </p>
-												<header align="left">
-													<h3>Invitees</h3>
-												</header>
-												<p> 
-													{% for invitee in event.invitee_set.all %}
-														{{ invitee.name }}
-													{% endfor %}
-												</p>
 											</div>
 											<div class="6u 12u(narrower)">
 												<section>
