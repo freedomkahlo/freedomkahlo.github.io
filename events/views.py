@@ -260,7 +260,7 @@ def manageCreator(request):
 		event = get_object_or_404(Instance, eventID=eventID)
 		i_name = request.POST['invitee_name']
 		invitee = get_object_or_404(Invitee, name=i_name)
-		invitee.delete();
+		invitee.delete()
 		getTimes(request)
 
 	if 'delete' in request.POST:
@@ -354,13 +354,13 @@ def manageMessage(request):
 		author = username
 		pub_date = datetime.now()
 
-		message = Message(text=message, author=author, pub_date=pub_date);
+		message = Message(text=message, author=author, pub_date=pub_date)
 		event.message_set.add(message)
-	
+
 		n = Notification(desc=event.title, originUserName=username, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
-		user = get_object_or_404(User, username=event.creator)
-		user.notification_set.add(n)
-		user.save()
+			user = get_object_or_404(User, username=event.creator)
+			user.notification_set.add(n)
+			user.save()
 
 		for i in event.invitee_set.all():
 			u = get_object_or_404(User, username=i.name)
@@ -372,10 +372,9 @@ def manageMessage(request):
 		message.delete()
 	
 		n = Notification(desc=event.title, originUserName=event.creator, notificationType="eraseNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
-		user = get_object_or_404(User, username=username)
-		user.notification_set.add(n)
-		user.save()
-
+			user = get_object_or_404(User, username=username)
+			user.notification_set.add(n)
+			user.save()
 	return detail(request, eventID)
 
 def manageNotification(request):
