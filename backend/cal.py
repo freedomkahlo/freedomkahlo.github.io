@@ -229,20 +229,15 @@ def update_event(service, event_id, event_name=None, start=None, end=None, locat
 def get_event_list(service, start, end):
 	try:
 		# first grab list of calendar names
-		print "babe 1"
 		calendar_list = service.calendarList().list(fields='items(id,summary)').execute()
-		print "babe 2"
 		calIDlist = [calendar_list_entry['id'] for calendar_list_entry in calendar_list['items']]
-		print "babe 3"
 
 		##### Check if 'items exists'
 		events = []
 		for calendar_id in calIDlist:
-			print "babe 4"
 			print calendar_id
 			events += service.events().list(calendarId=calendar_id, timeMin=start, timeMax=end,
 				singleEvents = True, orderBy="startTime", fields='items(end,location,start,summary)').execute()['items']
-			print events
 		return events
 
 	except AccessTokenRefreshError:
@@ -334,8 +329,11 @@ def findTimes(events, startTime, endTime, timeLength, people):
 			if (dateList[interval[1]][0] - dateList[interval[0]][0] < timeLength):
 				continue
 			peeps = getPeople(people, dateList[i][1])
-			if (any(d['endTime'] == dateList[interval[1]][0] and d['startTime'] == dateList[interval[0]][0] for d in freeTime)):
-				continue
+			for d in freeTime:
+				if d['endTime'] == dateList[interval[1]][0] and d['startTime'] == dateList[interval[0]][0] and len(d['participants']) < len(peeps):
+					d['participants'] = peeps
+					d['numFree'] = len(filter(None, peeps.split(', ')))
+					continue
 			freeTime.append({'numFree':len(filter(None, peeps.split(', '))), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
 
 	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)

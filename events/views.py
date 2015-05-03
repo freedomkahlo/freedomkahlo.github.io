@@ -199,18 +199,32 @@ def getTimes(request, eventID=None):
 						t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
 						t['numFree'] -= 1
 			priorityValue = -int(t['numFree'])*1000
+			for d in processedTimes:
+				if d['endTime'] == endEvent and d['startTime'] == startEvent and d['priority'] < priorityValue:
+					d['participants'] = t['participants']
+					d['numFree'] = t['numFree']
+					d['priority'] = priorityValue
+					continue
 			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 			continue
 		else:
 			i = 0
 			while endEvent <= t['endTime']:
+				print len(event.vetotime_set.filter(startTime=startEvent))
 				if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
 					for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
 						if t['participants'].find(vetoed.invitee.name) > -1:
+							print vetoed.invitee.name + ' has vetoed ' t['startTime']
 							t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
 							t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
 							t['numFree'] -= 1
 				priorityValue = -int(t['numFree'])*1000 + i
+				for d in processedTimes:
+					if d['endTime'] == endEvent and d['startTime'] == startEvent and d['priority'] < priorityValue:
+						d['participants'] = t['participants']
+						d['numFree'] = t['numFree']
+						d['priority'] = priorityValue
+						continue
 				processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
