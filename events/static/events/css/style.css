@@ -328,6 +328,11 @@
 	    overflow: hidden;
 	   	text-overflow: ellipsis;
 	   	font-weight: normal;
+	   	text-overflow: ellipsis;
+
+		  /* Required for text-overflow to do anything */
+		  white-space: nowrap;
+		  overflow: hidden;
 	}
 
 	#notificationText {
