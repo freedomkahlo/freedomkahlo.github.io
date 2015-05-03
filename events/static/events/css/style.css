@@ -301,6 +301,7 @@
 		padding: -33px 0px 0px 0px !important;
 		min-height: 300px;
 		z-index: 11;
+		overflow: scroll;
 	}
 
 	#notificationsBody button {
