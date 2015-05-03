@@ -325,11 +325,14 @@
 	    padding-left: 10px;
 	    text-align: left;
 	    width: 370px;
-	    text-overflow: ellipsis;
+	   	text-overflow: ellipsis;
+	   	font-weight: normal;
 	}
 
 	#notificationText {
 		padding: 10px;
+	 	text-overflow: ellipsis;
+	 	font-weight: normal;
 	}
 
 	#notificationFooter {
