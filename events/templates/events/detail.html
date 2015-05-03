@@ -171,14 +171,15 @@
 									<div class = "eventContainer">
 										<div class="row">
 											<div class="6u 12u(narrower)">
-												<header>
+												<header align="left">
 													<h2><strong>{{ event.title }}</strong></h2>
 												</header>
 												<div style="margin-top:-30px; margin-left: 70px;" width="80%" align="left">
-													Hosted by: {{ event.creatorName }}<br />
+													<strong>HOST</strong>: {{ event.creatorName }}<br />
 												</div>
-												<p style="-12px">{{ event.desc }}</p>
-												<header>
+												<p align="left">{{ event.desc }}</p>
+												<p align="left"><strong> TIME: </strong> </p>
+												<header align="left">
 													<h3>Invitees</h3>
 												</header>
 												<p> 
