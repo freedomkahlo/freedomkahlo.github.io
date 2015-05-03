@@ -310,8 +310,6 @@
 	#notificationsBody button {
 		float: right;
 		text-align; right;
-		padding-top: 5px;
-		padding-bottom: 5px;
 		background: white; 
 		color: black;
 		display: inline-block;
@@ -327,6 +325,10 @@
 	    padding-left: 20px;
 	    text-align: left;
 	    width: 370px;
+	}
+
+	#notificationText {
+		padding: 5px;
 	}
 
 	#notificationFooter {
