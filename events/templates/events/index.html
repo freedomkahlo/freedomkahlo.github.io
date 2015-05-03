@@ -433,7 +433,8 @@
 																<div id="notificationBox">
 																	<form action="{% url 'events:manageNotification' %}" method="post">   
 																		{% csrf_token %}
-																		<span style="display: none;"><input type="text" name="clear" value="clear" id="notificationBox"</input></span>
+																		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
+																		
 																		<button class="button" type="submit" name="clear" id="notificationBox">Clear All</button> 
 																	</form>
 																</div>
