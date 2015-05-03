@@ -413,14 +413,15 @@
 																	<li>
 																		<div style="width: 90%;">
 																			{{ notification }}
-																			<div id="notificationBox" style="width: 100%;">
-																			<form action="{% url 'events:manageNotification' %}" method="post">
-																				{% csrf_token %}
-																				<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																				<button style="border: 0; float: right;" type="submit" name="dismiss" id="notificationBox">X</button> 
-																			</form>
-																			</div>
-																			</div>
+																		</div>
+																		<div id="notificationBox" style="width: 100%;">
+																		<form action="{% url 'events:manageNotification' %}" method="post">
+																			{% csrf_token %}
+																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
+																			<button style="border: 0; float: right; background: transparent; margin-bottom: 30px;" type="submit" name="dismiss" id="notificationBox">X</button> 
+																		</form>
+																		</div>
+
 																	</li>
 																	{% endfor %}
 																</ul>
