@@ -299,9 +299,10 @@
 	}
 	#notificationsBody {
 		padding: -33px 0px 0px 0px !important;
-		min-height: 300px;
+		height: 300px;
 		z-index: 11;
-		height: 30%;
+		/*height: 300px;*/
+		overflow-y: hidden;
 	}
 
 	#notificationsBody button {
