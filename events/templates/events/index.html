@@ -424,13 +424,9 @@
 																	</li>
 																	{% endfor %}
 																	<li>
-																	<div id="notificationBox"
+																	<div id="notificationBox">
 																		<form action="{% url 'events:manageNotification' %}" method="post">   
 																		{% csrf_token %}
-																		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
-																		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
-																		<span style="display: none;"><input type="text" name="dismiss" value="clear"></input></span>
-
 																		<button class="special button" id="notificationBox" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="dismiss">Clear All</button>
 																		</form>
 																	</div>
