@@ -322,13 +322,14 @@
 	#notificationsBody li {
 	    border-bottom: 1px solid #dddddd;
 	    height: 60px;
-	    padding-left: 20px;
+	    padding-left: 10px;
 	    text-align: left;
 	    width: 370px;
+	    text-overflow: ellipsis
 	}
 
 	#notificationText {
-		padding: 5px;
+		padding: 10px;
 	}
 
 	#notificationFooter {
