@@ -425,10 +425,12 @@
 															</div>
 															<div id="notificationFooter"> 
 																<div id="notificationBox">
+																<li>
 																<form action="{% url 'events:manageNotification' %}" method="post">
 																	<span style="display: none;"><input type="text" name="clear" value="clear"></input></span>
 																	<button type="submit" class="special button" name="dismiss">Clear All</button>
 																</form>
+																</li>
 																</div>
 															</div>
 														</div>
