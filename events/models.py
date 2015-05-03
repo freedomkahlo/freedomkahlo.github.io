@@ -121,7 +121,7 @@ class Notification(models.Model):
 		if self.notificationType == "joinNot":
 			return self.originUserName + " has joined '" + self.desc + "'."
 		if self.notificationType == "leaveNot":
-			return self.originUserName == " has left '" + self.desc + "'."
+			return self.originUserName + " has left '" + self.desc + "'."
 
 		if self.notificationType == "composeNot":
 			return self.originUserName + " wrote a message in '" + self.desc + "'."
