@@ -243,6 +243,7 @@ def getTimes(request, eventID=None):
 	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
 	print 'Processed:'
 	for t in processedTimes:
+		t['startTime'].isoformat() + ' ' + t['endTime'].isoformat() + ' ' + t['participants'] + ' ' + str(t['priority'])
 
 	#Delete all previous possTimes 
 	event.posstime_set.all().delete()
