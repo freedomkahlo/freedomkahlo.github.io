@@ -412,7 +412,7 @@
 																	{% for notification in user.notification_set.all %}
 																	<li>
 																		{{ notification }}
-																		<div id="notificationBox" style="width: 90;">
+																		<div id="notificationBoxs" style="width: 90;">
 																		<form action="{% url 'events:manageNotification' %}" method="post">
 																			{% csrf_token %}
 																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
