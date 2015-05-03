@@ -418,7 +418,7 @@
 																			<button type="submit" name="dismiss" id="notificationBox">✖</button> 
 																		</form>
 																			<div id="notificationText" style="width: 90%;">
-																				{{ notification }}
+																				{{ notification|truncatechars:110 }}
 																			</div>
 																		</div>
 																	</li>
@@ -499,12 +499,6 @@
 				    $("#loadingOverlay").show();
 				});
 			});	
-		</script>
-		<script>
-			if ($('div.notificationText').text().length > 30)
-				var text = $('div.text').text();
-				text = text.substr(0,30) + '...';
-				$('div.notificationText').text(text);
 		</script>
 
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
