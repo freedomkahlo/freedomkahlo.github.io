@@ -196,7 +196,7 @@
 				{% if not messages and not invalidLogin %}
 					//Good
 					if (typeof sessionStorage['currPage'] == 'string'){
-						sessionStorage['currPage'] == '0';
+						sessionStorage['currPage'] = '0';
 					}
 				{% endif %}
 				if (typeof sessionStorage['currPage'] == 'string' && $.inArray(sessionStorage['currPage'], ['1', '2']) > -1) {

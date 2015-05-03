@@ -65,7 +65,8 @@ class PossTime(models.Model):
 	
 	def __str__(self):
 		tz = pytz.timezone('US/' + self.event.timezone)
-		return ((self.startTime.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
+		return (self.startTime.astimezone(tz)).strftime("%b %d").lstrip("0") + 
+			((self.startTime.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
 			+ " - " + (self.endTime.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0"))
 
 class Invitee(models.Model):
