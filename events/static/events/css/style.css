@@ -302,7 +302,6 @@
 		min-height: 300px;
 		z-index: 11;
 		height: 30%;
-		overflow-y: scroll;
 	}
 
 	#notificationsBody button {
