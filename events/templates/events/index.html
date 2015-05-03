@@ -61,12 +61,6 @@
 					return false;
 				});
 
-				$('#notificationBox').on('submit', function(event){
-				    event.preventDefault();
-				    console.log("form submitted!")  // sanity check
-				    create_post();
-				});
-
 				//Document Click
 				$(document).click(function()
 				{
@@ -75,14 +69,8 @@
 				//Popup Click
 				$("#notificationContainer").click(function()
 				{
-					return false;
+					return;
 				});
-
-				function create_post() {
-				    console.log("create post is working!") // sanity check
-				    console.log($('#post-text').val())
-				};
-
 			});
 		</script>
 
