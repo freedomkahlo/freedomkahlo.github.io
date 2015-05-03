@@ -241,7 +241,7 @@ def get_event_list(service, start, end):
 			print calendar_id
 			events += service.events().list(calendarId=calendar_id, timeMin=start, timeMax=end,
 				singleEvents = True, orderBy="startTime", fields='items(end,location,start,summary)').execute()['items']
-
+			print events
 		return events
 
 	except AccessTokenRefreshError:
