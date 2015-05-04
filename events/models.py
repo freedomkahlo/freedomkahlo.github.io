@@ -18,9 +18,9 @@ class Instance(models.Model):
 	eventID = models.CharField(max_length=32, default='')
 	timezone = models.CharField(max_length=20, default='Eastern')
 
-	is_scheduled = models.BooleanField(default='False')
+	is_scheduled = models.BooleanField(default=False)
 	scheduled_start = models.DateTimeField('event time', auto_now_add=True, blank=True)
-	scheduled_end = models.DateTimeField('event time2', auto_now_add=True, blank=True)
+	scheduled_end = models.DateTimeField('event time', auto_now_add=True, blank=True)
 
 	def regValidate(self):
 		if len(self.title.replace(' ', '')) == 0:
