@@ -103,7 +103,7 @@ def getCredClient(username, eventID=None):
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk:82/auth/')
 	FLOW.params['access_type'] = 'offline'
 	FLOW.params['approval_prompt'] = 'force'
-	FLOW.params['state'] = tempCode + '%' + username + '%' + eventID + '%'
+	FLOW.params['state'] = tempCode + '%' + username + '%' + eventID
 	auth_uri = FLOW.step1_get_authorize_url()
 	#print(auth_uri+'&approval_prompt=force')
 	#return redirect(auth_uri+'&approval_prompt=force')
@@ -120,10 +120,10 @@ def auth(request):
 
 	# First get the authentication pair
 	state = request.GET['state']
-	stateParted = state.partition('%')
+	stateParted = state.split(sep='%')
 	tempCode = stateParted[0]
-	username = stateParted[2]
-	eventID = stateParted[4]
+	username = stateParted[1]
+	eventID = stateParted[2]
 
 	# Clean up the temp storage list
 	clearTempStorageForChecking()
