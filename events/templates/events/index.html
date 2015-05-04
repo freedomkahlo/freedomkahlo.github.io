@@ -177,7 +177,7 @@
 					min: 0,
 					max: 1440,
 					step: 15,
-					values: start_minutes, //Set it to the current time
+					value: start_minutes, //Set it to the current time
 					slide: function(e, ui) {
 						var hours = Math.floor(ui.value / 60);
 						var minutes = ui.value - (hours * 60);
@@ -218,7 +218,7 @@
 					min: 0,
 					max: 1440,
 					step: 15,
-					values: end_minutes, //Set it to the current time
+					value: end_minutes, //Set it to the current time
 					slide: function(e, ui) {
 						var hours = Math.floor(ui.value / 60);
 						var minutes = ui.value - (hours * 60);
