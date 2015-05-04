@@ -308,7 +308,11 @@ def manageCreator(request):
 		end = possEvents.get(id=possIndex).endTime
 		cal.putTimeForMany(usernameList=peopleList, eventName=event.title, startInDateTime=start, endInDateTime=end, organizer=event.creator, location=None,description=event.desc)
 		messages.success(request, 'Your event has been successfully skedged!')
+
+		for time in event.posstime_set.all():
+			time.delete()
 		
+		event.posstime_set.clear()
 		event.is_scheduled = True
 		event.scheduled_start = start
 		event.scheduled_end = end
