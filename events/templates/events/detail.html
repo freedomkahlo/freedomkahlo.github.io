@@ -217,13 +217,17 @@
 											<div class="6u 12u(narrower)">
 												<section>
 													<div id="messagesContainer">
-														<div id="messagesTitle"><strong>MESSAGE BOARD:</strong></div>
+														<div id="messagesTitle">
+														<header>
+														<h3>MESSAGE BOARD:</h3>
+														</header>
+														</div>
 														<div id="messagesBody">
 															<ul>
 															{% for m in event.message_set.all %}
 																<li>
 																{{ m.text }}<br />
-																<span style="font-size:12px; color:#999999; float: right;"> {{m.author}}</span> 
+																<span style="font-size:12px; color:#999999; text-align: right;"> {{m.author}}</span> 
 
 																{% if event.creator = user.username %}
 																	<form action="{% url 'events:manageMessage' %}" method="post">
