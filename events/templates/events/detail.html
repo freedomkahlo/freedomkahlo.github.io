@@ -238,7 +238,7 @@
 															{% for m in event.message_set.all %}
 																<li>
 																{{ m.text }}<br />
-																<div align="right"><span style="font-size:13px; color:#999999;"> {{m.firstName}} {{m.lastName}}, {{m.pub_date}}</span> </div>
+																<div align="right" style="padding-right: 3px;"><span style="font-size:13px; color:#999999;"> {{m.firstName}} {{m.lastName}}, {{m.pub_date}}</span> </div>
 
 																{% if event.creator = user.username %}
 																	<form action="{% url 'events:manageMessage' %}" method="post">
@@ -246,7 +246,7 @@
 																		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
 																		<span style="display: none;"><input type="text" name="username" value="{{ m.author }}"></span>
 																		<span style="display: none;"><input type="text" name="messageID" value="{{ m.id }}"></span>
-																		<input type="submit" name="erase" value="x"/>
+																		<button type="submit" name="erase">✖</button> 
 																	</form>
 																{% endif %}
 																</li>
