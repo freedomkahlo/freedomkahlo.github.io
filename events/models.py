@@ -62,18 +62,21 @@ class Instance(models.Model):
 	@property
 	def printScheduledTime(self):
 		tz = pytz.timezone('US/' + self.timezone)
-		return ((self.scheduled_start.astimezone(tz)).strftime("%b %d").lstrip("0") + " " +
+		return ((self.scheduled_start.astimezone(tz)).strftime("%b") + " " +
+			(self.scheduled_start.astimezone(tz)).strftime("%d").lstrip("0") + " " +
 			((self.scheduled_start.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
 			+ " - " + (self.scheduled_end.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0")))
 
 	@property
 	def printDateRange(self):
-		return (datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%b %d").lstrip("0") + "-" +
-			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%b %d").lstrip("0"))
+		return (datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%b") + " " + 
+			datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%d").lstrip("0") + " - " +
+			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%b") + " " + 
+			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%d").lstrip("0"))
 
 	@property
 	def printTimeRange(self):
-		return self.start_time + '-' + self.end_time
+		return self.start_time + ' - ' + self.end_time
 
 	@property 
 	def hasPassed(self):
@@ -97,7 +100,7 @@ class PossTime(models.Model):
 	@property
 	def date(self):
 		tz = pytz.timezone('US/' + self.event.timezone)
-		return (self.startTime.astimezone(tz)).strftime("%b %d").lstrip("0")
+		return (self.startTime.astimezone(tz)).strftime("%b") + " " + (self.startTime.astimezone(tz)).strftime("%d").lstrip("0")
 	
 	@property
 	def time(self):
