@@ -490,10 +490,10 @@
 														<!--upcoming-->
 														{% if event.scheduled_end < datetime.now %}
 															<script>
-															var div = document.getElementById('myEventsUpcoming');
-															var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
-															div.innerHTML = div.innerHTML + string;
-														</script>
+																var div = document.getElementById('myEventsUpcoming');
+																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																div.innerHTML = div.innerHTML + string;
+															</script>
 														<!--passed-->
 														{% else %}
 															<script>
