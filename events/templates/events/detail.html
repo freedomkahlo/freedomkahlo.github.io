@@ -196,7 +196,13 @@
 												
 													<strong>HOST</strong>: {{ event.creatorName }} <br />
 													{{ event.desc }} <br/>
-													<strong> TIME: </strong> <font color="red">NOT SKEDULED </font><br /> <br />
+													<strong> TIME: </strong>
+														{% if event.is_scheduled %}
+															<p>{{event.scheduled_start}} : {{event.scheduled_end}}</p>
+														{% else %}
+															 <font color="red">NOT SKEDULED </font>
+														{% endif %
+														<br /> <br />
 													<header align="left">
 														<h3>Invitees</h3>
 													</header>
