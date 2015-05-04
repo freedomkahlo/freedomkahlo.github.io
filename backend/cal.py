@@ -103,7 +103,7 @@ def getCredClient(username, eventID=None):
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk:82/auth/')
 	FLOW.params['access_type'] = 'offline'
 	FLOW.params['approval_prompt'] = 'force'
-	FLOW.params['state'] = tempCode + '%' + username + '%' + eventID
+	FLOW.params['state'] = tempCode + '%' + username + '%' + eventID + '%'
 	auth_uri = FLOW.step1_get_authorize_url()
 	#print(auth_uri+'&approval_prompt=force')
 	#return redirect(auth_uri+'&approval_prompt=force')
