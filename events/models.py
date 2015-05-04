@@ -81,7 +81,7 @@ class PossTime(models.Model):
 	startTime = models.DateTimeField('start time')
 	endTime = models.DateTimeField('end time')
 	nFree = models.IntegerField(default = 0)
-	peopleList = models.CharField(max_length=100, default='')
+	peopleList = models.CharField(max_length=1000, default='')
 
 	@property
 	def date(self):

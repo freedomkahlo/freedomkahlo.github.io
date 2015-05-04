@@ -34,6 +34,7 @@ from django.utils import dateparse
 
 from events.models import UserProfile
 
+eventIDLength = 32
 FLAGS = gflags.FLAGS
 DEVELOPER_KEY = 'AIzaSyC_sCrieFSw6_KM9zZHKOTUrXmeEwqkR3o'
 parser = argparse.ArgumentParser(parents=[argparser])
@@ -56,15 +57,15 @@ def clearTempStorageForChecking():
 		i = i + 1
 	tempStorageForChecking = tempStorageForChecking[i:]
 
-def validateToken(email):
+def validateToken(email, eventID=None):
 	u = User.objects.get(username=email)
 	refreshToken = u.UserProfile.refToken
 	#print refreshToken
 	if refreshToken == '':
-		return getCredClient(email)
+		return getCredClient(email, eventID)
 	else:
 		if getCredFromRefToken(email, 'validate') == 'refTokenRevoked': #Just to check that their refresh token is good
-			return getCredClient(email)
+			return getCredClient(email, eventID)
 		return 'Already Has Token'
 
 # given username, assume that the user has a refresh token and get the credentials
@@ -90,10 +91,10 @@ def getCredFromRefToken(username, context=None):
 		print ('Credentials have been revoked')
 
 # send client to Google Authentication page
-def getCredClient(username):
+def getCredClient(username, eventID=None):
 	global tempStorageForChecking
 
-	tempCode = get_random_string(length=32) #random gen
+	tempCode = get_random_string(length=eventIDLength) #random gen
 	expirationTime = datetime.now(pytz.timezone('US/Eastern')) + timedelta(minutes=10)
 	tempStore = (username, tempCode, expirationTime)
 	tempStorageForChecking.append(tempStore)
@@ -102,7 +103,7 @@ def getCredClient(username):
 	FLOW = flow_from_clientsecrets(CLIENT_SECRETS, scope='https://www.googleapis.com/auth/calendar', redirect_uri='http://skedg.tk:82/auth/')
 	FLOW.params['access_type'] = 'offline'
 	FLOW.params['approval_prompt'] = 'force'
-	FLOW.params['state'] = tempCode + '%' + username
+	FLOW.params['state'] = tempCode + '%' + username + '%' + eventID
 	auth_uri = FLOW.step1_get_authorize_url()
 	#print(auth_uri+'&approval_prompt=force')
 	#return redirect(auth_uri+'&approval_prompt=force')
@@ -110,8 +111,10 @@ def getCredClient(username):
 
 # Listens to Google's Authorization, and puts in a refresh token
 def auth(request):
-	def authentication_error():
-		return HttpResponseRedirect('/')
+	def returnPage(eventID):
+		if len(eventID) == eventIDLength:
+			return HttpResponseRedirect('/events/eventDetails/' + eventID)
+		return HttpResponseRedirect('/events/')
 
 	global tempStorageForChecking
 
@@ -119,6 +122,7 @@ def auth(request):
 	state = request.GET['state']
 	tempCode = state.partition('%')[0]
 	username = state.partition('%')[2]
+	eventID = state.partition('%')[4]
 
 	# Clean up the temp storage list
 	clearTempStorageForChecking()
@@ -132,13 +136,13 @@ def auth(request):
 
 	# Not found
 	if i == len(tempStorageForChecking):
-		return authentication_error()
+		return returnPage(eventID)
 
 	tempStorageForChecking.pop(i)
 
 	# if getting the code failed...
 	if request.GET.has_key('error'):
-		return authentication_error()
+		return returnPage(eventID)
 
 	# no error, so there must be an authentication code
 	authcode = request.GET['code']
@@ -147,12 +151,12 @@ def auth(request):
 	result = requests.post('https://www.googleapis.com/oauth2/v3/token', data=post_data).json()
 	
 	if 'refresh_token' not in result:
-		return authentication_error()
+		return returnPage(eventID)
 
 	refreshToken = result['refresh_token']
 
 	if refreshToken in ['null', '']:
-		return authentication_error()
+		return returnPage(eventID)
 
 	u = User.objects.get(username=username)
 	u.UserProfile.refToken = refreshToken
@@ -160,7 +164,8 @@ def auth(request):
 	u.save()
 	u.backend = 'django.contrib.auth.backends.ModelBackend'
 	login(request, u)
-	return HttpResponseRedirect('/events/')
+
+	return returnPage(eventID)
 
 def buildService(username):
 	credentials = getCredFromRefToken(username)

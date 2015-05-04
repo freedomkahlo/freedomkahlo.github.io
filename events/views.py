@@ -585,7 +585,7 @@ def user_loginEvent(request):
 
 		if user:
 			if user.is_active:
-				resp = cal.validateToken(email)
+				resp = cal.validateToken(email,eventID)
 				if (resp =="Already Has Token"):
 					login(request, user)
 					return HttpResponseRedirect('/events/eventDetails/' + eventID)
