@@ -176,9 +176,9 @@ class Notification(models.Model):
 		if self.notificationType == "deleteNot":
 			return self.originUserName + " has deleted '" + self.desc + "'."
 		if self.notificationType == "noTimeNot":
-			return "'" + self.desc + "'" + " has already expired."
+			return "'" + self.desc + "'" + " has expired."
 		if self.notificationType == "skedgNot":
-			return self.originUserName + " has skedguled '" + self.desc + "' and it's in your calendar."
+			return self.originUserName + " has scheduled '" + self.desc + "' and it's in your Google Calendar."
 
 		if self.notificationType == "joinNot":
 			return self.originUserName + " has joined '" + self.desc + "'."

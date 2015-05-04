@@ -115,7 +115,7 @@ def getCredClient(username, eventID=None):
 # Listens to Google's Authorization, and puts in a refresh token
 def auth(request):
 	def returnPage(eventID):
-		if len(eventID) == eventIDLength:
+		if eventID != None and len(eventID) == eventIDLength:
 			return HttpResponseRedirect('/events/eventDetails/' + eventID)
 		return HttpResponseRedirect('/events/')
 
