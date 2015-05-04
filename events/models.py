@@ -34,10 +34,13 @@ class Instance(models.Model):
 		tz = pytz.timezone('US/' + self.timezone)
 		startd = tz.localize(datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p'))
 		endd = tz.localize(datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
-		if (startd >= endd):
-			raise ValidationError('Start time must occur before end time.')
+		duration = timedelta(minutes=(int(self.event_length.split(':')[0]) * 60 + int(self.event_length.split(':')[1])))
+		if (startd + duration >= endd):
+			raise ValidationError('Time range must be longer than the event duration.')
 		if (startd.date() < datetime.now(tz).date()):
 			raise ValidationError('Start date must occur in the future.')
+		if (endd < datetime.now(tz) + duration):
+			raise ValidationError("Event cannot be scheduled in the past.")
 		self.pub_date = datetime.now(tz)
 
 	def save(self, **kwargs):
