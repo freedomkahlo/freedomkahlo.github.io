@@ -480,7 +480,7 @@
 													<div id="myEventsUpcoming"></div>
 													<br/>
 
-													<h4><strong>Passed:</strong></h4>
+													<h4><strong>Past:</strong></h4>
 													<div id="myEventsPassed"></div>
 													<br/>
 												</section>
@@ -491,7 +491,17 @@
 													<header>
 														<h3><strong>Other Events</strong></h3>
 													</header>
-													<div id="otherEvents"></div>
+													<h4><strong>Pending:</strong></h4>
+													<div id="otherEventsPending"></div>
+													<br/>
+
+													<h4><strong>Upcoming:</strong></h4>
+													<div id="otherEventsUpcoming"></div>
+													<br/>
+
+													<h4><strong>Past:</strong></h4>
+													<div id="otherEventsPassed"></div>
+													<br/>
 												</section>
 											</div>
 
@@ -524,11 +534,30 @@
 												{% else %}
 													{% for invitee in event.invitee_set.all %}
 														{% if invitee.name == user.username %}
-															<script>
-																var div = document.getElementById('otherEvents');
-																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
-																div.innerHTML = div.innerHTML + string;
-															</script>
+															<!--pending-->
+															{% if not event.is_scheduled %}
+																<script>
+																	var div = document.getElementById('otherEventsPending');
+																	var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																	div.innerHTML = div.innerHTML + string;
+																</script>
+															{% else %}
+																<!--upcoming-->
+																{% if not event.hasPassed %}
+																	<script>
+																		var div = document.getElementById('otherEventsUpcoming');
+																		var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																		div.innerHTML = div.innerHTML + string;
+																	</script>
+																<!--passed-->
+																{% else %}
+																	<script>
+																		var div = document.getElementById('otherEventsPassed');
+																		var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																		div.innerHTML = div.innerHTML + string;
+																	</script>
+																{% endif %}
+															{% endif %}
 														{% endif %}
 													{% endfor %}
 												{% endif%}
