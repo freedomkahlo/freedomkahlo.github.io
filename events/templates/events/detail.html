@@ -194,7 +194,9 @@
 													<div id="messagesContainer">
 														<div id="messagesTitle"><h3>Current Messages:</h3></div>
 														<div id="messagesBody">
+															<ul>
 															{% for m in event.message_set.all %}
+																<li>
 																{{ m.text }} <span style="font-size:12px; color:#999999;"> - {{m.author}}</span> <br />
 
 																{% if event.creator = user.username %}
@@ -206,8 +208,11 @@
 																		<input type="submit" name="erase" value="x"/>
 																	</form>
 																{% endif %}
+																</li>
 															{% endfor %}
-
+															</ul>
+														</div>
+														<div id="messagesFooter">
 															<h3>Write a Message:</h3>
 															<form action="{% url 'events:manageMessage' %}" method="post">
 																{% csrf_token %}
