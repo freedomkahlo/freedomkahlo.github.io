@@ -185,7 +185,7 @@ def getTimes(request, eventID=None):
 
 	if startInDateTime > endInDateTime:
 		endInDateTime += timedelta(days=1)
-		finalEndDateTime += timedelta(days=1)
+		#finalEndDateTime += timedelta(days=1)
 		
 	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
 	print 'Gotten Times:', times

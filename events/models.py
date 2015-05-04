@@ -35,10 +35,10 @@ class Instance(models.Model):
 
 		startd = tz.localize(datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p'))
 		endd = tz.localize(datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
-		temp = tz.localize(datetime.strptime(self.start_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
+		#temp = tz.localize(datetime.strptime(self.start_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
 
-		if startd > temp:
-			endd += timedelta(days=1)
+		#if startd > temp:
+		#	endd += timedelta(days=1)
 
 		duration = timedelta(minutes=(int(self.event_length.split(':')[0]) * 60 + int(self.event_length.split(':')[1])))
 		if (startd + duration >= endd):
