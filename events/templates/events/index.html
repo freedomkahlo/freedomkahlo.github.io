@@ -459,9 +459,9 @@
 															</div>
 														</div>
 													</li>
-													<form action="/events/user" method="post" style="display: inline-block;">
+													<form action="{% url 'events:user' %}" method="post" style="display: inline-block;">
 														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
-														<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="/events/user/" id="">My Account</a></li>
+														<li><input type="submit" class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" name="user" id="">My Account</a></li>
 													</form>
 
 												</ul>
