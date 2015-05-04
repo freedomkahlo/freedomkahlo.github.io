@@ -453,8 +453,15 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
 			print (user_form.errors, profile_form.errors)
-			errorList = {'emailError':user_form.errors.get('username', ''), 'passwordError':user_form.errors.get('password', ''),
-			'password2Error':user_form.errors.get('password2', ''),'registerError':user_form.errors.get('__all__', '')}
+			errorList = {}
+			if user_form.errors.get('username', '') != '':
+				errorList.update({'emailError':user_form.errors.get('username', '')[0]})
+			if user_form.errors.get('password', '') != '':
+				errorList.update({'passwordError':user_form.errors.get('password', '')[0]})
+			if user_form.errors.get('password2', '') != '':
+				errorList.update({'password2Error':user_form.errors.get('password2', '')[0]})
+			if user_form.errors.get('__all__', '') != '':
+				errorList.update({'registerError':user_form.errors.get('__all__', '')[0]})
 			errorList.update(saveInfo)
 			return render_to_response('events/login.html', errorList, context)
 
@@ -472,8 +479,7 @@ def registerEvent(request):
 	first_name = request.POST['first_name']
 	last_name = request.POST['last_name']
 	email = request.POST['username']
-	print context
-	context += {'first_name':first_name, 'last_name':last_name, 'email':email}
+	saveInfo = {'first_name':first_name, 'last_name':last_name, 'email':email}
 	registered = False
 
 	if request.method == 'POST':
@@ -504,9 +510,17 @@ Thanks for signing up. To activate your account, click this link within 48 hours
 http://skedg.tk/events/confirm/%s''' % (user.username, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
-			errorList = {'emailError':user_form.errors.get('username', ''), 'passwordError':user_form.errors.get('password', ''),
-			'password2Error':user_form.errors.get('password2', ''),'registerError':user_form.errors.get('__all__', '')}
-			contest += errorList
+			errorList = {}
+			if user_form.errors.get('username', '') != '':
+				errorList.update({'emailError':user_form.errors.get('username', '')[0]})
+			if user_form.errors.get('password', '') != '':
+				errorList.update({'passwordError':user_form.errors.get('password', '')[0]})
+			if user_form.errors.get('password2', '') != '':
+				errorList.update({'password2Error':user_form.errors.get('password2', '')[0]})
+			if user_form.errors.get('__all__', '') != '':
+				errorList.update({'registerError':user_form.errors.get('__all__', '')[0]})
+			errorList.update(saveInfo)
+			return render_to_response('events/detail.html', errorList, context)
 
 	else:
 		user_form = UserForm()
