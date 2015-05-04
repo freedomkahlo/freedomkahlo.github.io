@@ -126,7 +126,10 @@ def auth(request):
 	stateParted = state.split('%')
 	tempCode = stateParted[0]
 	username = stateParted[1]
-	eventID = stateParted[2]
+	if len(stateParted) == 3:
+		eventID = stateParted[2]
+	else:
+		eventID = None
 
 	# Clean up the temp storage list
 	clearTempStorageForChecking()
