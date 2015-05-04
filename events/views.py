@@ -300,7 +300,7 @@ def manageCreator(request):
 		event.scheduled_end = end
 		event.save()
 		
-		return HttpResponseRedirect('/events/')
+		return detail(request, eventID)
 	else:
 		return index(request)
 
