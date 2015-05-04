@@ -148,7 +148,7 @@ class Message(models.Model):
 		return (self.pub_date.astimezone(tz)).strftime("%b %d %I:%M %p").lstrip("0")
 
 	def __str__(self):
-		return text 
+		return self.text
 
 class Notification(models.Model):
 	user = models.ForeignKey(User)
