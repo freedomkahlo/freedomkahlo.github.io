@@ -60,9 +60,10 @@ class Instance(models.Model):
 
 	@property 
 	def hasPassed(self):
-		if self.end_time < datetime.now():
+		if self.scheduled_end < datetime.now(pytz.utc):
 			return True
-		return False
+		else:
+			return False
 
 	@property 
 	def creatorName(self):
