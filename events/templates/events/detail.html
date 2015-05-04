@@ -149,7 +149,9 @@
 														<li>
 															<form action="{% url 'events:manageInvitee' %}" method="post">   
 																	{% csrf_token %}
-																	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
+																	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>    
+																	<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"/></input></span>    
+																	<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"/></input></span>     
 																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
 																	<span id="submitButton"></span>
 																	</form>
@@ -209,6 +211,16 @@
 													<p> 
 														{% for invitee in event.invitee_set.all %}
 															{{ invitee.name }} <br/>
+
+															<!-- Bumps -->
+															{% if event.creator == user.username %}
+																<form action="{% url 'events:manageCreator' %}" method="post"> 
+																{% csrf_token %} 
+																<span style="display: none;"><input type="text" name="invitee_name" value="{{ invitee.name }}"/></input></span> 
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"/></input></span>
+																<button type="submit" name="boot">x</button>
+																</form>
+															{% endif %}
 														{% endfor %}
 													</p>
 												</div>
@@ -218,7 +230,7 @@
 													<div id="messagesContainer">
 														<div id="messagesTitle">
 														<header>
-														<h1>MESSAGE BOARD:</h1>
+														<h1 style="font-weight: 300; line-height: 1.75em; margin-bottom: 1em; text-transform: uppercase;"><strong>MESSAGE BOARD:</strong></h1>
 														</header>
 														</div>
 														<div id="messagesBody">
@@ -226,7 +238,7 @@
 															{% for m in event.message_set.all %}
 																<li>
 																{{ m.text }}<br />
-																<span style="font-size:12px; color:#999999; text-align: right;"> {{m.firstName}} {{m.lastName}}</span> 
+																<span align="right" style="font-size:12px; color:#999999; text-align: right;"> {{m.firstName}} {{m.lastName}}</span> 
 
 																{% if event.creator = user.username %}
 																	<form action="{% url 'events:manageMessage' %}" method="post">
@@ -284,63 +296,64 @@
 														</div>
 													{% endif %}
 												{% endfor %}
-
 											</div>
+											</section>
+										{% else %}
+											<!-- invitee view -->
+											<section id="friends">
+												{% for i in event.invitee_set.all %}
+													{% if i.name == user.username %}
+														<form action="{% url 'events:manageInvitee' %}" method="post">
+															{% csrf_token %}
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
+															<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"</input></span>
+															<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"</input></span>
+														
+															<div class="row">
+																{% for time in event.posstime_set.all %}
+																	{% if forloop.counter <= 3 %}
+																		<div class="4u 12u(narrower)">
+																			<section style="background-color: #645862; border-radius: 10px;">
+																				<span class="icon fa-clock-o"></span>
+																				<header>
+																					<input type="checkbox" name="vetoTimes" value="{{ time.id }}"/>
+																					<h3> {{ time.date }} </h3>
+																					<p> {{ time.time }} </p>
+																				</header>
+																			</section>
+																		</div>
+																	{% endif %}
+																{% endfor %}
+																{% if event.posstime_set.all|length == 1 %}
+																<div class="4u 12u(narrower)">
+																<section style="background-color: #645862; opacity: 0.6">
+																</section>
+																</div>
+																<div class="4u 12u(narrower)">
+																<section style="background-color: #645862; opacity: 0.6">
+																</section>
+																</div>
+																{% endif %}
+																{% if event.posstime_set.all|length == 2 %}
+																<div class="4u 12u(narrower)">
+																<section style="background-color: #645862; opacity: 0.6">
+																</section>
+																</div>
+																{% endif %}
+															</div>
+																{% if event.posstime_set.all|length == 0 %}
+																	<p> No times found. </p>
+																{% else %}
+																	<input class="button special" type="submit" name="veto" value="veto" id="veto"/>
+																{% endif %}
+														</form>
+													{% endif %}
+												{% endfor %}
 											</section>
 										{% endif %}
 
-										<!-- invitee view -->
-										<section id="friends">
-											{% for i in event.invitee_set.all %}
-												{% if i.name == user.username %}
-													<form action="{% url 'events:manageInvitee' %}" method="post">
-														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
-														<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"</input></span>
-														<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"</input></span>
-													
-														<div class="row">
-															{% for time in event.posstime_set.all %}
-																{% if forloop.counter <= 3 %}
-																	<div class="4u 12u(narrower)">
-																		<section style="background-color: #645862; border-radius: 10px;">
-																			<span class="icon fa-clock-o"></span>
-																			<header>
-																				<input type="checkbox" name="vetoTimes" value="{{ time.id }}"/>
-																				<h3> {{ time.date }} </h3>
-																				<p> {{ time.time }} </p>
-																			</header>
-																		</section>
-																	</div>
-																{% endif %}
-															{% endfor %}
-															{% if event.posstime_set.all|length == 1 %}
-															<div class="4u 12u(narrower)">
-															<section style="background-color: #645862; opacity: 0.6">
-															</section>
-															</div>
-															<div class="4u 12u(narrower)">
-															<section style="background-color: #645862; opacity: 0.6">
-															</section>
-															</div>
-															{% endif %}
-															{% if event.posstime_set.all|length == 2 %}
-															<div class="4u 12u(narrower)">
-															<section style="background-color: #645862; opacity: 0.6">
-															</section>
-															</div>
-															{% endif %}
-														</div>
-															{% if event.posstime_set.all|length == 0 %}
-																<p> No times found. </p>
-															{% else %}
-																<input class="button special" type="submit" name="veto" value="veto" id="veto"/>
-															{% endif %}
-													</form>
-												{% endif %}
-											{% endfor %}
-										</section>
+										
 									</div>
 								</section>
 							</div>

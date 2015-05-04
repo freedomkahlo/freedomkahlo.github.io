@@ -446,21 +446,7 @@
 										</div>
 									<!-- </div> -->
 									<br />
-									{% for event in latest_event_list %}
-										{% if event.creator == user.username %}
-											<script>
-												var div = document.getElementById('myEvents');
-												var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
-												div.innerHTML = div.innerHTML + string;
-											</script>
-										{% else %}
-											<script>
-												var div = document.getElementById('otherEvents');
-												var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
-												div.innerHTML = div.innerHTML + string;
-											</script>
-										{% endif%}
-									{% endfor %}
+
 									<div class = "eventContainer">
 										<div class="row">
 											<div class="6u 12u(narrower)">
@@ -480,6 +466,26 @@
 													<div id="otherEvents"></div>
 												</section>
 											</div>
+
+											{% for event in latest_event_list %}
+												{% if event.creator == user.username %}
+													<script>
+														var div = document.getElementById('myEvents');
+														var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+														div.innerHTML = div.innerHTML + string;
+													</script>
+												{% else %}
+													{% for invitee in event.invitee_set.all %}
+														{% if invitee.name == user.username %}
+															<script>
+																var div = document.getElementById('otherEvents');
+																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																div.innerHTML = div.innerHTML + string;
+															</script>
+														{% endif %}
+													{% endfor %}
+												{% endif%}
+											{% endfor %}
 										</div>
 									</div>
 								</section>

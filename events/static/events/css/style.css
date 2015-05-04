@@ -1544,12 +1544,13 @@
 
 	#friends {
 		background-attachment: scroll, scroll, scroll, fixed;
-		background-color: #C7EAF2;
+		background-color: #4682B4;
 		background-position: top left, top right, top left, bottom center;
 		background-repeat: no-repeat, no-repeat, repeat, no-repeat;
 		background-size: 25em, 25em, auto, cover;
 		color: white;
 		padding: 5em;
+		margin-top:50px;
 		text-align: center;
 		/*opacity: 0.5;*/
 	}

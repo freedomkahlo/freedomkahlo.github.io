@@ -146,6 +146,9 @@ class Notification(models.Model):
 		if self.notificationType == "eraseNot":
 			return self.originUserName + " deleted your message in '" + self.desc + "'."
 
+		if self.notificationType == "bootNot":
+			return self.originUserName + " has booted you from '" + self.desc + "'."
+
 		return self.desc # + " at " + str(self.pub_date)
 class UserProfile(models.Model):
 	# This line is required. Links UserProfile to a User model instance.
