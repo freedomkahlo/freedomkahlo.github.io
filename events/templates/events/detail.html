@@ -148,7 +148,7 @@
 													{% elif user.is_authenticated %}
 														<li>
 															<script>
-																var leaveForm = true;
+																var leaveForm = false;
 															</script>
 															{% for i in event.invitee_set.all %}
 																{% if user.username == i.name %}
@@ -159,7 +159,7 @@
 																	<button class="special button" id="join" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; " type="submit" name="decline">Leave Event</button>
 																	</form>
 																	<script>
-																		leaveForm = false;
+																		leaveForm = true;
 																	</script>
 																
 																{% endif %}
