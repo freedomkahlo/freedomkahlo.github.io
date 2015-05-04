@@ -150,7 +150,7 @@
 															<script>
 																var leaveForm = true;
 															</script>
-															{% for i in event.invitee_set.all() %}
+															{% for i in event.invitee_set.all %}
 																{% if user.username == i.name %}
 																	<form action="{% url 'events:manageInvitee' %}" method="post">   
 																	{% csrf_token %}
