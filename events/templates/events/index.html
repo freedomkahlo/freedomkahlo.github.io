@@ -142,7 +142,7 @@
 		<script>
 			$(function() {
 				$( "#from" ).datepicker({
-					defaultDate: currentDate,
+					defaultDate: "+0d",
 					changeMonth: false,
 					numberOfMonths: 1,
 					onClose: function( selectedDate ) {
@@ -150,13 +150,15 @@
 					}
 				});
 				$( "#to" ).datepicker({
-					defaultDate: currentDate,
+					defaultDate: "+0d",
 					changeMonth: false,
 					numberOfMonths: 1,
 					onClose: function( selectedDate ) {
 						$( "#from" ).datepicker( "option", "maxDate", selectedDate );
 					}
 				});
+				$("#from").datepicker().datepicker("setDate", new Date());
+				$("#to").datepicker().datepicker("setDate", new Date());
 			});
 		</script>
 
