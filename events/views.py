@@ -179,13 +179,14 @@ def getTimes(request, eventID=None):
 
 	tz = pytz.timezone('US/' + event.timezone)
 
-	startInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p'))
-	endInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
-	finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
-
-	if startInDateTime > endInDateTime:
-		endInDateTime += timedelta(days=1)
-		finalEndDateTime += timedelta(days=1)
+	if event.start_time < event.end_time:
+		startInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p'))
+		endInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
+		finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
+	else:
+		startInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p'))
+		endInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p') + timedelta(days=1))
+		finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p') + timedelta(days=1))
 
 	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
 	print 'Gotten Times:', times
@@ -272,7 +273,7 @@ def manageCreator(request):
 		eventID = request.POST['eventID']
 		event = get_object_or_404(Instance, eventID=eventID)
 		i_name = request.POST['invitee_name']
-		invitee = Invitee.objects.get(name=i_name)[0]
+		invitee = event.invitee_set.get(name=i_name)
 		invitee.delete()
 
 		n = Notification(desc=event.title, originUserName=event.creator, notificationType="bootNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
