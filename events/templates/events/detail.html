@@ -246,9 +246,14 @@
 																		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
 																		<span style="display: none;"><input type="text" name="username" value="{{ m.author }}"></span>
 																		<span style="display: none;"><input type="text" name="messageID" value="{{ m.id }}"></span>
-																		<input type="submit" name="erase" value="x"/>
+																		<button type="submit" name="erase">✖</button> 
 																	</form>
 																{% endif %}
+																
+																{{ m.text }}<br /> <br />
+																<div align="right" style="padding-right: 3px;"><span style="font-size:13px; color:#999999;"> {{m.firstName}} {{m.lastName}}, {{m.pub_date}}</span> </div>
+
+																
 																</li>
 															{% endfor %}
 															</ul>
@@ -277,7 +282,7 @@
 											<section id="friends">
 											<div class="row" style="margin-top: -100px">
 												{% if event.posstime_set.all|length == 0 %}
-														<p> No times found. </p>
+														<p> Event has been skedguled! </p>
 												{% endif %}
 
 												{% for time in event.posstime_set.all %}
