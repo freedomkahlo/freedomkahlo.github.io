@@ -142,8 +142,7 @@
 		<script>
 			$(function() {
 				$( "#from" ).datepicker({
-					defaultDate: "+0d",
-					dateFormat: 'dd-mm-yy',
+					defaultDate: currentDate,
 					changeMonth: false,
 					numberOfMonths: 1,
 					onClose: function( selectedDate ) {
@@ -151,8 +150,7 @@
 					}
 				});
 				$( "#to" ).datepicker({
-					defaultDate: "+0d",
-					dateFormat: 'dd-mm-yy',
+					defaultDate: currentDate,
 					changeMonth: false,
 					numberOfMonths: 1,
 					onClose: function( selectedDate ) {
