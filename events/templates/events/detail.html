@@ -264,7 +264,7 @@
 															{% for time in event.posstime_set.all %}
 																{% if forloop.counter <= 3 %}
 																	<div class="4u 12u(narrower)">
-																		<section style="background-color: #645862">
+																		<section style="background-color: #645862; opacity: 0.6; border-radius: 10px;">
 																			<span class="icon fa-clock-o"></span>
 																			<header>
 																				<input type="checkbox" name="vetoTimes" value="{{ time.id }}"/>
@@ -276,24 +276,26 @@
 																{% endif %}
 															{% endfor %}
 															{% if event.posstime_set.all|length == 1 %}
-															<div class="4u 12u(narrower)" style="background-color: #645862">
-															<section style="background-color: #645862">
+															<div class="4u 12u(narrower)">
+															<section style="background-color: #645862; opacity: 0.6">
 															</section>
 															</div>
-															<div class="4u 12u(narrower)" style="background-color: #645862">
-															<section style="background-color: #645862">
+															<div class="4u 12u(narrower)">
+															<section style="background-color: #645862; opacity: 0.6">
 															</section>
 															</div>
 															{% endif %}
 															{% if event.posstime_set.all|length == 2 %}
 															<div class="4u 12u(narrower)">
+															<section style="background-color: #645862; opacity: 0.6">
+															</section>
 															</div>
 															{% endif %}
 														</div>
 															{% if event.posstime_set.all|length == 0 %}
 																<p> No times found. </p>
 															{% else %}
-																<input type="submit" name="veto" value="veto" id="veto"/>
+																<input class="button special" type="submit" name="veto" value="veto" id="veto"/>
 															{% endif %}
 													</form>
 												{% endif %}
