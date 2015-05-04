@@ -24,7 +24,7 @@
 
 	#messagesContainer {
 		background-color: #fff;
-		border: 1px solid rgba(100, 100, 100, .4);
+		border: 1px solid rgba(240, 240, 240, 0.5);
 		/*-webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);*/
 		z-index: 10;
 		padding-right: 5px;
@@ -41,6 +41,15 @@
 		border-bottom: 1px solid #dddddd;
 		z-index: 11;
 	}
+
+	#messagesTitle h1 {
+		color: inherit;
+		font-weight: 300;
+		line-height: 1.75em;
+		margin-bottom: 1em;
+		text-transform: uppercase;
+	}
+
 	#messagesBody {
 		padding: -33px 0px 0px 0px !important;
 		height: 300px;
@@ -75,7 +84,7 @@
 	}
 
 	#messagesFooter {
-		background-color: #ffffff;
+		background-color: rgba(230, 230, 230, 0.5);
 		text-align: center;
 		font-weight: bold;
 		padding: 8px;
@@ -355,6 +364,7 @@
 		margin-left: 188px;
 		z-index: 12;
 	}
+
 	#notificationTitle {
 		z-index: 1000;
 		font-weight: bold;
@@ -365,6 +375,7 @@
 		border-bottom: 1px solid #dddddd;
 		z-index: 11;
 	}
+
 	#notificationsBody {
 		padding: -33px 0px 0px 0px !important;
 		height: 300px;

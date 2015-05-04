@@ -100,6 +100,8 @@ class Message(models.Model):
 	event = models.ForeignKey(Instance)
 	text = models.CharField(max_length=200, default='')
 	author = models.CharField(max_length=100, default='')
+	firstName = models.CharField(max_length=100, default='')
+	lastName = models.CharField(max_length=100, default='')
 	pub_date = models.DateTimeField('date made')
 	def __str__(self):
 		return text 

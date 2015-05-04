@@ -357,13 +357,15 @@ def manageMessage(request):
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
 	postAuthor = request.POST['username']
+	postFirstName = request.POST['firstName']
+	postLastName = request.POST['lastName']
 
 	if 'write' in request.POST:
 		message = request.POST['message']
 		author = postAuthor
 		pub_date = datetime.now()
 
-		message = Message(text=message, author=author, pub_date=pub_date)
+		message = Message(text=message, author=author, pub_date=pub_date, firstName=postFirstName, lastName=postLastName)
 		event.message_set.add(message)
 
 		n = Notification(desc=event.title, originUserName=postAuthor, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
