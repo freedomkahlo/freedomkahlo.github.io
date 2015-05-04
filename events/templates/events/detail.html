@@ -286,63 +286,64 @@
 														</div>
 													{% endif %}
 												{% endfor %}
-
 											</div>
+											</section>
+										{% else %}
+											<!-- invitee view -->
+											<section id="friends inviteeDiv">
+												{% for i in event.invitee_set.all %}
+													{% if i.name == user.username %}
+														<form action="{% url 'events:manageInvitee' %}" method="post">
+															{% csrf_token %}
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
+															<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"</input></span>
+															<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"</input></span>
+														
+															<div class="row">
+																{% for time in event.posstime_set.all %}
+																	{% if forloop.counter <= 3 %}
+																		<div class="4u 12u(narrower)">
+																			<section style="background-color: #645862; border-radius: 10px;">
+																				<span class="icon fa-clock-o"></span>
+																				<header>
+																					<input type="checkbox" name="vetoTimes" value="{{ time.id }}"/>
+																					<h3> {{ time.date }} </h3>
+																					<p> {{ time.time }} </p>
+																				</header>
+																			</section>
+																		</div>
+																	{% endif %}
+																{% endfor %}
+																{% if event.posstime_set.all|length == 1 %}
+																<div class="4u 12u(narrower)">
+																<section style="background-color: #645862; opacity: 0.6">
+																</section>
+																</div>
+																<div class="4u 12u(narrower)">
+																<section style="background-color: #645862; opacity: 0.6">
+																</section>
+																</div>
+																{% endif %}
+																{% if event.posstime_set.all|length == 2 %}
+																<div class="4u 12u(narrower)">
+																<section style="background-color: #645862; opacity: 0.6">
+																</section>
+																</div>
+																{% endif %}
+															</div>
+																{% if event.posstime_set.all|length == 0 %}
+																	<p> No times found. </p>
+																{% else %}
+																	<input class="button special" type="submit" name="veto" value="veto" id="veto"/>
+																{% endif %}
+														</form>
+													{% endif %}
+												{% endfor %}
 											</section>
 										{% endif %}
 
-										<!-- invitee view -->
-										<section id="friends">
-											{% for i in event.invitee_set.all %}
-												{% if i.name == user.username %}
-													<form action="{% url 'events:manageInvitee' %}" method="post">
-														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
-														<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"</input></span>
-														<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"</input></span>
-													
-														<div class="row">
-															{% for time in event.posstime_set.all %}
-																{% if forloop.counter <= 3 %}
-																	<div class="4u 12u(narrower)">
-																		<section style="background-color: #645862; border-radius: 10px;">
-																			<span class="icon fa-clock-o"></span>
-																			<header>
-																				<input type="checkbox" name="vetoTimes" value="{{ time.id }}"/>
-																				<h3> {{ time.date }} </h3>
-																				<p> {{ time.time }} </p>
-																			</header>
-																		</section>
-																	</div>
-																{% endif %}
-															{% endfor %}
-															{% if event.posstime_set.all|length == 1 %}
-															<div class="4u 12u(narrower)">
-															<section style="background-color: #645862; opacity: 0.6">
-															</section>
-															</div>
-															<div class="4u 12u(narrower)">
-															<section style="background-color: #645862; opacity: 0.6">
-															</section>
-															</div>
-															{% endif %}
-															{% if event.posstime_set.all|length == 2 %}
-															<div class="4u 12u(narrower)">
-															<section style="background-color: #645862; opacity: 0.6">
-															</section>
-															</div>
-															{% endif %}
-														</div>
-															{% if event.posstime_set.all|length == 0 %}
-																<p> No times found. </p>
-															{% else %}
-																<input class="button special" type="submit" name="veto" value="veto" id="veto"/>
-															{% endif %}
-													</form>
-												{% endif %}
-											{% endfor %}
-										</section>
+										
 									</div>
 								</section>
 							</div>
