@@ -446,6 +446,17 @@
 										</div>
 									<!-- </div> -->
 									<br />
+									{% for event in latest_event_list %}
+										{% if event.creator == user.username %}
+											<script>
+												$( "#myEvents" ).append( "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>" );
+											</script>
+										{% else %}
+											<script>
+												$( "#otherEvents" ).append( "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>" );
+											</script>
+										{% endif%}
+									{% endfor %}
 									<div class = "eventContainer">
 										<div class="row">
 											<div class="6u 12u(narrower)">
@@ -453,11 +464,7 @@
 													<header>
 														<h3><strong>My Events</strong></h3>
 													</header>
-													{% for event in latest_event_list %}
-														{% if event.creator == user.username %}
-															<a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>
-														{% endif%}
-													{% endfor %}
+													<div id="myEvents"></div>
 												</section>
 
 											</div>
@@ -466,13 +473,7 @@
 													<header>
 														<h3><strong>Other Events</strong></h3>
 													</header>
-													{% for event in latest_event_list %}
-														{% for invitee in event.invitee_set.all %}
-															{% if invitee.name == user.username %}
-																<a href="{% url 'events:detail' event.eventID %}">{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>
-															{% endif%}
-														{% endfor %}
-													{% endfor %}
+													<div id="otherEvents"></div>
 												</section>
 											</div>
 										</div>
