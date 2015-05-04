@@ -312,7 +312,6 @@ def manageCreator(request):
 		for time in event.posstime_set.all():
 			time.delete()
 		
-		event.posstime_set.clear()
 		event.is_scheduled = True
 		event.scheduled_start = start
 		event.scheduled_end = end
