@@ -19,8 +19,8 @@ class Instance(models.Model):
 	timezone = models.CharField(max_length=20, default='Eastern')
 
 	is_scheduled = models.BooleanField(default='False')
-	scheduled_start = models.DateTimeField('event time')
-	scheduled_end = models.DateTimeField('event time')
+	scheduled_start = models.DateTimeField('event time', default=None)
+	scheduled_end = models.DateTimeField('event time', default=None)
 
 	def regValidate(self):
 		if len(self.title.replace(' ', '')) == 0:
@@ -79,7 +79,7 @@ class PossTime(models.Model):
 
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100, default='')
 	firstName = models.CharField(max_length=100, default='')
 	lastName = models.CharField(max_length=100, default='')
 	hasVoted = models.BooleanField(default=False)
