@@ -28,6 +28,7 @@
 		/*-webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);*/
 		z-index: 10;
 		padding-right: 5px;
+		width: 97%;
 	}
 
 	#messagesTitle {
@@ -36,7 +37,7 @@
 		padding: 8px;
 		font-size: 13px;
 		background-color: #ffffff;
-		width: 100%;
+		width: 97%;
 		border-bottom: 1px solid #dddddd;
 		z-index: 11;
 	}
@@ -46,7 +47,7 @@
 		z-index: 11;
 		background-color: #ffffff;
 		/*height: 300px;*/
-		width: 100%;
+		width: 97%;
 		overflow-y: scroll;
 		word-wrap: break-word;
 		line-height: 1.2em;
@@ -71,13 +72,6 @@
 	    padding-left: 10px;
 	    text-align: left;
 	   	font-weight: normal;
-	}
-
-	#messagesText {
-		padding: 10px;
-		width: 370px;
-	 	text-overflow: ellipsis;
-	 	font-weight: normal;
 	}
 
 	#messagesFooter {
