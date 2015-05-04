@@ -44,7 +44,8 @@ def add(request):
 	desc=request.POST.get('desc', '')
 	start_date=request.POST.get('start_date', '')
 	end_date=request.POST.get('end_date', '')
-	time_range=request.POST.get('time_range', '')
+	start_time=request.POST.get('start_time', '')
+	end_time=request.POST.get('end_time', '')
 	event_length=request.POST.get('event_length', '')
 	creator = request.POST['username']
 	timezone = request.POST.get('timezone', 'Eastern')
@@ -52,8 +53,8 @@ def add(request):
 
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	returnMsg = {'error': '', 'latest_event_list': latest_event_list,
-			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'time_range':time_range,
-			'event_length':event_length, 'creator':creator, 'timezone':timezone}
+			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
+			'end_time':end_time, 'event_length':event_length, 'creator':creator, 'timezone':timezone}
 
 	#5/3/2015 2:00 PM
 	#startTmp = time_range.split('-')[0].split(':')
@@ -79,8 +80,8 @@ def add(request):
 	else:
 		event_length = '0:' + timeSplit[0]
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
-		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1],
-		event_length=event_length, creator=creator, eventID=eventID, timezone = timezone, is_scheduled = False)
+		start_time=start_time, end_time=end_time, event_length=event_length,
+		creator=creator, eventID=eventID, timezone = timezone, is_scheduled = False)
 
 	#try catch here check validity
 	try:
