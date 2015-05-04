@@ -210,7 +210,7 @@
 													</header>
 													<p> 
 														{% for invitee in event.invitee_set.all %}
-															{{ invitee.name }} <br/>
+															{{ invitee }} <br/>
 
 															<!-- Bumps -->
 															{% if event.creator == user.username %}
