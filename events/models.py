@@ -60,10 +60,10 @@ class Instance(models.Model):
 
 	@property 
 	def hasPassed(self):
-		if self.end_time > datetime.now()
+		if self.end_time < datetime.now():
 			return True
 		return False
-		
+
 	@property 
 	def creatorName(self):
 		user = get_object_or_404(User, username=self.creator)
