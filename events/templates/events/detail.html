@@ -86,7 +86,7 @@
 							<div class="register"> <br/ >
 								<div id = "id_of_div" class ="divs">
 									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
-									<form method="post" id="login_form" action="/events/login/">
+									<form method="post" id="login_form" action="/events/loginEvent/">
 										{% csrf_token %}
 										<center><label for="username">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
