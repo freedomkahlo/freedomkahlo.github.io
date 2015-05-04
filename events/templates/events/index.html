@@ -460,6 +460,7 @@
 														</div>
 													</li>
 													<form action="{% url 'events:userPage' %}" method="post" style="display: inline-block;">
+														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
 														<li><input type="submit" class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" name="userPage" value="My Account" id=""></input></li>
 													</form>
