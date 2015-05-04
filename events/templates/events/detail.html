@@ -264,7 +264,7 @@
 															{% for time in event.posstime_set.all %}
 																{% if forloop.counter <= 3 %}
 																	<div class="4u 12u(narrower)">
-																		<section style="background-color: #645862; opacity: 0.6; border-radius: 10px;">
+																		<section style="background-color: #645862; border-radius: 10px;">
 																			<span class="icon fa-clock-o"></span>
 																			<header>
 																				<input type="checkbox" name="vetoTimes" value="{{ time.id }}"/>
