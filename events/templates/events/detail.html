@@ -263,8 +263,8 @@
 														<div class="row">
 															{% for time in event.posstime_set.all %}
 																{% if forloop.counter <= 3 %}
-																	<div class="4u 12u(narrower)" style="background-color: #645862">
-																		<section>
+																	<div class="4u 12u(narrower)">
+																		<section style="background-color: #645862">
 																			<span class="icon fa-clock-o"></span>
 																			<header>
 																				<input type="checkbox" name="vetoTimes" value="{{ time.id }}"/>
@@ -277,8 +277,12 @@
 															{% endfor %}
 															{% if event.posstime_set.all|length == 1 %}
 															<div class="4u 12u(narrower)" style="background-color: #645862">
+															<section style="background-color: #645862">
+															</section>
 															</div>
 															<div class="4u 12u(narrower)" style="background-color: #645862">
+															<section style="background-color: #645862">
+															</section>
 															</div>
 															{% endif %}
 															{% if event.posstime_set.all|length == 2 %}
