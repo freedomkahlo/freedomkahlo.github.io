@@ -354,15 +354,15 @@
 													<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
 													<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
 													Time Zone: 
-													<div class="dropdown">
-												    	<select name="timezone" id="timezone" class="dropdown-select">
-												        	<option value="Eastern">Eastern</option>
-												        	<option value="Central">Central</option>
-												        	<option value="Mountain">Mountain</option>
-												        	<option value="Pacific">Pacific</option>
-												      </select>
-												    </div>
-													<br />
+													<span class="custom-dropdown custom-dropdown--white">
+													    <select class="custom-dropdown__select custom-dropdown__select--white">
+													        <option>Eastern</option>
+													        <option>Central</option>
+													        <option>Mountain</option>
+													        <option>Pacific</option>
+													    </select>
+													</span>
+													<br /> <br />
 													<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
 													<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
 													Start Time: <input size="25" type="text" name="start_time" id="start_time"  style="border: 0; margin-left: -10px; width: 70%; display: inline-block; border-radius: 5px;"  value="{{ start_time }}" readonly>

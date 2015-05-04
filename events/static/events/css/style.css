@@ -109,92 +109,92 @@
 		line-height: 1.75em;
 		text-shadow: 2px 2px 2px #CCCCCC;
 	}
-
-	/* dropdown select */
-	.dropdown {
-	  display: inline-block;
-	  position: relative;
-	  overflow: hidden;
-	  height: 30px;
-	  width: 150px;
-	  background: #f2f2f2;
-	  border: 1px solid;
-	  border-color: white #f7f7f7 #f5f5f5;
-	  margin-bottom: 10px;
-	  border-radius: 3px;
-	  background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.02));
-	  background-image: -moz-linear-gradient(top, transparent, rgba(0, 0, 0, 0.02));
-	  background-image: -o-linear-gradient(top, transparent, rgba(0, 0, 0, 0.02));
-	  background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.02));
-	  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
-	  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
-	}
-	.dropdown:before, .dropdown:after {
-	  content: '';
-	  position: absolute;
-	  z-index: 2;
-	  top: 11px;
-	  right: 10px;
-	  width: 0;
-	  height: 0;
-	  border: 4px dashed;
-	  border-color: #888 transparent;
-	  pointer-events: none;
-	}
-	.dropdown:before {
-	  border-bottom-style: solid;
-	  border-top: none;
-	}
-	.dropdown:after {
-	  margin-top: 7px;
-	  border-top-style: solid;
-	  border-bottom: none;
+	
+	.custom-dropdown--large {
+	    font-size: 1.5em;
 	}
 
-	.dropdown-select {
-	  position: relative;
-	  width: 130%;
-	  margin: 0;
-	  padding: 6px 8px 6px 10px;
-	  height: 28px;
-	  line-height: 14px;
-	  font-size: 12px;
-	  color: #62717a;
-	  text-shadow: 0 1px white;
-	  /* Fallback for IE 8 */
-	  background: #f2f2f2;
-	  /* "transparent" doesn't work with Opera */
-	  background: rgba(0, 0, 0, 0) !important;
-	  border: 0;
-	  border-radius: 0;
-	  -webkit-appearance: none;
-	}
-	.dropdown-select:focus {
-	  z-index: 3;
-	  width: 100%;
-	  color: #394349;
-	  outline: 2px solid #49aff2;
-	  outline: 2px solid -webkit-focus-ring-color;
-	  outline-offset: -2px;
-	}
-	.dropdown-select > option {
-	  margin: 3px;
-	  padding: 6px 8px;
-	  text-shadow: none;
-	  background: #f2f2f2;
-	  border-radius: 3px;
-	  cursor: pointer;
+	.custom-dropdown--small {
+	    font-size: .7em;
 	}
 
-	/* Fix for IE 8 putting the arrows behind the select element. */
-	.lt-ie9 .dropdown {
-	  z-index: 1;
+	.custom-dropdown__select{
+	    font-size: inherit; /* inherit size from .custom-dropdown */
+	    padding: .5em; /* add some space*/
+	    margin: 0; /* remove default margins */
 	}
-	.lt-ie9 .dropdown-select {
-	  z-index: -1;
+
+	.custom-dropdown__select--white {
+	    background-color: #fff;
+	    color: #444;    
 	}
-	.lt-ie9 .dropdown-select:focus {
-	  z-index: 3;
+
+	@supports (pointer-events: none) and
+	      ((-webkit-appearance: none) or
+	      (-moz-appearance: none) or
+	      (appearance: none)) {
+
+	    .custom-dropdown {
+	        position: relative;
+	        display: inline-block;
+	        vertical-align: middle;
+	    }
+
+	    .custom-dropdown__select {
+	        padding-right: 2.5em; /* accommodate with the pseudo elements for the dropdown arrow */
+	        border: 0;
+	        border-radius: 3px;
+	        -webkit-appearance: none;
+	        -moz-appearance: none;
+	        appearance: none;    
+	    }
+
+	    .custom-dropdown::before,
+	    .custom-dropdown::after {
+	        content: "";
+	        position: absolute;
+	        pointer-events: none;
+	    }
+
+	    .custom-dropdown::after { /*  Custom dropdown arrow */
+	        content: "\25BC";
+	        height: 1em;
+	        font-size: .625em;
+	        line-height: 1;
+	        right: 1.2em;
+	        top: 50%; margin-top: -.5em;
+	    }
+
+	    .custom-dropdown::before { /*  Custom dropdown arrow cover */
+	        width: 2em;
+	        right: 0; top: 0; bottom: 0;
+	        border-radius: 0 3px 3px 0;
+	    }
+
+	    .custom-dropdown__select[disabled] {
+	        color: rgba(0,0,0,.3);
+	    }
+
+	    .custom-dropdown.custom-dropdown--disabled::after {
+	        color: rgba(0,0,0,.1);
+	    }
+
+	    /* White dropdown style */
+	    .custom-dropdown--white::before {
+	        background-color: #fff;
+	        border-left: 1px solid rgba(0,0,0,.1);
+	    }
+
+	    .custom-dropdown--white::after {
+	        color: rgba(0,0,0,.9);
+	    }
+
+	    /* FF only temp fix */
+	    @-moz-document url-prefix() {
+	        .custom-dropdown__select             { padding-right: .9em }
+	        .custom-dropdown--large .custom-dropdown__select { padding-right: 1.3em }
+	        .custom-dropdown--small .custom-dropdown__select { padding-right: .5em }
+	    }
 	}
 
 	/* Absolute Center CSS Spinner */
