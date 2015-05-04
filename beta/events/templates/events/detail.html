@@ -261,6 +261,7 @@
 															</ul>
 														</div>
 														<div id="messagesFooter">
+															{% if user.is_authenticated %}
 															<form action="{% url 'events:manageMessage' %}" method="post">
 																{% csrf_token %}
 																<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
@@ -270,6 +271,12 @@
 																<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"></span>
 																<input class="button special" style="margin-top: 5px;" type="submit" name="write" value="Post"/> </input>
 															</form>
+															{% else %}
+															<li><button class="button" id="join2" style="font-size: 9pt; margin-right: -5px; background-color: #ff9999; border-color: #ff9999; border-radius: 5px;" name="join2">Login to Post</button></li>
+															{% endif %}
+														<!-- </form> -->
+													{% endif %}
+
 														</div>
 													</div>
 												</section>
