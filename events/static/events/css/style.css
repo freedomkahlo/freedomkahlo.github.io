@@ -126,7 +126,7 @@
 
 	.custom-dropdown__select--white {
 	    background-color: #fff;
-	    color: #444;    
+	    color: #444;
 	}
 
 	@supports (pointer-events: none) and
