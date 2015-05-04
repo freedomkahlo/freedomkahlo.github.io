@@ -230,7 +230,7 @@
 													<div id="messagesContainer">
 														<div id="messagesTitle">
 														<header>
-														<h1>MESSAGE BOARD:</h1>
+														<h1 style="font-weight: 300; line-height: 1.75em; margin-bottom: 1em; text-transform: uppercase;"><strong>MESSAGE BOARD:</strong></h1>
 														</header>
 														</div>
 														<div id="messagesBody">
@@ -238,7 +238,7 @@
 															{% for m in event.message_set.all %}
 																<li>
 																{{ m.text }}<br />
-																<span style="font-size:12px; color:#999999; text-align: right;"> {{m.firstName}} {{m.lastName}}</span> 
+																<span align="right" style="font-size:12px; color:#999999; text-align: right;"> {{m.firstName}} {{m.lastName}}</span> 
 
 																{% if event.creator = user.username %}
 																	<form action="{% url 'events:manageMessage' %}" method="post">
