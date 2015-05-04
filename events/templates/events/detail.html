@@ -238,7 +238,7 @@
 															{% for m in event.message_set.all %}
 																<li>
 																{{ m.text }}<br />
-																<div align="right"><span style="font-size:12px; color:#999999;"> {{m.firstName}} {{m.lastName}}</span> </div>
+																<div align="right"><span style="font-size:13px; color:#999999;"> {{m.firstName}} {{m.lastName}}, {{m.pub_date}}</span> </div>
 
 																{% if event.creator = user.username %}
 																	<form action="{% url 'events:manageMessage' %}" method="post">
