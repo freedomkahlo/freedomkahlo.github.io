@@ -137,7 +137,7 @@
 										<div class="navbar">
 											<div class="eventLink" align="left">
 												<strong>EVENT LINK: &nbsp; </strong>
-												<input value="skedg.tk:82/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="40" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline-block; padding: 5px;"></input>
+												<input value="skedg.tk/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="40" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline-block; padding: 5px;"></input>
 											</div>
 											<ul id="nav">
 													{% if event.creator == user.username %}
@@ -206,7 +206,7 @@
 														{% if event.is_scheduled %}
 															{{event.printScheduledTime}}
 														{% else %}
-															<font color="red">NOT SKEDULED </font>
+															<font color="red">NOT SCHEDULED </font>
 														{% endif %}
 														<br /> <br />
 													<header align="left">
@@ -283,7 +283,7 @@
 											<section id="friends">
 											<div class="row" style="margin-top: -100px">
 												{% if event.posstime_set.all|length == 0 %}
-														<p> Event has been skedguled! </p>
+														<p> Event has been scheduled! </p>
 												{% endif %}
 
 												{% for time in event.posstime_set.all %}
