@@ -20,7 +20,7 @@ class Instance(models.Model):
 
 	is_scheduled = models.BooleanField(default=False)
 	scheduled_start = models.DateTimeField('event time', default=datetime.now)
-	scheduled_end = models.DateTimeField('event time2', default=datetime.now)
+	#scheduled_end = models.DateTimeField('event time2', default=datetime.now)
 
 	def regValidate(self):
 		if len(self.title.replace(' ', '')) == 0:
