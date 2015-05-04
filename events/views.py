@@ -548,8 +548,10 @@ def register_confirm(request, activation_key):
 	messages.success(request, "Your account has been successfully activated!")
 	return HttpResponseRedirect('/events/')
 
+@login_required
 def userPage(request):
-	return render_to_response('events/user.html')
+
+	return HttpResponseRedirect('/events/user.html')
 
 def user_login(request):
 	context = RequestContext(request)
