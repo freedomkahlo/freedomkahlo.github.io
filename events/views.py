@@ -418,12 +418,15 @@ def manageNotification(request):
 	
 def register(request):
 	context = RequestContext(request)
+	first_name = request.POST.['first_name']
+	last_name = request.POST.['last_name']
+	email = request.POST.['username']
+	context += {'first_name':first_name, 'last_name':last_name, 'email':email}
 	registered = False
 
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		profile_form = UserProfileForm(data=request.POST)
-		print type(user_form), user_form
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
 			#user.is_active = False
@@ -450,7 +453,9 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
 			print (user_form.errors, profile_form.errors)
-			messages.error(request, user_form.errors)
+			errorList = {'emailError':user_form.errors.get('username', ''), 'passwordError':user_form.errors.get('password', ''),
+			'password2Error':user_form.errors.get('password2', ''),'registerError':user_form.errors.get('__all__', '')}
+			contest += errorList
 
 	else:
 		user_form = UserForm()
@@ -463,12 +468,15 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 
 def registerEvent(request):
 	context = RequestContext(request)
+	first_name = request.POST.['first_name']
+	last_name = request.POST.['last_name']
+	email = request.POST.['username']
+	context += {'first_name':first_name, 'last_name':last_name, 'email':email}
 	registered = False
 
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		profile_form = UserProfileForm(data=request.POST)
-		print type(user_form), user_form
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
 			#user.is_active = False
@@ -494,8 +502,9 @@ Thanks for signing up. To activate your account, click this link within 48 hours
 http://skedg.tk/events/confirm/%s''' % (user.username, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
-			print (user_form.errors, profile_form.errors)
-			messages.error(request, user_form.errors)
+			errorList = {'emailError':user_form.errors.get('username', ''), 'passwordError':user_form.errors.get('password', ''),
+			'password2Error':user_form.errors.get('password2', ''),'registerError':user_form.errors.get('__all__', '')}
+			contest += errorList
 
 	else:
 		user_form = UserForm()
