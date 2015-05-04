@@ -377,6 +377,8 @@ def manageMessage(request):
 		postFirstName = request.POST['firstName']
 		postLastName = request.POST['lastName']
 		message = request.POST['message']
+		if message.replace(' ', '') == '':
+			return HttpResponseRedirect('/events/eventDetails/' + eventID)
 		author = postAuthor
 		pub_date = datetime.now()
 
