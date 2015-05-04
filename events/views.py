@@ -479,7 +479,8 @@ def registerEvent(request):
 	last_name = request.POST['last_name']
 	email = request.POST['username']
 	eventID = request.POST.get('eventID', '')
-	saveInfo = {'first_name':first_name, 'last_name':last_name, 'email':email}
+	event = get_object_or_404(Instance, eventID=eventID)
+	saveInfo = {'first_name':first_name, 'last_name':last_name, 'email':email, 'event':event}
 	registered = False
 
 	if request.method == 'POST':
@@ -526,7 +527,6 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 		user_form = UserForm()
 		profile_form = UserProfileForm()
 
-	event = get_object_or_404(Instance, eventID=eventID)
 	return render_to_response(
 			'events/detail.html',
 			{'registered': registered, 'event':event},
