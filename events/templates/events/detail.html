@@ -192,7 +192,7 @@
 											<div class="6u 12u(narrower)">
 												<section>
 													<div id="messagesContainer">
-														<div id="messagesTitle"><header><h3>Current Messages:</h3></header></div>
+														<div id="messagesTitle"><strong>MESSAGE BOARD:</strong></div>
 														<div id="messagesBody">
 															<ul>
 															{% for m in event.message_set.all %}
@@ -218,7 +218,7 @@
 																<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
 																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
-																<input class="button special" type="submit" name="write" value="Post"/> </input>
+																<input class="button special" style="margin-top: 5px;" type="submit" name="write" value="Post"/> </input>
 															</form>
 														</div>
 													</div>
