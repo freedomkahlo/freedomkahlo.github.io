@@ -267,6 +267,7 @@ def getTimes(request, eventID=None):
 	return HttpResponseRedirect('/events/eventDetails/' + eventID)
 	
 #creator can boot someone, delete/skedge/getTimes on event.
+@login_required
 def manageCreator(request):
 	if 'boot' in request.POST:
 		eventID = request.POST['eventID']
@@ -322,6 +323,7 @@ def manageCreator(request):
 		return index(request)
 
 #user can join, remove self, and vote
+@login_required
 def manageInvitee(request):
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
@@ -364,6 +366,7 @@ def manageInvitee(request):
 		return vetoPoss(request)	
 
 #user can join, remove self, and vote
+@login_required
 def manageMessage(request):
 	#print request.POST
 	eventID = request.POST.get('eventID', -1)
@@ -402,8 +405,8 @@ def manageMessage(request):
 	
 	return HttpResponseRedirect('/events/eventDetails/' + eventID)
 
+@login_required
 def manageNotification(request):
-	print "HI"
 	if 'dismiss' in request.POST:
 		n_id = request.POST['notificationID']
 		notification = get_object_or_404(Notification, pk=n_id)
