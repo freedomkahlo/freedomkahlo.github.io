@@ -273,7 +273,7 @@
 															</form>
 															{% else %}
 															<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
-															<input class="button" style="margin-top: 5px; background-color: #ff9999; border-color: #ff9999;" type="submit" value="Login to Post" />
+															<input class="button" style="margin-top: 5px; background-color: #ff9999; border-color: #ff9999;" type="submit" value="Login to Post" id="loginToPost"/>
 															{% endif %}
 														</div>
 													</div>
@@ -418,7 +418,7 @@
 			    $("#join").click(function() {
 				    $("#loadingOverlay").show();
 				});
-				$("#postMessage").click(function() {
+				$("#click").postMessage(function() {
 				    $("#loadingOverlay").show();
 				});
 				$("#veto").click(function() {

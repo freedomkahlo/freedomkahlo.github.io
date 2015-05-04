@@ -1,6 +1,7 @@
 	var triggerBttn = document.getElementById( 'trigger-overlay' ),
 		triggerBttnTwo = document.getElementById( 'trigger-overlay-two' ),
 		triggerBttnThree = document.getElementById( 'join2' ),
+		triggerBttnFour = document.getElementById( 'loginToPost' ),
 		// triggerBttnMobile = document.getElementsByClassName( 'link depth-0' ),
 		overlay = document.querySelector( 'div.overlay' ),
 		overlay2 = document.querySelector( 'div.overlay2' ),
@@ -85,3 +86,4 @@
 	triggerBttnTwo.addEventListener( 'click', toggleOverlay2 );
 	closeBttnTwo.addEventListener( 'click', toggleOverlay2 );
 	triggerBttnThree.addEventListener( 'click', toggleOverlay);
+	triggerBttnFour.addEventListener( 'click', toggleOverlay);
