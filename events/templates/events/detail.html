@@ -237,8 +237,6 @@
 															<ul>
 															{% for m in event.message_set.all %}
 																<li>
-																{{ m.text }}<br />
-
 																{% if event.creator = user.username %}
 																	<form action="{% url 'events:manageMessage' %}" method="post">
 																		{% csrf_token %}
