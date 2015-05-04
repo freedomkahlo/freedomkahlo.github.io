@@ -358,7 +358,7 @@ def findInterval(dateList, curr):
 	while start > 0 and dateList[start - 1][1] & dateList[curr][1] == dateList[curr][1]:
 		start -= 1
 	end = curr
-	while end + 1 < len(dateList) and dateList[end + 1][1] & dateList[curr][1] == dateList[curr][1]:
+	while end + 1 < len(dateList) and dateList[end][1] & dateList[curr][1] == dateList[curr][1]:
 		end += 1
 	return [start, end]
 
