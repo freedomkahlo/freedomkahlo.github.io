@@ -418,9 +418,9 @@ def manageNotification(request):
 	
 def register(request):
 	context = RequestContext(request)
-	first_name = request.POST.['first_name']
-	last_name = request.POST.['last_name']
-	email = request.POST.['username']
+	first_name = request.POST['first_name']
+	last_name = request.POST['last_name']
+	email = request.POST['username']
 	context += {'first_name':first_name, 'last_name':last_name, 'email':email}
 	registered = False
 
@@ -468,9 +468,9 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 
 def registerEvent(request):
 	context = RequestContext(request)
-	first_name = request.POST.['first_name']
-	last_name = request.POST.['last_name']
-	email = request.POST.['username']
+	first_name = request.POST['first_name']
+	last_name = request.POST['last_name']
+	email = request.POST['username']
 	context += {'first_name':first_name, 'last_name':last_name, 'email':email}
 	registered = False
 
