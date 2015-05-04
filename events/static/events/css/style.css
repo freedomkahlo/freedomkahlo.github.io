@@ -125,7 +125,7 @@
 	}
 
 	.custom-dropdown__select--white {
-	    background-color: #fff;
+	    background-color: rgba(240, 240, 240, 0.5);
 	    color: #444;
 	}
 
