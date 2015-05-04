@@ -597,7 +597,7 @@
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>
 			$(document).ready(function(){
-				{% if not messages and not error %}
+				{% if not error %}
 					//Good
 					if (typeof sessionStorage['register'] == 'string'){
 						sessionStorage['register'] = '0';
