@@ -147,13 +147,38 @@
 														</li>
 													{% elif user.is_authenticated %}
 														<li>
-															<form action="{% url 'events:manageInvitee' %}" method="post">   
-																{% csrf_token %}
-																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
-																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+															<script>
+																var leaveForm = true;
+															</script>
+															{% for i in event.invitee_set.all() %}
+																{% if user.username == i.name %}
+																	<form action="{% url 'events:manageInvitee' %}" method="post">   
+																	{% csrf_token %}
+																	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
+																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+																	<button class="special button" id="join" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; " type="submit" name="decline">Leave Event</button>
+																	</form>
+																	<script>
+																		leaveForm = false;
+																	</script>
+																
+																{% endif %}
+															{% endfor %}
 
-																<button class="special button" id="join" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; " type="submit" name="join">Join Event</button>
-															</form>
+															<script>
+																console.log(leaveForm);
+																if (leaveForm == true)
+																	document.getElementById("joinButton").style.display="none";
+															</script>
+															<div id="joinButton">
+																<form action="{% url 'events:manageInvitee' %}" method="post">   
+																	{% csrf_token %}
+																	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
+																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+																	<button class="special button" id="join" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; " type="submit" name="join">Join Event</button>
+																	</form>
+															</div>
+															
 														</li>
 														<!-- WE NEED THIS TO BE LEAVE EVENT!!!!! -->
 													{% else %}
