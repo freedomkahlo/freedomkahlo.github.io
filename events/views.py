@@ -53,9 +53,10 @@ def add(request):
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'time_range':time_range,
 			'event_length':event_length, 'creator':creator, 'timezone':timezone}
 
-	# is_scheduled=False
-	if (time_range == ''):
-		returnMsg['error'] = 'Time Range Cannot Be Blank'
+	startDateTime = datetime.combine(start_date, time_range.split('-')[0])
+	print startDateTime
+	if (startDateTime < datetime.now()):
+		returnMsg['error'] = 'Event start time cannot be in the past.'
 		return render(request, 'events/index.html', returnMsg)
 
 	#Parse the time range
