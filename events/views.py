@@ -519,7 +519,8 @@ def user_loginEvent(request):
 				return HttpResponse("Your Skedge account is disabled.")
 		else:
 			print ("Invalid login details: {0}, {1}".format(email, password))
-			return render(request, 'events/detail.html', {'invalidLogin':"Invalid login details supplied.", 'username': email})
+			event = get_object_or_404(Instance, eventID=eventID)
+			return render(request, 'events/detail.html', {'invalidLogin':"Invalid login details supplied.", 'username': email, 'event':event})
 
 	else:
 		return render_to_response('events/detail.html', {}, context)
