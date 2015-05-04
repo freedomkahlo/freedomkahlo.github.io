@@ -103,7 +103,7 @@
 							<div class="register"> <br/ >
 								<div id = "id_of_div2" class="divs">
 				
-									<form id="user_form" method="post" action="/events/register/" enctype="multipart/form-data" style:"margins: auto;">
+									<form id="user_form" method="post" action="/events/registerEvent/" enctype="multipart/form-data" style:"margins: auto;">
 									  	{% csrf_token %}
 										<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" size="30" />
 										<center><label for="name">Last Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="last_name" id="last_name" size="30" />

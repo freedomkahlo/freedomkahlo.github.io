@@ -461,6 +461,51 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 			{'registered': registered},
 			context)
 
+def registerEvent(request):
+	context = RequestContext(request)
+	registered = False
+
+	if request.method == 'POST':
+		user_form = UserForm(data=request.POST)
+		profile_form = UserProfileForm(data=request.POST)
+		print type(user_form), user_form
+		if user_form.is_valid() and profile_form.is_valid():
+			user = user_form.save()
+			#user.is_active = False
+			user.set_password(user.password)
+			user.save()
+			profile = profile_form.save(commit=False)
+			profile.user = user
+
+			email = user.username
+			key = hashlib.sha1(str(random.random())).hexdigest()[:5]
+			key = hashlib.sha1(key + email).hexdigest()
+			profile.activation_key = key
+
+			if 'picture' in request.FILES:
+				profile.picture = request.FILES['picture']
+
+			profile.save()
+			registered = True
+
+			#Send email with validation key
+			msg = '''Hi %s, 
+Thanks for signing up. To activate your account, click this link within 48 hours:
+http://skedg.tk/events/confirm/%s''' % (user.username, key)
+			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
+		else:
+			print (user_form.errors, profile_form.errors)
+			messages.error(request, user_form.errors)
+
+	else:
+		user_form = UserForm()
+		profile_form = UserProfileForm()
+
+	return render_to_response(
+			'events/detail.html',
+			{'registered': registered},
+			context)
+
 def register_confirm(request, activation_key):
 	if request.user.is_authenticated():
 		#User already authenticated
