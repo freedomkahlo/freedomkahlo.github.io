@@ -272,7 +272,7 @@ def manageCreator(request):
 		eventID = request.POST['eventID']
 		event = get_object_or_404(Instance, eventID=eventID)
 		i_name = request.POST['invitee_name']
-		invitee = get_object_or_404(Invitee, name=i_name)
+		invitee = Invitee.objects.get(name=i_name)[0]
 		invitee.delete()
 
 		n = Notification(desc=event.title, originUserName=event.creator, notificationType="bootNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
@@ -487,32 +487,6 @@ def user_login(request):
 				if (resp =="Already Has Token"):
 					login(request, user)
 					return HttpResponseRedirect('/events/')
-				return resp
-			else:
-				return HttpResponse("Your Skedge account is disabled.")
-		else:
-			print ("Invalid login details: {0}, {1}".format(email, password))
-			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'username': email})
-
-	else:
-		return render_to_response('events/login.html', {}, context)
-
-def user_loginEvent(request):
-	context = RequestContext(request)
-
-	if request.method == 'POST':
-		email = request.POST.get('username', '')
-		password = request.POST.get('password', '')
-		eventID = request.POST.get('eventID', '')
-
-		user = authenticate(username=email, password=password)
-
-		if user:
-			if user.is_active:
-				resp = cal.validateToken(email)
-				if (resp =="Already Has Token"):
-					login(request, user)
-					return HttpResponseRedirect('/events/eventDetails/' + eventID)
 				return resp
 			else:
 				return HttpResponse("Your Skedge account is disabled.")
