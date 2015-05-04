@@ -170,70 +170,80 @@
 		<!-- JQuery Time Picker-->
 		<script>
 			$(function(){
-				var times = $("#time_range").val().split('-');
-				var start_minutes = Date.parse("January 1, 1970, " + times[0] + " UTC") / (60 * 1000);
-				var end_minutes = Date.parse("January 1, 1970, " + times[1] + " UTC") / (60 * 1000);
-				var start = 100;
-				$( "#time_slider" ).slider({
-					range: true,
+				var time = $("#start_time").val();
+				var start_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
+				$( "#start_slider" ).slider({
 					min: 0,
 					max: 1440,
 					step: 15,
-					values: [start_minutes, end_minutes], //Set it to the current time
+					values: start_minutes, //Set it to the current time
 					slide: function(e, ui) {
-						var hours1 = Math.floor(ui.values[0] / 60);
-						var minutes1 = ui.values[0] - (hours1 * 60);
+						var hours = Math.floor(ui.value / 60);
+						var minutes = ui.value - (hours * 60);
 
-						if(hours1.length == 1) hours1 = '0' + hours1;
-						if(minutes1.length == 1) minutes1 = '0' + minutes1;
-						if(minutes1 == 0) minutes1 = '00';
+						if(hours.length == 1) hours = '0' + hours;
+						if(minutes.length == 1) minutes = '0' + minutes;
+						if(minutes == 0) minutes = '00';
 
-						if(hours1 >= 12){
+						if(hours >= 12){
 
-							if (hours1 == 12){
-								hours1 = hours1;
-								minutes1 = minutes1 + " PM";
+							if (hours == 12){
+								minutes = minutes + " PM";
 							}
 							else{
-								hours1 = hours1 - 12;
-								minutes1 = minutes1 + " PM";
+								hours = hours - 12;
+								minutes = minutes + " PM";
 							}
 						}
 
 						else{
-
-							hours1 = hours1;
-							minutes1 = minutes1 + " AM";
+							minutes = minutes + " AM";
 						}
-						if (hours1 == 0){
-							hours1 = 12;
-							minutes1 = minutes1;
+						if (hours == 0){
+							hours = 12;
 						}
-						var hours2 = Math.floor(ui.values[1] / 60);
-						var minutes2 = ui.values[1] - (hours2 * 60);
+						$("#start_time").val(hours+":"+minutes)
+					}
+				});
+			});
+		</script>
 
-						if(hours2.length == 1) hours2 = '0' + hours2;
-						if(minutes2.length == 1) minutes2 = '0' + minutes2;
-						if(minutes2 == 0) minutes2 = '00';
-						if(hours2 >= 12){
-							if (hours2 == 12){
-								hours2 = hours2;
-								minutes2 = minutes2 + " PM";
-							}
-							else if (hours2 == 24){
-								hours2 = 11;
-								minutes2 = "59 PM";
+		<!-- JQuery Time Picker-->
+		<script>
+			$(function(){
+				var time = $("#end_time").val();
+				var end_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
+				$( "#end_slider" ).slider({
+					min: 0,
+					max: 1440,
+					step: 15,
+					values: end_minutes, //Set it to the current time
+					slide: function(e, ui) {
+						var hours = Math.floor(ui.value / 60);
+						var minutes = ui.value - (hours * 60);
+
+						if(hours.length == 1) hours = '0' + hours;
+						if(minutes.length == 1) minutes = '0' + minutes;
+						if(minutes == 0) minutes = '00';
+
+						if(hours >= 12){
+
+							if (hours == 12){
+								minutes = minutes + " PM";
 							}
 							else{
-								hours2 = hours2 - 12;
-								minutes2 = minutes2 + " PM";
+								hours = hours - 12;
+								minutes = minutes + " PM";
 							}
 						}
+
 						else{
-							hours2 = hours2;
-							minutes2 = minutes2 + " AM";
+							minutes = minutes + " AM";
 						}
-						$("#time_range").val(hours1+":"+minutes1+"-"+hours2+":"+minutes2)
+						if (hours == 0){
+							hours = 12;
+						}
+						$("#end_time").val(hours+":"+minutes)
 					}
 				});
 			});
@@ -256,7 +266,7 @@
 				{
 					value:lengthPos,
 					min: 15,
-					max: 720,
+					max: 480,
 					step: 15,
 					slide: function( event, ui ) {
 						var hours = Math.floor(ui.value / 60);
@@ -354,8 +364,10 @@
 													<br />
 													<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
 													<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
-													Time Range: <input type="text" name="time_range" id="time_range" style="border: 1px solid; color: #666666; margin: 0 auto; width: 90%; text-align: center; border-radius: 5px;" value="{{ time_range }}" readonly/> <br />
-													<div id="time_slider" style="margin: 0 auto; width: 90%"> </div> <br>
+													Start Time: <input size="25" type="text"name="start_time" id="start_time"  style="border: 0; margin: 0 auto; width: 90%; text-align: center; border-radius: 5px;"  value="{{ start_time }}" readonly>
+													<div id="start_slider" style="margin: 0 auto; width: 90%"></div><br>
+													End Time: <input size="25" type="text"name="end_time" id="end_time"  style="border: 0; margin: 0 auto; width: 90%; text-align: center; border-radius: 5px;"  value="{{ end_time }}" readonly>
+													<div id="end_slider" style="margin: 0 auto; width: 90%"></div><br>
 													Event Length: <input size="25" type="text"name="event_length" id="event_length"  style="border: 0; margin: 0 auto; width: 90%; text-align: center; border-radius: 5px;"  value="{{ event_length }}" readonly>
 													<div id="eventLengthSlider" style="margin: 0 auto; width: 90%"></div><br>
 													
