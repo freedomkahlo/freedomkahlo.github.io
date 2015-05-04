@@ -266,7 +266,7 @@ def manageCreator(request):
 		i_name = request.POST['invitee_name']
 		invitee = get_object_or_404(Invitee, name=i_name)
 		invitee.delete()
-		getTimes(request)
+		return getTimes(request)
 
 	if 'delete' in request.POST:
 		return delete(request)
