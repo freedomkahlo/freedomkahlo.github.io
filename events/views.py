@@ -33,7 +33,9 @@ def index(request):
 #@login_required
 def detail(request, eventID):
 	event = get_object_or_404(Instance, eventID=eventID)
-	deletePastPossTimes(request, eventID)
+	resp = deletePastPossTimes(request, eventID)
+	if resp: #If event was deleted
+		return resp
 	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
@@ -138,9 +140,22 @@ def deletePastPossTimes(request, eventID=None):
 
 	for x in badVetoTimes:
 		x.delete()
-	#if len(newPossTimes) == 0:
-		#ya fucked
 
+	if len(event.posstime_set.all()) == 0 and not event.is_scheduled:
+		#Need to delete event
+		n = Notification(desc=event.title, notificationType="noTimeNot", originUserName =event.creatorName, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+
+		for invitee in event.invitee_set.all():
+			user = get_object_or_404(User, username=invitee.name)
+			user.notification_set.add(n)
+			user.save()
+
+		user = get_object_or_404(User, username=event.creator)
+		user.notification_set.add(n)
+		user.save()
+
+		event.delete()
+		return HttpResponseRedirect('/events/')
 
 def getTimes(request, eventID=None):
 	roundToMin = 15 #minutes

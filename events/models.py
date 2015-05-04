@@ -133,6 +133,8 @@ class Notification(models.Model):
 	def __str__(self):
 		if self.notificationType == "deleteNot":
 			return self.originUserName + " has deleted '" + self.desc + "'."
+		if self.notificationType == "noTimeNot":
+			return "'" + self.desc + "'" + " has already expired."
 		if self.notificationType == "skedgNot":
 			return self.originUserName + " has skedguled '" + self.desc + "' and it's in your calendar."
 
