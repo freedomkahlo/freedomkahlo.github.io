@@ -215,10 +215,10 @@
 														<div id="messagesFooter">
 															<form action="{% url 'events:manageMessage' %}" method="post">
 																{% csrf_token %}
-																<textarea name="message">Write a Message</textarea>
+																<textarea name="message" style="resize: none">Write a Message</textarea>
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
 																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
-																<input class="button" type="submit" name="write" style="background-image: url("{% static 'events/images/message.png' %}");"/> </input>
+																<input class="button" type="submit" name="write"/> </input>
 															</form>
 														</div>
 													</div>
