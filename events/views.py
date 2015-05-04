@@ -388,7 +388,7 @@ def manageMessage(request):
 		user.save()
 		message.delete()
 	
-	return detail(request, eventID)
+	return HttpResponseRedirect('/events/eventDetails/' + eventID)
 
 def manageNotification(request):
 	print "HI"
