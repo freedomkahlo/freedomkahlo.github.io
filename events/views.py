@@ -336,42 +336,34 @@ def manageInvitee(request):
 	print request.POST
 
 	if 'join' in request.POST:
-		if (len(event.invitee_set.filter(name = username)) > 0):
-			messages.success(request, "You already part of the party, yo.")
-			return detail(request, eventID)
-		else:
-			invitee = Invitee(name=username, firstName=firstName, lastName=lastName)
-			event.invitee_set.add(invitee)
+		invitee = Invitee(name=username, firstName=firstName, lastName=lastName)
+		event.invitee_set.add(invitee)
 
-			n = Notification(desc=event.title, originUserName=username, notificationType="joinNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
-			user = get_object_or_404(User, username=event.creator)
-			user.notification_set.add(n)
-			user.save()
+		n = Notification(desc=event.title, originUserName=username, notificationType="joinNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+		user = get_object_or_404(User, username=event.creator)
+		user.notification_set.add(n)
+		user.save()
 
+		if not event.is_scheduled:
 			return getTimes(request)
+		else:
+			return detail(request, eventID)
+
 	if 'decline' in request.POST:
-		if (len(event.invitee_set.filter(name = username)) > 0):
-			# commenting out notification for now
-			#ntstr = username + " has been removed from " + event.title
-			#n = Notification(desc=ntstr, pub_date=datetime.now())
-			#creator = get_object_or_404(User, username=event.creator)
-			#creator.notification_set.add(n)
+		inviteeSet = event.invitee_set.all()
+		invitee = inviteeSet.get(name=username)
+		invitee.delete()
 
-			inviteeSet = event.invitee_set.all()
-			invitee = inviteeSet.get(name=username)
-			invitee.delete()
+		n = Notification(desc=event.title, originUserName=username, notificationType="leaveNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+		user = get_object_or_404(User, username=event.creator)
+		user.notification_set.add(n)
+		user.save()
 
-			n = Notification(desc=event.title, originUserName=username, notificationType="leaveNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
-			user = get_object_or_404(User, username=event.creator)
-			user.notification_set.add(n)
-			user.save()
-
+		if not event.is_scheduled:
 			return getTimes(request)
-		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 		else:
-			messages.success(request, "You were not invited, foo.")
 			return detail(request, eventID)
-			#return detail(request, e_id)
+		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 	if 'veto' in request.POST:
 		return vetoPoss(request)	
 
