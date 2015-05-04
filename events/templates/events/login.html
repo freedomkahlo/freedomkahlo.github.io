@@ -224,7 +224,7 @@
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>
 			$(document).ready(function(){
-				{% if not messages and not invalidLogin %}
+				{% if not messages and not invalidLogin and not registerError and not emailError and not passwordError and not password2Error %}
 					//Good
 					if (typeof sessionStorage['currPage'] == 'string'){
 						sessionStorage['currPage'] = '0';
