@@ -266,6 +266,12 @@ def manageCreator(request):
 		i_name = request.POST['invitee_name']
 		invitee = get_object_or_404(Invitee, name=i_name)
 		invitee.delete()
+
+		n = Notification(desc=event.title, originUserName=event.creator, notificationType="bootNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+		u = get_object_or_404(User, username=i_name)
+		u.notification_set.add(n)
+		u.save()
+
 		getTimes(request)
 
 	if 'delete' in request.POST:

@@ -300,7 +300,7 @@
 											</section>
 										{% else %}
 											<!-- invitee view -->
-											<section id="friends inviteeDiv">
+											<section id="friends">
 												{% for i in event.invitee_set.all %}
 													{% if i.name == user.username %}
 														<form action="{% url 'events:manageInvitee' %}" method="post">
