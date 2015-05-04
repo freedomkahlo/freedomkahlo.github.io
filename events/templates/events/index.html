@@ -40,7 +40,8 @@
 		$(function(){
 			//Set default for create event
 			{% if not time_range %}
-				$("#time_range").val("2:00 PM-5:00 PM");
+				$("#start_time").val("12:00 PM");
+				$("#end_time").val("1:00 PM");
 				$("#event_length").val("1 hour 30 minutes");
 				//Get current date
 				var d = new Date();
