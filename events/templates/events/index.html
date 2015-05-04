@@ -67,6 +67,7 @@
 				{
 					$("#notificationContainer").hide();
 				});
+
 				//Popup Click
 				$("#notificationContainer").click(function(evt)
 				{
@@ -175,7 +176,7 @@
 				var start_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
 				$( "#start_slider" ).slider({
 					min: 0,
-					max: 1440,
+					max: 1425,
 					step: 15,
 					value: start_minutes, //Set it to the current time
 					slide: function(e, ui) {
