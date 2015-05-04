@@ -49,6 +49,13 @@ class Instance(models.Model):
 		self.regValidate()
 		return super(Instance, self).save(**kwargs)
 
+	@property
+	def printScheduledTime(self):
+		tz = pytz.timezone('US/' + self.timezone)
+		return ((scheduled_start.astimezone(tz)).strftime("%b %d").lstrip("0") + 
+			((scheduled_start.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
+			+ " - " + (scheduled_end.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0")))
+
 	@property 
 	def creatorName(self):
 		user = get_object_or_404(User, username=self.creator)
