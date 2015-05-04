@@ -42,8 +42,10 @@ class Instance(models.Model):
 		if (endd < datetime.now(tz) + duration):
 			raise ValidationError("Event cannot be scheduled in the past.")
 		self.pub_date = datetime.now(tz)
-		self.scheduled_start = datetime.now(tz)
-		self.scheduled_end = datetime.now(tz)
+		if self.scheduled_start == None:
+			self.scheduled_start = datetime.now(tz)
+		if self.scheduled_end == None:
+			self.scheduled_end = datetime.now(tz)
 
 	def save(self, **kwargs):
 		self.regValidate()
