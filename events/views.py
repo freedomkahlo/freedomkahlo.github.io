@@ -160,22 +160,9 @@ def deletePastPossTimes(request, eventID=None):
 def getTimes(request, eventID=None):
 	roundToMin = 15 #minutes
 
-	#def roundUpByTimeDelta(dt, roundTo = roundToMin * 60):
-	#	"""Round a datetime object to any time laps in seconds
-	#	dt : datetime.datetime object, default now.
-	#	roundTo : Closest number of seconds to round up to, default 15 minutes.
-	#	"""
-	#	(dt - dt.min).seconds
-	#	seconds = 60 * dt.minute + dt.second
-	#	# // is a floor division, not a comment on following line:
-	#	rounding = (seconds+roundTo) // roundTo * roundTo
-	#	return timedelta(0,rounding-seconds,-dt.microsecond)
-
 	def roundUpByTimeDelta(tm):
 		upmins = math.ceil(float(tm.minute)/15)*15 #round up to nearest 15 minutes
 		diffmins = upmins - tm.minute
-		#newtime = tm + datetime.timedelta(minutes=diffmins)
-		#newtime = newtime.replace(second=0)
 		return timedelta(minutes=diffmins)
 
 	if eventID == None:
@@ -190,10 +177,16 @@ def getTimes(request, eventID=None):
 	duration = timedelta(minutes=(int(event.event_length.split(':')[0]) * 60 + int(event.event_length.split(':')[1])))
 
 	tz = pytz.timezone('US/' + event.timezone)
-	startInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p'))
-	endInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
-	finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
-	
+
+	if event.start_time < event.end_time:
+		startInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p'))
+		endInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
+		finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p'))
+	else:
+		startInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.start_time, '%m/%d/%Y %I:%M %p'))
+		endInDateTime = tz.localize(datetime.strptime(event.start_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p') + timedelta(days=1))
+		finalEndDateTime = tz.localize(datetime.strptime(event.end_date + ' ' + event.end_time, '%m/%d/%Y %I:%M %p') + timedelta(days=1))
+
 	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
 	print 'Gotten Times:', times
 	# 30 minute intervals for starting time; rounding start time; etc.
