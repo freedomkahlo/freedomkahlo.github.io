@@ -39,7 +39,7 @@
 		<script>
 		$(function(){
 			//Set default for create event
-			{% if not time_range %}
+			{% if not start_time %}
 				$("#start_time").val("12:00 PM");
 				$("#end_time").val("1:00 PM");
 				$("#event_length").val("1 hour 30 minutes");
@@ -557,8 +557,23 @@
 			});	
 		</script>
 
+		<!-- Save overlays on reload -->
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				{% if not messages and not error %}
+					//Good
+					if (typeof sessionStorage['register'] == 'string'){
+						sessionStorage['register'] = '0';
+					}
+				{% endif %}
+				if (sessionStorage['currPage'] == '1') {
+					toggleOverlay();
+				}
+			});
+		</script>
+
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
-		<script src="{% static 'events/js/demo1.js' %}"></script>
+		<script src="{% static 'events/js/demo2.js' %}"></script>
 	</body>
 </html>
