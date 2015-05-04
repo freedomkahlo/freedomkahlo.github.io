@@ -47,6 +47,8 @@ class Instance(models.Model):
 			raise ValidationError('Start date must occur in the future.')
 		if (endd < datetime.now(tz) + duration):
 			raise ValidationError("Event cannot be scheduled in the past.")
+		if (endd - startd > timedelta(weeks=52)):
+			raise ValidationError("Date range cannot exceed 1 year.")
 		self.pub_date = datetime.now(tz)
 		if self.scheduled_start == None:
 			self.scheduled_start = datetime.now(tz)
