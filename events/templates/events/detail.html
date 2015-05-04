@@ -149,7 +149,9 @@
 														<li>
 															<form action="{% url 'events:manageInvitee' %}" method="post">   
 																	{% csrf_token %}
-																	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
+																	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>    
+																	<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"/></input></span>    
+																	<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"/></input></span>     
 																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
 																	<span id="submitButton"></span>
 																	</form>
