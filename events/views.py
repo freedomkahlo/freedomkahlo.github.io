@@ -78,7 +78,7 @@ def add(request):
 		event_length = '0:' + timeSplit[0]
 	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
 		start_time=time_range.split('-')[0], end_time=time_range.split('-')[1],
-		event_length=event_length, creator=creator, eventID=eventID, timezone = timezone)
+		event_length=event_length, creator=creator, eventID=eventID, timezone = timezone, is_scheduled = False)
 
 	#try catch here check validity
 	try:
@@ -167,10 +167,6 @@ def getTimes(request, eventID=None):
 		eventID = request.POST['eventID']
 
 	event = get_object_or_404(Instance, eventID=eventID)
-
-	event.is_scheduled = True
-	event.save()
-
 	many = []
 	many.append(event.creator)
 
