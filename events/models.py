@@ -64,6 +64,15 @@ class Instance(models.Model):
 			((self.scheduled_start.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
 			+ " - " + (self.scheduled_end.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0")))
 
+	@property
+	def printDateRange(self):
+		return (datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%b %d").lstrip("0") + "-" +
+			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%b %d").lstrip("0"))
+
+	@property
+	def printTimeRange(self):
+		return self.start_time + '-' + self.end_time
+
 	@property 
 	def hasPassed(self):
 		if self.scheduled_end < datetime.now(pytz.utc):

@@ -203,13 +203,18 @@
 												
 													<strong>HOST</strong>: {{ event.creatorName }} <br />
 													{{ event.desc }} <br/>
-													<strong> TIME: </strong>
-														{% if event.is_scheduled %}
-															{{event.printScheduledTime}}
-														{% else %}
-															<font color="red">NOT SCHEDULED </font>
-														{% endif %}
-														<br /> <br />
+													{% if event.is_scheduled %}
+														<strong> TIME: </strong>
+														{{event.printScheduledTime}}
+														<br />
+													{% else %}
+														<strong> DATE RANGE: </strong>
+														{{event.printDateRange}}
+														<br />
+														<strong> TIME RANGE: </strong>
+														{{event.printTimeRange}}
+													{% endif %}
+													<br />
 													<header align="left">
 														<h3><strong>Invitees</strong></h3>
 													</header>
