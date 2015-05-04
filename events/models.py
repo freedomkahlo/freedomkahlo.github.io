@@ -52,9 +52,9 @@ class Instance(models.Model):
 	@property
 	def printScheduledTime(self):
 		tz = pytz.timezone('US/' + self.timezone)
-		return ((scheduled_start.astimezone(tz)).strftime("%b %d").lstrip("0") + 
-			((scheduled_start.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
-			+ " - " + (scheduled_end.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0")))
+		return ((self.scheduled_start.astimezone(tz)).strftime("%b %d").lstrip("0") + 
+			((self.scheduled_start.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
+			+ " - " + (self.scheduled_end.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0")))
 
 	@property 
 	def creatorName(self):
