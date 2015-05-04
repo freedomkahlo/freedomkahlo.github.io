@@ -122,6 +122,7 @@
 	    font-size: inherit; /* inherit size from .custom-dropdown */
 	    padding: .5em; /* add some space*/
 	    margin: 0; /* remove default margins */
+	    border: 1 px solid #ffffff;;
 	}
 
 	.custom-dropdown__select--white {
