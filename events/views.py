@@ -498,6 +498,32 @@ def user_login(request):
 	else:
 		return render_to_response('events/login.html', {}, context)
 
+def user_loginEvent(request):
+	context = RequestContext(request)
+
+	if request.method == 'POST':
+		email = request.POST.get('username', '')
+		password = request.POST.get('password', '')
+		eventID = request.POST.get('eventID', '')
+
+		user = authenticate(username=email, password=password)
+
+		if user:
+			if user.is_active:
+				resp = cal.validateToken(email)
+				if (resp =="Already Has Token"):
+					login(request, user)
+					return HttpResponseRedirect('/events/eventDetails/' + eventID)
+				return resp
+			else:
+				return HttpResponse("Your Skedge account is disabled.")
+		else:
+			print ("Invalid login details: {0}, {1}".format(email, password))
+			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'username': email})
+
+	else:
+		return render_to_response('events/login.html', {}, context)
+
 @login_required
 def user_logout(request):
 	logout(request)

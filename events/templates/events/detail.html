@@ -90,6 +90,7 @@
 										{% csrf_token %}
 										<center><label for="username">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 										<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
 									</form>
 									<font color='red'>{{invalidLogin}}</font>
@@ -228,7 +229,7 @@
 											<div class="6u 12u(narrower)">
 												<section>
 													<div id="messagesContainer">
-														<div id="messagesTitle">
+														<div id="messagesTitle" style="vertical-align: middle">
 														<header>
 														<h1 style="font-weight: 300; line-height: 1.75em; margin-bottom: 1em; text-transform: uppercase; font-size: 18pt"><strong>MESSAGE BOARD</strong></h1>
 														</header>
@@ -308,10 +309,10 @@
 													{% if i.name == user.username %}
 														<form action="{% url 'events:manageInvitee' %}" method="post">
 															{% csrf_token %}
-															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
-															<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"</input></span>
-															<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"</input></span>
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
+															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></input></span>
+															<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"></input></span>
+															<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"></input></span>
 														
 															<div class="row">
 																{% for time in event.posstime_set.all %}
