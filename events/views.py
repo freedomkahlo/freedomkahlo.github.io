@@ -421,7 +421,7 @@ def register(request):
 	first_name = request.POST['first_name']
 	last_name = request.POST['last_name']
 	email = request.POST['username']
-	context += {'first_name':first_name, 'last_name':last_name, 'email':email}
+	saveInfo = {'first_name':first_name, 'last_name':last_name, 'email':email}
 	registered = False
 
 	if request.method == 'POST':
@@ -455,7 +455,8 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 			print (user_form.errors, profile_form.errors)
 			errorList = {'emailError':user_form.errors.get('username', ''), 'passwordError':user_form.errors.get('password', ''),
 			'password2Error':user_form.errors.get('password2', ''),'registerError':user_form.errors.get('__all__', '')}
-			contest += errorList
+			errorList.update(saveInfo)
+			return render_to_response('events/login.html', errorList, context)
 
 	else:
 		user_form = UserForm()
@@ -471,6 +472,7 @@ def registerEvent(request):
 	first_name = request.POST['first_name']
 	last_name = request.POST['last_name']
 	email = request.POST['username']
+	print context
 	context += {'first_name':first_name, 'last_name':last_name, 'email':email}
 	registered = False
 
