@@ -475,11 +475,15 @@
 														div.innerHTML = div.innerHTML + string;
 													</script>
 												{% else %}
-													<script>
-														var div = document.getElementById('otherEvents');
-														var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
-														div.innerHTML = div.innerHTML + string;
-													</script>
+													{% for invitee in event.invitee_set.all %}
+														{% if invitee.name == user.username %}
+															<script>
+																var div = document.getElementById('otherEvents');
+																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																div.innerHTML = div.innerHTML + string;
+															</script>
+														{% endif %}
+													{% endfor %}
 												{% endif%}
 											{% endfor %}
 										</div>
