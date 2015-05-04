@@ -213,13 +213,12 @@
 															</ul>
 														</div>
 														<div id="messagesFooter">
-															<h3>Write a Message:</h3>
 															<form action="{% url 'events:manageMessage' %}" method="post">
 																{% csrf_token %}
-																<input type="text" name="message"/>
+																<textarea name="message">Write a Message</textarea>
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
 																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
-																<input class="button" type="submit" name="write" value="Submit"/>
+																<input class="button" type="submit" name="write" style="background-image: url("{% static 'events/images/message.png' %}");"/> </input>
 															</form>
 														</div>
 													</div>
