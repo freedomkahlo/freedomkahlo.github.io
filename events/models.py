@@ -145,7 +145,7 @@ class Message(models.Model):
 	@property 
 	def printPubDate(self):
 		tz = pytz.timezone('US/' + self.event.timezone)
-		return (self.pub_date.astimezone(tz)).strftime("%b %d %I:%M %p").lstrip("0")
+		return (self.pub_date.astimezone(tz)).strftime("%b") + (self.pub_date.astimezone(tz)).strftime("%d %I:%M %p").lstrip("0")
 
 	def __str__(self):
 		return self.text
