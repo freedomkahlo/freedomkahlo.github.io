@@ -90,7 +90,7 @@
 										{% csrf_token %}
 										<center><label for="username">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
-										<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
+										<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}" id="eventID"></input></span>
 										<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
 									</form>
 									<font color='red'>{{invalidLogin}}</font>
