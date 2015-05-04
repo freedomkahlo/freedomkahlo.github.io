@@ -628,7 +628,7 @@
 		font-family: times, Times New Roman, times-roman, georgia, serif;
 		color: #444;
 		margin: 0;
-		padding: 0px 0px 0px 0px;
+		padding: 0px 0px 6px 0px;
 		font-size: 30px;
 		line-height: 44px;
 		letter-spacing: -2px;
@@ -639,7 +639,6 @@
 		margin: 0 auto;
 		background-color: rgba(240, 240, 240, 0.5);
 		border-radius: 10px;
-		padding-bottom: 10px;
 	}
 
 	#owl-demo .item img{
