@@ -128,6 +128,12 @@ class Message(models.Model):
 	firstName = models.CharField(max_length=100, default='')
 	lastName = models.CharField(max_length=100, default='')
 	pub_date = models.DateTimeField('date made')
+	
+	@property 
+	def printPubDate(self):
+		tz = pytz.timezone('US/' + self.event.timezone)
+		return ((self.scheduled_start.astimezone(tz)).strftime("%b %d %I:%M %p").lstrip("0")
+
 	def __str__(self):
 		return text 
 

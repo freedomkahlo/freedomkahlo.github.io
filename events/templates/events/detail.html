@@ -200,9 +200,9 @@
 													{{ event.desc }} <br/>
 													<strong> TIME: </strong>
 														{% if event.is_scheduled %}
-															<p>{{event.printScheduledTime}}</p>
+															{{event.printScheduledTime}}
 														{% else %}
-															 <font color="red">NOT SKEDULED </font>
+															<font color="red">NOT SKEDULED </font>
 														{% endif %}
 														<br /> <br />
 													<header align="left">
@@ -238,7 +238,7 @@
 															{% for m in event.message_set.all %}
 																<li>
 																{{ m.text }}<br />
-																<div align="right"><span style="font-size:13px; color:#999999;"> {{m.firstName}} {{m.lastName}}, {{m.pub_date}}</span> </div>
+																<div align="right"><span style="font-size:13px; color:#999999;"> {{m.firstName}} {{m.lastName}}, {{m.printPubDate}}</span> </div>
 
 																{% if event.creator = user.username %}
 																	<form action="{% url 'events:manageMessage' %}" method="post">
@@ -345,7 +345,7 @@
 																{% if event.posstime_set.all|length == 0 %}
 																	<p> No times found. </p>
 																{% else %}
-																	<input class="button special" type="submit" name="veto" value="veto" id="veto"/>
+																	<input class="button special" type="submit" name="veto" value="add conflict" id="veto"/>
 																{% endif %}
 														</form>
 													{% endif %}
