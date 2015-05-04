@@ -260,7 +260,7 @@
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
 													
-														<div class="row" style="margin-top: -100px">
+														<div class="row">
 															{% for time in event.posstime_set.all %}
 																{% if forloop.counter <= 3 %}
 																	<div class="4u 12u(narrower)" style="background-color: #645862">
@@ -285,13 +285,12 @@
 															<div class="4u 12u(narrower)">
 															</div>
 															{% endif %}
-
+														</div>
 															{% if event.posstime_set.all|length == 0 %}
 																<p> No times found. </p>
 															{% else %}
 																<input type="submit" name="veto" value="veto" id="veto"/>
 															{% endif %}
-														</div>
 													</form>
 												{% endif %}
 											{% endfor %}
