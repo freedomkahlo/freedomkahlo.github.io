@@ -105,11 +105,15 @@
 				
 									<form id="user_form" method="post" action="/events/registerEvent/" enctype="multipart/form-data" style:"margins: auto;">
 									  	{% csrf_token %}
+										<font color='red'>{{registerError}}</font>
 										<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" value="{{first_name}}" size="30" />
 										<center><label for="name">Last Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="last_name" id="last_name" value="{{last_name}}" size="30" />
 										<center><label for="username">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{email}}" id="username" />
+										<font color='red'>{{emailError}}</font>
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<font color='red'>{{passwordError}}</font>
 										<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%; height: 10%;" type="password" name="password2" id="password2" size="25" />
+										<font color='red'>{{password2Error}}</font>
 										<p><center><input type="submit" value="Register" name="submit" id="register" class="button special" /></center></p>
 									</form>
 								</div>
