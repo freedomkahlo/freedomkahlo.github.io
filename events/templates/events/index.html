@@ -488,9 +488,6 @@
 														</script>
 													{% else %}
 														<!--upcoming-->
-														<p> Event scheduled: {{ event.scheduled_end }}
-															Now: {{ datetime.now }}
-
 														{% if not event.hasPassed %}
 															<script>
 																var div = document.getElementById('myEventsUpcoming');
