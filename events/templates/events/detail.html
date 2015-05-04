@@ -211,6 +211,16 @@
 													<p> 
 														{% for invitee in event.invitee_set.all %}
 															{{ invitee.name }} <br/>
+
+															<!-- Bumps -->
+															{% if event.creator == user.username %}
+																<form action="{% url 'events:manageCreator' %}" method="post"> 
+																{% csrf_token %} 
+																<span style="display: none;"><input type="text" name="invitee_name" value="{{ invitee.name }}"/></input></span> 
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"/></input></span>
+																<button type="submit" name="boot">x</button>
+																</form>
+															{% endif %}
 														{% endfor %}
 													</p>
 												</div>
