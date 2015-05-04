@@ -263,7 +263,7 @@
 														<div class="row" style="margin-top: -100px">
 															{% for time in event.posstime_set.all %}
 																{% if forloop.counter <= 3 %}
-																	<div class="4u 12u(narrower)">
+																	<div class="4u 12u(narrower)" style="background-color: #645862">
 																		<section>
 																			<span class="icon fa-clock-o"></span>
 																			<header>
@@ -276,7 +276,9 @@
 																{% endif %}
 															{% endfor %}
 															{% if event.posstime_set.all|length == 1 %}
-															<div class="4u 12u(narrower)">
+															<div class="4u 12u(narrower)" style="background-color: #645862">
+															</div>
+															<div class="4u 12u(narrower)" style="background-color: #645862">
 															</div>
 															{% endif %}
 															{% if event.posstime_set.all|length == 2 %}
