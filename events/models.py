@@ -90,7 +90,14 @@ class PossTime(models.Model):
 
 	@property
 	def people(self):
-		return self.peopleList
+		split = self.peopleList.split(', ')
+		if (split[0] == ''): #No Participants
+			return "Everyone has conflicts."
+		participants = ''
+		for person in split:
+			user = get_object_or_404(User, username=person)
+			participants += user.first_name + ' ' + user.last_name + ', '
+		return participants[0:-2]
 	
 	def __str__(self):
 		tz = pytz.timezone('US/' + self.event.timezone)
