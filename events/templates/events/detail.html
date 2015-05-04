@@ -385,6 +385,14 @@
 				</footer>
 			</section>
 
+		<!-- Scroll to bottom of messages -->
+		<script>
+			$(document).ready(function(){
+				var objDiv = document.getElementById("messagesBody");
+				objDiv.scrollTop = objDiv.scrollHeight;
+			});	
+		</script>
+
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>
 			$(document).ready(function(){
@@ -416,9 +424,6 @@
 				$("#boot").click(function() {
 				    $("#loadingOverlay").show();
 				});
-
-				var objDiv = document.getElementById("messagesBody");
-				objDiv.scrollTop = objDiv.scrollHeight;
 			});	
 		</script>
 
