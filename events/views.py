@@ -53,8 +53,16 @@ def add(request):
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'time_range':time_range,
 			'event_length':event_length, 'creator':creator, 'timezone':timezone}
 
-	startDateTimeString = start_date + time_range.split('-')[0]
-	startDateTime = datetime.strptime(startDateTimeString, '%Y-%m-%dT%H:%M:%S.%fZ')
+	#5/3/2015 2:00 PM
+	startTmp = time_range.split('-')[0].split(':')
+	startHour = startTmp[0]
+	startMin = startTmp[1].split()[0]
+
+	if (startTmp[1].split()[1] == 'PM')
+		startHour = int(startHour) + 12
+
+	startDateTimeString = start_date + "," + startHour + ":" + startMin
+	startDateTime = datetime.strptime(startDateTimeString, '%Y/%m/%d,%H:%M.%fZ')
 	print startDateTime
 	if (startDateTime < datetime.now()):
 		returnMsg['error'] = 'Event start time cannot be in the past.'
