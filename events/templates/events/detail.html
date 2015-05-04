@@ -269,7 +269,7 @@
 																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
 																<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"></span>
 																<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"></span>
-																<input class="button special" style="margin-top: 5px;" type="submit" name="write" value="Post"/> </input>
+																<input class="button special" style="margin-top: 5px;" type="submit" name="write" value="Post" id='postMessage'/> </input>
 															</form>
 															{% else %}
 															<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
@@ -416,6 +416,9 @@
 		<script>
 			$(document).ready(function(){
 			    $("#join").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#postMessage").click(function() {
 				    $("#loadingOverlay").show();
 				});
 				$("#veto").click(function() {
