@@ -454,7 +454,14 @@
 													<header>
 														<h3><strong>My Events</strong></h3>
 													</header>
-													<div id="myEvents"></div>
+													<h4><strong>Pending:</strong></h4>
+													<div id="myEventsPending"></div>
+
+													<h4><strong>Upcoming:</strong></h4>
+													<div id="myEventsUpcoming"></div>
+
+													<h4><strong>Passed:</strong></h4>
+													<div id="myEventsPassed"></div>
 												</section>
 
 											</div>
@@ -469,11 +476,30 @@
 
 											{% for event in latest_event_list %}
 												{% if event.creator == user.username %}
-													<script>
-														var div = document.getElementById('myEvents');
-														var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
-														div.innerHTML = div.innerHTML + string;
-													</script>
+													<!--pending-->
+													{% if not event.is_scheduled %}
+														<script>
+															var div = document.getElementById('myEventsPending');
+															var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+															div.innerHTML = div.innerHTML + string;
+														</script>
+													{% else %}
+														<!--upcoming-->
+														{% if event.scheduled_end > datetime.now %}
+															<script>
+															var div = document.getElementById('myEventsUpcoming');
+															var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+															div.innerHTML = div.innerHTML + string;
+														</script>
+														<!--passed-->
+														{% else %}
+															<script>
+																var div = document.getElementById('myEventsPassed');
+																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																div.innerHTML = div.innerHTML + string;
+															</script>
+														{% endif %}
+													{% endif %}
 												{% else %}
 													{% for invitee in event.invitee_set.all %}
 														{% if invitee.name == user.username %}
