@@ -84,4 +84,4 @@
 	closeBttn.addEventListener( 'click', toggleOverlay);
 	triggerBttnTwo.addEventListener( 'click', toggleOverlay2 );
 	closeBttnTwo.addEventListener( 'click', toggleOverlay2 );
-	triggerBttn3.addEventListener( 'click', toggleOverlay);
+	triggerBttnThree.addEventListener( 'click', toggleOverlay);
