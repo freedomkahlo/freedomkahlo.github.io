@@ -120,9 +120,10 @@ def auth(request):
 
 	# First get the authentication pair
 	state = request.GET['state']
-	tempCode = state.partition('%')[0]
-	username = state.partition('%')[2]
-	eventID = state.partition('%')[4]
+	stateParted = state.partition('%')
+	tempCode = stateParted[0]
+	username = stateParted[2]
+	eventID = stateParted[4]
 
 	# Clean up the temp storage list
 	clearTempStorageForChecking()
