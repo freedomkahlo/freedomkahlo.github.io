@@ -39,11 +39,9 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
 		<script>
 			$(function(){
-				{% if messages %}
+				{% if registered %}
 					//Created event
-					{% for message in messages %}
-						alert('{{message}}');
-					{% endfor %}
+					alert('You have successfully registered.')
 				{% endif %}
 			});
 		</script>

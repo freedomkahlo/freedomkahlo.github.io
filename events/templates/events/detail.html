@@ -35,12 +35,12 @@
 			<link rel="stylesheet" href="{% static 'events/css/style-noscript.css' %}" />
 		</noscript>
 		<script type="text/javascript">
-			{% if messages %}
-				//Created event
-				{% for message in messages %}
-					alert('{{message}}');
-				{% endfor %}
-			{% endif %}
+			$(function(){
+				{% if registered %}
+					//Created event
+					alert('You have successfully registered.')
+				{% endif %}
+			});
 		</script>
 
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->

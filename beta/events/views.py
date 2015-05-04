@@ -525,9 +525,10 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 		user_form = UserForm()
 		profile_form = UserProfileForm()
 
+	event = get_object_or_404(Instance, eventID=eventID)
 	return render_to_response(
 			'events/detail.html',
-			{'registered': registered},
+			{'registered': registered, 'event':event},
 			context)
 
 def register_confirm(request, activation_key):
