@@ -1,0 +1,579 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		{% load staticfiles %}
+		<script>
+			var mobileStyle = '{% static 'events/css/style-mobile.css' %}';
+			var style = '{% static 'events/css/style.css' %}';
+			var wideStyle = '{% static 'events/css/style-wide.css' %}';
+			var narrowStyle = '{% static 'events/css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'events/css/style-narrower.css' %}';
+			var normalStyle = '{% static 'events/css/style-normal.css' %}';;
+		</script>
+
+		<title>Skedg - Let us check your skedg! </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<script src="{% static 'events/js/jquery.min.js' %}"></script>
+		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+		<script src="{% static 'events/js/jquery.dropotron.min.js' %}"></script>
+		<script src="{% static 'events/js/jquery.scrolly.min.js' %}"></script>
+		<script src="{% static 'events/js/jquery.scrollgress.min.js' %}"></script>
+		<script src="{% static 'events/js/skel.min.js' %}"></script>
+		<script src="{% static 'events/js/skel-layers.min.js' %}"></script>
+		<script src="{% static 'events/js/init.js' %}"></script>
+		<script src="{% static 'events/js/moment.js' %}"></script> 
+		<script src="{% static 'events/js/combodate.js' %}"></script> 
+		<script src="{% static 'events/js/jquery.ui.touch-punch.js' %}"></script>
+
+		<!-- I am perfectly capable of putting this in a new file myself, BUT I HAVE TOLD YOU CHUMPS LIKE FIVE TIMES TO DO THIS SO I'M
+		CARRYING THIS OVER TO PROVE A POINT. -->
+		<script>
+		$(function(){
+			//Set default for create event
+			{% if not start_time %}
+				$("#start_time").val("12:00 PM");
+				$("#end_time").val("1:00 PM");
+				$("#event_length").val("1 hour 30 minutes");
+				//Get current date
+				var d = new Date();
+				var dString = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
+				$("#from").val(dString);
+				$("#to").val(dString);
+			{% endif %}
+		});
+		</script>
+
+		<script type="text/javascript">
+			$(document).ready(function()
+			{
+				$("#notificationLink").click(function()
+				{
+					$("#notificationContainer").fadeToggle(300);
+					$("#notification_count").fadeOut("slow");
+					return false;
+				});
+
+				//Document Click
+				$(document).click(function()
+				{
+					$("#notificationContainer").hide();
+				});
+
+				//Popup Click
+				$("#notificationContainer").click(function(evt)
+				{
+					// Ignore click if its part of a notification
+					if(evt.target.id == "notificationBox")
+						return;
+					return false;
+				});
+			});
+		</script>
+
+		<script>
+			$(document).ready(function(){
+				function split( val ) {
+					return val.split( / \s*/ );
+				}
+				function extractLast( term ) {
+					return split( term ).pop();
+				}
+
+				$( "input#autocomplete" )
+					// don't navigate away from the field on tab when selecting an item
+					.bind( "keydown", function( event ) {
+						if ( event.keyCode === $.ui.keyCode.TAB &&
+							$( this ).autocomplete( "instance" ).menu.active ) {
+						  event.preventDefault();
+						}
+					})
+					.autocomplete({
+						minLength: 2,
+						source: function( request, response ) {
+							$.getJSON("{% url 'events:autocomplete_user' %}", {
+							term: extractLast( request.term )
+							}, response );
+						},
+						change: function (event, ui) {
+							var terms = split( this.value );
+							// current input
+							if (!lastInput) {
+								terms.push( ui.item.value );
+								//this.value = lastInput;
+								this.value = terms.join( " " );
+							}
+						},
+						search: function() {
+							// custom minLength
+							var term = extractLast( this.value );
+							if ( term.length < 2 ) {
+								return false;
+							}
+						},
+						focus: function() {
+							// prevent value inserted on focus
+							return false;
+						},
+						select: function( event, ui ) {
+							var terms = split( this.value );
+							// remove the current input
+							terms.pop();
+							// add the selected item
+							terms.push( ui.item.value );
+							// add placeholder to get the comma-and-space at the end
+							terms.push( "" );
+							this.value = terms.join( " " );
+							return false;
+						}
+					}); 
+			});
+		</script>
+
+		<!-- JQuery Date Picker-->
+		<script>
+			$(function() {
+				$( "#from" ).datepicker({
+					defaultDate: "+0d",
+					changeMonth: false,
+					numberOfMonths: 1,
+					onClose: function( selectedDate ) {
+						$( "#to" ).datepicker( "option", "minDate", selectedDate );
+					}
+				});
+				$( "#to" ).datepicker({
+					defaultDate: "+0d",
+					changeMonth: false,
+					numberOfMonths: 1,
+					onClose: function( selectedDate ) {
+						$( "#from" ).datepicker( "option", "maxDate", selectedDate );
+					}
+				});
+			});
+		</script>
+
+		<script>
+			$(function(){
+				$('#timelength').combodate({
+					firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
+					minuteStep: 15
+				});  
+			});
+		</script>
+
+		<!-- JQuery Time Picker-->
+		<script>
+			$(function(){
+				var time = $("#start_time").val();
+				var start_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
+				$( "#start_slider" ).slider({
+					min: 0,
+					max: 1425,
+					step: 15,
+					value: start_minutes, //Set it to the current time
+					slide: function(e, ui) {
+						var hours = Math.floor(ui.value / 60);
+						var minutes = ui.value - (hours * 60);
+
+						if(hours.length == 1) hours = '0' + hours;
+						if(minutes.length == 1) minutes = '0' + minutes;
+						if(minutes == 0) minutes = '00';
+
+						if(hours >= 12){
+
+							if (hours == 12){
+								minutes = minutes + " PM";
+							}
+							else{
+								hours = hours - 12;
+								minutes = minutes + " PM";
+							}
+						}
+
+						else{
+							minutes = minutes + " AM";
+						}
+						if (hours == 0){
+							hours = 12;
+						}
+						$("#start_time").val(hours+":"+minutes)
+					}
+				});
+			});
+		</script>
+
+		<!-- JQuery Time Picker-->
+		<script>
+			$(function(){
+				var time = $("#end_time").val();
+				var end_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
+				$( "#end_slider" ).slider({
+					min: 0,
+					max: 1425,
+					step: 15,
+					value: end_minutes, //Set it to the current time
+					slide: function(e, ui) {
+						var hours = Math.floor(ui.value / 60);
+						var minutes = ui.value - (hours * 60);
+
+						if(hours.length == 1) hours = '0' + hours;
+						if(minutes.length == 1) minutes = '0' + minutes;
+						if(minutes == 0) minutes = '00';
+
+						if(hours >= 12){
+
+							if (hours == 12){
+								minutes = minutes + " PM";
+							}
+							else{
+								hours = hours - 12;
+								minutes = minutes + " PM";
+							}
+						}
+
+						else{
+							minutes = minutes + " AM";
+						}
+						if (hours == 0){
+							hours = 12;
+						}
+						$("#end_time").val(hours+":"+minutes)
+					}
+				});
+			});
+		</script>
+
+		<!-- Slider for event length -->
+		<script>
+			$(function(){
+				var eventLength = $("#event_length").val().split(' ');
+				var lengthPos;
+				if (eventLength.length == 4)
+					lengthPos = parseInt(eventLength[0]) * 60 + parseInt(eventLength[2]);
+				else {
+					if (eventLength[1].charAt(0) == 'h') //only hours
+						lengthPos = parseInt(eventLength[0]) * 60;
+					else //Only minutes
+						lengthPos = parseInt(eventLength[0]);
+				}
+				$("#eventLengthSlider").slider(
+				{
+					value:lengthPos,
+					min: 15,
+					max: 480,
+					step: 15,
+					slide: function( event, ui ) {
+						var hours = Math.floor(ui.value / 60);
+						var minutes = ui.value - (hours * 60);
+
+						var output = "";
+						if (hours == 1)
+							output = output + "1 hour";
+						if (hours > 1)
+							output = output + hours + " hours";
+
+						if (minutes > 0) {
+							if (hours > 0)
+								output = output + " ";
+							output = output + minutes + " minutes";
+						}
+						$( "#event_length" ).val(output);
+					}
+				});
+			});
+		</script>
+		<noscript>
+			<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
+			<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
+			<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+			<link rel="stylesheet" href="{% static 'events/css/style-noscript.css' %}" />
+			<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		</noscript>
+
+		<style>
+		
+		</style>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+	</head>
+	<body class="no-sidebar">
+
+		<!-- Header -->
+			<header id="header" class="skel-layers-fixed">
+				<h1 id="logo"><a href="/">Skedg <span> - Hello, {{ user.first_name }}! </span></a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a class="special button" href="/events/logout/">Logout</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Loading Overlay -->
+		<div class="loading" id="loadingOverlay" style="display:none">Loading&#8230;</div>
+
+		<!-- Main -->
+			<article id="main">
+				<div class="content">
+					<section>
+						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
+
+						<br />
+						<div class="overlay overlay-hugeinc">
+							<div class="createEvent"> <br/ >
+								<button type="button" class="overlay-close">Close</button>
+								<div id = "id_of_div" class ="divs">
+									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
+									<h2>Create Event</h2> 
+									<h3> <font color="red">{{error}} </font></h3>
+										<form action="{% url 'events:add' %}" method="post">    
+											{% csrf_token %}
+											<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
+											<div class="row">
+												<div class="6u 12u(narrower)">
+													Title: <input type="text" style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 90%; border-radius: 5px;" name="title" id="" size="50" value="{{ title }}">
+													Description: <br> <textarea type="text" style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 90%; border-radius: 5px; resize: none;" name="desc" cols="50" rows="2" id="" value="{{ desc }}"></textarea> 
+													<div class="row">
+														<div class="6u 12u(narrower)" >
+															<p> Start Date:<input type="text" style="position:relative; z-index: 100000; border: 1px solid; color: #666666; margin-left: 12px; width: 100%; text-align: center; border-radius: 5px; float: left;" name="start_date" id="from" value="{{ start_date }}"readonly> </p>
+														</div> 
+														<div class="6u 12u(narrower)">
+															<p> End Date: <input type="text" name="end_date" style="position:relative; z-index: 100000; border: 1px solid; color: #666666; margin-left: -10px; width: 100%; text-align: center; border-radius: 5px; float: left;" id="to" value="{{ end_date }}" readonly></p>
+														</div>
+													</div>
+												</div>
+												<div class="6u 12u(narrower)">
+													<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
+													<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
+													<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+													Time Zone: 
+													<span class="custom-dropdown custom-dropdown--white">
+													    <select class="custom-dropdown__select custom-dropdown__select--white">
+													        <option>Eastern</option>
+													        <option>Central</option>
+													        <option>Mountain</option>
+													        <option>Pacific</option>
+													    </select>
+													</span>
+													<br /> <br />
+													<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
+													<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
+													Start Time: <input size="25" type="text" name="start_time" id="start_time"  style="border: 0; margin-left: -10px; width: 70%; display: inline-block; border-radius: 5px;"  value="{{ start_time }}" readonly>
+													<div id="start_slider" style="margin: 0 auto; width: 90%"></div>
+
+													End Time: <input size="25" type="text" name="end_time" id="end_time"  style="border: 0; margin-left: -10px; width: 70%; display: inline-block; border-radius: 5px;"  value="{{ end_time }}" readonly>
+													<div id="end_slider" style="margin: 0 auto; width: 90%"></div> <br />
+
+													Event Length: <input size="25" type="text" name="event_length" id="event_length"  style="border: 0; width: 60%; margin-left: -10px; display: inline-block; border-radius: 5px;" value="{{ event_length }}" readonly>
+													<div id="eventLengthSlider" style="margin: 0 auto; width: 90%"></div><br>
+													
+												</div>
+											</div>
+											<br /> 
+											<input class="button special" style="margin: 0 auto 20 auto;" type="submit" id="create" value="Add" /> <br /> <br />
+										</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="overlay2 overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register"> <br/ >
+								<div id = "id_of_div" class ="divs">
+									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
+									<form method="post" id="create_event" action="#">
+										Create your event!
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
+						<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
+						<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+					</section>
+				</div>
+
+				<!-- One -->
+					<section class="wrapper style4 container">
+
+						<!-- Content -->
+							<div class="content">
+								<section>
+									<!-- <a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a> -->
+									<!-- <div class="navbarBody"> -->
+										<div class="navbar">
+											<div align="right">
+												<ul id="nav">
+													<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay">Create Event</a> </li>
+													<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="http://calendar.google.com" id="">Calendar</a></li>
+													<li id="notification_li">
+														{% if user.notification_set.all|length > 0 %}
+														<span id="notification_count">{{ user.notification_set.all|length }}</span>
+														{% endif %}
+														<a class = "special button" style="background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="#" id="notificationLink">Notifications</a>
+
+														<div id="notificationContainer">
+															<div id="notificationTitle">Notifications</div>
+															<div id="notificationsBody">
+																<ul>
+																	{% for notification in user.notification_set.all %}
+																	<li>
+																		<div id="notificationBox">
+																		<form action="{% url 'events:manageNotification' %}" method="post">
+																			{% csrf_token %}
+																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
+																			<button type="submit" name="dismiss" id="notificationBox">✖</button> 
+																		</form>
+																			<div id="notificationText" style="width: 90%;">
+																				{{ notification|truncatechars:110 }}
+																			</div>
+																		</div>
+																	</li>
+																	{% endfor %}
+																</ul>
+															</div>
+															<div id="notificationFooter"> 
+																<!-- <form action="{% url 'events:manageNotification' %}" method="post">
+																	<span style="display: none;"><input type="text" name="clear" value="clear"></input></span>
+																	<button type="submit" class="special button" name="clear">Clear All</button>
+																</form> -->
+																<div id="notificationBox">
+																	<form action="{% url 'events:manageNotification' %}" method="post">   
+																		{% csrf_token %}
+																		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
+
+																		<button class="button" type="submit" name="clear" id="notificationBox">Clear All</button> 
+																	</form>
+																</div>
+															</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									<!-- </div> -->
+									<br />
+
+									<div class = "eventContainer">
+										<div class="row">
+											<div class="6u 12u(narrower)">
+												<section>
+													<header>
+														<h3><strong>My Events</strong></h3>
+													</header>
+													<h4><strong>Pending:</strong></h4>
+													<div id="myEventsPending"></div>
+													<br/>
+
+													<h4><strong>Upcoming:</strong></h4>
+													<div id="myEventsUpcoming"></div>
+													<br/>
+
+													<h4><strong>Passed:</strong></h4>
+													<div id="myEventsPassed"></div>
+													<br/>
+												</section>
+
+											</div>
+											<div class="6u 12u(narrower)">
+												<section>
+													<header>
+														<h3><strong>Other Events</strong></h3>
+													</header>
+													<div id="otherEvents"></div>
+												</section>
+											</div>
+
+											{% for event in latest_event_list %}
+												{% if event.creator == user.username %}
+													<!--pending-->
+													{% if not event.is_scheduled %}
+														<script>
+															var div = document.getElementById('myEventsPending');
+															var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+															div.innerHTML = div.innerHTML + string;
+														</script>
+													{% else %}
+														<!--upcoming-->
+														{% if not event.hasPassed %}
+															<script>
+																var div = document.getElementById('myEventsUpcoming');
+																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																div.innerHTML = div.innerHTML + string;
+															</script>
+														<!--passed-->
+														{% else %}
+															<script>
+																var div = document.getElementById('myEventsPassed');
+																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																div.innerHTML = div.innerHTML + string;
+															</script>
+														{% endif %}
+													{% endif %}
+												{% else %}
+													{% for invitee in event.invitee_set.all %}
+														{% if invitee.name == user.username %}
+															<script>
+																var div = document.getElementById('otherEvents');
+																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																div.innerHTML = div.innerHTML + string;
+															</script>
+														{% endif %}
+													{% endfor %}
+												{% endif%}
+											{% endfor %}
+										</div>
+									</div>
+								</section>
+							</div>
+					</section>
+			</article>
+
+			<section id="cta">
+				<header>
+					<h2>Please give us your <strong>feedback</strong>!</h2>
+				</header>
+				<footer>
+					<ul class="buttons">
+						<li><a href="http://goo.gl/forms/yFULhAFLJk" class="button"> Send suggestions </a></li>
+					</ul>
+				</footer>
+			</section>
+
+		<script>
+			$(document).ready(function(){
+			    $("#create").click(function() {
+				    $("#loadingOverlay").show();
+				});
+			});	
+		</script>
+
+		<!-- Save overlays on reload -->
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				{% if not messages and not error %}
+					//Good
+					if (typeof sessionStorage['register'] == 'string'){
+						sessionStorage['register'] = '0';
+					}
+				{% endif %}
+				if (sessionStorage['register'] == '1') {
+					toggleOverlay();
+				}
+			});
+		</script>
+
+		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'events/js/classie.js' %}"></script>
+		<script src="{% static 'events/js/demo2.js' %}"></script>
+	</body>
+</html>
