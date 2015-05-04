@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from datetime import timedelta, datetime
+from dateutil.parser import parse as parse_date
 import json
 import hashlib, random
 from backend import cal
@@ -53,7 +54,7 @@ def add(request):
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'time_range':time_range,
 			'event_length':event_length, 'creator':creator, 'timezone':timezone}
 
-	startDateTime = datetime.combine(start_date, time_range.split('-')[0])
+	startDateTime = datetime.combine(parse_date(start_date), datetime.strptime(time_range.split('-')[0], "%H:%M:%S").time())
 	print startDateTime
 	if (startDateTime < datetime.now()):
 		returnMsg['error'] = 'Event start time cannot be in the past.'
