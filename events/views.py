@@ -550,8 +550,8 @@ def register_confirm(request, activation_key):
 
 @login_required
 def userPage(request):
-
-	return render(request, '/events/user.html')
+	
+	return render(request, 'events/user.html')
 
 def user_login(request):
 	context = RequestContext(request)
