@@ -59,6 +59,12 @@ class Instance(models.Model):
 			+ " - " + (self.scheduled_end.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0")))
 
 	@property 
+	def hasPassed(self):
+		if self.end_time > datetime.now()
+			return True
+		return False
+		
+	@property 
 	def creatorName(self):
 		user = get_object_or_404(User, username=self.creator)
 		return user.first_name + ' ' + user.last_name
