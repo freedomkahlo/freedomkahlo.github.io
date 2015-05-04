@@ -32,8 +32,14 @@ class Instance(models.Model):
 		if self.event_length == '':
 			raise ValidationError('Event Length cannot be left blank.')
 		tz = pytz.timezone('US/' + self.timezone)
-		startd = tz.localize(datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p'))
-		endd = tz.localize(datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
+
+		if self.start_time < self.end_time:
+			startd = tz.localize(datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p'))
+			endd = tz.localize(datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
+		else:
+			startd = tz.localize(datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p'))
+			endd = tz.localize(datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p') + timedelta(days=1))
+
 		duration = timedelta(minutes=(int(self.event_length.split(':')[0]) * 60 + int(self.event_length.split(':')[1])))
 		if (startd + duration >= endd):
 			raise ValidationError('Time range must be longer than the event duration.')
