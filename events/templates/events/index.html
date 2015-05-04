@@ -488,7 +488,10 @@
 														</script>
 													{% else %}
 														<!--upcoming-->
-														{% if event.scheduled_end < datetime.now %}
+														<p> Event scheduled: {{ event.scheduled_end }}
+															Now: {{ datetime.now }}
+															
+														{% if event.scheduled_end > datetime.now %}
 															<script>
 																var div = document.getElementById('myEventsUpcoming');
 																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
