@@ -376,7 +376,25 @@
 				</footer>
 			</section>
 
-
+		<!-- Save overlays on reload -->
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				{% if not messages and not invalidLogin %}
+					//Good
+					if (typeof sessionStorage['eventPage'] == 'string'){
+						sessionStorage['eventPage'] = '0';
+					}
+				{% endif %}
+				if (typeof sessionStorage['eventPage'] == 'string' && $.inArray(sessionStorage['eventPage'], ['1', '2']) > -1) {
+					if (sessionStorage['eventPage'] == '1') {
+						toggleOverlay();
+					}
+					else {
+						toggleOverlay2();
+					}
+				}
+			});
+		</script>
 
 		<script>
 			$(document).ready(function(){
@@ -391,6 +409,6 @@
 
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
-		<script src="{% static 'events/js/demo1.js' %}"></script>
+		<script src="{% static 'events/js/demo3.js' %}"></script>
 	</body>
 </html>
