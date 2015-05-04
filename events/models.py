@@ -78,9 +78,11 @@ class PossTime(models.Model):
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
 	name = models.CharField(max_length=100)
+	firstName = models.CharField(max_length=100)
+	lastName = models.CharField(max_length=100)
 	hasVoted = models.BooleanField(default=False)
 	def __str__(self):
-		return self.name
+		return self.firstName + " " + self.lastName
 	def clean(self):
 		print (self.name)
 		if (len(self.name.replace(' ', '')) == 0):

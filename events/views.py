@@ -308,6 +308,8 @@ def manageInvitee(request):
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
 	username = request.POST['username']
+	firstName = request.POST['firstName']
+	lastName = request.POST['lastName']
 
 	print request.POST
 
@@ -316,7 +318,7 @@ def manageInvitee(request):
 			messages.success(request, "You already part of the party, yo.")
 			return detail(request, eventID)
 		else:
-			invitee = Invitee(name=username)
+			invitee = Invitee(name=username, firstName=firstName, lastName=lastName)
 			event.invitee_set.add(invitee)
 
 			n = Notification(desc=event.title, originUserName=username, notificationType="joinNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))

@@ -202,7 +202,7 @@
 													</header>
 													<p> 
 														{% for invitee in event.invitee_set.all %}
-															{{ invitee.name }}
+															{{ invitee.name }} <br/>
 														{% endfor %}
 													</p>
 												</div>
@@ -261,8 +261,7 @@
 												{% if event.posstime_set.all|length == 0 %}
 														<p> No times found. </p>
 												{% endif %}
-												
-												
+
 												{% for time in event.posstime_set.all %}
 													{% if forloop.counter <= 3 %}
 														<div class="4u 12u(narrower)">
@@ -292,6 +291,8 @@
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
+														<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"</input></span>
+														<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"</input></span>
 													
 														<div class="row">
 															{% for time in event.posstime_set.all %}
