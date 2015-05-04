@@ -478,6 +478,7 @@ def registerEvent(request):
 	first_name = request.POST['first_name']
 	last_name = request.POST['last_name']
 	email = request.POST['username']
+	eventID = request.POST.get('eventID', '')
 	saveInfo = {'first_name':first_name, 'last_name':last_name, 'email':email}
 	registered = False
 
