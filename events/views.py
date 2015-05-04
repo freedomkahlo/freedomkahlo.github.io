@@ -54,19 +54,19 @@ def add(request):
 			'event_length':event_length, 'creator':creator, 'timezone':timezone}
 
 	#5/3/2015 2:00 PM
-	startTmp = time_range.split('-')[0].split(':')
-	startHour = startTmp[0]
-	startMin = startTmp[1].split()[0]
+	#startTmp = time_range.split('-')[0].split(':')
+	#startHour = startTmp[0]
+	#startMin = startTmp[1].split()[0]
 
-	if (startTmp[1].split()[1] == 'PM')
-		startHour = int(startHour) + 12
+	#if (startTmp[1].split()[1] == 'PM')
+	#	startHour = int(startHour) + 12
 
-	startDateTimeString = start_date + "," + startHour + ":" + startMin
-	startDateTime = datetime.strptime(startDateTimeString, '%Y/%m/%d,%H:%M.%fZ')
-	print startDateTime
-	if (startDateTime < datetime.now()):
-		returnMsg['error'] = 'Event start time cannot be in the past.'
-		return render(request, 'events/index.html', returnMsg)
+	#startDateTimeString = start_date + "," + startHour + ":" + startMin
+	#startDateTime = datetime.strptime(startDateTimeString, '%Y/%m/%d,%H:%M.%fZ')
+	#print startDateTime
+	#if (startDateTime < datetime.now()):
+	#	returnMsg['error'] = 'Event start time cannot be in the past.'
+	#	return render(request, 'events/index.html', returnMsg)
 
 	#Parse the time range
 	timeSplit = event_length.split()
