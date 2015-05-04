@@ -357,10 +357,10 @@ def manageMessage(request):
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
 	postAuthor = request.POST['username']
-	postFirstName = request.POST['firstName']
-	postLastName = request.POST['lastName']
 
 	if 'write' in request.POST:
+		postFirstName = request.POST['firstName']
+		postLastName = request.POST['lastName']
 		message = request.POST['message']
 		author = postAuthor
 		pub_date = datetime.now()
