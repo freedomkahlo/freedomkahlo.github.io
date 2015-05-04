@@ -120,7 +120,7 @@ def auth(request):
 
 	# First get the authentication pair
 	state = request.GET['state']
-	stateParted = state.split(sep='%')
+	stateParted = state.split('%')
 	tempCode = stateParted[0]
 	username = stateParted[1]
 	eventID = stateParted[2]
