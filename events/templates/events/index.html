@@ -343,8 +343,6 @@
 					<section>
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
-
-						<br />
 						<div class="overlay overlay-hugeinc">
 							<div class="createEvent"> <br/ >
 								<button type="button" class="overlay-close">Close</button>
@@ -409,7 +407,7 @@
 				</div>
 
 				<!-- One -->
-					<section class="wrapper style4 container">
+					<section class="wrapper style4 container" id="myContent">
 
 						<!-- Content -->
 							<div class="content">
@@ -610,9 +608,14 @@
 			{
 				window.addEventListener('scroll', function(e){
 					if( classie.has( overlay, 'open') ){
-						console.log("overlay open");
-			    		e.preventDefault();
+						// console.log("overlay open");
+			    		var myBody = document.querySelector("#myContent");
+			    		myBody.style.overflow = "hidden";
 				   	}   
+				   	else {
+				   		var myBody = document.querySelector("#myContent");
+			    		myBody.style.overflow = "scroll";
+				   	}
 				});
 			});
 		</script>
