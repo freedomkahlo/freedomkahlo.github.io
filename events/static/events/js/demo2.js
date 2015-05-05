@@ -33,17 +33,17 @@
 			else {
 				onEndTransitionFn();
 			}
-			$('body').css({'overflow':'hidden'});
-			$(document).bind('scroll', function() { 
-				window.scrollTo(0,0); 
-			});
+			$(document).unbind('scroll'); 
+  			$('body').css({'overflow':'visible'});
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
 			if(sessionStorage) {
 				sessionStorage['register'] = '1';
 			}
-			$(document).unbind('scroll'); 
-  			$('body').css({'overflow':'visible'});
+			$('body').css({'overflow':'hidden'});
+			$(document).bind('scroll', function() { 
+				window.scrollTo(0,0); 
+			});
 			classie.add( overlay, 'open' );
 		}
 	}
