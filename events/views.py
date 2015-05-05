@@ -53,8 +53,10 @@ def detail(request, eventID):
 
 		isInvitee = False
 		invitees = event.invitee_set.all()
-		if len([x in x for invitees if x.name == username]) > 0:
-			isInvitee = True
+		for invitee in event.invitee_set.all():
+			if invitee.name == username:
+				isInvitee = True
+				break
 
 		if (event.creator == username) and (user.UserProfile.firstTimeEventAsCreator):
 			context['showCreatorTour'] = True
