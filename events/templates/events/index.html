@@ -623,20 +623,20 @@
  		<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
 
 		<script>
-			// $(document).ready(function()
-			// {
-			// 	window.addEventListener('scroll', function(e){
-			//     	var myBody = document.querySelector("#myContent");
-			// 		if( classie.has( overlay, 'open') ){
-			// 			console.log("hidden");
-			//     		myBody.style.overflow = "hidden";
-			// 	   	}   
-			// 	   	else {
-			// 	   		console.log("scroll");
-			//     		myBody.style.overflow = "scroll";
-			// 	   	}
-			// 	});
-			// });
+			$(document).ready(function()
+			{
+				window.addEventListener('scroll', function(e){
+			    	var myBody = document.querySelector("#myContent");
+					if( classie.has( overlay, 'open') ){
+						console.log("hidden");
+			    		myBody.style.overflow = "hidden";
+				   	}   
+				   	else {
+				   		console.log("scroll");
+			    		myBody.style.overflow = "scroll";
+				   	}
+				});
+			});
 		</script>
 
 		<!--  Launching joyride when to page is loaded -->
