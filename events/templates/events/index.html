@@ -605,7 +605,9 @@
 			$(document).ready(function()
 			{
 				window.addEventListener('scroll', function(e){
+					console.log("hello");
 					if( classie.has( overlay, 'open') ){
+						console.log("2");
 			    		e.preventDefault();
 				   	}   
 				});
