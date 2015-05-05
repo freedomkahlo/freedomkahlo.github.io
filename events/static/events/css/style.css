@@ -1195,7 +1195,9 @@
 	}
 
 	#nav ul form button.special {
-		line-height: 37.183px;
+		line-height: 32.7813px;
+		background: #83d3c9;
+		border-color: #83d3c9;
 	}
 
 		input[type="button"]:hover,
