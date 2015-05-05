@@ -448,20 +448,6 @@
 			$(window).load(function() {
 				$('#joyRideTipContent').joyride({
 		        	autoStart : true,
-		        	preStepCallback : function (index, tip) {
-			        	if (index == 1) {
-			        		if(!classie.has( overlay, 'open')) {
-			        			toggleOverlay();
-			        		}
-			        	}
-		        	},
-		        	postStepCallback : function (index, tip) {
-		        		if (index != 0) {
-			        		if(!classie.has( overlay, 'open')) {
-				        		$('#joyRideTipContent').joyride('destroy');
-				        	}
-			        	}
-		        	}
 				});
 			});
 		</script>
