@@ -334,27 +334,6 @@
 
 						<br />
 						<div class="overlay overlay-hugeinc">
-							<!-- The Tour -->
-							 <!-- Tip Content -->
-							<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
-							<ol id="joyRideTipContent">
-								<li data-id="firstStop" data-text="Next">
-									<h2>Stop #1</h2>
-									<p>Click "Next" learn how to create your first event!</p>
-							  	</li>
-							 	<li data-id="from" data-button="Next" data-options="tipLocation:left">
-									<h2>Stop #2</h2>
-									<p>The start time of your search query.</p>
-							  	</li>
-							  	<li data-id="to" data-button="Next" data-options="tipLocation:left">
-									<h2>Stop #2</h2>
-									<p>The start time of your search query.</p>
-							  	</li>
-							</ol>
-							<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-							<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-							<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
-
 							<div class="createEvent"> <br/ >
 								<button type="button" class="overlay-close">Close</button>
 								<div id = "id_of_div" class ="divs">
@@ -611,6 +590,13 @@
 			        		toggleOverlay();
 			        	}
 		        	}
+				});
+
+				 window.addEventListener('scroll', function(e){
+			    	var el = $('.trigger-overlay.active');
+			    	if( el.length > 0 ){
+			    		e.preventDefault();
+			    	}   
 				});
 			});
 		</script>
