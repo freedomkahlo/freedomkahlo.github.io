@@ -52,8 +52,8 @@ def detail(request, eventID):
 	if username != "AnonymousUser":
 		user = get_object_or_404(User, username=username)
 		print event.creator
-		print event.creator == username
-		if (event.creator == username) and (user.UserProfile.firstTimeEventAsCreator):
+		print event.creator.strip() == username.strip()
+		if (event.creator.strip() == username.strip()) and (user.UserProfile.firstTimeEventAsCreator):
 			context['showCreatorTour'] = True
 			user.UserProfile.firstTimeEventAsCreator = False
 			print "fuck"
