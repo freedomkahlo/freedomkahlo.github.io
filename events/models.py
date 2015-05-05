@@ -191,25 +191,28 @@ class Notification(models.Model):
 	pub_date = models.DateTimeField('date made')
 
 	def __str__(self):
+		user = get_object_or_404(User, username=self.originUserName)
+		realName = user.first_name + ' ' + user.last_name
+
 		if self.notificationType == "deleteNot":
-			return self.originUserName + " has deleted '" + self.desc + "'."
+			return realName + " has deleted '" + self.desc + "'."
 		if self.notificationType == "noTimeNot":
 			return "'" + self.desc + "'" + " has expired."
 		if self.notificationType == "skedgNot":
-			return self.originUserName + " has scheduled '" + self.desc + "' and it's in your Google Calendar."
+			return realName + " has scheduled '" + self.desc + "' and it's in your Google Calendar."
 
 		if self.notificationType == "joinNot":
-			return self.originUserName + " has joined '" + self.desc + "'."
+			return realName + " has joined '" + self.desc + "'."
 		if self.notificationType == "leaveNot":
-			return self.originUserName + " has left '" + self.desc + "'."
+			return realName + " has left '" + self.desc + "'."
 
 		if self.notificationType == "composeNot":
-			return self.originUserName + " wrote a message in '" + self.desc + "'."
+			return realName + " wrote a message in '" + self.desc + "'."
 		if self.notificationType == "eraseNot":
-			return self.originUserName + " deleted your message in '" + self.desc + "'."
+			return realName + " deleted your message in '" + self.desc + "'."
 
 		if self.notificationType == "bootNot":
-			return self.originUserName + " has booted you from '" + self.desc + "'."
+			return realName + " has booted you from '" + self.desc + "'."
 
 		return self.desc # + " at " + str(self.pub_date)
 class UserProfile(models.Model):
