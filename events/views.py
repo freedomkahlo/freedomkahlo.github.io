@@ -555,7 +555,7 @@ def user_login(request):
 		user = authenticate(username=email, password=password)
 
 		if user:
-			if not user.userprofile.activated and user.date_joined + timedelta(days=2) < datetime.now(pytz.timezone('utc')):
+			if not user.UserProfile.activated and user.date_joined + timedelta(days=2) < datetime.now(pytz.timezone('utc')):
 				user.is_active = False
 
 			if user.is_active:
@@ -583,7 +583,7 @@ def user_loginEvent(request):
 		user = authenticate(username=email, password=password)
 
 		if user:
-			if not user.userprofile.activated and user.date_joined + timedelta(days=2) < datetime.now(pytz.timezone('utc')):
+			if not user.UserProfile.activated and user.date_joined + timedelta(days=2) < datetime.now(pytz.timezone('utc')):
 				user.is_active = False
 
 			if user.is_active:
