@@ -1194,6 +1194,10 @@
 		text-transform: uppercase;
 	}
 
+	#nav ul form button.special {
+		line-height: 37.183px;
+	}
+
 		input[type="button"]:hover,
 		input[type="submit"]:hover,
 		input[type="reset"]:hover,
