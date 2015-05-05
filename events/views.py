@@ -50,12 +50,17 @@ def detail(request, eventID):
 
 	if username != "AnonymousUser":
 		user = get_object_or_404(User, username=username)
-		print event.creator == username
+
+		isInvitee = False
+		invitees = event.invitee_set.all()
+		if len([x in x for invitees if x.name == username]) > 0:
+			isInvitee = True
+
 		if (event.creator == username) and (user.UserProfile.firstTimeEventAsCreator):
 			context['showCreatorTour'] = True
 			user.UserProfile.firstTimeEventAsCreator = False
 			user.UserProfile.save()
-		elif 'join' in request.POST and user.UserProfile.firstTimeEventAsInvitee:
+		elif isInvitee and user.UserProfile.firstTimeEventAsInvitee:
 			context['showInviteeTour'] = True
 			user.UserProfile.firstTimeEventAsInvitee = False
 			user.UserProfile.save()
