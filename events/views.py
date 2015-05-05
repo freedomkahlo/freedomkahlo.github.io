@@ -28,7 +28,7 @@ def index(request):
 #	latest_event_list = [event in latest_event_list if event.creator is request.user.username]
 	context = {'latest_event_list': latest_event_list, 'user_list': user_list}
 
-	username = request.POST.get('username', '')
+	username = request.user
 	user = get_object_or_404(User, username=username)
 	if user.UserProfile.firstTimeHome:
 		context['firstTimeHome'] = True
