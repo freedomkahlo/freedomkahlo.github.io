@@ -34,7 +34,7 @@
 				onEndTransitionFn();
 			}
 			$('body').css({'overflow':'hidden'});
-			$(document).bind('scroll',function () { 
+			$(document).bind('scroll', function() { 
 				window.scrollTo(0,0); 
 			});
 		}
