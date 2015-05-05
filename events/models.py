@@ -69,10 +69,13 @@ class Instance(models.Model):
 
 	@property
 	def printDateRange(self):
-		return (datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%b") + " " + 
+		date_range = (datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%b") + " " + 
 			datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%d").lstrip("0") + " - " +
 			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%b") + " " + 
 			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%d").lstrip("0"))
+		if date_range.split(' - ')[0] == date_range.split(' - ')[1]:
+			return date_range.split(' - ')[0]
+		return date_range
 
 	@property
 	def printTimeLength(self):
