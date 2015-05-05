@@ -22,6 +22,7 @@
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="{% static 'events/js/jquery.joyride-2.0.css %} ">
 		<script src="{% static 'events/js/jquery.min.js' %}"></script>
 		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 		<script src="{% static 'events/js/jquery.dropotron.min.js' %}"></script>
@@ -358,12 +359,12 @@
 													<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
 													<div style="text-align: left; width: 73%; display: inline-block">Time Zone:
 													<span class="custom-dropdown custom-dropdown--white">
-													    <select class="custom-dropdown__select custom-dropdown__select--white">
-													        <option>Eastern</option>
-													        <option>Central</option>
-													        <option>Mountain</option>
-													        <option>Pacific</option>
-													    </select>
+														<select class="custom-dropdown__select custom-dropdown__select--white">
+															<option>Eastern</option>
+															<option>Central</option>
+															<option>Mountain</option>
+															<option>Pacific</option>
+														</select>
 													</span> </div>
 													<br /> <br />
 													<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
@@ -586,10 +587,34 @@
 				</footer>
 			</section>
 
+		<!-- The Tour -->
+		 <!-- Tip Content -->
+		<ol id="joyRideTipContent">
+			<li data-class="trigger-overlay" data-text="Next" class="custom">
+				<h2>Stop #1</h2>
+				<p>You can control all the details for you tour stop. Any valid HTML will work inside of Joyride.</p>
+		  	</li>
+		 	<li data-id="id_of_div" data-button="Next" data-options="tipLocation:top;tipAnimation:fade">
+				<h2>Stop #2</h2>
+				<p>Get the details right by styling Joyride with a custom stylesheet!</p>
+		  	</li>
+		</ol>
+
+		<!--  -->
+		/* Launching joyride when to page is loaded */
+		<script>
+			$(window).load(function() {
+				$("#joyRideTipContent").joyride({
+				/* Options will go here */
+				});
+			});
+		</script>
+
+
 		<script>
 			$(document).ready(function(){
-			    $("#create").click(function() {
-				    $("#loadingOverlay").show();
+				$("#create").click(function() {
+					$("#loadingOverlay").show();
 				});
 			});	
 		</script>
@@ -612,5 +637,6 @@
 		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'events/js/classie.js' %}"></script>
 		<script src="{% static 'events/js/demo2.js' %}"></script>
+		<script src="{% static 'events/js/jquery.joyride-2.0.js' %}"></script>
 	</body>
 </html>
