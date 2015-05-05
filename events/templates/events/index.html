@@ -605,8 +605,7 @@
 			$(document).ready(function()
 			{
 				window.addEventListener('scroll', function(e){
-					var el = $('.trigger-overlay.active');
-					if( el.length > 0 ){
+					if( classie.has( overlay, 'open') ){
 			    		e.preventDefault();
 				   	}   
 				});
