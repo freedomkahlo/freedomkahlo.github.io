@@ -591,7 +591,7 @@
 	 				<p>Click to learn how to create your first event!</p>
 	 		  	</li>
 			 	<li data-id="from" data-button="Next" data-options="tipLocation:left">
-	 				<h2>Start Date/h2>
+	 				<h2>Start Date</h2>
 	 				<p>The start date of your search query...</p>
 	 		  	</li>
 	 		  	<li data-id="to" data-button="Next" data-options="tipLocation:bottom">
@@ -607,10 +607,10 @@
 	 				<p>The end time of your search query...</p>
 	 		  	</li>
 	 		  	<li data-id="event_length" data-button="Next" data-options="tipLocation:right">
-	 				<h2>End Time</h2>
+	 				<h2>Event Length</h2>
 	 				<p>The end time of your search query...</p>
 	 		  	</li>
-	 		  	<li data-id="create" data-button="Close">
+	 		  	<li data-id="create" data-button="Close" data-options:"modal: true;">
 			    	<h2>Add the Event</h2>
 			    	<p>Now what are you waiting for? Use Skedg to schedule your first event!</p>
 			    </li>
@@ -625,10 +625,11 @@
 				window.addEventListener('scroll', function(e){
 			    	var myBody = document.querySelector("#myContent");
 					if( classie.has( overlay, 'open') ){
-						// console.log("overlay open");
+						console.log("hidden");
 			    		myBody.style.overflow = "hidden";
 				   	}   
 				   	else {
+				   		console.log("scroll");
 			    		myBody.style.overflow = "scroll";
 				   	}
 				});
