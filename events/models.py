@@ -220,6 +220,9 @@ class UserProfile(models.Model):
 	refToken = models.CharField(max_length=100, default='')
 	activation_key = models.CharField(max_length=40, blank=True)
 	activated = models.BooleanField(default=False)
+	firstTimeHome = models.BooleanField(default=True)
+	firstTimeEventAsCreator = models.BooleanField(default=True)
+	firstTimeEventAsInvitee = models.BooleanField(default=True)
 
 	# Override the __unicode__() method to return out something meaningful!
 	def __unicode__(self):

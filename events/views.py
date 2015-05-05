@@ -27,6 +27,16 @@ def index(request):
 	user_list = User.objects.all()
 #	latest_event_list = [event in latest_event_list if event.creator is request.user.username]
 	context = {'latest_event_list': latest_event_list, 'user_list': user_list}
+
+	username = request.POST.get('username', '')
+	user = get_object_or_404(User, username=username)
+	if user.UserProfile.firstTimeHome:
+		context['firstTimeHome'] = True
+		user.UserProfile.firstTimeHome = False
+		user.UserProfile.save()
+	else:
+		context['firstTimeHome'] = False
+
 	request.path_info = '/events/'
 	return render(request, 'events/index.html', context)
 
