@@ -567,6 +567,28 @@
 													{% endfor %}
 												{% endif%}
 											{% endfor %}
+
+											<!--Check if any of the divs have no events -->
+											<script>
+												var div = document.getElementById('myEventsPending');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('myEventsUpcoming');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('myEventsPassed');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('otherEventsPending');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('otherEventsUpcoming');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('otherEventsPassed');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+											</script>
 										</div>
 									</div>
 								</section>
