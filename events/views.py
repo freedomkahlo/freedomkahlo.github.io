@@ -46,10 +46,8 @@ def detail(request, eventID):
 
 	context = {'event': event, 'showInviteeTour': False, 'showCreatorTour': False}
 
-	username = request.user.username
-
-	if username != "AnonymousUser":
-		user = get_object_or_404(User, username=username)
+	if request.user.is_authenticated():
+		username = request.user.username
 
 		isInvitee = False
 		invitees = event.invitee_set.all()
