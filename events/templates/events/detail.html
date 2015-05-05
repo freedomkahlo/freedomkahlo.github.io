@@ -311,7 +311,11 @@
 											<section id="friends">
 											<div class="row" style="margin-top: -100px" id="proposedTimes">
 												{% if event.posstime_set.all|length == 0 %}
-														<p> Event has been scheduled! </p>
+													{% if event.is_scheduled %}
+														<p> The event has already been scheduled. </p>
+													{% else %}
+														<p> No times found. </p>
+													{% endif %}
 												{% endif %}
 
 												{% for time in event.posstime_set.all %}
