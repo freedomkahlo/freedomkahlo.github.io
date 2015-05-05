@@ -29,7 +29,6 @@ def index(request):
 	context = {'latest_event_list': latest_event_list, 'user_list': user_list, 'showIndexTour': False}
 
 	user = request.user
-	#user = get_object_or_404(User, username=username)
 	if user.UserProfile.firstTimeHome:
 		context['showIndexTour'] = True
 		user.UserProfile.firstTimeHome = False
@@ -48,7 +47,7 @@ def detail(request, eventID):
 	context = {'event': event, 'showInviteeTour': False, 'showCreatorTour': False}
 
 	username = request.user.username
-	print username
+
 	if username != "AnonymousUser":
 		user = get_object_or_404(User, username=username)
 		print event.creator == username
@@ -56,7 +55,7 @@ def detail(request, eventID):
 			context['showCreatorTour'] = True
 			user.UserProfile.firstTimeEventAsCreator = False
 			user.UserProfile.save()
-		elif user.UserProfile.firstTimeEventAsInvitee:
+		elif 'join' in request.POST and user.UserProfile.firstTimeEventAsInvitee:
 			context['showInviteeTour'] = True
 			user.UserProfile.firstTimeEventAsInvitee = False
 			user.UserProfile.save()
