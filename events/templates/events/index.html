@@ -413,9 +413,7 @@
 										<div class="navbar">
 											<div align="right">
 												<ul id="nav">
-													<div id="firstStop" style="display: inline-block">
 													<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay">Create Event</a> </li>
-													</div>
 													<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="http://calendar.google.com" id="">Calendar</a></li>
 													<li id="notification_li">
 														{% if user.notification_set.all|length > 0 %}
@@ -584,7 +582,7 @@
  		 <!-- Tip Content -->
  		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
 	 		<ol id="joyRideTipContent">
-	 			<li data-id="firstStop" data-text="Next">
+	 			<li data-id="trigger-overlay" data-text="Next">
 	 				<h2>Stop #1</h2>
 	 				<p>Click "Next" learn how to create your first event!</p>
 	 		  	</li>
@@ -605,9 +603,8 @@
 			$(document).ready(function()
 			{
 				window.addEventListener('scroll', function(e){
-					console.log("hello");
 					if( classie.has( overlay, 'open') ){
-						console.log("2");
+						console.log("overlay open");
 			    		e.preventDefault();
 				   	}   
 				});
