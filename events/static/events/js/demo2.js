@@ -35,6 +35,7 @@
 			}
 			$(document).unbind('scroll'); 
   			$('body').css({'overflow':'visible'});
+  			$(document).foundation('joyride', 'hide');
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
 			if(sessionStorage) {
