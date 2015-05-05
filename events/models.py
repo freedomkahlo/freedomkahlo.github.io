@@ -193,6 +193,7 @@ class Notification(models.Model):
 	def __str__(self):
 		
 		if User.objects.filter(username__iexact=self.originUserName).count() != 0:
+			user = get_object_or_404(User, username=self.originUserName)
 			realOriginName = user.first_name + ' ' + user.last_name
 		else: 
 			realOriginName = originUserName
