@@ -676,6 +676,13 @@
 			        			toggleOverlay();
 			        		}
 			        	}
+		        	},
+		        	postStepCallback : function (index, tip) {
+		        		if (index != 1) {
+			        		if(!classie.has( overlay, 'open')) {
+				        		$('#joyRideTipContent').joyride('destroy');
+				        	}
+			        	}
 		        	}
 				});
 			});
