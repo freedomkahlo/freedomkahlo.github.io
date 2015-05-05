@@ -46,6 +46,12 @@ def detail(request, eventID):
 	resp = deletePastPossTimes(request, eventID)
 	if resp: #If event was deleted
 		return resp
+
+	username = request.user
+	print username
+	if (username == None):
+		print Hi
+
 	return render(request, 'events/detail.html', {'event': event})
 
 @login_required
