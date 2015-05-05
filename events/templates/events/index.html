@@ -609,40 +609,42 @@
 
 		<!-- The Tour -->
  		 <!-- Tip Content -->
- 		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
-	 		<ol id="joyRideTipContent">
-	 			<li data-id="trigger-overlay" data-text="Next">
-	 				<h2>Create Event</h2>
-	 				<p>Click to learn how to schedule your first event!</p>
-	 		  	</li>
-			 	<li data-id="from" data-button="Next" data-options="tipLocation:left">
-	 				<h2>Start Date</h2>
-	 				<p>The first possible day for your event.</p>
-	 		  	</li>
-	 		  	<li data-id="to" data-button="Next" data-options="tipLocation:bottom">
-	 				<h2>End Date</h2>
-	 				<p>The last possible day for your event.</p>
-	 		  	</li>
-	 		  	<li data-id="start_time" data-button="Next" data-options="tipLocation:right">
-	 				<h2>Start Time</h2>
-	 				<p>The earliest start time for your event.</p>
-	 		  	</li>
-	 		  	<li data-id="end_time" data-button="Next" data-options="tipLocation:right">
-	 				<h2>End Time</h2>
-	 				<p>The latest end time for your event.</p>
-	 		  	</li>
-	 		  	<li data-id="event_length" data-button="Next" data-options="tipLocation:right">
-	 				<h2>Event Length</h2>
-	 				<p>The duration of your event.</p>
-	 		  	</li>
-	 		  	<li data-id="create" data-button="Close" data-options="modal: true;">
-			    	<h2>Add the Event</h2>
-			    	<p>Now what are you waiting for? Use Skedg to schedule your first event!</p>
-			    </li>
-	 		</ol>
- 		<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
- 		<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
- 		<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+ 		{% if firstTimeHome %}
+	 		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
+		 		<ol id="joyRideTipContent">
+		 			<li data-id="trigger-overlay" data-text="Next">
+		 				<h2>Create Event</h2>
+		 				<p>Click to learn how to schedule your first event!</p>
+		 		  	</li>
+				 	<li data-id="from" data-button="Next" data-options="tipLocation:left">
+		 				<h2>Start Date</h2>
+		 				<p>The first possible day for your event.</p>
+		 		  	</li>
+		 		  	<li data-id="to" data-button="Next" data-options="tipLocation:bottom">
+		 				<h2>End Date</h2>
+		 				<p>The last possible day for your event.</p>
+		 		  	</li>
+		 		  	<li data-id="start_time" data-button="Next" data-options="tipLocation:right">
+		 				<h2>Start Time</h2>
+		 				<p>The earliest start time for your event.</p>
+		 		  	</li>
+		 		  	<li data-id="end_time" data-button="Next" data-options="tipLocation:right">
+		 				<h2>End Time</h2>
+		 				<p>The latest end time for your event.</p>
+		 		  	</li>
+		 		  	<li data-id="event_length" data-button="Next" data-options="tipLocation:right">
+		 				<h2>Event Length</h2>
+		 				<p>The duration of your event.</p>
+		 		  	</li>
+		 		  	<li data-id="create" data-button="Close" data-options="modal: true;">
+				    	<h2>Add the Event</h2>
+				    	<p>Now what are you waiting for? Use Skedg to schedule your first event!</p>
+				    </li>
+		 		</ol>
+	 		<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
+	 		<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
+	 		<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+ 		{% endif %}
 <!-- 
  		<script>
 			$(document).ready(function()
