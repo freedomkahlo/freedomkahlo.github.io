@@ -46,8 +46,9 @@ def detail(request, eventID):
 
 	context = {'event': event, 'showInviteeTour': False, 'showCreatorTour': False}
 
-	if request.user.is_authenticated():
-		username = request.user.username
+	username = request.user.username
+
+	if username != "AnonymousUser":
 		user = get_object_or_404(User, username=username)
 
 		isInvitee = False
@@ -245,13 +246,6 @@ def getTimes(request, eventID=None):
 			if needToContinue:
 				continue
 			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
-			if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
-				for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
-					if processedTimes[-1]['participants'].find(vetoed.invitee.name) > -1:
-						processedTimes[-1]['participants'] = processedTimes[-1]['participants'].replace(', ' + vetoed.invitee.name, '')
-						processedTimes[-1]['participants'] = processedTimes[-1]['participants'].replace(vetoed.invitee.name + ', ', '')
-						processedTimes[-1]['numFree'] -= 1
-						processedTimes[-1]['priority'] += 1000
 			continue
 		else:
 			i = 0
@@ -268,16 +262,16 @@ def getTimes(request, eventID=None):
 						break
 				if not needToContinue:
 					processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
-					if len(event.vetotime_set.filter(startTime=startEvent)) > 0:
-						for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
-							if processedTimes[-1]['participants'].find(vetoed.invitee.name) > -1:
-								processedTimes[-1]['participants'] = processedTimes[-1]['participants'].replace(', ' + vetoed.invitee.name, '')
-								processedTimes[-1]['participants'] = processedTimes[-1]['participants'].replace(vetoed.invitee.name + ', ', '')
-								processedTimes[-1]['numFree'] -= 1
-								processedTimes[-1]['priority'] += 1000
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
 				endEvent = startEvent + duration
+	for t in processedTimes
+		for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
+			if t['participants'].find(vetoed.invitee.name) > -1:
+				t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
+				t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
+				t['numFree'] -= 1
+				t['priority'] += 1000
 	#list.sort(processedTimes)
 	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
 	print 'Processed:'
