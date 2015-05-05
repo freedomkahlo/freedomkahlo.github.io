@@ -580,6 +580,19 @@
 				</footer>
 			</section>
 
+		<script>
+			$(document).ready(function()
+			{
+				window.addEventListener('scroll', function(e){
+					var el = $('.trigger-overlay.active');
+					if( el.length > 0 ){
+			    		e.preventDefault();
+				   	}   
+				});
+			});
+
+		</script>
+
 		<!--  Launching joyride when to page is loaded -->
 		<script>
 			$(window).load(function() {
@@ -590,13 +603,6 @@
 			        		toggleOverlay();
 			        	}
 		        	}
-				});
-
-				 window.addEventListener('scroll', function(e){
-			    	var el = $('.trigger-overlay.active');
-			    	if( el.length > 0 ){
-			    		e.preventDefault();
-			    	}   
 				});
 			});
 		</script>
