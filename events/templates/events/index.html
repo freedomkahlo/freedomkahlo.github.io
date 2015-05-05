@@ -475,7 +475,7 @@
 											<div class="6u 12u(narrower)">
 												<section>
 													<header>
-														<h3><strong>My Events</strong></h3>
+														<h3 id="myEventsCol"><strong>My Events</strong></h3>
 													</header>
 													<h4><strong>Pending:</strong></h4>
 													<div id="myEventsPending"></div>
@@ -494,7 +494,7 @@
 											<div class="6u 12u(narrower)">
 												<section>
 													<header>
-														<h3><strong>Other Events</strong></h3>
+														<h3 id="otherEventsCol"><strong>Other Events</strong></h3>
 													</header>
 													<h4><strong>Pending:</strong></h4>
 													<div id="otherEventsPending"></div>
@@ -610,6 +610,22 @@
  		{% if showIndexTour %}
 	 		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
 		 		<ol id="joyRideTipContent">
+		 			<li data-button="Next" data-options="modal: true;">
+				    	<h2>User Page</h2>
+				    	<p>Congratulations on creating your account! Skedg has many great features, and click "Next" to discover what we have to offer!</p>
+				    </li>
+				    <li data-id="myEventsCol" data-button="Next">
+				    	<h2>Your Events</h2>
+				    	<p>All your pending, upcoming, and past events that you have <strong>created</strong>.</p>
+				    </li>
+				    <li data-id="otherEventsCol" data-button="Next">
+				    	<h2>Other Events</h2>
+				    	<p>All your pending, upcoming, and past events that you have <strong>joined</strong>.</p>
+				    </li>
+				    <li data-id="notification_li" data-button="Next">
+				    	<h2>Notifications</h2>
+				    	<p>Notifications on any events you are affiliated with.</p>
+				    </li>
 		 			<li data-id="trigger-overlay" data-text="Next">
 		 				<h2>Create Event</h2>
 		 				<p>Click to learn how to schedule your first event!</p>
