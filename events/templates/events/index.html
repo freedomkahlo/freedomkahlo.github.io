@@ -390,18 +390,6 @@
 							</div>
 						</div>
 
-						<div class="overlay2 overlay-hugeinc">
-							<button type="button" class="overlay-close">Close</button>
-							<div class="register"> <br/ >
-								<div id = "id_of_div" class ="divs">
-									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
-									<form method="post" id="create_event" action="#">
-										Create your event!
-									</form>
-								</div>
-							</div>
-						</div>
-
 						<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
 						<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
 						<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
@@ -419,7 +407,9 @@
 										<div class="navbar">
 											<div align="right">
 												<ul id="nav">
+													<div id="firstStop">
 													<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay">Create Event</a> </li>
+													</div>
 													<li><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="http://calendar.google.com" id="">Calendar</a></li>
 													<li id="notification_li">
 														{% if user.notification_set.all|length > 0 %}
@@ -594,7 +584,7 @@
 		 <!-- Tip Content -->
 		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
 		<ol id="joyRideTipContent">
-			<li data-class="trigger-overlay" data-text="Next" class="custom">
+			<li data-class="firstStop" data-text="Next" class="custom">
 				<h2>Stop #1</h2>
 				<p>You can control all the details for you tour stop. Any valid HTML will work inside of Joyride.</p>
 		  	</li>
