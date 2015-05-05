@@ -51,6 +51,9 @@ def detail(request, eventID):
 	print username
 	if username != "AnonymousUser":
 		user = get_object_or_404(User, username=username)
+		creatoryay = event.creator
+		creatoryaystripped = creatoryay.strip()
+		usernamestripped = username.strip()
 		print event.creator
 		print event.creator.strip() == username.strip()
 		if (event.creator.strip() == username.strip()) and (user.UserProfile.firstTimeEventAsCreator):
