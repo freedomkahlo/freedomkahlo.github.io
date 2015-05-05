@@ -568,7 +568,7 @@ def user_login(request):
 				msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
 http://skedg.tk:82/events/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
-			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
+				send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 				return render(request, 'events/login.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email})
 		else:
 			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'username': email})
@@ -601,7 +601,7 @@ def user_loginEvent(request):
 				msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
 http://skedg.tk:82/events/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
-			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
+				send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 				return render(request, 'events/detail.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email, 'event':event})
 		else:
 			event = get_object_or_404(Instance, eventID=eventID)
