@@ -44,7 +44,7 @@ class Instance(models.Model):
 		
 		if (startd > endd):
 			raise ValidationError('Start datetime must be before end datetime.')
-		if (startd + duration >= endd):
+		if (startd + duration > endd):
 			raise ValidationError('Time range must be longer than the event duration.')
 		if (startd.date() < datetime.now(tz).date()):
 			raise ValidationError('Start date must occur in the future.')
@@ -84,12 +84,12 @@ class Instance(models.Model):
 		if (hours == 1):
 			output = output + "1 hour"
 		if (hours > 1):
-			output = output + hours + " hours"
+			output = output + str(hours) + " hours"
 
 		if (minutes > 0):
 			if (hours > 0):
 				output = output + " "
-			output = output + minutes + " minutes"
+			output = output + str(minutes) + " minutes"
 		return output
 
 	@property
