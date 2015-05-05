@@ -604,9 +604,12 @@
 		/* Launching joyride when to page is loaded */
 		<script>
 			$(window).load(function() {
-				$("#joyRideTipContent").joyride({
-				/* Options will go here */
-				});
+				$('#joyRideTipContent').joyride({
+		          autoStart : true,
+		        },
+		        modal:true,
+		        expose: true
+		        });
 			});
 		</script>
 
