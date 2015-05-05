@@ -144,7 +144,7 @@ def delete(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 
-	n = Notification(desc=event.title, notificationType="deleteNot", originUserName =event.creatorName, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+	n = Notification(desc=event.title, notificationType="deleteNot", originUserName =event.creator, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 	for invitee in event.invitee_set.all():
 		user = get_object_or_404(User, username=invitee.name)
@@ -175,7 +175,7 @@ def deletePastPossTimes(request, eventID=None):
 
 	if len(event.posstime_set.all()) == 0 and not event.is_scheduled:
 		#Need to delete event
-		n = Notification(desc=event.title, notificationType="noTimeNot", originUserName =event.creatorName, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
+		n = Notification(desc=event.title, notificationType="noTimeNot", originUserName =event.creator, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 		for invitee in event.invitee_set.all():
 			user = get_object_or_404(User, username=invitee.name)
