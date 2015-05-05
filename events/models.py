@@ -41,6 +41,9 @@ class Instance(models.Model):
 		#	endd += timedelta(days=1)
 
 		duration = timedelta(minutes=(int(self.event_length.split(':')[0]) * 60 + int(self.event_length.split(':')[1])))
+		
+		if (startd > endd):
+			raise ValidationError('Start datetime must be before end datetime.')
 		if (startd + duration >= endd):
 			raise ValidationError('Time range must be longer than the event duration.')
 		if (startd.date() < datetime.now(tz).date()):
