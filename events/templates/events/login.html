@@ -87,6 +87,9 @@
 
 		<!-- Main -->
 			<article id="main">
+				<noscript id="noscript">
+					<span style='color:red; font-weight:heavy; font-size: 50px'>Javascript must be enabled to use Skedg properly.</span>
+				</noscript>
 				<div class="content">
 					<section>
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
@@ -236,6 +239,7 @@
 						toggleOverlay2();
 					}
 				}
+				$("#noscript").hide();
 			});
 		</script>
 	</body>
