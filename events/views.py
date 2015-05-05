@@ -411,21 +411,26 @@ def manageMessage(request):
 		n = Notification(desc=event.title, originUserName=postAuthor, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 		for i in event.invitee_set.all():
+			if i.name == postAuthor:
+				continue
 			u = get_object_or_404(User, username=i.name)
 			u.notification_set.add(n)
 			u.save()
 
-		u2 = get_object_or_404(User, username=event.creator)
-		u2.notification_set.add(n)
-		u2.save()
+		if postAuthor != event.creator:
+			u2 = get_object_or_404(User, username=event.creator)
+			u2.notification_set.add(n)
+			u2.save()
 
-	if 'erase' in request.POST:
+	if 'erase' in request.POST: #delete message by the event creator
 		message = get_object_or_404(Message, pk=request.POST['messageID'])
 		
 		n = Notification(desc=event.title, originUserName=event.creator, notificationType="eraseNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
-		user = get_object_or_404(User, username=message.author)
-		user.notification_set.add(n)
-		user.save()
+		if message.author != event.creator: #If event creator is deleting his own message, no notification.
+			user = get_object_or_404(User, username=message.author)
+			user.notification_set.add(n)
+			user.save()
+		
 		message.delete()
 	
 	return HttpResponseRedirect('/events/eventDetails/' + eventID)
