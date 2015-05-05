@@ -196,7 +196,7 @@ class Notification(models.Model):
 			user = get_object_or_404(User, username=self.originUserName)
 			realOriginName = user.first_name + ' ' + user.last_name
 		else: 
-			realOriginName = originUserName
+			realOriginName = self.originUserName
 
 		if self.notificationType == "deleteNot":
 			return realOriginName + " has deleted '" + self.desc + "'."
