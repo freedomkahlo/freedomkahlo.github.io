@@ -54,6 +54,7 @@ def detail(request, eventID):
 		if event.creator == username and user.UserProfile.firstTimeEventAsCreator:
 			context['showCreatorTour'] = True
 			user.UserProfile.firstTimeEventAsCreator = False
+			print "fuck"
 			user.UserProfile.save()
 		elif user.UserProfile.firstTimeEventAsInvitee:
 			context['showInviteeTour'] = True
