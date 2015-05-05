@@ -75,6 +75,22 @@ class Instance(models.Model):
 			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%d").lstrip("0"))
 
 	@property
+	def printTimeLength(self):
+		hours = int(self.event_length.split(':')[0])
+		minutes = int(self.event_length.split(':')[1])
+		output = ''
+		if (hours == 1):
+			output = output + "1 hour"
+		if (hours > 1):
+			output = output + hours + " hours"
+
+		if (minutes > 0):
+			if (hours > 0):
+				output = output + " "
+			output = output + minutes + " minutes"
+		return output
+
+	@property
 	def printTimeRange(self):
 		return self.start_time + ' - ' + self.end_time
 

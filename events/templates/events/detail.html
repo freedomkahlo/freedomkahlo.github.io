@@ -208,11 +208,15 @@
 														{{event.printScheduledTime}}
 														<br />
 													{% else %}
-														<strong> DATE RANGE: </strong>
+														<strong> POSSIBLE DATES: </strong>
 														{{event.printDateRange}}
 														<br />
-														<strong> TIME RANGE: </strong>
+														<strong> POSSIBLE TIMES: </strong>
 														{{event.printTimeRange}}
+														<br />
+														<strong> EVENT LENGTH: </strong>
+														{{event.printTimeLength}}
+														<br />
 													{% endif %}
 													<br />
 													<header align="left">
@@ -421,6 +425,9 @@
 		<script>
 			$(document).ready(function(){
 			    $("#join").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#postMessage").click(function() {
 				    $("#loadingOverlay").show();
 				});
 				$("#click").click(function() {
