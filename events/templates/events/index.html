@@ -315,9 +315,9 @@
 					<ul>
 						<li>
 							<form action="{% url 'events:userPage' %}" method="post" style="display: inline-block;">
-							{% csrf_token %}
-							<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
-							<button type="submit" class="special button" style="background-color: #4682B4; border-color: #4682B4;" name="userPage" value="My Account"></button>
+								{% csrf_token %}
+								<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
+								<button type="submit" class="special button" style="background-color: #4682B4; border-color: #4682B4;" name="userPage">My Account</button>
 							</form>
 						</li>
 
