@@ -19,8 +19,8 @@ class Instance(models.Model):
 	timezone = models.CharField(max_length=20, default='Eastern')
 
 	is_scheduled = models.BooleanField(default=False)
-	scheduled_start = models.DateTimeField('event time', default=datetime.now(pytz.utc))
-	scheduled_end = models.DateTimeField('event time2', default=datetime.now(pytz.utc))
+	scheduled_start = models.DateTimeField('event time')
+	scheduled_end = models.DateTimeField('event time2')
 
 	def regValidate(self):
 		if len(self.title.replace(' ', '')) == 0:
@@ -62,17 +62,13 @@ class Instance(models.Model):
 	@property
 	def printScheduledTime(self):
 		tz = pytz.timezone('US/' + self.timezone)
-		return ((self.scheduled_start.astimezone(tz)).strftime("%b") + " " +
-			(self.scheduled_start.astimezone(tz)).strftime("%d").lstrip("0") + " " +
-			((self.scheduled_start.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
-			+ " - " + (self.scheduled_end.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0")))
+		return ((self.scheduled_start.astimezone(tz)).strftime("%b %d %I:%M %p").replace(' 0', ' ')
+			+ " - " + (self.scheduled_end.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0"))
 
 	@property
 	def printDateRange(self):
-		date_range = (datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%b") + " " + 
-			datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%d").lstrip("0") + " - " +
-			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%b") + " " + 
-			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%d").lstrip("0"))
+		date_range = (datetime.strptime(self.start_date, '%m/%d/%Y').strftime("%b %d").replace(' 0', ' ') + ' - ' + 
+			datetime.strptime(self.end_date, '%m/%d/%Y').strftime("%b %d").replace(' 0', ' '))
 		if date_range.split(' - ')[0] == date_range.split(' - ')[1]:
 			return date_range.split(' - ')[0]
 		return date_range
