@@ -48,6 +48,7 @@ def detail(request, eventID):
 	context = {'event': event, 'showInviteeTour': False, 'showCreatorTour': False}
 
 	username = request.user
+	print username
 	if username != "AnonymousUser":
 		user = get_object_or_404(User, username=username)
 		print event.creator
