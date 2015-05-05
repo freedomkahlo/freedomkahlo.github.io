@@ -50,7 +50,7 @@ def detail(request, eventID):
 	username = request.user
 	print username
 	if (username == None):
-		print Hi
+		print "Hi"
 
 	return render(request, 'events/detail.html', {'event': event})
 
