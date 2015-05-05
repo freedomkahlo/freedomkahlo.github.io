@@ -587,17 +587,33 @@
  		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
 	 		<ol id="joyRideTipContent">
 	 			<li data-id="trigger-overlay" data-text="Next">
-	 				<h2>Stop #1</h2>
-	 				<p>Click "Next" learn how to create your first event!</p>
+	 				<h2>Create Event</h2>
+	 				<p>Click to learn how to create your first event!</p>
 	 		  	</li>
 			 	<li data-id="from" data-button="Next" data-options="tipLocation:left">
-	 				<h2>Stop #2</h2>
-	 				<p>The start time of your search query.</p>
+	 				<h2>Start Date/h2>
+	 				<p>The start date of your search query...</p>
 	 		  	</li>
 	 		  	<li data-id="to" data-button="Next" data-options="tipLocation:bottom">
-	 				<h2>Stop #3</h2>
-	 				<p>The end time of your search query.</p>
+	 				<h2>End Date</h2>
+	 				<p>The end date of your search query...</p>
 	 		  	</li>
+	 		  	<li data-id="start_time" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Start Time</h2>
+	 				<p>The start time of your search query...</p>
+	 		  	</li>
+	 		  	<li data-id="end_time" data-button="Next" data-options="tipLocation:right">
+	 				<h2>End Time</h2>
+	 				<p>The end time of your search query...</p>
+	 		  	</li>
+	 		  	<li data-id="event_length" data-button="Next" data-options="tipLocation:right">
+	 				<h2>End Time</h2>
+	 				<p>The end time of your search query...</p>
+	 		  	</li>
+	 		  	<li data-id="create" data-button="Close">
+			    	<h2>Add the Event</h2>
+			    	<p>Now what are you waiting for? Use Skedg to schedule your first event!</p>
+			    </li>
 	 		</ol>
  		<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
  		<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
@@ -607,13 +623,12 @@
 			$(document).ready(function()
 			{
 				window.addEventListener('scroll', function(e){
+			    	var myBody = document.querySelector("#myContent");
 					if( classie.has( overlay, 'open') ){
 						// console.log("overlay open");
-			    		var myBody = document.querySelector("#myContent");
 			    		myBody.style.overflow = "hidden";
 				   	}   
 				   	else {
-				   		var myBody = document.querySelector("#myContent");
 			    		myBody.style.overflow = "scroll";
 				   	}
 				});
@@ -625,9 +640,11 @@
 			$(window).load(function() {
 				$('#joyRideTipContent').joyride({
 		        	autoStart : true,
-		        	postStepCallback : function (index, tip) {
-			        	if (index == 0) {
-			        		toggleOverlay();
+		        	preStepCallback : function (index, tip) {
+			        	if (index == 1) {
+			        		if(!classie.has( overlay, 'open')) {
+			        			toggleOverlay();
+			        		}
 			        	}
 		        	}
 				});
