@@ -26,16 +26,14 @@ def index(request):
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	user_list = User.objects.all()
 #	latest_event_list = [event in latest_event_list if event.creator is request.user.username]
-	context = {'latest_event_list': latest_event_list, 'user_list': user_list}
+	context = {'latest_event_list': latest_event_list, 'user_list': user_list, 'showIndexTour': False}
 
 	username = request.user
 	user = get_object_or_404(User, username=username)
 	if user.UserProfile.firstTimeHome:
-		context['firstTimeHome'] = True
+		context['showIndexTour'] = True
 		user.UserProfile.firstTimeHome = False
 		user.UserProfile.save()
-	else:
-		context['firstTimeHome'] = False
 
 	request.path_info = '/events/'
 	return render(request, 'events/index.html', context)
@@ -47,12 +45,22 @@ def detail(request, eventID):
 	if resp: #If event was deleted
 		return resp
 
-	username = request.user
-	print username
-	if (username == None):
-		print "Hi"
+	context = {'event': event, 'showInviteeTour': False, 'showCreatorTour': False}
 
-	return render(request, 'events/detail.html', {'event': event})
+	username = request.user
+	if username != "AnonymousUser":
+		user = get_object_or_404(User, username=username)
+		
+		if event.creator == username and user.UserProfile.firstTimeEventAsCreator:
+			context['showCreatorTour'] = True
+			user.UserProfile.firstTimeEventAsCreator = False
+			user.UserProfile.save()
+		elif user.UserProfile.firstTimeEventAsInvitee:
+			context['showInviteeTour'] = True
+			user.UserProfile.firstTimeEventAsInvitee = False
+			user.UserProfile.save()
+
+	return render(request, 'events/detail.html', context)
 
 @login_required
 def add(request):	

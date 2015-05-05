@@ -408,7 +408,7 @@
 			</section>
 
 		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
-		{% if event.creator == user.username %}
+		{% if showCreatorTour %}
 			<!-- Tour of detail page for the creator -->
 	 		<ol id="joyRideTipContent">
 	 			<li data-text="Next" data-options="modal: true;" style="width: 400px;">
@@ -440,8 +440,8 @@
 			    	<p>A message board that is visible to everyone, so you can post updates and times for people to see.</p>
 			    </li>
 	 		</ol>
-	 	{% else %}
-	 		<!-- Tour of detail page for the invitee -->
+	 	{% elif showInviteeTour %}
+	 		<!-- Tour of detail page for the creator -->
 	 		<ol id="joyRideTipContent">
 	 			<li data-text="Next" data-options="modal: true;" style="width: 400px;">
 	 				<h2>Joined Event</h2>
