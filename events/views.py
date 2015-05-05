@@ -265,7 +265,7 @@ def getTimes(request, eventID=None):
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
 				endEvent = startEvent + duration
-	for t in processedTimes
+	for t in processedTimes:
 		for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
 			if t['participants'].find(vetoed.invitee.name) > -1:
 				t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
