@@ -622,6 +622,27 @@
  		<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
  		<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
 
+ 		<script>
+			$(document).ready(function()
+			{
+				window.addEventListener('scroll', function(e){
+					if( classie.has( overlay, 'open') ){
+						console.log("hidden");
+			    		$('body').css({'overflow':'hidden'});
+						$(document).bind('scroll',function () { 
+							window.scrollTo(0,0); 
+						});
+				   	}   
+				   	else {
+				   		console.log("scroll");
+			    		$(document).unbind('scroll'); 
+						$('body').css({'overflow':'visible'});
+				   	}
+				});
+			});
+		</script>
+
+
 		<!--  Launching joyride when to page is loaded -->
 		<script>
 			$(window).load(function() {
