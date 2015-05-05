@@ -59,6 +59,13 @@
 					<ul>
 						<li ><a href="/">Home</a></li>
 						{% if user.is_authenticated %}		
+						<li>
+							<form action="{% url 'events:userPage' %}" method="post" style="display: inline-block;">
+								{% csrf_token %}
+								<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
+								<button type="submit" class="special button" name="userPage">My Account</button>
+							</form>
+						</li>
 						<li><a class="special button" href="/events/logout/">Logout</a></li>
 						{% else %}
 						<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special ">Login</a></li>
