@@ -49,6 +49,10 @@
 				$("#from").val(dString);
 				$("#to").val(dString);
 			{% endif %}
+
+			{% if messages %}
+				alert(messages[0])
+			{% endif %}
 		});
 		</script>
 

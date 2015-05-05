@@ -409,7 +409,6 @@ def manageMessage(request):
 
 @login_required
 def manageNotification(request):
-	print "HI"
 	if 'dismiss' in request.POST:
 		n_id = request.POST['notificationID']
 		notification = get_object_or_404(Notification, pk=n_id)
@@ -445,16 +444,13 @@ def register(request):
 			key = hashlib.sha1(key + email).hexdigest()
 			profile.activation_key = key
 
-			if 'picture' in request.FILES:
-				profile.picture = request.FILES['picture']
-
 			profile.save()
 			registered = True
 
 			#Send email with validation key
 			msg = '''Hi %s, 
-Thanks for signing up. To activate your account, click this link within 48 hours:
-http://skedg.tk/events/confirm/%s''' % (user.username, key)
+Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
+http://skedg.tk:82/events/confirm/%s''' % (user.first_name, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
 			print (user_form.errors, profile_form.errors)
@@ -505,16 +501,13 @@ def registerEvent(request):
 			key = hashlib.sha1(key + email).hexdigest()
 			profile.activation_key = key
 
-			if 'picture' in request.FILES:
-				profile.picture = request.FILES['picture']
-
 			profile.save()
 			registered = True
 
 			#Send email with validation key
 			msg = '''Hi %s, 
-Thanks for signing up. To activate your account, click this link within 48 hours:
-http://skedg.tk/events/confirm/%s''' % (user.username, key)
+Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
+http://skedg.tk:82/events/confirm/%s''' % (user.first_name, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
 			errorList = {}
@@ -539,14 +532,12 @@ http://skedg.tk/events/confirm/%s''' % (user.username, key)
 			context)
 
 def register_confirm(request, activation_key):
-	if request.user.is_authenticated():
-		#User already authenticated
-		return HttpResponseRedirect('/events/')
-	user_profile = get_object_or_404(UserProfile, activation_key = activation_key)
+	user_profile = get_object_or_404(UserProfile, activation_key=activation_key)
 
-	user = user_profile.user
-	user.is_active=True
-	user.save()
+	if user_profile.activated:
+		return HttpResponseRedirect('/events/')
+	user_profile.activated = True
+	user_profile.save()
 	messages.success(request, "Your account has been successfully activated!")
 	return HttpResponseRedirect('/events/')
 
@@ -564,6 +555,9 @@ def user_login(request):
 		user = authenticate(username=email, password=password)
 
 		if user:
+			if not user.userprofile.activated and user.date_joined + timedelta(days=2) < datetime.now(pytz.timezone('utc')):
+				user.is_active = False
+
 			if user.is_active:
 				resp = cal.validateToken(email)
 				if (resp =="Already Has Token"):
@@ -571,9 +565,8 @@ def user_login(request):
 					return HttpResponseRedirect('/events/')
 				return resp
 			else:
-				return HttpResponse("Your Skedge account is disabled.")
+				return render(request, 'events/login.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email})
 		else:
-			print ("Invalid login details: {0}, {1}".format(email, password))
 			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'username': email})
 
 	else:
@@ -590,6 +583,9 @@ def user_loginEvent(request):
 		user = authenticate(username=email, password=password)
 
 		if user:
+			if not user.userprofile.activated and user.date_joined + timedelta(days=2) < datetime.now(pytz.timezone('utc')):
+				user.is_active = False
+
 			if user.is_active:
 				resp = cal.validateToken(email,eventID)
 				if (resp =="Already Has Token"):
@@ -597,9 +593,9 @@ def user_loginEvent(request):
 					return HttpResponseRedirect('/events/eventDetails/' + eventID)
 				return resp
 			else:
-				return HttpResponse("Your Skedge account is disabled.")
+				event = get_object_or_404(Instance, eventID=eventID)
+				return render(request, 'events/detail.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email, 'event':event})
 		else:
-			print ("Invalid login details: {0}, {1}".format(email, password))
 			event = get_object_or_404(Instance, eventID=eventID)
 			return render(request, 'events/detail.html', {'invalidLogin':"Invalid login details supplied.", 'username': email, 'event':event})
 
