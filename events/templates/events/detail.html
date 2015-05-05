@@ -221,7 +221,7 @@
 														{{event.printScheduledTime}}
 														<br />
 													{% else %}
-														<strong> POSSIBLE DATES: </strong>
+														<strong id="eventTimes"> POSSIBLE DATES: </strong>
 														{{event.printDateRange}}
 														<br />
 														<strong> POSSIBLE TIMES: </strong>
@@ -345,14 +345,14 @@
 															<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"></input></span>
 															<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"></input></span>
 														
-															<div class="row">
+															<div class="row" id="proposedTimes">
 																{% for time in event.posstime_set.all %}
 																	{% if forloop.counter <= 3 %}
 																		<div class="4u 12u(narrower)">
 																			<section style="background-color: #645862; border-radius: 10px;">
 																				<span class="icon fa-clock-o"></span>
 																				<header>
-																					<input type="checkbox" name="vetoTimes" value="{{ time.id }}"/>
+																					<input type="checkbox" name="vetoTimes" value="{{ time.id }}" id="checkBoxVote"/>
 																					<h3> {{ time.date }} </h3>
 																					<p> {{ time.time }} </p>
 																				</header>
@@ -407,41 +407,71 @@
 				</footer>
 			</section>
 
-		<!-- Tour of detail page -->
 		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
- 		<ol id="joyRideTipContent">
- 			<li data-text="Next" data-options="modal: true;" style="width: 400px;">
- 				<h2>Your First Event</h2>
- 				<p>Congratulations on creating your first event! Click "next" to view the different features of Skedg.</p>
- 		  	</li>
-		 	<li data-id="eventLink" data-button="Next" data-options="tipLocation:bottom">
- 				<h2>Event Link</h2>
- 				<p>This is the unique event link for each page. Copy the link and share it with your friends so they can join your event!</p>
- 		  	</li>
- 		  	<li data-id="inviteesCol" data-button="Next" data-options="tipLocation:right">
- 				<h2>Invitees</h2>
- 				<p>Those who have joined your event.</p>
- 		  	</li>
- 		  	<li data-id="proposedTimes" data-button="Next" data-options="tipLocation:right">
- 				<h2>Proposed Times</h2>
- 				<p>The top times our application has found for your event and its invitees.</p>
- 		  	</li>
- 		  	<li data-id="attendees" data-button="Next" data-options="tipLocation:right">
- 				<h2>Attendees</h2>
- 				<p>Those who can attend your event at the listed time.</p>
- 		  	</li>
- 		  	<li data-id="skedgButton" data-button="Next" data-options="tipLocation:right">
- 				<h2>Skedg Your Event</h2>
- 				<p>Click on this button to schedule your event at the listed time and add it to everyone's calendars.</p>
- 		  	</li>
- 		  	<li data-id="messagesContainer" data-button="Close" data-options="modal:true; tipLocation:right">
-		    	<h2>Message Board</h2>
-		    	<p>A message board that is visible to everyone, so you can post updates and times for people to see.</p>
-		    </li>
- 		</ol>
- 		<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
- 		<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
- 		<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+		{% if event.creator == user.username %}
+			<!-- Tour of detail page for the creator -->
+	 		<ol id="joyRideTipContent">
+	 			<li data-text="Next" data-options="modal: true;" style="width: 400px;">
+	 				<h2>Created Event</h2>
+	 				<p>Congratulations on creating your first event! Click "next" to view the different <strong>creator</strong> features of Skedg.</p>
+	 		  	</li>
+			 	<li data-id="eventLink" data-button="Next" data-options="tipLocation:bottom">
+	 				<h2>Event Link</h2>
+	 				<p>This is the unique event link for each page. Copy the link and share it with your friends so they can join your event!</p>
+	 		  	</li>
+	 		  	<li data-id="inviteesCol" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Invitees</h2>
+	 				<p>Those who have joined your event.</p>
+	 		  	</li>
+	 		  	<li data-id="proposedTimes" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Proposed Times</h2>
+	 				<p>The top times our application has found for your event and its invitees.</p>
+	 		  	</li>
+	 		  	<li data-id="attendees" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Attendees</h2>
+	 				<p>Those who can attend your event at the listed time.</p>
+	 		  	</li>
+	 		  	<li data-id="skedgButton" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Skedg Event</h2>
+	 				<p>Click on this button to schedule your event at the listed time and add it to everyone's calendars.</p>
+	 		  	</li>
+	 		  	<li data-id="messagesContainer" data-button="Close" data-options="modal:true; tipLocation:right">
+			    	<h2>Message Board</h2>
+			    	<p>A message board that is visible to everyone, so you can post updates and times for people to see.</p>
+			    </li>
+	 		</ol>
+	 	{% else %}
+	 		<!-- Tour of detail page for the creator -->
+	 		<ol id="joyRideTipContent">
+	 			<li data-text="Next" data-options="modal: true;" style="width: 400px;">
+	 				<h2>Joined Event</h2>
+	 				<p>Congratulations on creating your first event! Click "next" to view the different <strong>invitee</strong> features of Skedg.</p>
+	 		  	</li>
+	 		  	<li data-id="eventTimes" data-button="Next" data-options="tipLocation:right">
+	 				<h2></h2>
+	 				<p>The possible dates for the event, the time range in which your event will be contained and with which your Google Calendar will be sampled, and the event length.</p>
+	 		  	</li>
+	 		  	<li data-id="proposedTimes" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Proposed Times</h2>
+	 				<p>The top times our application has found for all the current invitees.</p>
+	 		  	</li>
+	 		  	<li data-id="checkBoxVote" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Voting</h2>
+	 				<p>Select this box to vote against the listed time.</p>
+	 		  	</li>
+	 		  	<li data-id="veto" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Adding Conflicts</h2>
+	 				<p>Once you have selected all times you want to vote against, click here to add your vote to the event. The new listed times will be optimized for all invitees.</p>
+	 		  	</li>
+	 		  	<li data-id="messagesContainer" data-button="Close" data-options="modal:true; tipLocation:right">
+			    	<h2>Message Board</h2>
+			    	<p>A message board that is visible to everyone, so you can post updates and times for people to see.</p>
+			    </li>
+	 		</ol>
+	 	{% endif %}
+	 	<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
+	 	<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
+	 	<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
 
 		<!--  Launching joyride when to page is loaded -->
 		<script>
