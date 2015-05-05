@@ -74,6 +74,10 @@
 		
 		<!-- Main -->
 			<article id="main">
+				<noscript id="noscript" onload=>
+					<span style='color:red;'>Javascript must be enable to use Skedg properly.</span>
+				</noscript>
+
 				<div class="content">
 					<section>
 						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
@@ -440,6 +444,7 @@
 				$("#boot").click(function() {
 				    $("#loadingOverlay").show();
 				});
+				$("noscript").hide();
 			});	
 		</script>
 
