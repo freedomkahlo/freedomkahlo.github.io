@@ -43,6 +43,11 @@
 					//Created event
 					alert('You have successfully registered.')
 				{% endif %}
+				{% if messages %}
+					{% for message in messages %}
+						alert('{{message}}');
+					{% endfor %}
+				{% endif %}
 			});
 		</script>
 

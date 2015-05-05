@@ -538,6 +538,8 @@ def register_confirm(request, activation_key):
 		return HttpResponseRedirect('/events/')
 	user_profile.activated = True
 	user_profile.save()
+	user_profile.user.is_active = True
+	user_profile.user.save()
 	messages.success(request, "Your account has been successfully activated!")
 	return HttpResponseRedirect('/events/')
 
