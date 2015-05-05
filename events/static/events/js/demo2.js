@@ -36,15 +36,15 @@
 			$('body').css({'overflow':'hidden'});
 			$(document).bind('scroll',function () { 
 				window.scrollTo(0,0); 
-			}
+			});
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
 			if(sessionStorage) {
 				sessionStorage['register'] = '1';
 			}
-			classie.add( overlay, 'open' );
 			$(document).unbind('scroll'); 
-			$('body').css({'overflow':'visible'});
+  			$('body').css({'overflow':'visible'});
+			classie.add( overlay, 'open' );
 		}
 	}
 	triggerBttn.addEventListener( 'click', toggleOverlay);
