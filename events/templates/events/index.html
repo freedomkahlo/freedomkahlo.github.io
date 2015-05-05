@@ -313,6 +313,12 @@
 				<h1 id="logo"><a href="/">Skedg <span> - Hello, {{ user.first_name }}! </span></a></h1>
 				<nav id="nav">
 					<ul>
+						<form action="{% url 'events:userPage' %}" method="post" style="display: inline-block;">
+							{% csrf_token %}
+							<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
+							<li><input type="submit" class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" name="userPage" value="My Account" id=""></input></li>
+						</form>
+
 						<li><a class="special button" href="/events/logout/">Logout</a></li>
 					</ul>
 				</nav>
@@ -453,12 +459,6 @@
 															</div>
 														</div>
 													</li>
-													<form action="{% url 'events:userPage' %}" method="post" style="display: inline-block;">
-														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
-														<li><input type="submit" class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" name="userPage" value="My Account" id=""></input></li>
-													</form>
-
 												</ul>
 											</div>
 										</div>
