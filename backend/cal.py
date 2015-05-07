@@ -1,26 +1,17 @@
 from backend.apiclient.discovery import build
-#from backend.oauth2client.client import OAuth2WebServerFlow
 from backend.oauth2client.client import flow_from_clientsecrets
 from backend.oauth2client.client import AccessTokenRefreshError
 from backend.oauth2client.client import AccessTokenCredentialsError
 from backend.oauth2client.client import AccessTokenCredentials
-#from backend.oauth2client.file import Storage
 from backend.oauth2client.tools import argparser
-#from backend.oauth2client.tools import run
-#from backend.oauth2client.tools import run_flow
 
 from backend import httplib2
 from backend import gflags
-#from backend import gflags_validators
 
 import os
 import sys
 import json
-#import urllib
-#import urllib2
 import requests
-#import string
-#import random
 from heapq import *
 from datetime import datetime, timedelta
 import pytz
