@@ -8,12 +8,12 @@
 	<head>
 		{% load staticfiles %}
 		<script>
-			var mobileStyle = '{% static 'events/css/style-mobile.css' %}';
-			var style = '{% static 'events/css/style.css' %}';
-			var wideStyle = '{% static 'events/css/style-wide.css' %}';
-			var narrowStyle = '{% static 'events/css/style-narrow.css' %}';
-			var narrowerStyle = '{% static 'events/css/style-narrower.css' %}';
-			var normalStyle = '{% static 'events/css/style-normal.css' %}';;
+			var mobileStyle = '{% static 'css/style-mobile.css' %}';
+			var style = '{% static 'css/style.css' %}';
+			var wideStyle = '{% static 'css/style-wide.css' %}';
+			var narrowStyle = '{% static 'css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'css/style-narrower.css' %}';
+			var normalStyle = '{% static 'css/style-normal.css' %}';;
 		</script>
 
 		<title>Skedg - Let us check your skedg! </title>
@@ -21,19 +21,19 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
-		<script src="{% static 'events/js/jquery.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.dropotron.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.scrolly.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.scrollgress.min.js' %}"></script>
-		<script src="{% static 'events/js/skel.min.js' %}"></script>
-		<script src="{% static 'events/js/skel-layers.min.js' %}"></script>
-		<script src="{% static 'events/js/init.js' %}"></script>
-		<script src="{% static 'events/js/jquery.joyride-2.1.js' %}"></script> 
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
+		<script src="{% static 'js/skel.min.js' %}"></script>
+		<script src="{% static 'js/skel-layers.min.js' %}"></script>
+		<script src="{% static 'js/init.js' %}"></script>
+		<script src="{% static 'js/jquery.joyride-2.1.js' %}"></script> 
 		<noscript>
-			<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style-noscript.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
 		</noscript>
 		<script type="text/javascript">
 			$(function(){
@@ -61,13 +61,13 @@
 						<li ><a href="/">Home</a></li>
 						{% if user.is_authenticated %}		
 						<li>
-							<form action="{% url 'events:userPage' %}" method="post" style="display: inline-block;">
+							<form action="{% url 'userPage' %}" method="post" style="display: inline-block;">
 								{% csrf_token %}
 								<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
 								<button type="submit" class="special button" name="userPage">My Account</button>
 							</form>
 						</li>
-						<li><a class="special button" href="/events/logout/">Logout</a></li>
+						<li><a class="special button" href="/logout/">Logout</a></li>
 						{% else %}
 						<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special ">Login</a></li>
 						<li><a href="javascript:void(0);" id="trigger-overlay-two" class="links button special ">Register</a></li>
@@ -88,8 +88,8 @@
 
 				<div class="content">
 					<section>
-						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
-						<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
 
 						<!-- open/close -->
 						<br />
@@ -98,7 +98,7 @@
 							<div class="register"> <br/ >
 								<div id = "id_of_div" class ="divs">
 									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
-									<form method="post" id="login_form" action="/events/loginEvent/">
+									<form method="post" id="login_form" action="/loginEvent/">
 										{% csrf_token %}
 										<center><label for="username">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
@@ -115,7 +115,7 @@
 							<div class="register"> <br/ >
 								<div id = "id_of_div2" class="divs">
 				
-									<form id="user_form" method="post" action="/events/registerEvent/" enctype="multipart/form-data" style:"margins: auto;">
+									<form id="user_form" method="post" action="/registerEvent/" enctype="multipart/form-data" style:"margins: auto;">
 									  	{% csrf_token %}
 										<font color='red'>{{registerError}}</font>
 										<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" value="{{first_name}}" size="30" />
@@ -133,9 +133,9 @@
 							</div>
 						</div>
 
-						<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-						<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-						<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
 
 					</section>
 				</div>
@@ -150,12 +150,12 @@
 										<div class="navbar">
 											<div class="eventLink" align="left">
 												<strong>EVENT LINK: &nbsp; </strong>
-												<input value="skedg.tk:82/events/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="40" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline-block; padding: 5px;" id="eventLink"></input>
+												<input value="skedg.tk:82/eventDetails/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="40" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline-block; padding: 5px;" id="eventLink"></input>
 											</div>
 											<ul id="nav">
 													{% if event.creator == user.username %}
 														<li>
-															<form style="display: inline-block;" action="{% url 'events:manageCreator' %}" method="post">
+															<form style="display: inline-block;" action="{% url 'manageCreator' %}" method="post">
 																{% csrf_token %}
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 																
@@ -164,7 +164,7 @@
 														</li>
 													{% elif user.is_authenticated %}
 														<li>
-															<form action="{% url 'events:manageInvitee' %}" method="post">   
+															<form action="{% url 'manageInvitee' %}" method="post">   
 																	{% csrf_token %}
 																	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>    
 																	<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"/></input></span>    
@@ -194,7 +194,7 @@
 														</li>
 														<!-- WE NEED THIS TO BE LEAVE EVENT!!!!! -->
 													{% else %}
-														<!-- <form action="{% url 'events:manageInvitee' %}" method="post">   
+														<!-- <form action="{% url 'manageInvitee' %}" method="post">   
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>  -->
@@ -239,7 +239,7 @@
 													{% for invitee in event.invitee_set.all %}
 														<!-- Bumps -->
 														{% if event.creator == user.username %}
-															<form action="{% url 'events:manageCreator' %}" method="post"> 
+															<form action="{% url 'manageCreator' %}" method="post"> 
 															{% csrf_token %} 
 															<span style="display: none;"><input type="text" name="invitee_name" value="{{ invitee.name }}"/></input></span> 
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"/></input></span>
@@ -265,7 +265,7 @@
 															{% for m in event.message_set.all %}
 																<li>
 																{% if event.creator = user.username %}
-																	<form action="{% url 'events:manageMessage' %}" method="post">
+																	<form action="{% url 'manageMessage' %}" method="post">
 																		{% csrf_token %}
 																		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
 																		<span style="display: none;"><input type="text" name="username" value="{{ m.author }}"></span>
@@ -284,7 +284,7 @@
 														</div>
 														<div id="messagesFooter">
 															{% if user.is_authenticated %}
-															<form action="{% url 'events:manageMessage' %}" method="post">
+															<form action="{% url 'manageMessage' %}" method="post">
 																{% csrf_token %}
 																<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
@@ -321,7 +321,7 @@
 												{% for time in event.posstime_set.all %}
 													{% if forloop.counter <= 3 %}
 														<div class="4u 12u(narrower)">
-															<section style="background-color: #645862; border-radius: 10px; padding:5px;"><form action="{% url 'events:manageCreator' %}" method="post">
+															<section style="background-color: #645862; border-radius: 10px; padding:5px;"><form action="{% url 'manageCreator' %}" method="post">
 																{% csrf_token %}
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 																<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
@@ -342,7 +342,7 @@
 											<section id="friends">
 												{% for i in event.invitee_set.all %}
 													{% if i.name == user.username %}
-														<form action="{% url 'events:manageInvitee' %}" method="post">
+														<form action="{% url 'manageInvitee' %}" method="post">
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></input></span>
@@ -415,7 +415,7 @@
 				</footer>
 			</section>
 
-		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/joyride-2.1.css' %}">
 		{% if showCreatorTour %}
 			<!-- Tour of detail page for the creator -->
 	 		<ol id="joyRideTipContent">
@@ -477,9 +477,9 @@
 			    </li>
 	 		</ol>
 	 	{% endif %}
-	 	<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-	 	<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-	 	<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+	 	<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+	 	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+	 	<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
 
 		<!--  Launching joyride when to page is loaded -->
 		<script>
@@ -539,8 +539,8 @@
 			});	
 		</script>
 
-		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
-		<script src="{% static 'events/js/classie.js' %}"></script>
-		<script src="{% static 'events/js/demo3.js' %}"></script>
+		<script src="{% static 'js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'js/classie.js' %}"></script>
+		<script src="{% static 'js/demo3.js' %}"></script>
 	</body>
 </html>

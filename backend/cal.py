@@ -32,7 +32,7 @@ from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 from django.utils import dateparse
 
-from events.models import UserProfile
+from skedg.models import UserProfile
 
 eventIDLength = 32
 FLAGS = gflags.FLAGS

@@ -8,12 +8,12 @@
 	<head>
 		{% load staticfiles %}
 		<script>
-			var mobileStyle = '{% static 'events/css/style-mobile.css' %}';
-			var style = '{% static 'events/css/style.css' %}';
-			var wideStyle = '{% static 'events/css/style-wide.css' %}';
-			var narrowStyle = '{% static 'events/css/style-narrow.css' %}';
-			var narrowerStyle = '{% static 'events/css/style-narrower.css' %}';
-			var normalStyle = '{% static 'events/css/style-normal.css' %}';;
+			var mobileStyle = '{% static 'css/style-mobile.css' %}';
+			var style = '{% static 'css/style.css' %}';
+			var wideStyle = '{% static 'css/style-wide.css' %}';
+			var narrowStyle = '{% static 'css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'css/style-narrower.css' %}';
+			var normalStyle = '{% static 'css/style-normal.css' %}';;
 		</script>
 
 		<title>Skedg - Let us check your skedg! </title>
@@ -22,18 +22,18 @@
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-		<script src="{% static 'events/js/jquery.min.js' %}"></script>
+		<script src="{% static 'js/jquery.min.js' %}"></script>
 		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-		<script src="{% static 'events/js/jquery.dropotron.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.scrolly.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.scrollgress.min.js' %}"></script>
-		<script src="{% static 'events/js/skel.min.js' %}"></script>
-		<script src="{% static 'events/js/skel-layers.min.js' %}"></script>
-		<script src="{% static 'events/js/init.js' %}"></script>
-		<script src="{% static 'events/js/moment.js' %}"></script> 
-		<script src="{% static 'events/js/combodate.js' %}"></script> 
-		<script src="{% static 'events/js/jquery.ui.touch-punch.js' %}"></script>
-		<script src="{% static 'events/js/jquery.joyride-2.1.js' %}"></script> 
+		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
+		<script src="{% static 'js/skel.min.js' %}"></script>
+		<script src="{% static 'js/skel-layers.min.js' %}"></script>
+		<script src="{% static 'js/init.js' %}"></script>
+		<script src="{% static 'js/moment.js' %}"></script> 
+		<script src="{% static 'js/combodate.js' %}"></script> 
+		<script src="{% static 'js/jquery.ui.touch-punch.js' %}"></script>
+		<script src="{% static 'js/jquery.joyride-2.1.js' %}"></script> 
 
 		<!-- I am perfectly capable of putting this in a new file myself, BUT I HAVE TOLD YOU CHUMPS LIKE FIVE TIMES TO DO THIS SO I'M
 		CARRYING THIS OVER TO PROVE A POINT. -->
@@ -86,65 +86,6 @@
 			});
 		</script>
 
-		<script>
-			$(document).ready(function(){
-				function split( val ) {
-					return val.split( / \s*/ );
-				}
-				function extractLast( term ) {
-					return split( term ).pop();
-				}
-
-				$( "input#autocomplete" )
-					// don't navigate away from the field on tab when selecting an item
-					.bind( "keydown", function( event ) {
-						if ( event.keyCode === $.ui.keyCode.TAB &&
-							$( this ).autocomplete( "instance" ).menu.active ) {
-						  event.preventDefault();
-						}
-					})
-					.autocomplete({
-						minLength: 2,
-						source: function( request, response ) {
-							$.getJSON("{% url 'events:autocomplete_user' %}", {
-							term: extractLast( request.term )
-							}, response );
-						},
-						change: function (event, ui) {
-							var terms = split( this.value );
-							// current input
-							if (!lastInput) {
-								terms.push( ui.item.value );
-								//this.value = lastInput;
-								this.value = terms.join( " " );
-							}
-						},
-						search: function() {
-							// custom minLength
-							var term = extractLast( this.value );
-							if ( term.length < 2 ) {
-								return false;
-							}
-						},
-						focus: function() {
-							// prevent value inserted on focus
-							return false;
-						},
-						select: function( event, ui ) {
-							var terms = split( this.value );
-							// remove the current input
-							terms.pop();
-							// add the selected item
-							terms.push( ui.item.value );
-							// add placeholder to get the comma-and-space at the end
-							terms.push( "" );
-							this.value = terms.join( " " );
-							return false;
-						}
-					}); 
-			});
-		</script>
-
 		<!-- JQuery Date Picker-->
 		<script>
 			$(function() {
@@ -166,15 +107,6 @@
 				});
 				$("#from").datepicker().datepicker("setDate", new Date());
 				$("#to").datepicker().datepicker("setDate", new Date());
-			});
-		</script>
-
-		<script>
-			$(function(){
-				$('#timelength').combodate({
-					firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
-					minuteStep: 15
-				});  
 			});
 		</script>
 
@@ -216,12 +148,7 @@
 						$("#start_time").val(hours+":"+minutes)
 					}
 				});
-			});
-		</script>
 
-		<!-- JQuery Time Picker-->
-		<script>
-			$(function(){
 				var time = $("#end_time").val();
 				var end_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
 				$( "#end_slider" ).slider({
@@ -299,11 +226,12 @@
 				});
 			});
 		</script>
+
 		<noscript>
-			<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style-noscript.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
 			<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		</noscript>
 
@@ -321,14 +249,14 @@
 				<nav id="nav">
 					<ul>
 						<li>
-							<form action="{% url 'events:userPage' %}" method="post" style="display: inline-block;">
+							<form action="{% url 'userPage' %}" method="post" style="display: inline-block;">
 								{% csrf_token %}
 								<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
 								<button type="submit" class="special button" name="userPage">My Account</button>
 							</form>
 						</li>
 
-						<li><a class="special button" href="/events/logout/">Logout</a></li>
+						<li><a class="special button" href="/logout/">Logout</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -344,8 +272,8 @@
 
 				<div class="content">
 					<section>
-						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
-						<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
 						<div class="overlay overlay-hugeinc">
 							<div class="createEvent"> <br/ >
 								<button type="button" class="overlay-close">Close</button>
@@ -353,7 +281,7 @@
 									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
 									<h2>Create Event</h2> 
 									<h3> <font color="red">{{error}} </font></h3>
-										<form action="{% url 'events:add' %}" method="post">    
+										<form action="{% url 'add' %}" method="post">    
 											{% csrf_token %}
 											<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
 											<div class="row">
@@ -370,9 +298,9 @@
 													</div>
 												</div>
 												<div class="6u 12u(narrower)">
-													<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-													<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-													<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+													<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+													<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+													<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
 													<div style="text-align: left; width: 73%; display: inline-block">Time Zone:
 													<span class="custom-dropdown custom-dropdown--white">
 														<select class="custom-dropdown__select custom-dropdown__select--white">
@@ -383,8 +311,8 @@
 														</select>
 													</span> </div>
 													<br /> <br />
-													<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
-													<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
+													<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+													<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
 													Start Time: <input size="25" type="text" name="start_time" id="start_time"  style="border: 0; margin-left: -10px; width: 68%; display: inline-block; border-radius: 5px;"  value="{{ start_time }}" readonly>
 													<div id="start_slider" style="margin: 0 auto; width: 90%"></div>
 
@@ -403,9 +331,9 @@
 							</div>
 						</div>
 
-						<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-						<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-						<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
 					</section>
 				</div>
 
@@ -435,7 +363,7 @@
 																	{% for notification in user.notification_set.all %}
 																	<li>
 																		<div id="notificationBox">
-																		<form action="{% url 'events:manageNotification' %}" method="post">
+																		<form action="{% url 'manageNotification' %}" method="post">
 																			{% csrf_token %}
 																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
 																			<button type="submit" name="dismiss" id="notificationBox">✖</button> 
@@ -449,12 +377,12 @@
 																</ul>
 															</div>
 															<div id="notificationFooter"> 
-																<!-- <form action="{% url 'events:manageNotification' %}" method="post">
+																<!-- <form action="{% url 'manageNotification' %}" method="post">
 																	<span style="display: none;"><input type="text" name="clear" value="clear"></input></span>
 																	<button type="submit" class="special button" name="clear">Clear All</button>
 																</form> -->
 																<div id="notificationBox">
-																	<form action="{% url 'events:manageNotification' %}" method="post">   
+																	<form action="{% url 'manageNotification' %}" method="post">   
 																		{% csrf_token %}
 																		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
 
@@ -516,7 +444,7 @@
 													{% if not event.is_scheduled %}
 														<script>
 															var div = document.getElementById('myEventsPending');
-															var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+															var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
 															div.innerHTML = div.innerHTML + string;
 														</script>
 													{% else %}
@@ -524,14 +452,14 @@
 														{% if not event.hasPassed %}
 															<script>
 																var div = document.getElementById('myEventsUpcoming');
-																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
 																div.innerHTML = div.innerHTML + string;
 															</script>
 														<!--passed-->
 														{% else %}
 															<script>
 																var div = document.getElementById('myEventsPassed');
-																var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
 																div.innerHTML = div.innerHTML + string;
 															</script>
 														{% endif %}
@@ -543,7 +471,7 @@
 															{% if not event.is_scheduled %}
 																<script>
 																	var div = document.getElementById('otherEventsPending');
-																	var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																	var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
 																	div.innerHTML = div.innerHTML + string;
 																</script>
 															{% else %}
@@ -551,14 +479,14 @@
 																{% if not event.hasPassed %}
 																	<script>
 																		var div = document.getElementById('otherEventsUpcoming');
-																		var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																		var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
 																		div.innerHTML = div.innerHTML + string;
 																	</script>
 																<!--passed-->
 																{% else %}
 																	<script>
 																		var div = document.getElementById('otherEventsPassed');
-																		var string = "<a href='{% url 'events:detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																		var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
 																		div.innerHTML = div.innerHTML + string;
 																	</script>
 																{% endif %}
@@ -608,7 +536,7 @@
 			</section>
 			
  		{% if showIndexTour %}
-	 		<link rel="stylesheet" type="text/css" href="{% static 'events/css/joyride-2.1.css' %}">
+	 		<link rel="stylesheet" type="text/css" href="{% static 'css/joyride-2.1.css' %}">
 		 		<ol id="joyRideTipContent">
 		 			<li data-button="Next" data-options="modal: true;">
 				    	<h2>User Page</h2>
@@ -655,9 +583,9 @@
 				    	<p>Now what are you waiting for? Use Skedg to schedule your first event!</p>
 				    </li>
 		 		</ol>
-	 		<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-	 		<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-	 		<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+	 		<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+	 		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+	 		<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
  		{% endif %}
 
 		<!--  Launching joyride when to page is loaded -->
@@ -707,8 +635,8 @@
 			});
 		</script>
 
-		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
-		<script src="{% static 'events/js/classie.js' %}"></script>
-		<script src="{% static 'events/js/demo2.js' %}"></script>
+		<script src="{% static 'js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'js/classie.js' %}"></script>
+		<script src="{% static 'js/demo2.js' %}"></script>
 	</body>
 </html>

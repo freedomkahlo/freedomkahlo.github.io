@@ -34,8 +34,8 @@ def index(request):
 		user.UserProfile.firstTimeHome = False
 		user.UserProfile.save()
 
-	request.path_info = '/events/'
-	return render(request, 'events/index.html', context)
+	request.path_info = '/'
+	return render(request, 'index.html', context)
 
 #@login_required
 def detail(request, eventID):
@@ -66,7 +66,7 @@ def detail(request, eventID):
 			user.UserProfile.firstTimeEventAsInvitee = False
 			user.UserProfile.save()
 
-	return render(request, 'events/detail.html', context)
+	return render(request, 'detail.html', context)
 
 @login_required
 def add(request):	
@@ -99,7 +99,7 @@ def add(request):
 	#print startDateTime
 	#if (startDateTime < datetime.now()):
 	#	returnMsg['error'] = 'Event start time cannot be in the past.'
-	#	return render(request, 'events/index.html', returnMsg)
+	#	return render(request, 'index.html', returnMsg)
 
 	#Parse the time range
 	timeSplit = event_length.split()
@@ -118,7 +118,7 @@ def add(request):
 		e.save()
 	except ValidationError as e:
 		returnMsg['error'] = e[0]
-		return render(request, 'events/index.html', returnMsg)
+		return render(request, 'index.html', returnMsg)
 	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
 
 	#nstr = e.creator + " has invited you to " + e.title + "!" 
@@ -126,18 +126,18 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	#messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/events/eventDetails/' + eventID)
+	#messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/eventDetails/' + eventID)
 	return getTimes(request, eventID)
 
-def autocomplete_user(request):
-    term = request.GET.get('term') #jquery-ui.autocomplete parameter
-    users = User.objects.filter(username__istartswith=term) #lookup for a city
-    res = []
-    for c in users:
-         #make dict with the metadatas that jquery-ui.autocomple needs (the documentation is your friend)
-         dict = {'id':c.id, 'label':c.__unicode__(), 'value':c.__unicode__()}
-         res.append(dict)
-    return HttpResponse(json.dumps(res))
+# def autocomplete_user(request):
+# 	term = request.GET.get('term') #jquery-ui.autocomplete parameter
+# 	users = User.objects.filter(username__istartswith=term) #lookup for a city
+# 	res = []
+# 	for c in users:
+# 		 #make dict with the metadatas that jquery-ui.autocomple needs (the documentation is your friend)
+# 		 dict = {'id':c.id, 'label':c.__unicode__(), 'value':c.__unicode__()}
+# 		 res.append(dict)
+# 	return HttpResponse(json.dumps(res))
 
 def delete(request):
 	eventID = request.POST['eventID']
@@ -151,7 +151,7 @@ def delete(request):
 		user.save()
 
 	event.delete()
-	return HttpResponseRedirect('/events/')
+	return HttpResponseRedirect('/')
 
 def deletePastPossTimes(request, eventID=None):
 	if eventID == None:
@@ -186,7 +186,7 @@ def deletePastPossTimes(request, eventID=None):
 		user.save()
 
 		event.delete()
-		return HttpResponseRedirect('/events/')
+		return HttpResponseRedirect('/')
 
 def getTimes(request, eventID=None):
 	roundToMin = 15 #minutes
@@ -287,7 +287,7 @@ def getTimes(request, eventID=None):
 	#event.posstime_set.add(possTime)
 
 	print "almost there!"
-	return HttpResponseRedirect('/events/eventDetails/' + eventID)
+	return HttpResponseRedirect('/eventDetails/' + eventID)
 	
 #creator can boot someone, delete/skedge/getTimes on event.
 @login_required
@@ -341,7 +341,7 @@ def manageCreator(request):
 		event.scheduled_end = end
 		event.save()
 		
-		return HttpResponseRedirect('/events/eventDetails/' + eventID)
+		return HttpResponseRedirect('/eventDetails/' + eventID)
 	else:
 		return index(request)
 
@@ -401,7 +401,7 @@ def manageMessage(request):
 		postLastName = request.POST['lastName']
 		message = request.POST['message']
 		if message.replace(' ', '') == '':
-			return HttpResponseRedirect('/events/eventDetails/' + eventID)
+			return HttpResponseRedirect('/eventDetails/' + eventID)
 		author = postAuthor
 		pub_date = datetime.now()
 
@@ -433,7 +433,7 @@ def manageMessage(request):
 		
 		message.delete()
 	
-	return HttpResponseRedirect('/events/eventDetails/' + eventID)
+	return HttpResponseRedirect('/eventDetails/' + eventID)
 
 @login_required
 def manageNotification(request):
@@ -446,7 +446,7 @@ def manageNotification(request):
 		for n in user.notification_set.all():
 			n.delete()
 
-	return HttpResponseRedirect('/events/')
+	return HttpResponseRedirect('/')
 	
 def register(request):
 	context = RequestContext(request)
@@ -478,7 +478,7 @@ def register(request):
 			#Send email with validation key
 			msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
-http://skedg.tk:82/events/confirm/%s''' % (user.first_name, key)
+http://skedg.tk:82/confirm/%s''' % (user.first_name, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
 			print (user_form.errors, profile_form.errors)
@@ -492,14 +492,14 @@ http://skedg.tk:82/events/confirm/%s''' % (user.first_name, key)
 			if user_form.errors.get('__all__', '') != '':
 				errorList.update({'registerError':user_form.errors.get('__all__', '')[0]})
 			errorList.update(saveInfo)
-			return render_to_response('events/login.html', errorList, context)
+			return render_to_response('login.html', errorList, context)
 
 	else:
 		user_form = UserForm()
 		profile_form = UserProfileForm()
 
 	return render_to_response(
-			'events/login.html',
+			'login.html',
 			{'registered': registered},
 			context)
 
@@ -535,7 +535,7 @@ def registerEvent(request):
 			#Send email with validation key
 			msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
-http://skedg.tk:82/events/confirm/%s''' % (user.first_name, key)
+http://skedg.tk:82/confirm/%s''' % (user.first_name, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
 			errorList = {}
@@ -548,14 +548,14 @@ http://skedg.tk:82/events/confirm/%s''' % (user.first_name, key)
 			if user_form.errors.get('__all__', '') != '':
 				errorList.update({'registerError':user_form.errors.get('__all__', '')[0]})
 			errorList.update(saveInfo)
-			return render_to_response('events/detail.html', errorList, context)
+			return render_to_response('detail.html', errorList, context)
 
 	else:
 		user_form = UserForm()
 		profile_form = UserProfileForm()
 
 	return render_to_response(
-			'events/detail.html',
+			'detail.html',
 			{'registered': registered, 'event':event},
 			context)
 
@@ -563,17 +563,17 @@ def register_confirm(request, activation_key):
 	user_profile = get_object_or_404(UserProfile, activation_key=activation_key)
 
 	if user_profile.activated:
-		return HttpResponseRedirect('/events/')
+		return HttpResponseRedirect('/')
 	user_profile.activated = True
 	user_profile.save()
 	user_profile.user.is_active = True
 	user_profile.user.save()
 	messages.success(request, "Your account has been successfully activated!")
-	return HttpResponseRedirect('/events/')
+	return HttpResponseRedirect('/')
 
 @login_required
 def userPage(request):
-	return render(request, 'events/user.html')
+	return render(request, 'user.html')
 
 def user_login(request):
 	context = RequestContext(request)
@@ -592,19 +592,19 @@ def user_login(request):
 				resp = cal.validateToken(email)
 				if (resp =="Already Has Token"):
 					login(request, user)
-					return HttpResponseRedirect('/events/')
+					return HttpResponseRedirect('/')
 				return resp
 			else:
 				msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
-http://skedg.tk:82/events/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
+http://skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
 				send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
-				return render(request, 'events/login.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email})
+				return render(request, 'login.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email})
 		else:
-			return render(request, 'events/login.html', {'invalidLogin':"Invalid login details supplied.", 'username': email})
+			return render(request, 'login.html', {'invalidLogin':"Invalid login details supplied.", 'username': email})
 
 	else:
-		return render_to_response('events/login.html', {}, context)
+		return render_to_response('login.html', {}, context)
 
 def user_loginEvent(request):
 	context = RequestContext(request)
@@ -624,26 +624,26 @@ def user_loginEvent(request):
 				resp = cal.validateToken(email,eventID)
 				if (resp =="Already Has Token"):
 					login(request, user)
-					return HttpResponseRedirect('/events/eventDetails/' + eventID)
+					return HttpResponseRedirect('/eventDetails/' + eventID)
 				return resp
 			else:
 				event = get_object_or_404(Instance, eventID=eventID)
 				msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
-http://skedg.tk:82/events/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
+http://skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
 				send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
-				return render(request, 'events/detail.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email, 'event':event})
+				return render(request, 'detail.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email, 'event':event})
 		else:
 			event = get_object_or_404(Instance, eventID=eventID)
-			return render(request, 'events/detail.html', {'invalidLogin':"Invalid login details supplied.", 'username': email, 'event':event})
+			return render(request, 'detail.html', {'invalidLogin':"Invalid login details supplied.", 'username': email, 'event':event})
 
 	else:
-		return render_to_response('events/detail.html', {}, context)
+		return render_to_response('detail.html', {}, context)
 
 @login_required
 def user_logout(request):
 	logout(request)
-	return HttpResponseRedirect('/events/')
+	return HttpResponseRedirect('/')
 
 def vetoPoss(request):
 	eventID = request.POST['eventID']

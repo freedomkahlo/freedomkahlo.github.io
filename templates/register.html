@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 {% load staticfiles %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -27,10 +27,10 @@
         <h1> Register for an account!</h1><br>
             {% if registered %}
             <strong>Thank you for registering! Check your email to verify your account.</strong>
-            <a href="/events/">Return to the homepage.</a><br />
+            <a href="/">Return to the homepage.</a><br />
             {% else %}
 
-            <form id="user_form" method="post" action="/events/register/" enctype="multipart/form-data" style:"margins: auto;">
+            <form id="user_form" method="post" action="/register/" enctype="multipart/form-data" style:"margins: auto;">
 
                 {% csrf_token %}
 

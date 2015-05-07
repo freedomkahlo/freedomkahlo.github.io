@@ -8,12 +8,12 @@
 	<head>
 		{% load staticfiles %}
 		<script>
-			var mobileStyle = '{% static 'events/css/style-mobile.css' %}';
-			var style = '{% static 'events/css/style.css' %}';
-			var wideStyle = '{% static 'events/css/style-wide.css' %}';
-			var narrowStyle = '{% static 'events/css/style-narrow.css' %}';
-			var narrowerStyle = '{% static 'events/css/style-narrower.css' %}';
-			var normalStyle = '{% static 'events/css/style-normal.css' %}';;
+			var mobileStyle = '{% static 'css/style-mobile.css' %}';
+			var style = '{% static 'css/style.css' %}';
+			var wideStyle = '{% static 'css/style-wide.css' %}';
+			var narrowStyle = '{% static 'css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'css/style-narrower.css' %}';
+			var normalStyle = '{% static 'css/style-normal.css' %}';;
 		</script>
 		
 		<title>Skedg - Let us check your skedg! </title>
@@ -21,18 +21,18 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
-		<script src="{% static 'events/js/jquery.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.dropotron.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.scrolly.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.scrollgress.min.js' %}"></script>
-		<script src="{% static 'events/js/skel.min.js' %}"></script>
-		<script src="{% static 'events/js/skel-layers.min.js' %}"></script>
-		<script src="{% static 'events/js/init.js' %}"></script>
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
+		<script src="{% static 'js/skel.min.js' %}"></script>
+		<script src="{% static 'js/skel-layers.min.js' %}"></script>
+		<script src="{% static 'js/init.js' %}"></script>
 		<noscript>
-			<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style-noscript.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
 		</noscript>
 
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
@@ -97,9 +97,9 @@
 				</noscript>
 				<div class="content">
 					<section>
-						<link rel="stylesheet" type="text/css" href="{% static 'events/css/normalize.css' %}" />
-						<link rel="stylesheet" type="text/css" href="{% static 'events/css/demo.css' %}" />
-						<!-- <link rel="stylesheet" type="text/css" href="{% static 'events/css/style1.css' %}" /> -->
+						<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
+						<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}" /> -->
 						<!-- open/close -->
 						<br />
 						<div class="overlay overlay-hugeinc">
@@ -113,7 +113,7 @@
 								</ul> -->
 								<div id = "id_of_div" class ="divs">
 									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
-									<form method="post" id="login_form" action="/events/login/">
+									<form method="post" id="login_form" action="/login/">
 										{% csrf_token %}
 										<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
@@ -136,7 +136,7 @@
 								<div id = "id_of_div2" class="registerStyles">
 									<!-- <h2><strong><center>Register for an account</center></strong></h2> -->
 				
-									<form id="user_form" method="post" action="/events/register/" enctype="multipart/form-data" style:"margins: auto;">
+									<form id="user_form" method="post" action="/register/" enctype="multipart/form-data" style:"margins: auto;">
 									  	{% csrf_token %}
 									  	<font color='red'>{{registerError}}</font>
 										<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" value="{{first_name}}" size="30" />
@@ -153,9 +153,9 @@
 							</div>
 						</div>
 
-						<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-						<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-						<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
 					</section>
 				</div>
 
@@ -188,14 +188,14 @@
 										<dd>
 											All of the recommended times are <strong>the best times</strong> given your Google calendars.
 											<br/><br/>	
-											<img src = "{% static 'events/images/tutorial-vote.png' %}" />
+											<img src = "{% static 'images/tutorial-vote.png' %}" />
 										</dd>
 										<br/><br/>
 									<dt><strong>3.</strong> Select a green <strong> Skedg </strong> button to add <strong>that</strong> event to everyone's calendars! </dt>
 										<dd>
 											Check your Google calendar- your event is there!
 											<br/><br/>
-											<img src = "{% static 'events/images/tutorial-skedg.png' %}" />
+											<img src = "{% static 'images/tutorial-skedg.png' %}" />
 										</dd>
 								</dl>
 							</div>
@@ -206,7 +206,7 @@
 						<h2> We hope you enjoy our app.</h2>
 							<center><p> <strong>Love,</strong> </p></center>
 							<center><p> Jonathan, Minseung, Roy, and Crystal. </p></center>
-							<img style="width:80%" src = "{% static 'events/images/team.jpg' %}" /> 
+							<img style="width:80%" src = "{% static 'images/team.jpg' %}" /> 
 						
 					</section>
 			</article>
@@ -223,9 +223,9 @@
 				</footer>
 			</section>
 
-		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
-		<script src="{% static 'events/js/classie.js' %}"></script>
-		<script src="{% static 'events/js/demo1.js' %}"></script>
+		<script src="{% static 'js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'js/classie.js' %}"></script>
+		<script src="{% static 'js/demo1.js' %}"></script>
 
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>

@@ -8,12 +8,12 @@
 	<head>
 		{% load staticfiles %}
 		<script>
-			var mobileStyle = '{% static 'events/css/style-mobile.css' %}';
-			var style = '{% static 'events/css/style.css' %}';
-			var wideStyle = '{% static 'events/css/style-wide.css' %}';
-			var narrowStyle = '{% static 'events/css/style-narrow.css' %}';
-			var narrowerStyle = '{% static 'events/css/style-narrower.css' %}';
-			var normalStyle = '{% static 'events/css/style-normal.css' %}';;
+			var mobileStyle = '{% static 'css/style-mobile.css' %}';
+			var style = '{% static 'css/style.css' %}';
+			var wideStyle = '{% static 'css/style-wide.css' %}';
+			var narrowStyle = '{% static 'css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'css/style-narrower.css' %}';
+			var normalStyle = '{% static 'css/style-normal.css' %}';;
 		</script>
 
 		<title>Skedg - Let us check your skedg! </title>
@@ -22,26 +22,26 @@
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-		<script src="{% static 'events/js/jquery.min.js' %}"></script>
+		<script src="{% static 'js/jquery.min.js' %}"></script>
 		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-		<script src="{% static 'events/js/jquery.dropotron.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.scrolly.min.js' %}"></script>
-		<script src="{% static 'events/js/jquery.scrollgress.min.js' %}"></script>
-		<script src="{% static 'events/js/skel.min.js' %}"></script>
-		<script src="{% static 'events/js/skel-layers.min.js' %}"></script>
-		<script src="{% static 'events/js/init.js' %}"></script>
-		<script src="{% static 'events/js/moment.js' %}"></script> 
-		<script src="{% static 'events/js/combodate.js' %}"></script> 
-		<script src="{% static 'events/js/jquery.ui.touch-punch.js' %}"></script>
+		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
+		<script src="{% static 'js/skel.min.js' %}"></script>
+		<script src="{% static 'js/skel-layers.min.js' %}"></script>
+		<script src="{% static 'js/init.js' %}"></script>
+		<script src="{% static 'js/moment.js' %}"></script> 
+		<script src="{% static 'js/combodate.js' %}"></script> 
+		<script src="{% static 'js/jquery.ui.touch-punch.js' %}"></script>
 
 		<!-- I am perfectly capable of putting this in a new file myself, BUT I HAVE TOLD YOU CHUMPS LIKE FIVE TIMES TO DO THIS SO I'M
 		CARRYING THIS OVER TO PROVE A POINT. -->
 		
 		<noscript>
-			<link rel="stylesheet" href="{% static 'events/css/skel.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style-wide.css' %}" />
-			<link rel="stylesheet" href="{% static 'events/css/style-noscript.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
 			<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		</noscript>
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
@@ -55,7 +55,7 @@
 				<nav id="nav">
 					<ul>
 						<li><a href="/">Home</a></li>
-						<li><a class="special button" href="/events/logout/">Logout</a></li>
+						<li><a class="special button" href="/logout/">Logout</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -104,9 +104,9 @@
 				</footer>
 			</section>
 
-		<script src="{% static 'events/js/modernizr.custom.js' %}"></script>
-		<script src="{% static 'events/js/classie.js' %}"></script>
-		<script src="{% static 'events/js/demo2.js' %}"></script>
+		<script src="{% static 'js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'js/classie.js' %}"></script>
+		<script src="{% static 'js/demo2.js' %}"></script>
 
 		<script>
 			$(document).ready(function(){
