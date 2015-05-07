@@ -131,7 +131,7 @@ def add(request):
 
 	#	user = User.objects.get(username=i)
 	#	user.notification_set.add(n)
-	#messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/eventDetails/' + eventID)
+	#messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/' + eventID)
 	return getTimes(request, eventID)
 
 # def autocomplete_user(request):
@@ -292,7 +292,7 @@ def getTimes(request, eventID=None):
 	#event.posstime_set.add(possTime)
 
 	print "almost there!"
-	return HttpResponseRedirect('/eventDetails/' + eventID)
+	return HttpResponseRedirect('/' + eventID)
 	
 #creator can boot someone, delete/skedge/getTimes on event.
 @login_required
@@ -346,7 +346,7 @@ def manageCreator(request):
 		event.scheduled_end = end
 		event.save()
 		
-		return HttpResponseRedirect('/eventDetails/' + eventID)
+		return HttpResponseRedirect('/' + eventID)
 	else:
 		return index(request)
 
@@ -406,7 +406,7 @@ def manageMessage(request):
 		postLastName = request.POST['lastName']
 		message = request.POST['message']
 		if message.replace(' ', '') == '':
-			return HttpResponseRedirect('/eventDetails/' + eventID)
+			return HttpResponseRedirect('/' + eventID)
 		author = postAuthor
 		pub_date = datetime.now()
 
@@ -438,7 +438,7 @@ def manageMessage(request):
 		
 		message.delete()
 	
-	return HttpResponseRedirect('/eventDetails/' + eventID)
+	return HttpResponseRedirect('/' + eventID)
 
 @login_required
 def manageNotification(request):
@@ -629,7 +629,7 @@ def user_loginEvent(request):
 				resp = cal.validateToken(email,eventID)
 				if (resp =="Already Has Token"):
 					login(request, user)
-					return HttpResponseRedirect('/eventDetails/' + eventID)
+					return HttpResponseRedirect('/' + eventID)
 				return resp
 			else:
 				event = get_object_or_404(Instance, eventID=eventID)
