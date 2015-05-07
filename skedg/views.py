@@ -70,6 +70,8 @@ def detail(request, eventID):
 
 @login_required
 def add(request):	
+	eventIDLength = 10
+
 	title=request.POST.get('title', '')
 	desc=request.POST.get('desc', '')
 	start_date=request.POST.get('start_date', '')
@@ -79,7 +81,10 @@ def add(request):
 	event_length=request.POST.get('event_length', '')
 	creator = request.POST['username']
 	timezone = request.POST.get('timezone', 'Eastern')
-	eventID = get_random_string(length=32)
+	
+	eventID = get_random_string(length=eventIDLength)
+	while Instance.objects.filter(eventID__iexact=eventID).count() != 0:
+		eventID = get_random_string(length=eventIDLength)
 
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	returnMsg = {'error': '', 'latest_event_list': latest_event_list,

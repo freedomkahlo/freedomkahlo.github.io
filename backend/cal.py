@@ -25,7 +25,7 @@ from django.utils import dateparse
 
 from skedg.models import UserProfile
 
-eventIDLength = 32
+authIDLength = 32
 FLAGS = gflags.FLAGS
 DEVELOPER_KEY = 'AIzaSyC_sCrieFSw6_KM9zZHKOTUrXmeEwqkR3o'
 parser = argparse.ArgumentParser(parents=[argparser])
@@ -85,7 +85,8 @@ def getCredFromRefToken(username, context=None):
 def getCredClient(username, eventID=None):
 	global tempStorageForChecking
 
-	tempCode = get_random_string(length=eventIDLength) #random gen
+	tempCode = get_random_string(length=authIDLength) #random gen
+
 	expirationTime = datetime.now(pytz.timezone('US/Eastern')) + timedelta(minutes=10)
 	tempStore = (username, tempCode, expirationTime)
 	tempStorageForChecking.append(tempStore)
@@ -106,9 +107,9 @@ def getCredClient(username, eventID=None):
 # Listens to Google's Authorization, and puts in a refresh token
 def auth(request):
 	def returnPage(eventID):
-		if eventID != None and len(eventID) == eventIDLength:
-			return HttpResponseRedirect('/events/eventDetails/' + eventID)
-		return HttpResponseRedirect('/events/')
+		if eventID != None and len(eventID) == authIDLength:
+			return HttpResponseRedirect('/' + eventID)
+		return HttpResponseRedirect('/')
 
 	global tempStorageForChecking
 
