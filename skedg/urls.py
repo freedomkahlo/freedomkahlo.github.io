@@ -10,7 +10,6 @@ urlpatterns = [
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^auth/$', cal.auth, name='auth'),
 	url(r'^confirm/(?P<activation_key>\w+)/', views.register_confirm, name='confirm_email'),
-	url(r'^eventDetails/(?P<eventID>\w+)/', views.detail, name='detail'),
 	url(r'^login/$', views.user_login, name='login'),
 	url(r'^loginEvent/$', views.user_loginEvent, name='loginEvent'),
 	url(r'^logout/$', views.user_logout, name='logout'),
@@ -21,4 +20,5 @@ urlpatterns = [
 	url(r'^register/$', views.register, name='register'),
 	url(r'^registerEvent/$', views.registerEvent, name='registerEvent'),
 	url(r'^userPage/$', views.userPage, name='userPage'),
+	url(r'^(?P<eventID>\w+)/', views.detail, name='detail'),
 ]
