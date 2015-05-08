@@ -225,19 +225,19 @@
 
 		<script src="{% static 'js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'js/classie.js' %}"></script>
-		<script src="{% static 'js/demo1.js' %}"></script>
+		<script src="{% static 'js/loginOverlay.js' %}"></script>
 
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>
 			$(document).ready(function(){
 				{% if not invalidLogin and not registerError and not emailError and not passwordError and not password2Error %}
 					//Good
-					if (typeof sessionStorage['currPage'] == 'string'){
-						sessionStorage['currPage'] = '0';
+					if (typeof sessionStorage['loginPage'] == 'string'){
+						sessionStorage['loginPage'] = 'NoOverlay';
 					}
 				{% endif %}
-				if (typeof sessionStorage['currPage'] == 'string' && $.inArray(sessionStorage['currPage'], ['1', '2']) > -1) {
-					if (sessionStorage['currPage'] == '1') {
+				if (typeof sessionStorage['loginPage'] == 'string' && $.inArray(sessionStorage['loginPage'], ['LoginOverlay', 'RegisterOverlay']) > -1) {
+					if (sessionStorage['loginPage'] == 'LoginOverlay') {
 						toggleOverlay();
 					}
 					else {

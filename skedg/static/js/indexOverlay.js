@@ -1,5 +1,4 @@
 	var triggerBttn = document.getElementById( 'trigger-overlay' ),
-		triggerBttnTwo = document.getElementById( 'trigger-overlay-two' ),
 		// triggerBttnMobile = document.getElementsByClassName( 'link depth-0' ),
 		overlay = document.querySelector( 'div.overlay' ),
 		closeBttn = overlay.querySelector( 'button.overlay-close' );
@@ -16,7 +15,7 @@
 	function toggleOverlay() {
 		if( classie.has( overlay, 'open' ) ) {
 			if(sessionStorage) {
-				sessionStorage['register'] = '0';
+				sessionStorage['indexPage'] = 'NoOverlay';
 			}
 			classie.remove( overlay, 'open' );
 			classie.add( overlay, 'close' );
@@ -38,7 +37,7 @@
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
 			if(sessionStorage) {
-				sessionStorage['register'] = '1';
+				sessionStorage['indexPage'] = 'CreateOverlay';
 			}
 			$('body').css({'overflow':'hidden'});
 			$(document).bind('scroll', function() { 

@@ -625,11 +625,11 @@
 			$(document).ready(function(){
 				{% if not error %}
 					//Good
-					if (typeof sessionStorage['register'] == 'string'){
-						sessionStorage['register'] = '0';
+					if (typeof sessionStorage['indexPage'] == 'string'){
+						sessionStorage['indexPage'] = 'NoOverlay';
 					}
 				{% endif %}
-				if (sessionStorage['register'] == '1') {
+				if (sessionStorage['indexPage'] == 'CreateOverlay') {
 					toggleOverlay();
 				}
 			});
@@ -637,6 +637,6 @@
 
 		<script src="{% static 'js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'js/classie.js' %}"></script>
-		<script src="{% static 'js/demo2.js' %}"></script>
+		<script src="{% static 'js/indexOverlay.js' %}"></script>
 	</body>
 </html>

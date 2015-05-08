@@ -9,6 +9,7 @@ urlpatterns = [
 	url(r'^add/', views.add, name='add'),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^auth/$', cal.auth, name='auth'),
+	url(r'^changePassword/', views.changePassword, name='changePassword'),
 	url(r'^confirm/(?P<activation_key>\w+)/', views.register_confirm, name='confirm_email'),
 	url(r'^login/$', views.user_login, name='login'),
 	url(r'^loginEvent/$', views.user_loginEvent, name='loginEvent'),

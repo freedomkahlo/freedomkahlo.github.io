@@ -41,6 +41,12 @@
 					//Created event
 					alert('You have successfully registered.')
 				{% endif %}
+
+				{% if messages %}
+					{% for message in messages %}
+						alert('{{message}}');
+					{% endfor %}
+				{% endif %}
 			});
 		</script>
 
@@ -504,11 +510,11 @@
 				{% if not invalidLogin and not registerError and not emailError and not passwordError and not password2Error %}
 					//Good
 					if (typeof sessionStorage['eventPage'] == 'string'){
-						sessionStorage['eventPage'] = '0';
+						sessionStorage['eventPage'] = 'NoOverlay';
 					}
 				{% endif %}
-				if (typeof sessionStorage['eventPage'] == 'string' && $.inArray(sessionStorage['eventPage'], ['1', '2']) > -1) {
-					if (sessionStorage['eventPage'] == '1') {
+				if (typeof sessionStorage['eventPage'] == 'string' && $.inArray(sessionStorage['eventPage'], ['LoginOverlay', 'RegisterOverlay']) > -1) {
+					if (sessionStorage['eventPage'] == 'LoginOverlay') {
 						toggleOverlay();
 					}
 					else {
@@ -541,6 +547,6 @@
 
 		<script src="{% static 'js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'js/classie.js' %}"></script>
-		<script src="{% static 'js/demo3.js' %}"></script>
+		<script src="{% static 'js/detailOverlay.js' %}"></script>
 	</body>
 </html>

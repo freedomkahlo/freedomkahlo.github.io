@@ -46,6 +46,16 @@
 		</noscript>
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+
+		<script type="text/javascript">
+			$(function(){
+				{% if messages %}
+					{% for message in messages %}
+						alert('{{message}}');
+					{% endfor %}
+				{% endif %}
+			});
+		</script>
 	</head>
 	<body class="no-sidebar">
 
@@ -69,8 +79,8 @@
 					<span style='color:red; font-weight:heavy; font-size: 50px'>Javascript must be enabled to use Skedg properly.</span>
 				</noscript>
 
+				
 				<div class="content">
-					<section>
 				<!-- One -->
 					<section class="wrapper style4 container">
 
@@ -84,13 +94,39 @@
 										<br />
 										<div class="userInformation" style="width: 100%; padding-left: 15px;">
 											Email: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="{{ user.username}}"></input> <br /> <br />
-											First Name: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="{{ user.first_name}}"></input> <br /> <br />
-											Last Name: <br /> <input type="text" style="display: inline-block; width: 40%;"  readonly="readonly" value="{{ user.last_name}}"></input> <br /> <br />
+											Name: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="{{ user.first_name }} {{ user.last_name }}"></input> <br /> <br />
+											Password: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="********"></input> <br /> 
+											<a href="#" id="trigger-overlay"> <font size="2"> Edit Password </font> </a> <br /> <br />
 										</div>
 									</div>
 								</section>
 							</div>
 					</section>
+				</div>
+
+				<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+				<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
+
+				<div class="overlay overlay-hugeinc">
+					<button type="button" class="overlay-close">Close</button>
+					<div class="change_pass"> <br/ >
+						<div id = "id_of_div" class ="divs">
+							<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
+							<form method="post" id="changePass_form" action="/changePassword/">
+								{% csrf_token %}
+								<center><label for="oldPassword">Old Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="oldPassword" value=""id="oldPassword" />
+								<center><label for="newPassword">New Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="newPassword" value=""id="newPassword" />
+								<center><label for="confirmPassword">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="confirmPassword" value=""id="confirmPassword" />
+								<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
+							</form>
+							<font color='red'>{{invalidPassword}}</font>
+						</div>
+					</div>
+				</div>
+
+				<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+				<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+				<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
 			</article>
 
 			<section id="cta">
@@ -106,12 +142,29 @@
 
 		<script src="{% static 'js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'js/classie.js' %}"></script>
-		<script src="{% static 'js/demo2.js' %}"></script>
+		<script src="{% static 'js/userOverlay.js' %}"></script>
 
 		<script>
 			$(document).ready(function(){
 				$("#noscript").hide();
 			});	
+		</script>
+
+		<!-- Save overlays on reload -->
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				{% if not invalidPassword %}
+					//Good
+					if (typeof sessionStorage['userPage'] == 'string'){
+						sessionStorage['userPage'] = 'NoOverlay';
+					}
+				{% endif %}
+				if (typeof sessionStorage['userPage'] == 'string') {
+					if (sessionStorage['userPage'] == 'ChangePassOverlay') {
+						toggleOverlay();
+					}
+				}
+			});
 		</script>
 
 	</body>

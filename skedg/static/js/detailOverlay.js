@@ -23,7 +23,7 @@
 		}
 		if( classie.has( overlay, 'open' ) ) {
 			if(sessionStorage) {
-				sessionStorage['eventPage'] = '0';
+				sessionStorage['eventPage'] = 'NoOverlay';
 			}
 			classie.remove( overlay, 'open' );
 			classie.add( overlay, 'close' );
@@ -43,7 +43,7 @@
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
 			if(sessionStorage) {
-				sessionStorage['eventPage'] = '1';
+				sessionStorage['eventPage'] = 'LoginOverlay';
 			}
 			classie.add( overlay, 'open' );
 		}
@@ -55,7 +55,7 @@
 		}
 		if( classie.has( overlay2, 'open' ) ) {
 			if(sessionStorage) {
-				sessionStorage['eventPage'] = '0';
+				sessionStorage['eventPage'] = 'NoOverlay';
 			}
 			classie.remove( overlay2, 'open' );
 			classie.add( overlay2, 'close' );
@@ -75,7 +75,7 @@
 		}
 		else if( !classie.has( overlay2, 'close' ) ) {
 			if(sessionStorage) {
-				sessionStorage['eventPage'] = '2';
+				sessionStorage['eventPage'] = 'RegisterOverlay';
 			}
 			classie.add( overlay2, 'open' );
 		}

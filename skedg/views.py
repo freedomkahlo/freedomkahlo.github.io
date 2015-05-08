@@ -144,6 +144,22 @@ def add(request):
 # 		 res.append(dict)
 # 	return HttpResponse(json.dumps(res))
 
+def changePassword(request):
+	user = request.user
+	oldPass = request.POST['oldPassword']
+	if not user.check_password(oldPass):
+		return render(request, 'user.html', {'invalidPassword':'Incorrect password.'})
+	newPass = request.POST['newPassword']
+	newPass2 = request.POST['confirmPassword']
+	if newPass != newPass2:
+		return render(request, 'user.html', {'invalidPassword':'Passwords do not match.'})
+	if newPass == '':
+		return render(request, 'user.html', {'invalidPassword':'Password cannot be blank.'})
+	user.set_password(newPass)
+	messages.success(request, 'Your password has successfully been changed!')
+	return HttpResponseRedirect('/userPage/')
+
+
 def delete(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
