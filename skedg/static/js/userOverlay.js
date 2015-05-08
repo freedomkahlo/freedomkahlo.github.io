@@ -14,9 +14,6 @@
 
 	function toggleOverlay() {
 		if( classie.has( overlay, 'open' ) ) {
-			if(sessionStorage) {
-				sessionStorage['userPage'] = 'NoOverlay';
-			}
 			classie.remove( overlay, 'open' );
 			classie.add( overlay, 'close' );
 			var onEndTransitionFn = function( ev ) {
@@ -36,9 +33,6 @@
   			$('body').css({'overflow':'visible'});
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
-			if(sessionStorage) {
-				sessionStorage['userPage'] = 'ChangePassOverlay';
-			}
 			$('body').css({'overflow':'hidden'});
 			$(document).bind('scroll', function() { 
 				window.scrollTo(0,0); 

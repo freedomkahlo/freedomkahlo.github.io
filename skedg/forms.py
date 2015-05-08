@@ -25,11 +25,3 @@ class UserForm(forms.ModelForm):
 		if (not self.cleaned_data.get('first_name')) or (not self.cleaned_data.get('last_name')):
 			raise ValidationError("Please enter your name")
 		return self.cleaned_data
-
-
-
-class UserProfileForm(forms.ModelForm):
-	class Meta:
-		model = UserProfile
-		fields = ('activation_key',)
-		exclude = ['activation_key']

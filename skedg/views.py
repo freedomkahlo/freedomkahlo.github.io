@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext
 from .models import Instance, Invitee, Notification, PossTime, UserProfile, VetoTime, Message
-from .forms import UserForm, UserProfileForm
+from .forms import UserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -156,6 +156,7 @@ def changePassword(request):
 	if newPass == '':
 		return render(request, 'user.html', {'invalidPassword':'Password cannot be blank.'})
 	user.set_password(newPass)
+	user.save()
 	messages.success(request, 'Your password has successfully been changed!')
 	return HttpResponseRedirect('/userPage/')
 
@@ -208,6 +209,50 @@ def deletePastPossTimes(request, eventID=None):
 
 		event.delete()
 		return HttpResponseRedirect('/')
+
+def forgotPassword(request, login_key=''):
+	if request.method == 'POST':
+		#Submitted request of forgot password
+		email = request.POST['username']
+		if len(User.objects.filter(username=email)) == 0:
+			#No user with that username found
+			return render(request, 'login.html', {'invalidUsername':'No user with that email found.'})
+		#Now send link to change password
+		profile = User.objects.filter(username=email)[0].UserProfile
+		keyLength = 10
+
+		key = get_random_string(length=keyLength)
+		while UserProfile.objects.filter(login_key__iexact=key).count() != 0:
+			key = get_random_string(length=keyLength)
+		profile.login_key = key
+
+		profile.save()
+
+		#Send email with validation key
+		msg = '''Hi %s, 
+We have received a request to reset the password associated with this e-mail address. Click the link below to reset your password:
+https://www.skedg.tk:82/forgotPassword/%s
+If you did not request to have your password reset, please ignore this email.''' % (profile.user.first_name, key)
+		send_mail('Skedg Password Assistance', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
+		return render(request, 'login.html', {'successForgot':"We have sent an email to the email specified with instructions for resetting your password. If you don't receive this email, please check your spam folder."})
+
+	elif request.method == 'GET':
+		#Clicked link to reset password
+		user_profile = get_object_or_404(UserProfile, login_key=login_key)
+
+		user_profile.login_key = ''
+		user_profile.save()
+
+		passLength = 10
+		password = get_random_string(length=passLength)
+		user_profile.user.set_password(password)
+		user_profile.user.save()
+		#Send email with validation key
+		msg = '''Hi %s, 
+You have successfully reset your password. After logging in, you can change your password on the My Account page.
+Your password is: %s''' % (user_profile.user.first_name, password)
+		send_mail('Skedg Password Assistance', msg, 'skedg.notify@gmail.com', [user_profile.user.username], fail_silently=False)
+		return render(request, 'login.html', {'successForgot':'We have reset your password. Please check your email for your new password. You can change your password on the My Account page.'})
 
 def getTimes(request, eventID=None):
 	roundToMin = 15 #minutes
@@ -479,18 +524,19 @@ def register(request):
 
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
-		profile_form = UserProfileForm(data=request.POST)
-		if user_form.is_valid() and profile_form.is_valid():
+		if user_form.is_valid():
 			user = user_form.save()
 			#user.is_active = False
 			user.set_password(user.password)
 			user.save()
-			profile = profile_form.save(commit=False)
+			profile = UserProfile.objects.create()
 			profile.user = user
 
-			email = user.username
-			key = hashlib.sha1(str(random.random())).hexdigest()[:5]
-			key = hashlib.sha1(key + email).hexdigest()
+			keyLength = 10
+
+			key = get_random_string(length=keyLength)
+			while UserProfile.objects.filter(activation_key__iexact=key).count() != 0:
+				key = get_random_string(length=keyLength)
 			profile.activation_key = key
 
 			profile.save()
@@ -499,10 +545,10 @@ def register(request):
 			#Send email with validation key
 			msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
-http://skedg.tk:82/confirm/%s''' % (user.first_name, key)
+http://www.skedg.tk:82/confirm/%s''' % (user.first_name, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
-			print (user_form.errors, profile_form.errors)
+			print (user_form.errors)
 			errorList = {}
 			if user_form.errors.get('username', '') != '':
 				errorList.update({'emailError':user_form.errors.get('username', '')[0]})
@@ -517,7 +563,6 @@ http://skedg.tk:82/confirm/%s''' % (user.first_name, key)
 
 	else:
 		user_form = UserForm()
-		profile_form = UserProfileForm()
 
 	return render_to_response(
 			'login.html',
@@ -536,18 +581,19 @@ def registerEvent(request):
 
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
-		profile_form = UserProfileForm(data=request.POST)
-		if user_form.is_valid() and profile_form.is_valid():
+		if user_form.is_valid():
 			user = user_form.save()
 			#user.is_active = False
 			user.set_password(user.password)
 			user.save()
-			profile = profile_form.save(commit=False)
+			profile = UserProfile.objects.create()
 			profile.user = user
 
-			email = user.username
-			key = hashlib.sha1(str(random.random())).hexdigest()[:5]
-			key = hashlib.sha1(key + email).hexdigest()
+			keyLength = 10
+
+			key = get_random_string(length=keyLength)
+			while UserProfile.objects.filter(activation_key__iexact=key).count() != 0:
+				key = get_random_string(length=keyLength)
 			profile.activation_key = key
 
 			profile.save()
@@ -556,7 +602,7 @@ def registerEvent(request):
 			#Send email with validation key
 			msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
-http://skedg.tk:82/confirm/%s''' % (user.first_name, key)
+http://www.skedg.tk:82/confirm/%s''' % (user.first_name, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
 			errorList = {}
@@ -573,7 +619,6 @@ http://skedg.tk:82/confirm/%s''' % (user.first_name, key)
 
 	else:
 		user_form = UserForm()
-		profile_form = UserProfileForm()
 
 	return render_to_response(
 			'detail.html',
@@ -586,6 +631,7 @@ def register_confirm(request, activation_key):
 	if user_profile.activated:
 		return HttpResponseRedirect('/')
 	user_profile.activated = True
+	user_profile.activation_key = ''
 	user_profile.save()
 	user_profile.user.is_active = True
 	user_profile.user.save()
@@ -618,7 +664,7 @@ def user_login(request):
 			else:
 				msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
-http://skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
+http://www.skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
 				send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 				return render(request, 'login.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email})
 		else:
@@ -651,7 +697,7 @@ def user_loginEvent(request):
 				event = get_object_or_404(Instance, eventID=eventID)
 				msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
-http://skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
+http://www.skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
 				send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 				return render(request, 'detail.html', {'invalidLogin':"Please activate your account through the link in the email we sent.", 'username': email, 'event':event})
 		else:

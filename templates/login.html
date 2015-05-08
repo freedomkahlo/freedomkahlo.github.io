@@ -22,7 +22,7 @@
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<script src="{% static 'js/jquery.min.js' %}"></script>
-		<!--<script src="{% static 'js/jquery.dropotron.min.js' %}"></script> -->
+		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
 		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
 		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
 		<script src="{% static 'js/skel.min.js' %}"></script>
@@ -117,6 +117,7 @@
 										{% csrf_token %}
 										<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<a href="#" id="trigger-overlay-three"> <font size="2"> Forgot Your Password? </font> </a>
 										<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
 									</form>
 									<font color='red'>{{invalidLogin}}</font>
@@ -137,8 +138,8 @@
 									<!-- <h2><strong><center>Register for an account</center></strong></h2> -->
 				
 									<form id="user_form" method="post" action="/register/" enctype="multipart/form-data" style:"margins: auto;">
-									  	{% csrf_token %}
-									  	<font color='red'>{{registerError}}</font>
+										{% csrf_token %}
+										<font color='red'>{{registerError}}</font>
 										<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" value="{{first_name}}" size="30" />
 										<center><label for="name">Last Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="last_name" id="last_name" value="{{last_name}}" size="30" />
 										<center><label for="username">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{email}}" id="username" />
@@ -149,6 +150,33 @@
 										<font color='red'>{{password2Error}}</font>
 										<p><center><input type="submit" value="Register" name="submit" id="register" class="button special" /></center></p>
 									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="overlay3 overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register"> <br/ >
+<!-- 								<ul class="buttons">
+									<li><a href="#id_of_div" class="links button special" id="trigger-overlay">Login</a></li> 
+									<li><a href="#id_of_div2" class="links button special" id="trigger-overlay">Register</a></li>
+									<br/ > 
+									<br />
+								</ul> -->
+								<div id = "id_of_div3" class ="divs">
+									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
+									{% if successForgot %}
+										<h2>Check your e-mail</h2>
+										{{ successForgot }}
+										<br /> <br />
+									{% else %}
+										<form method="post" id="password_form" action="/forgotPassword/">
+											{% csrf_token %}
+											<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
+											<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
+										</form>
+										<font color='red'>{{invalidUsername}}</font>
+									{% endif %}
 								</div>
 							</div>
 						</div>
@@ -230,20 +258,13 @@
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>
 			$(document).ready(function(){
-				{% if not invalidLogin and not registerError and not emailError and not passwordError and not password2Error %}
-					//Good
-					if (typeof sessionStorage['loginPage'] == 'string'){
-						sessionStorage['loginPage'] = 'NoOverlay';
-					}
+				{% if invalidLogin %}
+					toggleOverlay();
+				{% elif registerError or emailError or passwordError or password2Error %}
+					toggleOverlay2();
+				{% elif successForgot or invalidUsername %}
+					toggleOverlay3();
 				{% endif %}
-				if (typeof sessionStorage['loginPage'] == 'string' && $.inArray(sessionStorage['loginPage'], ['LoginOverlay', 'RegisterOverlay']) > -1) {
-					if (sessionStorage['loginPage'] == 'LoginOverlay') {
-						toggleOverlay();
-					}
-					else {
-						toggleOverlay2();
-					}
-				}
 				$("#noscript").hide();
 			});
 		</script>

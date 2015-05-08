@@ -230,6 +230,7 @@ class UserProfile(models.Model):
 	firstTimeHome = models.BooleanField(default=True)
 	firstTimeEventAsCreator = models.BooleanField(default=True)
 	firstTimeEventAsInvitee = models.BooleanField(default=True)
+	login_key = models.CharField(max_length=40, blank=True)
 
 	# Override the __unicode__() method to return out something meaningful!
 	def __unicode__(self):

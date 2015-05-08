@@ -623,15 +623,9 @@
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>
 			$(document).ready(function(){
-				{% if not error %}
-					//Good
-					if (typeof sessionStorage['indexPage'] == 'string'){
-						sessionStorage['indexPage'] = 'NoOverlay';
-					}
-				{% endif %}
-				if (sessionStorage['indexPage'] == 'CreateOverlay') {
+				{% if error %}
 					toggleOverlay();
-				}
+				{% endif %}
 			});
 		</script>
 

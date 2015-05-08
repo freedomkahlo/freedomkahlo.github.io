@@ -96,7 +96,7 @@
 											Email: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="{{ user.username}}"></input> <br /> <br />
 											Name: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="{{ user.first_name }} {{ user.last_name }}"></input> <br /> <br />
 											Password: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="********"></input> <br /> 
-											<a href="#" id="trigger-overlay"> <font size="2"> Edit Password </font> </a> <br /> <br />
+											<a href="#" id="trigger-overlay"> <font size="2"> Change Password </font> </a> <br /> <br />
 											Google Calendar: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="{{ user.UserProfile.calendarEmail }}"></input> <br /> <br />
 										</div>
 									</div>
@@ -120,7 +120,7 @@
 								<center><label for="confirmPassword">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="confirmPassword" value=""id="confirmPassword" />
 								<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
 							</form>
-							<font color='red'>{{invalidPassword}}</font>
+							<center><font color='red'>{{invalidPassword}}</font></center>
 						</div>
 					</div>
 				</div>
@@ -154,17 +154,9 @@
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>
 			$(document).ready(function(){
-				{% if not invalidPassword %}
-					//Good
-					if (typeof sessionStorage['userPage'] == 'string'){
-						sessionStorage['userPage'] = 'NoOverlay';
-					}
+				{% if invalidPassword %}
+					toggleOverlay();
 				{% endif %}
-				if (typeof sessionStorage['userPage'] == 'string') {
-					if (sessionStorage['userPage'] == 'ChangePassOverlay') {
-						toggleOverlay();
-					}
-				}
 			});
 		</script>
 

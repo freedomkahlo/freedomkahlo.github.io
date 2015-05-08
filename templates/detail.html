@@ -507,20 +507,11 @@
 		<!-- Save overlays on reload -->
 		<script type='text/javascript'>
 			$(document).ready(function(){
-				{% if not invalidLogin and not registerError and not emailError and not passwordError and not password2Error %}
-					//Good
-					if (typeof sessionStorage['eventPage'] == 'string'){
-						sessionStorage['eventPage'] = 'NoOverlay';
-					}
+				{% if invalidLogin %}
+					toggleOverlay();
+				{% elif registerError or emailError or passwordError or password2Error %}
+					toggleOverlay2();
 				{% endif %}
-				if (typeof sessionStorage['eventPage'] == 'string' && $.inArray(sessionStorage['eventPage'], ['LoginOverlay', 'RegisterOverlay']) > -1) {
-					if (sessionStorage['eventPage'] == 'LoginOverlay') {
-						toggleOverlay();
-					}
-					else {
-						toggleOverlay2();
-					}
-				}
 			});
 		</script>
 

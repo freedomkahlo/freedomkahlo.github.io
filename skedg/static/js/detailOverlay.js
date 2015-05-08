@@ -22,9 +22,6 @@
 			classie.remove( overlay2, 'open' );
 		}
 		if( classie.has( overlay, 'open' ) ) {
-			if(sessionStorage) {
-				sessionStorage['eventPage'] = 'NoOverlay';
-			}
 			classie.remove( overlay, 'open' );
 			classie.add( overlay, 'close' );
 			var onEndTransitionFn = function( ev ) {
@@ -42,9 +39,6 @@
 			}
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
-			if(sessionStorage) {
-				sessionStorage['eventPage'] = 'LoginOverlay';
-			}
 			classie.add( overlay, 'open' );
 		}
 	}
@@ -54,9 +48,6 @@
 			classie.remove( overlay, 'open' );
 		}
 		if( classie.has( overlay2, 'open' ) ) {
-			if(sessionStorage) {
-				sessionStorage['eventPage'] = 'NoOverlay';
-			}
 			classie.remove( overlay2, 'open' );
 			classie.add( overlay2, 'close' );
 			var onEndTransitionFn = function( ev ) {
@@ -74,9 +65,6 @@
 			}
 		}
 		else if( !classie.has( overlay2, 'close' ) ) {
-			if(sessionStorage) {
-				sessionStorage['eventPage'] = 'RegisterOverlay';
-			}
 			classie.add( overlay2, 'open' );
 		}
 	}
