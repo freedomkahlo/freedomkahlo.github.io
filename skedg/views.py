@@ -434,7 +434,7 @@ def manageInvitee(request):
 		if not event.is_scheduled:
 			return getTimes(request)
 		else:
-			return detail(request, eventID)
+			return HttpResponseRedirect('/' + eventID)
 
 	if 'decline' in request.POST:
 		inviteeSet = event.invitee_set.all()
@@ -449,7 +449,7 @@ def manageInvitee(request):
 		if not event.is_scheduled:
 			return getTimes(request)
 		else:
-			return detail(request, eventID)
+			return HttpResponseRedirect('/' + eventID)
 		#event.invitee_set = event.invitee_set.all().exclude(name=username)
 	if 'veto' in request.POST:
 		return vetoPoss(request)	
