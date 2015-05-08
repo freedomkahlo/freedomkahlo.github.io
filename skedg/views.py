@@ -231,7 +231,7 @@ def forgotPassword(request, login_key=''):
 		#Send email with validation key
 		msg = '''Hi %s, 
 We have received a request to reset the password associated with this e-mail address. Click the link below to reset your password:
-https://www.skedg.tk:82/forgotPassword/%s
+http://www.skedg.tk:82/forgotPassword/%s
 If you did not request to have your password reset, please ignore this email.''' % (profile.user.first_name, key)
 		send_mail('Skedg Password Assistance', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		return render(request, 'login.html', {'successForgot':"We have sent an email to the email specified with instructions for resetting your password. If you don't receive this email, please check your spam folder."})
