@@ -36,12 +36,12 @@
   			}
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
-			{% if showIndexTour %}
+			if (tourOpen) {
 				$('body').css({'overflow':'hidden'});
 				$(document).bind('scroll', function() { 
 					window.scrollTo(0,0); 
-			});
-			{% endif %}
+				});
+			}
 			classie.add( overlay, 'open' );
 		}
 	}
