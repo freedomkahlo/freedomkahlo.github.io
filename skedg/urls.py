@@ -22,5 +22,6 @@ urlpatterns = [
 	url(r'^register/$', views.register, name='register'),
 	url(r'^registerEvent/$', views.registerEvent, name='registerEvent'),
 	url(r'^userPage/$', views.userPage, name='userPage'),
+	url(r'^resetGAuth/$', views.resetGAuth, name='resetGAuth'),
 	url(r'^(?P<eventID>\w+)/', views.detail, name='detail'),
 ]

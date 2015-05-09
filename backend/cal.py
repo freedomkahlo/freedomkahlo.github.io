@@ -100,8 +100,7 @@ def getCredClient(username, eventID=None):
 	else:
 		FLOW.params['state'] = tempCode + '%' + username + '%' + eventID
 	auth_uri = FLOW.step1_get_authorize_url()
-	#print(auth_uri+'&approval_prompt=force')
-	#return redirect(auth_uri+'&approval_prompt=force')
+
 	return redirect(auth_uri)
 
 # Listens to Google's Authorization, and puts in a refresh token
@@ -171,15 +170,11 @@ def buildService(username):
 	if credentials == 'refTokenRevoked':
 		return 'refTokenRevoked'
 
-	#print "Credentials:"
-	#print credentials
-
 	# Create an httplib2.Http object to handle our HTTP requests and authorize it
 	# with our good Credentials.
 	http = httplib2.Http()
 	http = credentials.authorize(http)
 	service = build(serviceName = 'calendar', version='v3', http=http, developerKey = DEVELOPER_KEY)
-	#print service #debug
 	return service
 
 def create_new_event(service, event_name, start, end, location=None, description=None, organizer=None, calendar_id=None):
@@ -370,8 +365,6 @@ def getPeople(people, participants):
 
 # timeStart and timeEnd are strings formatted RFC3339
 # duration is in seconds
-######!!!!! When we implement having multiple time ranges, we will have to 
-########### do the timeStart and timeEnd as a list of tuple(timeStart, timeEnd)
 def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTime, duration):
 	events = []
 	for username in usernameList:
@@ -399,90 +392,3 @@ def putTimeForMany(usernameList, eventName, startInDateTime, endInDateTime, orga
 			end=endInDateTime.isoformat('T'), location=location, description=description, organizer=organizer)
 		resultIDs.append(resultID)
 	return resultIDs
-
-# def main():
-# 	users = sys.argv[1:]
-# 	avail = findTimeForMany(users, timeStart='2015-04-06T13:00:00-04:00', 
-# 		timeEnd='2015-04-07T14:00:00-04:00', duration = 3600)
-# 	printAvail(avail)
-
-# 	#getCred(users[0])
-
-# 	'''
-# 	if (sys.argv[0] == 'create'):
-# 		result = create_new_event(event_name = sys.argv[1], 
-# 							start = sys.argv[2], 
-# 							end = sys.argv[3], 
-# 							location = sys.argv[4],
-# 							description = sys.argv[5],
-# 							organizer = sys.argv[6])
-# 		print json.dumps(result)
-
-# 	print create_new_event(event_name = 'ChillFest 2015', 
-# 						start = '2015-04-05T13:00:00.000-04:00', 
-# 						end = '2015-04-05T14:00:00.000-04:00', 
-# 						location = 'Buyers 24',
-# 						description = 'Str8 Chillin',
-# 						organizer = 'Crystal Qian')
-
-# 	events = get_event_list(calendar_id='primary', 
-# 		start='2015-04-05T13:00:00.000-04:00', end='2015-04-07T14:00:00.000-04:00')
-# 	#print events
-
-# 	for 
-
-# 	print 'Enter "startTime endTime timeLength" of the form:'
-# 	print 'd/m/y h:m:s d/m/y h:m:s h:m:s'
-# 	epoch = datetime(1970, 1, 1)
-# 	resp = sys.stdin.readline().split()
-# 	a = resp[0].split('/')
-# 	b = resp[1].split(':')
-# 	a1 = resp[2].split('/')
-# 	b1 = resp[3].split(':')
-# 	c = resp[4].split(':')
-# 	for i in range(0, 3):
-# 		a[i] = int(a[i])
-# 		b[i] = int(b[i])
-# 		a1[i] = int(a1[i])
-# 		b1[i] = int(b1[i])
-# 		c[i] = int(c[i])
-# 	t = datetime(a[2], a[1], a[0], b[0], b[1], b[2])
-# 	t1 = datetime(a1[2], a1[1], a1[0], b1[0], b1[1], b1[2])
-# 	t = (t - epoch)
-# 	t = t.seconds + t.days * 24 * 3600
-# 	t1 = (t1 - epoch)
-# 	t1 = t1.seconds + t1.days * 24 * 3600
-# 	t2 = int(c[2]) + 60 * int(c[1]) + 3600 * int(c[0])
-# 	avail = findTimes(events, t, t1, t2)
-
-# 	for i in range(0, len(avail)):
-# 		a = avail[i]['startTime']
-# 		td = timedelta(a / (24 * 3600), a % (24 * 3600))
-# 		b = avail[i]['endTime']
-# 		td2 = timedelta(b / (24 * 3600), b % (24 * 3600))
-# 		print (epoch + td).strftime('%d/%m/%Y %H:%M:%S'), (epoch + td2).strftime('%d/%m/%Y %H:%M:%S'), avail[i]['conflicts']
-# '''
-
-
-
-#	print update_event(event_id = '3ql2ho2m62pnppan0rlui9nbt8', 
-#				event_name='Karaoke!', end='2014-07-29T16:00:00.000-07:00', 
-#				description='Sing, sing a song, sing out loud!')
-
-#	delete_event(event_id = '3ql2ho2m62pnppan0rlui9nbt8')
-
-#	event = get_event(event_id = '5nvc3a0t9hfsb575mc42npcv6s')
-#	print str(event)
-#	print str(event['id'])
-#	print str(event['summary'])
-#	print str(event['start']['dateTime'])
-#	print str(event['end']['dateTime'])
-#	print str(event['location'])
-#	print (event['description'])
-#	print event['organizer']
-#			 str(event['id']), str(event['summary']), str(event['start']['dateTime']), \
-#				str(event['end']['dateTime']), str(event['location']), str(event['description'])
-
-
-# if __name__ == "__main__":
-# 	main()

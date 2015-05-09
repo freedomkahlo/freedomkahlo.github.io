@@ -355,6 +355,13 @@ def getTimes(request, eventID=None):
 	print "almost there!"
 	return HttpResponseRedirect('/' + eventID)
 	
+
+@login_required
+def resetGAuth(request):
+	username = request.user.username
+	return cal.getCredClient(username, eventID=None)
+
+
 #creator can boot someone, delete/skedge/getTimes on event.
 @login_required
 def manageCreator(request):
