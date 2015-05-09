@@ -29,13 +29,14 @@
 			else {
 				onEndTransitionFn();
 			}
-			console.log("tourOpen");
+			console.log(tourOpen);
 			if (tourOpen) {
 				$(document).unbind('scroll'); 
   				$('body').css({'overflow':'visible'});
   			}
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
+			console.log("1" + tourOpen);
 			if (tourOpen) {
 				$('body').css({'overflow':'hidden'});
 				$(document).bind('scroll', function() { 
