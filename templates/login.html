@@ -22,16 +22,16 @@
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<script src="{% static 'js/jquery.min.js' %}"></script>
-		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+		<!-- <script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
 		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
 		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
 		<script src="{% static 'js/skel.min.js' %}"></script>
 		<script src="{% static 'js/skel-layers.min.js' %}"></script>
-		<script src="{% static 'js/init.js' %}"></script>
+		<script src="{% static 'js/init.js' %}"></script> -->
 		<noscript>
-			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+			<!-- <link rel="stylesheet" href="{% static 'css/skel.css' %}" /> -->
 			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
-			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			<!-- <link rel="stylesheet" href="{% static 'css/style-wide.css' %}" /> -->
 			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
 		</noscript>
 
@@ -41,7 +41,7 @@
 			$(function(){
 				{% if registered %}
 					//Created event
-					alert('You have successfully registered.')
+					alert('You have successfully registered. Please verify your account through email in 48 hours.')
 				{% endif %}
 				{% if messages %}
 					{% for message in messages %}
