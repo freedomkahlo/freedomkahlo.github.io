@@ -25,7 +25,7 @@ from django.utils import dateparse
 
 from skedg.models import UserProfile
 
-authIDLength = 32
+authIDLength = 32 #Length of identifier sent to Google Authentication and returned to you
 FLAGS = gflags.FLAGS
 DEVELOPER_KEY = 'AIzaSyC_sCrieFSw6_KM9zZHKOTUrXmeEwqkR3o'
 parser = argparse.ArgumentParser(parents=[argparser])
@@ -48,10 +48,15 @@ def clearTempStorageForChecking():
 		i = i + 1
 	tempStorageForChecking = tempStorageForChecking[i:]
 
+# Call "getCredFromRefToken" to validate the refreshToken stored for the user
+# return 'Already Has Token' if the refresh token is good.
+# return the call of "getCredClient" if refresh token is empty or bad, which sends the user to authentication.
+# eventID accompanies the call of getCredClient, such that the user can go back to an event page, if that where
+#     the user came from.
 def validateToken(email, eventID=None):
 	u = User.objects.get(username=email)
 	refreshToken = u.UserProfile.refToken
-	#print refreshToken
+
 	if refreshToken == '':
 		return getCredClient(email, eventID)
 	else:
@@ -165,6 +170,7 @@ def auth(request):
 
 	return returnPage(eventID)
 
+# Return authorized service for Google Calendar operations
 def buildService(username):
 	credentials = getCredFromRefToken(username)
 	if credentials == 'refTokenRevoked':
@@ -177,6 +183,7 @@ def buildService(username):
 	service = build(serviceName = 'calendar', version='v3', http=http, developerKey = DEVELOPER_KEY)
 	return service
 
+# Creates an event in the primary calendar associated with the Google service.
 def create_new_event(service, event_name, start, end, location=None, description=None, organizer=None, calendar_id=None):
 	if (calendar_id == None):
 		calendar_id = 'primary'
@@ -202,36 +209,13 @@ def create_new_event(service, event_name, start, end, location=None, description
 	except AccessTokenRefreshError:
 		print ('Credentials have been revoked')
 
-def update_event(service, event_id, event_name=None, start=None, end=None, location=None, description=None, organizer=None, calendar_id=None):
-	if (calendar_id == None):
-		calendar_id = 'primary'
-	try:
-		event = service.events().get(calendarId=calendar_id, eventId=event_id).execute()
-		if (event_name != None):
-			event['summary'] = event_name
-		if (start != None):
-			event['start']['dateTime'] = start
-		if (end != None):
-			event['end']['dateTime'] = end
-		if (location != None):
-			event['location'] = location
-		if (description != None):
-			event['description'] = description
-		if (organizer != None):
-			event['organizer'] = organizer
-
-		result = service.events().update(calendarId=calendar_id, eventId=event_id, body=event).execute()
-		return result['id']
-	except AccessTokenRefreshError:
-		print ('Credentials have been revoked')
-
+# Grab the list of events on all calendars associated with the Google serice between start and end times.
 def get_event_list(service, start, end):
 	try:
 		# first grab list of calendar names
 		calendar_list = service.calendarList().list(fields='items(id,summary)').execute()
 		calIDlist = [calendar_list_entry['id'] for calendar_list_entry in calendar_list['items']]
 
-		##### Check if 'items exists'
 		events = []
 		for calendar_id in calIDlist:
 			print calendar_id
@@ -242,7 +226,8 @@ def get_event_list(service, start, end):
 	except AccessTokenRefreshError:
 		print('Credentials have been revoked')
 
-
+# Grab an event with the event_id and the calendar_id
+# This method is currently not used, but might be used in the future.
 def get_event(service, event_id, calendar_id=None):
 	if (calendar_id == None):
 		calendar_id = 'primary'
@@ -251,6 +236,8 @@ def get_event(service, event_id, calendar_id=None):
 	except AccessTokenRefreshError:
 		print('Credentials have been revoked')
 
+# Delete an event with the event_id and the calendar_id
+# This method is currently not used, but might be used in the future.
 def delete_event(service, event_id, calendar_id=None):
 	if (calendar_id == None):
 		calendar_id = CALENDAR_ID
@@ -345,7 +332,7 @@ def findTimes(events, startTime, endTime, timeLength, people):
 
 	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)
 
-#Helper function for find Times2 which finds the time intervals for a given participant set
+#Helper function for findTimes which finds the time intervals for a given participant set
 def findInterval(dateList, curr):
 	start = curr
 	while start > 0 and dateList[start - 1][1] & dateList[curr][1] == dateList[curr][1]:
@@ -355,14 +342,14 @@ def findInterval(dateList, curr):
 		end += 1
 	return [start, end]
 
-#Helper function for findTimes2 which, given a participant list in bit form, returns the list of participants in string form
+#Helper function for findTimes which, given a participant list in bit form, returns the list of participants in string form
 def getPeople(people, participants):
 	s = ''
 	for x in [people[i] for i in range(len(people)) if participants & 2 ** i > 0]:
 		s += x + ', '
 	return s[:-2]
 
-
+# Goes through each user in the username list and grab the list of availabilities, and return them in a list.
 # timeStart and timeEnd are strings formatted RFC3339
 # duration is in seconds
 def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTime, duration):
@@ -384,6 +371,7 @@ def findTimeForMany(usernameList, startInDateTime, endInDateTime, finalEndDateTi
 	
 	return avail
 
+# Goes through each user and inserts an event to their Google calendar.
 def putTimeForMany(usernameList, eventName, startInDateTime, endInDateTime, organizer=None, location=None,description=None):
 	resultIDs = []
 	for username in usernameList:
