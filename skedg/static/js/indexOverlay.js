@@ -29,14 +29,18 @@
 			else {
 				onEndTransitionFn();
 			}
-			$(document).unbind('scroll'); 
-  			$('body').css({'overflow':'visible'});
+			{% if showIndexTour %}
+				$(document).unbind('scroll'); 
+  				$('body').css({'overflow':'visible'});
+  			{% endif %}
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
-			$('body').css({'overflow':'hidden'});
-			$(document).bind('scroll', function() { 
-				window.scrollTo(0,0); 
+			{% if showIndexTour %}
+				$('body').css({'overflow':'hidden'});
+				$(document).bind('scroll', function() { 
+					window.scrollTo(0,0); 
 			});
+			{% endif %}
 			classie.add( overlay, 'open' );
 		}
 	}
