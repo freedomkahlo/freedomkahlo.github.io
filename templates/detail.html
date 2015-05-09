@@ -365,9 +365,7 @@
 																					<input type="checkbox" name="vetoTimes" value="{{ time.id }}" id="checkBoxVote"/>
 																					<h3 style="margin-bottom: 0.2em"> {{ time.date }} </h3>
 																					<p style="margin-bottom: 0.2em"> {{ time.time }} </p>
-																					{{user.uername}}
-																					{{time.peopleList}}
-																					{% if not user.uername in time.peopleList %}
+																					{% if not user.username in time.peopleList %}
 																						<p> You have a conflict. </p>
 																					{% else %}
 																						<p> </p>
