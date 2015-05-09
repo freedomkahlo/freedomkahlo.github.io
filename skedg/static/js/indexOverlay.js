@@ -30,14 +30,14 @@
 				onEndTransitionFn();
 			}
 			console.log(tourOpen);
-			if (tourOpen) {
+			if (tourOpen == 'True') {
 				$(document).unbind('scroll'); 
   				$('body').css({'overflow':'visible'});
   			}
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
 			console.log("1" + tourOpen);
-			if (tourOpen) {
+			if (tourOpen == 'True') {
 				$('body').css({'overflow':'hidden'});
 				$(document).bind('scroll', function() { 
 					window.scrollTo(0,0); 
