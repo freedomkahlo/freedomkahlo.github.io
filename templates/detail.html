@@ -363,12 +363,12 @@
 																				<span class="icon fa-clock-o"></span>
 																				<header>
 																					<input type="checkbox" name="vetoTimes" value="{{ time.id }}" id="checkBoxVote"/>
-																					<h3 style="margin-bottom: 0.2em"> {{ time.date }} </h3>
-																					<p style="margin-bottom: 0.2em"> {{ time.time }} </p>
+																					<h3 style="margin-bottom: 0.1em"> {{ time.date }} </h3>
+																					<p style="margin-bottom: 0.2em; padding-bottom: 0.1em;"> {{ time.time }} </p>
 																					{% if not user.username in time.peopleList %}
 																						<p> You have a conflict. </p>
 																					{% else %}
-																						<p> </p>
+																						<p> &nbsp; </p>
 																					{% endif %}
 																				</header>
 																			</section>
