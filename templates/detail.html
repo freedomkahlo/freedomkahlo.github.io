@@ -368,7 +368,7 @@
 
 																					{{user.username}}
 																					{{time.peopleList}}
-																					{% if user.uername not in time.peopleList %}
+																					{% if not user.uername in time.peopleList %}
 																						<p> You have a conflict. </p>
 																					{% endif %}
 																				</header>
