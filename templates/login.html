@@ -97,7 +97,7 @@
 				<div class="content">
 					<section>
 						<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
-						<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'css/codrops.css' %}" />
 						<!-- open/close -->
 						<br />
 						<div class="overlay overlay-hugeinc">
@@ -235,6 +235,39 @@
 			});
 		</script>
 
+		<!-- Mobile Linking -->
+		<script type='text/javascript'>
+			function green() {
+			    var triggerBttn = document.getElementsByClassName( 'depth-0' );
+			    triggerBttn[0].addEventListener( 'click', toggleOverlay);
+			}
+
+			var bounds = [
+			    {min:0,max:736,func:red}
+			];
+
+			var resizeFn = function(){
+			    var lastBoundry; // cache the last boundry used
+			    return function(){
+			        var width = window.innerWidth;
+			        var boundry, min, max;
+			        for(var i=0; i<bounds.length; i++){
+			            boundry = bounds[i];
+			            min = boundry.min || Number.MIN_VALUE;
+			            max = boundry.max || Number.MAX_VALUE;
+			            if(width > min && width < max 
+			               && lastBoundry !== boundry){
+			                lastBoundry = boundry;
+			                return boundry.func.call(boundry);            
+			            }
+			        }
+			    }
+			};
+			$(window).resize(resizeFn());
+			$(document).ready(function(){
+			    $(window).trigger('resize');
+			});
+		</script>
 		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
 		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
 		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  
