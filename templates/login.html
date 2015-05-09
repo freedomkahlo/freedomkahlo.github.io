@@ -237,13 +237,14 @@
 
 		<!-- Mobile Linking -->
 		<script type='text/javascript'>
-			function green() {
+			function loginButton() {
 			    var triggerBttn = document.getElementsByClassName( 'depth-0' );
 			    triggerBttn[0].addEventListener( 'click', toggleOverlay);
+			    triggerBttn[1].addEventListener( 'click', toggleOverlay2);
 			}
 
 			var bounds = [
-			    {min:0,max:736,func:red}
+			    {min:0,max:736,func:loginButton}
 			];
 
 			var resizeFn = function(){
