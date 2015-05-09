@@ -529,8 +529,7 @@ def register(request):
 			#user.is_active = False
 			user.set_password(user.password)
 			user.save()
-			profile = UserProfile.objects.create()
-			profile.user = user
+			profile = UserProfile.objects.create(user=user)
 
 			keyLength = 10
 
@@ -586,8 +585,7 @@ def registerEvent(request):
 			#user.is_active = False
 			user.set_password(user.password)
 			user.save()
-			profile = UserProfile.objects.create()
-			profile.user = user
+			profile = UserProfile.objects.create(user=user)
 
 			keyLength = 10
 
