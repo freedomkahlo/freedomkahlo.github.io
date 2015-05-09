@@ -364,11 +364,11 @@
 																				<header>
 																					<input type="checkbox" name="vetoTimes" value="{{ time.id }}" id="checkBoxVote"/>
 																					<h3 style="margin-bottom: 0.2em"> {{ time.date }} </h3>
-																					<p> {{ time.time }} </p>
+																					<p style="margin-bottom: 0.2em"> {{ time.time }} </p>
 																					{% if not user.uername in time.peopleList %}
-																						<p> You have a conflict. </p>
+																						<p style="margin-bottom: 0.2em"> You have a conflict. </p>
 																					{% else %}
-																						<br />
+																						<p style="margin-bottom: 0.2em"> </p>
 																					{% endif %}
 																				</header>
 																			</section>
