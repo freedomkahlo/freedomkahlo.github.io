@@ -45,11 +45,16 @@
 				$("#start_time").val("12:00 PM");
 				$("#end_time").val("2:00 PM");
 				$("#event_length").val("1 hour");
+				$("#start_time2").val("12:00 PM");
+				$("#end_time2").val("2:00 PM");
+				$("#event_length2").val("1 hour");
 				//Get current date
 				var d = new Date();
 				var dString = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
 				$("#from").val(dString);
 				$("#to").val(dString);
+				$("#from2").val(dString);
+				$("#to2").val(dString);
 			{% endif %}
 
 			{% if messages %}
@@ -106,8 +111,26 @@
 						$( "#from" ).datepicker( "option", "maxDate", selectedDate );
 					}
 				});
+				$( "#from2" ).datepicker({
+					defaultDate: "+0d",
+					changeMonth: false,
+					numberOfMonths: 1,
+					onClose: function( selectedDate ) {
+						$( "#to" ).datepicker( "option", "minDate", selectedDate );
+					}
+				});
+				$( "#to2" ).datepicker({
+					defaultDate: "+0d",
+					changeMonth: false,
+					numberOfMonths: 1,
+					onClose: function( selectedDate ) {
+						$( "#from" ).datepicker( "option", "maxDate", selectedDate );
+					}
+				});
 				$("#from").datepicker().datepicker("setDate", new Date());
 				$("#to").datepicker().datepicker("setDate", new Date());
+				$("#from2").datepicker().datepicker("setDate", new Date());
+				$("#to2").datepicker().datepicker("setDate", new Date());
 			});
 		</script>
 
@@ -150,6 +173,42 @@
 					}
 				});
 
+				var time = $("#start_time2").val();
+				var start_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
+				$( "#start_slider2" ).slider({
+					min: 0,
+					max: 1425,
+					step: 15,
+					value: start_minutes, //Set it to the current time
+					slide: function(e, ui) {
+						var hours = Math.floor(ui.value / 60);
+						var minutes = ui.value - (hours * 60);
+
+						if(hours.length == 1) hours = '0' + hours;
+						if(minutes.length == 1) minutes = '0' + minutes;
+						if(minutes == 0) minutes = '00';
+
+						if(hours >= 12){
+
+							if (hours == 12){
+								minutes = minutes + " PM";
+							}
+							else{
+								hours = hours - 12;
+								minutes = minutes + " PM";
+							}
+						}
+
+						else{
+							minutes = minutes + " AM";
+						}
+						if (hours == 0){
+							hours = 12;
+						}
+						$("#start_time2").val(hours+":"+minutes)
+					}
+				});
+
 				var time = $("#end_time").val();
 				var end_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
 				$( "#end_slider" ).slider({
@@ -183,6 +242,42 @@
 							hours = 12;
 						}
 						$("#end_time").val(hours+":"+minutes)
+					}
+				});
+
+				var time = $("#end_time2").val();
+				var end_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
+				$( "#end_slider2" ).slider({
+					min: 0,
+					max: 1425,
+					step: 15,
+					value: end_minutes, //Set it to the current time
+					slide: function(e, ui) {
+						var hours = Math.floor(ui.value / 60);
+						var minutes = ui.value - (hours * 60);
+
+						if(hours.length == 1) hours = '0' + hours;
+						if(minutes.length == 1) minutes = '0' + minutes;
+						if(minutes == 0) minutes = '00';
+
+						if(hours >= 12){
+
+							if (hours == 12){
+								minutes = minutes + " PM";
+							}
+							else{
+								hours = hours - 12;
+								minutes = minutes + " PM";
+							}
+						}
+
+						else{
+							minutes = minutes + " AM";
+						}
+						if (hours == 0){
+							hours = 12;
+						}
+						$("#end_time2").val(hours+":"+minutes)
 					}
 				});
 			});
@@ -225,6 +320,41 @@
 						$( "#event_length" ).val(output);
 					}
 				});
+
+				var eventLength = $("#event_length2").val().split(' ');
+				var lengthPos;
+				if (eventLength.length == 4)
+					lengthPos = parseInt(eventLength[0]) * 60 + parseInt(eventLength[2]);
+				else {
+					if (eventLength[1].charAt(0) == 'h') //only hours
+						lengthPos = parseInt(eventLength[0]) * 60;
+					else //Only minutes
+						lengthPos = parseInt(eventLength[0]);
+				}
+				$("#eventLengthSlider2").slider(
+				{
+					value:lengthPos,
+					min: 15,
+					max: 480,
+					step: 15,
+					slide: function( event, ui ) {
+						var hours = Math.floor(ui.value / 60);
+						var minutes = ui.value - (hours * 60);
+
+						var output = "";
+						if (hours == 1)
+							output = output + "1 hour";
+						if (hours > 1)
+							output = output + hours + " hours";
+
+						if (minutes > 0) {
+							if (hours > 0)
+								output = output + " ";
+							output = output + minutes + " minutes";
+						}
+						$( "#event_length2" ).val(output);
+					}
+				});
 			});
 		</script>
 
@@ -254,6 +384,7 @@
 								{% csrf_token %}
 								<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
 								<button type="submit" class="special button" name="userPage">My Account</button>
+								<a href="#" style="display:none">My Account</a>
 							</form>
 						</li>
 
@@ -278,56 +409,93 @@
 						<div class="overlay overlay-hugeinc">
 							<div class="createEvent"> <br/ >
 								<button type="button" class="overlay-close">Close</button>
-								<div id = "id_of_div" class ="divs">
-									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
+								<div id = "boxedForm" class ="divs">
 									<h2>Create Event</h2> 
 									<h3> <font color="red">{{error}} </font></h3>
-										<form action="{% url 'add' %}" method="post">    
-											{% csrf_token %}
-											<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
-											<div class="row">
-												<div class="6u 12u(narrower)">
-													Title: <input type="text" style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 90%; border-radius: 5px;" name="title" id="title" size="50" value="{{ title }}">
-													Description: <br> <textarea type="text" style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 90%; border-radius: 5px; resize: none;" name="desc" cols="50" rows="2" id="description" value="{{ desc }}"></textarea> 
-													<div class="row">
-														<div class="6u 12u(narrower)" >
-															<p> Start Date:<input type="text" style="position:relative; z-index: 100000; border: 1px solid; color: #666666; margin-left: 12px; width: 100%; text-align: center; border-radius: 5px; float: left;" name="start_date" id="from" value="{{ start_date }}"readonly> </p>
-														</div> 
-														<div class="6u 12u(narrower)">
-															<p> End Date: <input type="text" name="end_date" style="position:relative; z-index: 100000; border: 1px solid; color: #666666; margin-left: -10px; width: 100%; text-align: center; border-radius: 5px; float: left;" id="to" value="{{ end_date }}" readonly></p>
-														</div>
+									<form action="{% url 'add' %}" method="post">    
+										{% csrf_token %}
+										<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
+										<div class="row">
+											<div class="6u 12u(narrower)">
+												Title: <input type="text" style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 90%; border-radius: 5px;" name="title" id="title" size="50" value="{{ title }}">
+												Description: <br> <textarea type="text" style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 90%; border-radius: 5px; resize: none;" name="desc" cols="50" rows="2" id="description" value="{{ desc }}"></textarea> 
+												<div class="row">
+													<div class="6u 12u(narrower)" >
+														<p> Start Date:<input type="text" style="position:relative; z-index: 100000; border: 1px solid; color: #666666; margin-left: 12px; width: 100%; text-align: center; border-radius: 5px; float: left;" name="start_date" id="from" value="{{ start_date }}"readonly> </p>
+													</div> 
+													<div class="6u 12u(narrower)">
+														<p> End Date: <input type="text" name="end_date" style="position:relative; z-index: 100000; border: 1px solid; color: #666666; margin-left: -10px; width: 100%; text-align: center; border-radius: 5px; float: left;" id="to" value="{{ end_date }}" readonly></p>
 													</div>
 												</div>
-												<div class="6u 12u(narrower)">
-													<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
-													<link rel="stylesheet" href="{% static 'css/style.css' %}" />
-													<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
-													<div style="text-align: left; width: 73%; display: inline-block">Time Zone:
-													<span class="custom-dropdown custom-dropdown--white">
-														<select class="custom-dropdown__select custom-dropdown__select--white">
-															<option>Eastern</option>
-															<option>Central</option>
-															<option>Mountain</option>
-															<option>Pacific</option>
-														</select>
-													</span> </div>
-													<br /> <br />
-													<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
-													<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
-													Start Time: <input size="25" type="text" name="start_time" id="start_time"  style="border: 0; margin-left: -10px; width: 68%; display: inline-block; border-radius: 5px;"  value="{{ start_time }}" readonly>
-													<div id="start_slider" style="margin: 0 auto; width: 90%"></div>
-
-													End Time: <input size="25" type="text" name="end_time" id="end_time"  style="border: 0; margin-left: -10px; width: 70%; display: inline-block; border-radius: 5px;"  value="{{ end_time }}" readonly>
-													<div id="end_slider" style="margin: 0 auto; width: 90%"></div> <br />
-
-													Event Length: <input size="25" type="text" name="event_length" id="event_length"  style="border: 0; width: 60%; margin-left: -10px; display: inline-block; border-radius: 5px;" value="{{ event_length }}" readonly>
-													<div id="eventLengthSlider" style="margin: 0 auto; width: 90%"></div><br>
-													
-												</div>
 											</div>
-											<br /> 
-											<input class="button special" style="margin: 0 auto 20 auto;" type="submit" id="create" value="Add" /> <br /> <br />
-										</form>
+											<div class="6u 12u(narrower)">
+												<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+												<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+												<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+												<div style="text-align: left; width: 73%; display: inline-block">Time Zone:
+												<span class="custom-dropdown custom-dropdown--white">
+													<select class="custom-dropdown__select custom-dropdown__select--white">
+														<option>Eastern</option>
+														<option>Central</option>
+														<option>Mountain</option>
+														<option>Pacific</option>
+													</select>
+												</span> </div>
+												<br /> <br />
+												<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+												<link rel="stylesheet" type="text/css" href="{% static 'css/codrops.css' %}" />
+												Start Time: <input size="25" type="text" name="start_time" id="start_time"  style="border: 0; margin-left: -10px; width: 68%; display: inline-block; border-radius: 5px;"  value="{{ start_time }}" readonly>
+												<div id="start_slider" style="margin: 0 auto; width: 90%"></div>
+
+												End Time: <input size="25" type="text" name="end_time" id="end_time"  style="border: 0; margin-left: -10px; width: 70%; display: inline-block; border-radius: 5px;"  value="{{ end_time }}" readonly>
+												<div id="end_slider" style="margin: 0 auto; width: 90%"></div> <br />
+
+												Event Length: <input size="25" type="text" name="event_length" id="event_length"  style="border: 0; width: 60%; margin-left: -10px; display: inline-block; border-radius: 5px;" value="{{ event_length }}" readonly>
+												<div id="eventLengthSlider" style="margin: 0 auto; width: 90%"></div><br>
+												
+											</div>
+										</div>
+										<br /> 
+										<input class="button special" style="margin: 0 auto 20 auto;" type="submit" id="create" value="Add" /> <br /> <br />
+									</form>
+								</div>
+								<div id="boxedFormMobile" class ="divs">
+									<h2>Create Event</h2> 
+									<h3> <font color="red">{{error}} </font></h3>
+									<form action="{% url 'add' %}" method="post">    
+										{% csrf_token %}
+										<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
+										<div class="row" style="margin: 0 auto; margin-top: -50px">
+											<div class="12u 12u">
+												Title: <input type="text" style="border:1px solid #000000; margin-bottom: 10px; width: 90%; border-radius: 5px;" name="title" id="title" size="50" value="{{ title }}">
+												Description: <br> <textarea type="text" style="border:1px solid #000000; margin-bottom: 10px; width: 90%; border-radius: 5px; resize: none;" name="desc" cols="50" rows="2" id="description" value="{{ desc }}"></textarea> 
+												<p> Start Date: <br /> <input type="text" style="position:relative; z-index: 100000; border: 1px solid; color: #666666; width: 90%; text-align: center; border-radius: 5px; float: left;" name="start_date" id="from2" value="{{ start_date }}"readonly> </p>
+												<br />
+												<p> End Date: <br /> <input type="text" name="end_date" style="position:relative; z-index: 100000; border: 1px solid; color: #666666; width: 90%; text-align: center; border-radius: 5px; float: left;" id="to2" value="{{ end_date }}" readonly></p>
+												<br />
+												<div style="text-align: left; width: 73%; display: inline-block">Time Zone:
+												<span class="custom-dropdown custom-dropdown--white">
+													<select class="custom-dropdown__select custom-dropdown__select--white">
+														<option>Eastern</option>
+														<option>Central</option>
+														<option>Mountain</option>
+														<option>Pacific</option>
+													</select>
+												</span> </div>
+												<br /> <br />
+												Start Time: <input size="25" type="text" name="start_time" id="start_time2"  style="border: 0; margin-left: -10px; width: 68%; display: inline-block; border-radius: 5px;"  value="{{ start_time }}" readonly>
+												<div id="start_slider2" style="margin: 0 auto; width: 90%"></div>
+
+												End Time: <input size="25" type="text" name="end_time" id="end_time2" style="border: 0; margin-left: -10px; width: 70%; display: inline-block; border-radius: 5px;"  value="{{ end_time }}" readonly>
+												<div id="end_slider2" style="margin: 0 auto; width: 90%"></div> <br />
+
+												Event Length: <input size="25" type="text" name="event_length" id="event_length2"  style="border: 0; width: 60%; margin-left: -10px; display: inline-block; border-radius: 5px;" value="{{ event_length }}" readonly>
+												<div id="eventLengthSlider2" style="margin: 0 auto; width: 90%"></div><br>
+											</div>
+										</div>
+										<br /> 
+										<input class="button special" style="margin: 0 auto 20 auto;" type="submit" id="create" value="Add" /> <br /> <br />
+									</form>
 								</div>
 							</div>
 						</div>
@@ -340,7 +508,6 @@
 
 				<!-- One -->
 					<section class="wrapper style4 container" id="myContent">
-
 						<!-- Content -->
 							<div class="content">
 								<section>
@@ -633,5 +800,48 @@
 		<script src="{% static 'js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'js/classie.js' %}"></script>
 		<script src="{% static 'js/indexOverlay.js' %}"></script>
+
+		<!-- Mobile Linking -->
+		<script type='text/javascript'>
+			function createEventMobile() {
+				document.getElementById('boxedForm').style.display = 'none';
+				document.getElementById('boxedFormMobile').style.display = 'block';
+			}
+
+			function createEventMobileReset() {
+				document.getElementById('boxedForm').style.display = 'block';
+				document.getElementById('boxedFormMobile').style.display = 'none';
+			}
+
+			var bounds = [
+			    {min:0,max:736,func:createEventMobile},
+			    {min:737,func:createEventMobileReset}
+			];
+
+			var resizeFn = function(){
+			    var lastBoundry; // cache the last boundry used
+			    return function(){
+			        var width = window.innerWidth;
+			        var boundry, min, max;
+			        for(var i=0; i<bounds.length; i++){
+			            boundry = bounds[i];
+			            min = boundry.min || Number.MIN_VALUE;
+			            max = boundry.max || Number.MAX_VALUE;
+			            if(width > min && width < max 
+			               && lastBoundry !== boundry){
+			                lastBoundry = boundry;
+			                return boundry.func.call(boundry);            
+			            }
+			        }
+			    }
+			};
+			$(window).resize(resizeFn());
+			$(document).ready(function(){
+			    $(window).trigger('resize');
+			});
+		</script>
+		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  
 	</body>
 </html>

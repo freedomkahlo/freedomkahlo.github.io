@@ -358,6 +358,30 @@
 		color:#006699;
 		text-decoration:none
 	}
+
+	#navTop {
+		list-style:none;
+		float: right;
+		margin: 0px;
+		padding: 0px;
+	}
+	#navTop li {
+		float: left;
+		margin-right: 20px;
+		font-size: 14px;
+		font-weight:bold;
+		height: 45px;
+		z-index: 11;
+	}
+	#navTop li a{
+		color:#333333;
+		text-decoration:none
+	}
+	#navTop li a:hover {
+		color:#006699;
+		text-decoration:none
+	}
+
 	#notification_li {
 		position:relative
 	}
@@ -501,8 +525,8 @@
 		float: right;
 		/*margin-top: -10%;*/
 		position: absolute;
-		right: 30px;
-		top: 80px;
+		right: 10px;
+		top: 60px;
 		overflow: hidden;
 		border: none;
 		background: url(../images/cross.png) no-repeat center center;
@@ -629,7 +653,7 @@
 	}
 
 	.createEvent {
-		width: 800px;
+		width: 80%;
 		display: block;
 		margin: 0 auto;
 		margin-top: 100px;
