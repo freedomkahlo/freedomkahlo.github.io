@@ -366,6 +366,8 @@
 																					<h3 style="margin-bottom: 0.2em"> {{ time.date }} </h3>
 																					<p> {{ time.time }} </p>
 
+																					{{user.username}}
+																					{{time.peopleList}}
 																					{% if user.uername not in time.peopleList %}
 																						<p> You have a conflict. </p>
 																					{% endif %}
