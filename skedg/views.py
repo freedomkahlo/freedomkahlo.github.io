@@ -335,13 +335,6 @@ def getTimes(request, eventID=None):
 		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'])
 		event.posstime_set.add(possTime)
 	return HttpResponseRedirect('/' + eventID)
-	
-
-@login_required
-def resetGAuth(request):
-	username = request.user.username
-	return cal.getCredClient(username, eventID=None)
-
 
 #creator can boot someone, delete/skedge/getTimes on event.
 @login_required
@@ -617,6 +610,12 @@ http://www.skedg.tk:82/confirm/%s''' % (user.first_name, key)
 			'detail.html',
 			{'registered': registered, 'event':event},
 			context)
+
+# Called when the user wants to change which Google calendar they use
+@login_required
+def resetGAuth(request):
+	username = request.user.username
+	return cal.getCredClient(username, eventID=None)
 
 # User clicked link to register their email
 def register_confirm(request, activation_key):

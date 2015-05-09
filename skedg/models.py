@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 import pytz
 
+# An Instance is an instance of an event
 class Instance(models.Model):
 	title = models.CharField(max_length=20, default='')
 	desc = models.CharField(max_length=100, default='description')
@@ -22,6 +23,7 @@ class Instance(models.Model):
 	scheduled_start = models.DateTimeField('event time')
 	scheduled_end = models.DateTimeField('event time2')
 
+	# Validates that the event parameters are OK
 	def regValidate(self):
 		if len(self.title.replace(' ', '')) == 0:
 			raise ValidationError('Title cannot be left blank.')
@@ -35,10 +37,6 @@ class Instance(models.Model):
 
 		startd = tz.localize(datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p'))
 		endd = tz.localize(datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
-		#temp = tz.localize(datetime.strptime(self.start_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
-
-		#if startd > temp:
-		#	endd += timedelta(days=1)
 
 		duration = timedelta(minutes=(int(self.event_length.split(':')[0]) * 60 + int(self.event_length.split(':')[1])))
 		
@@ -58,6 +56,7 @@ class Instance(models.Model):
 		if self.scheduled_end == None:
 			self.scheduled_end = datetime.now(tz)
 
+	# Overwrite the save feature to validate the instance first
 	def save(self, **kwargs):
 		self.regValidate()
 		return super(Instance, self).save(**kwargs)
@@ -97,18 +96,20 @@ class Instance(models.Model):
 	def printTimeRange(self):
 		return self.start_time + ' - ' + self.end_time
 
-	@property 
+	@property
 	def hasPassed(self):
 		if self.scheduled_end < datetime.now(pytz.utc):
 			return True
 		else:
 			return False
 
-	@property 
+	# Convert the email to a first and last name
+	@property
 	def creatorName(self):
 		user = get_object_or_404(User, username=self.creator)
 		return user.first_name + ' ' + user.last_name
 
+# Each instance of PossTime is a possible time that an event can be scheduled for
 class PossTime(models.Model):
 	event = models.ForeignKey(Instance)
 	startTime = models.DateTimeField('start time')
@@ -127,6 +128,7 @@ class PossTime(models.Model):
 		return ((self.startTime.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
 			+ " - " + (self.endTime.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0"))
 
+	# Convert list of emails who can make it to list of names
 	@property
 	def people(self):
 		split = self.peopleList.split(', ')
@@ -144,31 +146,32 @@ class PossTime(models.Model):
 			((self.startTime.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
 			+ " - " + (self.endTime.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0")))
 
+# Model for each user that can make an event
 class Invitee(models.Model):
 	event = models.ForeignKey(Instance)
 	name = models.CharField(max_length=100, default='')
 	firstName = models.CharField(max_length=100, default='')
 	lastName = models.CharField(max_length=100, default='')
 	hasVoted = models.BooleanField(default=False)
+
 	def __str__(self):
 		return self.firstName + " " + self.lastName
+
+	# Validate all the fields
 	def clean(self):
 		print (self.name)
 		if (len(self.name.replace(' ', '')) == 0):
 			raise ValidationError('Name cannot be blank')
 		if User.objects.filter(username__iexact=self.name).count() == 0:
 			raise ValidationError('%s is not a user.' % self.name)
+
 	def save(self, **kwargs):
 		self.clean()
 		return super(Invitee, self).save(**kwargs)
 
-#class PotentialTimes(models.Model):
-#	event = models.ForeignKey(Instance)
-#	time = models.DateTimeField('potential time')
-#	votes = models.IntegerField(default = 0)
-	
+# A message that is posted on the message board
 class Message(models.Model):
-	event = models.ForeignKey(Instance)
+	event = models.ForeignKey(Instance) # Which event message board
 	text = models.CharField(max_length=200, default='')
 	author = models.CharField(max_length=100, default='')
 	firstName = models.CharField(max_length=100, default='')
@@ -183,6 +186,7 @@ class Message(models.Model):
 	def __str__(self):
 		return self.text
 
+# Model for each notification
 class Notification(models.Model):
 	user = models.ForeignKey(User)
 	notificationType = models.CharField(max_length=50, default='')
@@ -192,7 +196,7 @@ class Notification(models.Model):
 	pub_date = models.DateTimeField('date made')
 
 	def __str__(self):
-		
+		# Format the text of the notification based on what kind it is
 		if User.objects.filter(username__iexact=self.originUserName).count() != 0:
 			user = get_object_or_404(User, username=self.originUserName)
 			realOriginName = user.first_name + ' ' + user.last_name
@@ -219,7 +223,9 @@ class Notification(models.Model):
 		if self.notificationType == "bootNot":
 			return realOriginName + " has booted you from '" + self.desc + "'."
 
-		return self.desc # + " at " + str(self.pub_date)
+		return self.desc
+
+# A User profile associated with each user, giving additional user information
 class UserProfile(models.Model):
 	# This line is required. Links UserProfile to a User model instance.
 	user = models.OneToOneField(User, related_name="UserProfile")
@@ -233,10 +239,10 @@ class UserProfile(models.Model):
 	firstTimeEventAsInvitee = models.BooleanField(default=True)
 	login_key = models.CharField(max_length=40, blank=True)
 
-	# Override the __unicode__() method to return out something meaningful!
 	def __unicode__(self):
 		return self.user.username
 
+# Each time that each user adds a conflict, one of these is created
 class VetoTime(models.Model):
 	event = models.ForeignKey(Instance)
 	invitee = models.ForeignKey(Invitee)

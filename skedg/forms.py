@@ -10,6 +10,7 @@ class UserForm(forms.ModelForm):
 		model = User
 		fields = ('first_name', 'last_name', 'username', 'password')
 
+	# Validate that the user form information is valid
 	def clean(self):
 		from django.core.validators import validate_email
 		from django.core.exceptions import ValidationError
