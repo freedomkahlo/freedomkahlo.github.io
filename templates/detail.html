@@ -365,7 +365,7 @@
 																					{% if user.username in time.peopleList %}
 																						<input type="checkbox" name="vetoTimes" value="{{ time.id }}" id="checkBoxVote"/>
 																					{% else %}
-																						<p style="margin-botom: 0;"> You already have a conflict. </p>
+																						<p class="alreadyconflict"> You already have a conflict. </p>
 																					{% endif %}
 																					<h3> {{ time.date }} </h3>
 																					<p style="padding-bottom: 0.2em;"> {{ time.time }} </p>
