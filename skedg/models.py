@@ -237,18 +237,6 @@ class UserProfile(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
-	@property
-	def calendarEmail(self):
-		from backend.cal import buildService
-		service = buildService(self.user.username)
-		if service == 'refTokenRevoked':
-			return 'Calendar Access Revoked'
-		try:
-			# first grab list of calendar names
-			return service.calendarList().list(fields='items(id,summary)').execute()['items'][0]['id']
-		except AccessTokenRefreshError:
-			return 'Calendar Access Revoked'
-
 class VetoTime(models.Model):
 	event = models.ForeignKey(Instance)
 	invitee = models.ForeignKey(Invitee)
