@@ -29,10 +29,11 @@
 			else {
 				onEndTransitionFn();
 			}
-			{% if showIndexTour %}
+			console.log("tourOpen");
+			if (tourOpen) {
 				$(document).unbind('scroll'); 
   				$('body').css({'overflow':'visible'});
-  			{% endif %}
+  			}
 		}
 		else if( !classie.has( overlay, 'close' ) ) {
 			{% if showIndexTour %}
