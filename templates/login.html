@@ -118,7 +118,7 @@
 										<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
 										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
 										<a href="#" id="trigger-overlay-three"> <font size="2"> Forgot Your Password? </font> </a>
-										<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
+										<p><center><input type="submit" value="Login" name="submit" id="submit" class="button special" /></center></p>
 									</form>
 									<font color='red'>{{invalidLogin}}</font>
 								</div>
@@ -173,7 +173,7 @@
 										<form method="post" id="password_form" action="/forgotPassword/">
 											{% csrf_token %}
 											<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
-											<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
+											<p><center><input type="submit" value="Reset password" name="submit" id="submit" class="button special" /></center></p>
 										</form>
 										<font color='red'>{{invalidUsername}}</font>
 									{% endif %}
