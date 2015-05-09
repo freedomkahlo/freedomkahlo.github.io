@@ -22,19 +22,18 @@
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<script src="{% static 'js/jquery.min.js' %}"></script>
-		<!-- <script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
 		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
-		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script> -->
+		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
 		<script src="{% static 'js/skel.min.js' %}"></script>
 		<script src="{% static 'js/skel-layers.min.js' %}"></script>
-		<!--<script src="{% static 'js/init.js' %}"></script>-->
+		<script src="{% static 'js/init.js' %}"></script>
 		<noscript>
-			<!-- <link rel="stylesheet" href="{% static 'css/skel.css' %}" /> -->
+			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
 			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
-			<!-- <link rel="stylesheet" href="{% static 'css/style-wide.css' %}" /> -->
+			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
 			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
 		</noscript>
-
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
 		<script>
@@ -58,8 +57,8 @@
 				<h1 id="logo"><a href="/">Skedg <span> - Let us check your schedule!  </span></a></h1>
 				<nav id="nav">
 					<ul>
-						<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special ">Login</a></li>
-						<li><a href="javascript:void(0);" id="trigger-overlay-two" class="links button special ">Register</a></li>
+						<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special">Login</a></li>
+						<li><a href="javascript:void(0);" id="trigger-overlay-two" class="links button special">Register</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -99,44 +98,26 @@
 					<section>
 						<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
 						<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
-						<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}" /> -->
 						<!-- open/close -->
 						<br />
 						<div class="overlay overlay-hugeinc">
 							<button type="button" class="overlay-close">Close</button>
 							<div class="register"> <br/ >
-<!-- 								<ul class="buttons">
-									<li><a href="#id_of_div" class="links button special" id="trigger-overlay">Login</a></li> 
-									<li><a href="#id_of_div2" class="links button special" id="trigger-overlay">Register</a></li>
-									<br/ > 
-									<br />
-								</ul> -->
-								<div id = "id_of_div" class ="divs">
-									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
-									<form method="post" id="login_form" action="/login/">
-										{% csrf_token %}
-										<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
-										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
-										<a href="#" id="trigger-overlay-three"> <font size="2"> Forgot Your Password? </font> </a>
-										<p><center><input type="submit" value="Login" name="submit" id="submit" class="button special" /></center></p>
-									</form>
-									<font color='red'>{{invalidLogin}}</font>
-								</div>
+								<form method="post" id="login_form" action="/login/">
+									{% csrf_token %}
+									<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
+									<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+									<a href="#" id="trigger-overlay-three"> <font size="2"> Forgot Your Password? </font> </a>
+									<p><center><input type="submit" value="Login" name="submit" id="submit" class="button special" /></center></p>
+								</form>
+								<font color='red'>{{invalidLogin}}</font>
 							</div>
 						</div>
 
 						<div class="overlay2 overlay-hugeinc">
 							<button type="button" class="overlay-close">Close</button>
 							<div class="register"> <br/ >
-<!-- 								<ul class="buttons">
-									<li><a href="#id_of_div" class="links button special" id="trigger-overlay">Login</a></li> 
-									<li><a href="#id_of_div2" class="links button special" id="trigger-overlay">Register</a></li>
-									<br/ > 
-									<br />
-								</ul> -->
 								<div id = "id_of_div2" class="registerStyles">
-									<!-- <h2><strong><center>Register for an account</center></strong></h2> -->
-				
 									<form id="user_form" method="post" action="/register/" enctype="multipart/form-data" style:"margins: auto;">
 										{% csrf_token %}
 										<font color='red'>{{registerError}}</font>
@@ -157,14 +138,7 @@
 						<div class="overlay3 overlay-hugeinc">
 							<button type="button" class="overlay-close">Close</button>
 							<div class="register"> <br/ >
-<!-- 								<ul class="buttons">
-									<li><a href="#id_of_div" class="links button special" id="trigger-overlay">Login</a></li> 
-									<li><a href="#id_of_div2" class="links button special" id="trigger-overlay">Register</a></li>
-									<br/ > 
-									<br />
-								</ul> -->
 								<div id = "id_of_div3" class ="divs">
-									<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
 									{% if successForgot %}
 										<h2>Check your e-mail</h2>
 										{{ successForgot }}
@@ -187,8 +161,8 @@
 					</section>
 				</div>
 
-				<header class="special container">
-					<span class="icon fa-clock-o"></span>
+				<header class="special container" style="padding: 5px">
+					<span class="icon fa-clock-o"></span> <br /> <br />
 					<h2>Hate finding a <strong>time</strong> that works for everyone?
 					<br />
 					Introducing the new event scheduler, <strong>Skedg</strong>.</h2>
@@ -201,7 +175,7 @@
 
 				<!-- One -->
 					<section class="wrapper style2 container special-alt" style="z-index: 100">
-						<div class="row 50%">
+						<div class="row">
 							<div class="12u 12u(narrower)">
 								<header>
 									<h2>Here's <strong>how it works:</strong></h2>
@@ -216,26 +190,18 @@
 										<dd>
 											All of the recommended times are <strong>the best times</strong> given your Google calendars.
 											<br/><br/>	
-											<img src = "{% static 'images/tutorial-vote.png' %}" />
+											<div class="oversizeImage"> <img src = "{% static 'images/tutorial-vote.jpg' %}" /> </div>
 										</dd>
 										<br/><br/>
 									<dt><strong>3.</strong> Select a green <strong> Skedg </strong> button to add <strong>that</strong> event to everyone's calendars! </dt>
 										<dd>
 											Check your Google calendar- your event is there!
 											<br/><br/>
-											<img src = "{% static 'images/tutorial-skedg.png' %}" />
+											<div class="oversizeImage"> <img src = "{% static 'images/tutorial-skedg.jpg' %}" /> </div>
 										</dd>
 								</dl>
 							</div>
 						</div>
-					</section>
-
-					<section class="wrapper style3 container special-alt" style="z-index: 100">
-						<h2> We hope you enjoy our app.</h2>
-							<center><p> <strong>Love,</strong> </p></center>
-							<center><p> Jonathan, Crystal, Minseung, and Roy. </p></center>
-							<img style="width:80%" src = "{% static 'images/team.jpg' %}" /> 
-						
 					</section>
 			</article>
 
@@ -268,5 +234,10 @@
 				$("#noscript").hide();
 			});
 		</script>
+
+		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  
+
 	</body>
 </html>
