@@ -11,25 +11,19 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from datetime import timedelta, datetime
-import json
-import hashlib, random
 from backend import cal
 import pytz
 import math
 
-
-def home(request):
-	return render(request, './index.html')
-
+# Render the home page after being logged in
 @login_required
 def index(request):
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	user_list = User.objects.all()
-#	latest_event_list = [event in latest_event_list if event.creator is request.user.username]
 	context = {'latest_event_list': latest_event_list, 'user_list': user_list, 'showIndexTour': False}
 
 	user = request.user
-	if user.UserProfile.firstTimeHome:
+	if user.UserProfile.firstTimeHome: #Only need to show tour their first time
 		context['showIndexTour'] = True
 		user.UserProfile.firstTimeHome = False
 		user.UserProfile.save()
@@ -37,7 +31,7 @@ def index(request):
 	request.path_info = '/'
 	return render(request, 'index.html', context)
 
-#@login_required
+# Render the event page for a given eventID
 def detail(request, eventID):
 	event = get_object_or_404(Instance, eventID=eventID)
 	resp = deletePastPossTimes(request, eventID)
@@ -46,7 +40,7 @@ def detail(request, eventID):
 
 	context = {'event': event, 'showInviteeTour': False, 'showCreatorTour': False}
 
-	if request.user.is_authenticated():
+	if request.user.is_authenticated(): # Only show more information to those that are logged in
 		username = request.user.username
 		user = get_object_or_404(User, username=username)
 
@@ -57,6 +51,7 @@ def detail(request, eventID):
 				isInvitee = True
 				break
 
+		# Set instructions based on whether they've seen it before
 		if (event.creator == username) and (user.UserProfile.firstTimeEventAsCreator):
 			context['showCreatorTour'] = True
 			user.UserProfile.firstTimeEventAsCreator = False
@@ -68,10 +63,12 @@ def detail(request, eventID):
 
 	return render(request, 'detail.html', context)
 
+# Called when a user creates an event
 @login_required
 def add(request):	
 	eventIDLength = 10
 
+	# Pull the event parameters from the request
 	title=request.POST.get('title', '')
 	desc=request.POST.get('desc', '')
 	start_date=request.POST.get('start_date', '')
@@ -82,29 +79,16 @@ def add(request):
 	creator = request.POST['username']
 	timezone = request.POST.get('timezone', 'Eastern')
 	
+	# Get a unique identifier for the event
 	eventID = get_random_string(length=eventIDLength)
 	while Instance.objects.filter(eventID__iexact=eventID).count() != 0:
 		eventID = get_random_string(length=eventIDLength)
 
+	# Save the form context if there was an error creating the event
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	returnMsg = {'error': '', 'latest_event_list': latest_event_list,
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
 			'end_time':end_time, 'event_length':event_length, 'creator':creator, 'timezone':timezone}
-
-	#5/3/2015 2:00 PM
-	#startTmp = time_range.split('-')[0].split(':')
-	#startHour = startTmp[0]
-	#startMin = startTmp[1].split()[0]
-
-	#if (startTmp[1].split()[1] == 'PM')
-	#	startHour = int(startHour) + 12
-
-	#startDateTimeString = start_date + "," + startHour + ":" + startMin
-	#startDateTime = datetime.strptime(startDateTimeString, '%Y/%m/%d,%H:%M.%fZ')
-	#print startDateTime
-	#if (startDateTime < datetime.now()):
-	#	returnMsg['error'] = 'Event start time cannot be in the past.'
-	#	return render(request, 'index.html', returnMsg)
 
 	#Parse the time range
 	timeSplit = event_length.split()
@@ -124,29 +108,16 @@ def add(request):
 	except ValidationError as e:
 		returnMsg['error'] = e[0]
 		return render(request, 'index.html', returnMsg)
-	#return HttpResponseRedirect(reverse('events:results', args=(e.id,)))
 
-	#nstr = e.creator + " has invited you to " + e.title + "!" 
-	#n = Notification(desc=nstr, pub_date=datetime.now())
+	return getTimes(request, eventID) # Generate the times that work for the event creator
 
-	#	user = User.objects.get(username=i)
-	#	user.notification_set.add(n)
-	#messages.success(request, 'Your event has been successfully created! The event url to share is skedg.tk/' + eventID)
-	return getTimes(request, eventID)
-
-# def autocomplete_user(request):
-# 	term = request.GET.get('term') #jquery-ui.autocomplete parameter
-# 	users = User.objects.filter(username__istartswith=term) #lookup for a city
-# 	res = []
-# 	for c in users:
-# 		 #make dict with the metadatas that jquery-ui.autocomple needs (the documentation is your friend)
-# 		 dict = {'id':c.id, 'label':c.__unicode__(), 'value':c.__unicode__()}
-# 		 res.append(dict)
-# 	return HttpResponse(json.dumps(res))
-
+# Handle the request to change password (on the my account page)
+@login_required
 def changePassword(request):
 	user = request.user
 	oldPass = request.POST['oldPassword']
+
+	# Check if old password correct and new passwords match
 	if not user.check_password(oldPass):
 		return render(request, 'user.html', {'invalidPassword':'Incorrect password.'})
 	newPass = request.POST['newPassword']
@@ -157,14 +128,17 @@ def changePassword(request):
 		return render(request, 'user.html', {'invalidPassword':'Password cannot be blank.'})
 	user.set_password(newPass)
 	user.save()
+
 	messages.success(request, 'Your password has successfully been changed!')
 	return HttpResponseRedirect('/userPage/')
 
 
+@login_required
 def delete(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 
+	# Notification telling the invitees that the event was deleted
 	n = Notification(desc=event.title, notificationType="deleteNot", originUserName =event.creator, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 	for invitee in event.invitee_set.all():
@@ -175,6 +149,7 @@ def delete(request):
 	event.delete()
 	return HttpResponseRedirect('/')
 
+# Delete all of the possible times that have already elapsed
 def deletePastPossTimes(request, eventID=None):
 	if eventID == None:
 		eventID = request.POST['eventID']
@@ -183,17 +158,19 @@ def deletePastPossTimes(request, eventID=None):
 	tz = pytz.timezone('US/' + event.timezone)
 
 	possTimes = event.posstime_set.all()
-	badPossTimes = [x for x in possTimes if x.startTime < datetime.now(tz)]
+	badPossTimes = [x for x in possTimes if x.startTime < datetime.now(tz)] # All times that have occured in the past
 
 	for x in badPossTimes:
 		x.delete()
 
+	# Delete all the times that were vetoed that were in the past
 	vetoTimes = event.vetotime_set.all()
 	badVetoTimes = [x for x in vetoTimes if x.startTime < datetime.now(tz)]
 
 	for x in badVetoTimes:
 		x.delete()
 
+	# If the event has no possible times left (event occured in the past), delete the event
 	if len(event.posstime_set.all()) == 0 and not event.is_scheduled:
 		#Need to delete event
 		n = Notification(desc=event.title, notificationType="noTimeNot", originUserName =event.creator, pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
@@ -208,11 +185,13 @@ def deletePastPossTimes(request, eventID=None):
 		user.save()
 
 		event.delete()
+		messages.success(request, 'Your event has expired before scheduling.')
 		return HttpResponseRedirect('/')
 
+# Handle forget password requests
 def forgotPassword(request, login_key=''):
-	if request.method == 'POST':
-		#Submitted request of forgot password
+	if request.method == 'POST': #Submitted request of forgot password
+		# Send verification email to make sure they want to reset their password
 		email = request.POST['username']
 		if len(User.objects.filter(username=email)) == 0:
 			#No user with that username found
@@ -236,8 +215,8 @@ If you did not request to have your password reset, please ignore this email.'''
 		send_mail('Skedg Password Assistance', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		return render(request, 'login.html', {'successForgot':"We have sent an email to the email specified with instructions for resetting your password. If you don't receive this email, please check your spam folder."})
 
+	# Reached if they have pressed the link to reset their password
 	elif request.method == 'GET':
-		#Clicked link to reset password
 		user_profile = get_object_or_404(UserProfile, login_key=login_key)
 
 		user_profile.login_key = ''
@@ -247,24 +226,27 @@ If you did not request to have your password reset, please ignore this email.'''
 		password = get_random_string(length=passLength)
 		user_profile.user.set_password(password)
 		user_profile.user.save()
-		#Send email with validation key
+		#Send email with their new password
 		msg = '''Hi %s, 
 You have successfully reset your password. After logging in, you can change your password on the My Account page.
 Your password is: %s''' % (user_profile.user.first_name, password)
 		send_mail('Skedg Password Assistance', msg, 'skedg.notify@gmail.com', [user_profile.user.username], fail_silently=False)
 		return render(request, 'login.html', {'successForgot':'We have reset your password. Please check your email for your new password. You can change your password on the My Account page.'})
 
+# Get the valid time intervals from cal.py and then generate the possible times in 15 minute increments
 def getTimes(request, eventID=None):
 	roundToMin = 15 #minutes
 
+	#round up to nearest 15 minutes
 	def roundUpByTimeDelta(tm):
-		upmins = math.ceil(float(tm.minute)/15)*15 #round up to nearest 15 minutes
+		upmins = math.ceil(float(tm.minute)/15)*15
 		diffmins = upmins - tm.minute
 		return timedelta(minutes=diffmins)
 
 	if eventID == None:
 		eventID = request.POST['eventID']
 
+	# Get the event and all the current invitees
 	event = get_object_or_404(Instance, eventID=eventID)
 	many = []
 	many.append(event.creator)
@@ -284,23 +266,25 @@ def getTimes(request, eventID=None):
 		#finalEndDateTime += timedelta(days=1)
 		
 	times = cal.findTimeForMany(many, startInDateTime, endInDateTime, finalEndDateTime, duration)
-	print 'Gotten Times:', times
-	# 30 minute intervals for starting time; rounding start time; etc.
+
+	# 15 minute intervals for starting time; rounding start time; etc.
 	processedTimes = []
 	for t in times:
 		roundBy = roundUpByTimeDelta(t['startTime'])
 		startEvent = t['startTime']
+
+		# Ignore all the possible times that have occurred in the past
 		while startEvent < datetime.now(tz) and startEvent + duration <= t['endTime']:
 			startEvent += timedelta(minutes=roundToMin)
-		if startEvent < datetime.now(tz):
+		if startEvent < datetime.now(tz): # If all of the possible times in this interval have occured in the past, ignore this interval
 			continue
 		endEvent = startEvent + duration
+
 		# if rounding makes the event go beyond endtime, then just add the time range and call it good.
-		#print (startEvent + roundBy).strftime('%Y-%m-%dT%H:%M')
 		if startEvent + roundBy + duration > finalEndDateTime:
 			priorityValue = -int(t['numFree'])*1000
 			needToContinue = False
-			for d in processedTimes:
+			for d in processedTimes: # Check if we have already added the possible times list to prevent duplicates
 				if d['endTime'] == endEvent and d['startTime'] == startEvent:
 					if d['priority'] > priorityValue:
 						d['participants'] = t['participants']
@@ -313,11 +297,12 @@ def getTimes(request, eventID=None):
 			processedTimes.append({'priority':priorityValue, 'startTime':startEvent, 'endTime':endEvent, 'numFree':t['numFree'], 'participants':t['participants']})
 			continue
 		else:
+			# Iterate over the time range, adding 15 minutes every time
 			i = 0
 			while endEvent <= t['endTime']:
 				priorityValue = -int(t['numFree'])*1000 + i
 				needToContinue = False
-				for d in processedTimes:
+				for d in processedTimes: # Check if we have already added the possible times list to prevent duplicates
 					if d['endTime'] == endEvent and d['startTime'] == startEvent:
 						if d['priority'] > priorityValue:
 							d['participants'] = t['participants']
@@ -330,29 +315,25 @@ def getTimes(request, eventID=None):
 				i += 1
 				startEvent += timedelta(minutes=roundToMin)
 				endEvent = startEvent + duration
+
+	# Now consider vetoed times
 	for t in processedTimes:
-		for vetoed in event.vetotime_set.filter(startTime=t['startTime']):
+		for vetoed in event.vetotime_set.filter(startTime=t['startTime']): # For each vetoed time, remove that user from the list that can make it
 			if t['participants'].find(vetoed.invitee.name) > -1:
 				t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
 				t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
 				t['numFree'] -= 1
 				t['priority'] += 1000
-	#list.sort(processedTimes)
-	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
-	print 'Processed:'
-	for t in processedTimes:
-		t['startTime'].isoformat() + ' ' + t['endTime'].isoformat() + ' ' + t['participants'] + ' ' + str(t['priority'])
 
-	#Delete all previous possTimes 
+	# Sort the possible times by priority measure
+	processedTimes = sorted(processedTimes, key=lambda k: k['priority'])
+
+	#Delete all previous possTimes and add the new ones
 	event.posstime_set.all().delete()
 
 	for t in processedTimes:
 		possTime = PossTime(startTime=t['startTime'], endTime=t['endTime'], nFree=t['numFree'], peopleList=t['participants'])
 		event.posstime_set.add(possTime)
-	#possTime = PossTime()
-	#event.posstime_set.add(possTime)
-
-	print "almost there!"
 	return HttpResponseRedirect('/' + eventID)
 	
 
@@ -365,13 +346,17 @@ def resetGAuth(request):
 #creator can boot someone, delete/skedge/getTimes on event.
 @login_required
 def manageCreator(request):
-	if 'boot' in request.POST:
-		eventID = request.POST['eventID']
-		event = get_object_or_404(Instance, eventID=eventID)
+	eventID = request.POST['eventID']
+	event = get_object_or_404(Instance, eventID=eventID)
+	if request.user.username != event.creator: #If someone tried to artificially generate a request to do creator only options, do nothing
+		return HttpResponseRedirect('/')
+
+	if 'boot' in request.POST: # Creator wants to boot some malicious user from their event
 		i_name = request.POST['invitee_name']
 		invitee = event.invitee_set.get(name=i_name)
 		invitee.delete()
 
+		# Give notification to the booted user that they've been booted
 		n = Notification(desc=event.title, originUserName=event.creator, notificationType="bootNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 		u = get_object_or_404(User, username=i_name)
 		u.notification_set.add(n)
@@ -379,17 +364,13 @@ def manageCreator(request):
 
 		return getTimes(request)
 
-	if 'delete' in request.POST:
+	if 'delete' in request.POST: # Creator wants to delete their event
 		return delete(request)
-	if 'getTimes' in request.POST:
-		return getTimes(request)
-	if 'skedg' in request.POST:			
-		eventID = request.POST['eventID']
-		event = get_object_or_404(Instance, eventID=eventID)
+	if 'skedg' in request.POST:	# Creator wants to schedule their event	
 		invitees = event.invitee_set.all()
 		peopleList = []
 
-		#add notification
+		# Add notification that the event has been scheduled
 		n = Notification(desc=event.title, originUserName=event.creator, notificationType="skedgNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 		for i in invitees:
@@ -398,6 +379,7 @@ def manageCreator(request):
 			u.notification_set.add(n)
 			u.save()
 
+		# Add the scheduled time into everyone's calendar
 		peopleList.append(event.creator)
 		possIndex=int(request.POST['skedgeTime'])
 		possEvents = event.posstime_set.all()
@@ -415,24 +397,24 @@ def manageCreator(request):
 		event.save()
 		
 		return HttpResponseRedirect('/' + eventID)
-	else:
-		return index(request)
+
+	return HttpResponseRedirect('/')
 
 #user can join, remove self, and vote
 @login_required
 def manageInvitee(request):
+	# Get user/event information
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
 	username = request.POST['username']
 	firstName = request.POST['firstName']
 	lastName = request.POST['lastName']
 
-	print request.POST
-
-	if 'join' in request.POST:
+	if 'join' in request.POST: # If the user wants join the event
 		invitee = Invitee(name=username, firstName=firstName, lastName=lastName)
 		event.invitee_set.add(invitee)
 
+		# Notify the creator that someone joined the event
 		n = Notification(desc=event.title, originUserName=username, notificationType="joinNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 		user = get_object_or_404(User, username=event.creator)
 		user.notification_set.add(n)
@@ -443,37 +425,36 @@ def manageInvitee(request):
 		else:
 			return HttpResponseRedirect('/' + eventID)
 
-	if 'decline' in request.POST:
+	if 'decline' in request.POST: # If the user wants to leave the event
 		inviteeSet = event.invitee_set.all()
 		invitee = inviteeSet.get(name=username)
 		invitee.delete()
 
+		# Notify the creator that someone has left his event
 		n = Notification(desc=event.title, originUserName=username, notificationType="leaveNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 		user = get_object_or_404(User, username=event.creator)
 		user.notification_set.add(n)
 		user.save()
 
-		if not event.is_scheduled:
+		if not event.is_scheduled: # Update the possible times since someone left
 			return getTimes(request)
 		else:
 			return HttpResponseRedirect('/' + eventID)
-		#event.invitee_set = event.invitee_set.all().exclude(name=username)
-	if 'veto' in request.POST:
-		return vetoPoss(request)	
+	if 'veto' in request.POST: # Handle the case if the user added a conflict
+		return vetoPoss(request)
 
-#user can join, remove self, and vote
+# Manage the message board
 @login_required
 def manageMessage(request):
-	#print request.POST
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
 	postAuthor = request.POST['username']
 
-	if 'write' in request.POST:
+	if 'write' in request.POST: # Someone posted on the message board
 		postFirstName = request.POST['firstName']
 		postLastName = request.POST['lastName']
 		message = request.POST['message']
-		if message.replace(' ', '') == '':
+		if message.replace(' ', '') == '': # Ignore blank message postings
 			return HttpResponseRedirect('/' + eventID)
 		author = postAuthor
 		pub_date = datetime.now()
@@ -481,6 +462,7 @@ def manageMessage(request):
 		message = Message(text=message, author=author, pub_date=pub_date, firstName=postFirstName, lastName=postLastName)
 		event.message_set.add(message)
 
+		# Notify the other people in the event that someone has posted on the message board
 		n = Notification(desc=event.title, originUserName=postAuthor, notificationType="composeNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 
 		for i in event.invitee_set.all():
@@ -498,6 +480,7 @@ def manageMessage(request):
 	if 'erase' in request.POST: #delete message by the event creator
 		message = get_object_or_404(Message, pk=request.POST['messageID'])
 		
+		# Tell message creator that his message has been deleted
 		n = Notification(desc=event.title, originUserName=event.creator, notificationType="eraseNot", pub_date=datetime.now(pytz.timezone('US/' + event.timezone)))
 		if message.author != event.creator: #If event creator is deleting his own message, no notification.
 			user = get_object_or_404(User, username=message.author)
@@ -508,36 +491,37 @@ def manageMessage(request):
 	
 	return HttpResponseRedirect('/' + eventID)
 
+# Handle notification requests
 @login_required
 def manageNotification(request):
-	if 'dismiss' in request.POST:
+	if 'dismiss' in request.POST: # Delete a single notification
 		n_id = request.POST['notificationID']
 		notification = get_object_or_404(Notification, pk=n_id)
 		notification.delete()
-	if 'clear' in request.POST:
+	if 'clear' in request.POST: # Delete all notifications
 		user = get_object_or_404(User, username=request.POST['username'])
 		for n in user.notification_set.all():
 			n.delete()
 
 	return HttpResponseRedirect('/')
 	
+# Handle registration from the event detail page
 def register(request):
 	context = RequestContext(request)
 	first_name = request.POST['first_name']
 	last_name = request.POST['last_name']
 	email = request.POST['username']
 	saveInfo = {'first_name':first_name, 'last_name':last_name, 'email':email}
-	registered = False
 
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
-		if user_form.is_valid():
+		if user_form.is_valid(): # Check the form for any errors (done in forms.py)
 			user = user_form.save()
-			#user.is_active = False
 			user.set_password(user.password)
 			user.save()
 			profile = UserProfile.objects.create(user=user)
 
+			# Get the validation key that they need to click within 48 hours
 			keyLength = 10
 
 			key = get_random_string(length=keyLength)
@@ -546,7 +530,6 @@ def register(request):
 			profile.activation_key = key
 
 			profile.save()
-			registered = True
 
 			#Send email with validation key
 			msg = '''Hi %s, 
@@ -554,7 +537,7 @@ Thanks for signing up. Click this link within 48 hours to prevent your account f
 http://www.skedg.tk:82/confirm/%s''' % (user.first_name, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
-			print (user_form.errors)
+			# Fill out context of what errors the form had
 			errorList = {}
 			if user_form.errors.get('username', '') != '':
 				errorList.update({'emailError':user_form.errors.get('username', '')[0]})
@@ -570,11 +553,13 @@ http://www.skedg.tk:82/confirm/%s''' % (user.first_name, key)
 	else:
 		user_form = UserForm()
 
+	# Redirect to the home page
 	return render_to_response(
 			'login.html',
-			{'registered': registered},
+			{'registered': True},
 			context)
 
+# Handle registration from the home page
 def registerEvent(request):
 	context = RequestContext(request)
 	first_name = request.POST['first_name']
@@ -587,13 +572,14 @@ def registerEvent(request):
 
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
-		if user_form.is_valid():
+		if user_form.is_valid():# Check the form for any errors (done in forms.py)
 			user = user_form.save()
 			#user.is_active = False
 			user.set_password(user.password)
 			user.save()
 			profile = UserProfile.objects.create(user=user)
 
+			# Get the validation key that they need to click within 48 hours
 			keyLength = 10
 
 			key = get_random_string(length=keyLength)
@@ -610,6 +596,7 @@ Thanks for signing up. Click this link within 48 hours to prevent your account f
 http://www.skedg.tk:82/confirm/%s''' % (user.first_name, key)
 			send_mail('Account confirmation', msg, 'skedg.notify@gmail.com', [email], fail_silently=False)
 		else:
+			# Fill out context of what errors the form had
 			errorList = {}
 			if user_form.errors.get('username', '') != '':
 				errorList.update({'emailError':user_form.errors.get('username', '')[0]})
@@ -625,14 +612,17 @@ http://www.skedg.tk:82/confirm/%s''' % (user.first_name, key)
 	else:
 		user_form = UserForm()
 
+	# Redirect back to the event page that they were looking at
 	return render_to_response(
 			'detail.html',
 			{'registered': registered, 'event':event},
 			context)
 
+# User clicked link to register their email
 def register_confirm(request, activation_key):
 	user_profile = get_object_or_404(UserProfile, activation_key=activation_key)
 
+	# Activate the user if necessary
 	if user_profile.activated:
 		return HttpResponseRedirect('/')
 	user_profile.activated = True
@@ -643,10 +633,12 @@ def register_confirm(request, activation_key):
 	messages.success(request, "Your account has been successfully activated!")
 	return HttpResponseRedirect('/')
 
+# Handle what html page is rendered when the user clicks "My Account"
 @login_required
 def userPage(request):
 	return render(request, 'user.html')
 
+# Handle logging in from the home page
 def user_login(request):
 	context = RequestContext(request)
 
@@ -657,16 +649,19 @@ def user_login(request):
 		user = authenticate(username=email, password=password)
 
 		if user:
+			# If the user still hasn't clicked on email verification email after 48 hours, block their account
 			if not user.UserProfile.activated and user.date_joined + timedelta(days=2) < datetime.now(pytz.timezone('utc')):
 				user.is_active = False
 
 			if user.is_active:
+				# Get their google calendar information if we don't have it already
 				resp = cal.validateToken(email)
 				if (resp =="Already Has Token"):
 					login(request, user)
 					return HttpResponseRedirect('/')
 				return resp
 			else:
+				# Resend verification email if they haven't clicked it yet
 				msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
 http://www.skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activation_key)
@@ -678,6 +673,7 @@ http://www.skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activa
 	else:
 		return render_to_response('login.html', {}, context)
 
+# Handle logging in from the view event Detail page
 def user_loginEvent(request):
 	context = RequestContext(request)
 
@@ -689,16 +685,19 @@ def user_loginEvent(request):
 		user = authenticate(username=email, password=password)
 
 		if user:
+			# If the user still hasn't clicked on email verification email after 48 hours, block their account
 			if not user.UserProfile.activated and user.date_joined + timedelta(days=2) < datetime.now(pytz.timezone('utc')):
 				user.is_active = False
 
 			if user.is_active:
+				# Get their google calendar information if we don't have it already
 				resp = cal.validateToken(email,eventID)
 				if (resp =="Already Has Token"):
 					login(request, user)
 					return HttpResponseRedirect('/' + eventID)
 				return resp
 			else:
+				# Resend verification email if they haven't clicked it yet
 				event = get_object_or_404(Instance, eventID=eventID)
 				msg = '''Hi %s, 
 Thanks for signing up. Click this link within 48 hours to prevent your account from being deactivated:
@@ -712,11 +711,13 @@ http://www.skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activa
 	else:
 		return render_to_response('detail.html', {}, context)
 
+# Logout the user and redirect to the login page
 @login_required
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/')
 
+# Handles when an invitee to an event adds a conflict
 def vetoPoss(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
@@ -728,7 +729,7 @@ def vetoPoss(request):
 	for pID in requestTimes:
 		p = possTimes.get(id=pID)
 		needToContinue = False
-		for x in event.vetotime_set.all():
+		for x in event.vetotime_set.all(): # Check if the user has already vetoed this time to prevent duplicates
 			if x.startTime == p.startTime and x.endTime == p.endTime and x.invitee == invitee:
 				needToContinue = True
 				break
@@ -736,4 +737,6 @@ def vetoPoss(request):
 			continue
 		vetoTime = VetoTime(event=event, invitee=invitee, startTime=p.startTime, endTime=p.endTime)
 		vetoTime.save()
+
+	# Refind the best times given the new conflict
 	return getTimes(request)
