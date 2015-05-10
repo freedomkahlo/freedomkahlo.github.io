@@ -463,7 +463,7 @@
 										{% if event.creator == user.username %}
 											<section id="friends">
 												<div style="margin-top: -100px" id="proposedTimes">
-													<div class="row timeClass">
+													<div class="row timeClass" style="display: none;">
 														{% if event.posstime_set.all|length == 0 %}
 															{% if event.is_scheduled %}
 																<p> The event has already been scheduled. </p>
@@ -497,7 +497,7 @@
 													</div>
 
 													<!-- Mobile -->
-													<div class="timeMobileClass" style="margin-top:50px">
+													<div class="timeMobileClass" style="margin-top:50px; display: none;">
 														{% if event.posstime_set.all|length == 0 %}
 															{% if event.is_scheduled %}
 																<p> The event has already been scheduled. </p>
