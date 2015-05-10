@@ -431,7 +431,7 @@
 										<!-- creator view -->
 										{% if event.creator == user.username %}
 											<section id="friends">
-												<div id="proposedTimes">
+												<div style="margin-top: -100px" id="proposedTimes">
 													<div class="row timeClass">
 														{% if event.posstime_set.all|length == 0 %}
 															{% if event.is_scheduled %}
@@ -466,7 +466,7 @@
 													</div>
 
 													<!-- Mobile -->
-													<div class="timeMobileClass">
+													<div class="timeMobileClass" style="margin-top:50px">
 														{% if event.posstime_set.all|length == 0 %}
 															{% if event.is_scheduled %}
 																<p> The event has already been scheduled. </p>
@@ -478,7 +478,7 @@
 														<!-- <div id="timesForm"> -->
 														{% for time in event.posstime_set.all %}
 															{% if forloop.counter <= 3 %}
-																<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 0 auto;">
+																<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 10px auto;">
 																<form action="{% url 'manageCreator' %}" method="post">
 																	{% csrf_token %}
 																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
