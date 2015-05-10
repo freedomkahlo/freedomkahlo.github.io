@@ -939,16 +939,32 @@
 
 		<!-- Mobile Linking -->
 		<script type='text/javascript'>
-			function createEventMobile() {
+			function mobileModification() {
 				document.getElementById('boxedForm').style.display = 'none';
 				document.getElementById('boxedFormMobile').style.display = 'block';
 				document.getElementById('eventsForm').style.display = 'none';
 				document.getElementById('eventsFormMobile').style.display = 'block';
 				document.getElementById('header').style.display = 'none';
-				var triggerBttn = document.getElementsByClassName( 'depth-0' );
-				document.getElementById('trigger-overlay').style.margin = '0 auto';
 				document.getElementById('calendarLink').style.display = 'none';
 				document.getElementById('notification_li').style.display = 'none';
+				var triggerBttn = document.getElementsByClassName( 'depth-0' );
+				$(triggerBttn[0]).click(function(){
+					location.href='/userPage';
+				})
+			}
+
+			function narrowerModification() {
+				document.getElementById('boxedForm').style.display = 'none';
+				document.getElementById('boxedFormMobile').style.display = 'block';
+				document.getElementById('eventsForm').style.display = 'none';
+				document.getElementById('eventsFormMobile').style.display = 'block';
+				document.getElementById('header').style.display = 'none';
+				document.getElementById('calendarLink').style.display = 'inline-block';
+				document.getElementById('notification_li').style.display = 'inline-block';
+				var triggerBttn = document.getElementsByClassName( 'depth-0' );
+				$(triggerBttn[0]).click(function(){
+					location.href='/userPage';
+				})
 			}
 
 			function createEventMobileReset() {
@@ -957,14 +973,14 @@
 				document.getElementById('eventsForm').style.display = 'block';
 				document.getElementById('eventsFormMobile').style.display = 'none';
 				document.getElementById('header').style.display = 'block';
-				document.getElementById('trigger-overlay').style.margin = '0 7px 0 0';
 				document.getElementById('calendarLink').style.display = 'inline-block';
 				document.getElementById('notification_li').style.display = 'inline-block';
 			}
 
 			var bounds = [
-			    {min:0,max:736,func:createEventMobile},
-			    {min:737,func:createEventMobileReset}
+			    {min:0,max:736,func:mobileModification},
+			    {min:737,max:840,func:narrowerModification},
+			    {min:841,func:createEventMobileReset}
 			];
 
 			var resizeFn = function(){
