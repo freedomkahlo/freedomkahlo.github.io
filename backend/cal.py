@@ -313,7 +313,9 @@ def findTimes(events, startTime, endTime, timeLength, people):
 		while endInt < len(dateList):
 			participants &= dateList[endInt][1]
 			[startInt, endInt] = findInterval(dateList, participants, startInt, endInt)
-			if (dateList[startInt][0] - dateList[endInt][0] < timeLength):
+			if (dateList[endInt][0] - dateList[startInt][0] < timeLength):
+				if endInt == len(dateList) - 1:
+					break
 				continue
 			peeps = getPeople(people, participants)
 			needToContinue = False
