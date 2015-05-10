@@ -49,7 +49,7 @@
 		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
 		<script src="{% static 'js/skel.min.js' %}"></script>
 		<script src="{% static 'js/skel-layers.min.js' %}"></script>
-		<script src="{% static 'js/init.js' %}"></script>
+		<script src="{% static 'js/initdetail.js' %}"></script>
 		<script src="{% static 'js/moment.js' %}"></script> 
 		<script src="{% static 'js/combodate.js' %}"></script> 
 		<script src="{% static 'js/jquery.ui.touch-punch.js' %}"></script>
@@ -97,6 +97,7 @@
 								<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
 								<button type="submit" class="special button" name="userPage">My Account</button>
 							</form>
+							<a href="/userPage" style="display:none">My Account</a>
 						</li>
 						<li><a class="special button" href="/logout/">Logout</a></li>
 						{% else %}
@@ -693,14 +694,17 @@
 				document.getElementById('boxedForm').style.display = 'none';
 				document.getElementById('boxedFormMobile').style.display = 'block';
 				document.getElementById('eventLink').style.display = 'none';
+<<<<<<< Updated upstream
 				document.getElementById('manageButton').style.display = 'block';
 				document.getElementById('eventLinkTextBox').style.width = '150px';
 				// document.getElementById('eventsForm').style.display = 'none';
 				// document.getElementById('eventsFormMobile').style.display = 'block';
+=======
+				document.getElementById('join2').style.display = 'none';
+>>>>>>> Stashed changes
 				document.getElementById('header').style.display = 'none';
 				document.getElementById('eventContainer').style.margin = '0 -50 0 -50';
-				// document.getElementById('calendarLink').style.display = 'none';
-				// document.getElementById('notification_li').style.display = 'none';
+
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
 					proposedTimes[i].style.display = 'none';
@@ -710,6 +714,11 @@
 				for (i = 0; i < proposedTimesMobile.length; i++) {
 					proposedTimesMobile[i].style.display = 'inline-block';
 				}
+				{% if not user.is_authenticated %}	
+				    var triggerBttn = document.getElementsByClassName( 'depth-0' );
+				    triggerBttn[1].addEventListener( 'click', toggleOverlay);
+				    triggerBttn[2].addEventListener( 'click', toggleOverlay2);
+			    {% endif %}
 			}
 
 			function narrowerModification() {
@@ -718,8 +727,7 @@
 				document.getElementById('eventLink').style.display = 'inline-block';
 				document.getElementById('manageButton').style.display = 'inline';
 				document.getElementById('eventLinkTextBox').style.width = '200px';
-				// document.getElementById('eventsForm').style.display = 'none';
-				// document.getElementById('eventsFormMobile').style.display = 'block';
+				document.getElementById('join2').style.display = 'none';
 				document.getElementById('header').style.display = 'none';
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
@@ -739,8 +747,7 @@
 				document.getElementById('eventLink').style.display = 'inline-block';
 				document.getElementById('manageButton').style.display = 'inline';
 				document.getElementById('eventLinkTextBox').style.width = '200px';
-				// document.getElementById('eventsForm').style.display = 'block';
-				// document.getElementById('eventsFormMobile').style.display = 'none';
+				document.getElementById('join2').style.display = 'inline-block';
 				document.getElementById('header').style.display = 'block';
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
