@@ -467,19 +467,32 @@
 
 													<!-- Mobile -->
 													<div class="timeMobileClass">
-														<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 0 auto;">
-														<form action="{% url 'manageCreator' %}" method="post">
-															{% csrf_token %}
-															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-															<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
-															<button class="icon fa-clock-o" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
-															<header>
-																<h3> {{ time.date }} </h3>
-																<p> {{ time.time }} </p>
-																<p id="attendees"> {{ time.people }} </p>
-															</header>
-														</form>
-														</section>
+														{% if event.posstime_set.all|length == 0 %}
+															{% if event.is_scheduled %}
+																<p> The event has already been scheduled. </p>
+															{% else %}
+																<p> No times found. </p>
+															{% endif %}
+														{% endif %}
+
+														<!-- <div id="timesForm"> -->
+														{% for time in event.posstime_set.all %}
+															{% if forloop.counter <= 3 %}
+																<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 0 auto;">
+																<form action="{% url 'manageCreator' %}" method="post">
+																	{% csrf_token %}
+																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+																	<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
+																	<button class="icon fa-clock-o" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
+																	<header>
+																		<h3> {{ time.date }} </h3>
+																		<p> {{ time.time }} </p>
+																		<p id="attendees"> {{ time.people }} </p>
+																	</header>
+																</form>
+																</section>
+															{% endif %}
+														{% endfor %}
 													</div>
 												</div>
 
