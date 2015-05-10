@@ -65,7 +65,10 @@ def detail(request, eventID):
 
 # Called when a user creates an event
 @login_required
-def add(request):	
+def add(request):
+	if 'username' not in request.POST: # Not a valid request
+		return HttpResponseRedirect('/')
+
 	eventIDLength = 10
 
 	# Pull the event parameters from the request
@@ -122,6 +125,9 @@ def add(request):
 # Handle the request to change password (on the my account page)
 @login_required
 def changePassword(request):
+	if 'oldPassword' not in request.POST: # Not a valid request
+		return HttpResponseRedirect('/')
+
 	user = request.user
 	oldPass = request.POST['oldPassword']
 
@@ -143,6 +149,9 @@ def changePassword(request):
 
 @login_required
 def delete(request):
+	if 'eventID' not in request.POST: # Not a valid request
+		return HttpResponseRedirect('/')
+
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 
@@ -199,6 +208,9 @@ def deletePastPossTimes(request, eventID=None):
 # Handle forget password requests
 def forgotPassword(request, login_key=''):
 	if request.method == 'POST': #Submitted request of forgot password
+		if 'username' not in request.POST: # Not a valid request
+			return HttpResponseRedirect('/')
+
 		# Send verification email to make sure they want to reset their password
 		email = request.POST['username'].lower()
 		if len(User.objects.filter(username=email)) == 0:
@@ -225,6 +237,9 @@ If you did not request to have your password reset, please ignore this email.'''
 
 	# Reached if they have pressed the link to reset their password
 	elif request.method == 'GET':
+		if login_key == '': # Not a valid request
+			return HttpResponseRedirect('/')
+
 		user_profile = get_object_or_404(UserProfile, login_key=login_key)
 
 		user_profile.login_key = ''
@@ -240,6 +255,7 @@ You have successfully reset your password. After logging in, you can change your
 Your password is: %s''' % (user_profile.user.first_name, password)
 		send_mail('Skedg Password Assistance', msg, 'skedg.notify@gmail.com', [user_profile.user.username], fail_silently=False)
 		return render(request, 'login.html', {'successForgot':'We have reset your password. Please check your email for your new password. You can change your password on the My Account page.'})
+	return HttpResponseRedirect('/')
 
 # Get the valid time intervals from cal.py and then generate the possible times in 15 minute increments
 def getTimes(request, eventID=None):
@@ -347,6 +363,9 @@ def getTimes(request, eventID=None):
 #creator can boot someone, delete/skedge/getTimes on event.
 @login_required
 def manageCreator(request):
+	if 'eventID' not in request.POST: # Not a valid request
+		return HttpResponseRedirect('/')
+
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 	if request.user.username != event.creator: #If someone tried to artificially generate a request to do creator only options, do nothing
@@ -404,6 +423,9 @@ def manageCreator(request):
 #user can join, remove self, and vote
 @login_required
 def manageInvitee(request):
+	if 'eventID' not in request.POST: # Not a valid request
+		return HttpResponseRedirect('/')
+
 	# Get user/event information
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
@@ -447,6 +469,9 @@ def manageInvitee(request):
 # Manage the message board
 @login_required
 def manageMessage(request):
+	if 'eventID' not in request.POST: # Not a valid request
+		return HttpResponseRedirect('/')
+
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
 	postAuthor = request.POST['username']
@@ -496,10 +521,12 @@ def manageMessage(request):
 @login_required
 def manageNotification(request):
 	if 'dismiss' in request.POST: # Delete a single notification
-		n_id = request.POST['notificationID']
+		n_id = request.POST.get('notificationID', -1)
 		notification = get_object_or_404(Notification, pk=n_id)
 		notification.delete()
 	if 'clear' in request.POST: # Delete all notifications
+		if 'username' not in request.POST: # Not a valid request
+			return HttpResponseRedirect('/')
 		user = get_object_or_404(User, username=request.POST['username'])
 		for n in user.notification_set.all():
 			n.delete()
@@ -563,6 +590,8 @@ http://www.skedg.tk:82/confirm/%s''' % (user.first_name, key)
 
 # Handle registration from the home page
 def registerEvent(request):
+	if 'username' not in request.POST: # Not a valid request
+		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	context = RequestContext(request)
 	first_name = request.POST['first_name']
 	last_name = request.POST['last_name']
@@ -717,7 +746,7 @@ http://www.skedg.tk:82/confirm/%s''' % (user.first_name, user.UserProfile.activa
 			return render(request, 'detail.html', {'invalidLogin':"Invalid login details supplied.", 'username': email, 'event':event})
 
 	else:
-		return render_to_response('detail.html', {}, context)
+		return HttpResponseRedirect('/')
 
 # Logout the user and redirect to the login page
 @login_required
