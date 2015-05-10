@@ -548,6 +548,8 @@
 																				<section style="background-color: #645862; border-radius: 10px;">
 																					<span class="icon fa-clock-o"></span>
 																					<header>
+																						{% user.username %}
+																						{% time.peopleList %}
 																						{% if user.username in time.peopleList %}
 																							<input type="checkbox" name="vetoTimes" value="{{ time.id }}" id="checkBoxVote"/>
 																						{% else %}
