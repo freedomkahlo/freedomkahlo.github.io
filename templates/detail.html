@@ -445,7 +445,25 @@
 													{% if forloop.counter <= 3 %}
 														<div class="4u 12u(narrower)">
 															<div class="timeClass" style="display: inline-block">
-															<section style="background-color: #645862; border-radius: 10px; padding:5px;">
+																<section style="background-color: #645862; border-radius: 10px; padding:5px;">
+																<form action="{% url 'manageCreator' %}" method="post">
+																	{% csrf_token %}
+																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+																	<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
+																	<button class="icon fa-clock-o" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
+																	<header>
+																		<h3> {{ time.date }} </h3>
+																		<p> {{ time.time }} </p>
+																		<p id="attendees"> {{ time.people }} </p>
+																	</header>
+																</form>
+																</section>
+															</div>
+														</div>
+
+														<!-- Mobile -->
+														<div class="timeMobileClass">
+															<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 0 auto; display: block;">
 															<form action="{% url 'manageCreator' %}" method="post">
 																{% csrf_token %}
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
@@ -458,31 +476,10 @@
 																</header>
 															</form>
 															</section>
-															</div>
 														</div>
 													{% endif %}
 												{% endfor %}
 											</div>
-											<!-- Mobile -->
-											{% for time in event.posstime_set.all %}
-												{% if forloop.counter <= 3 %}
-													<div class="timeMobileClass">
-														<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 0 auto; display: block;">
-														<form action="{% url 'manageCreator' %}" method="post">
-															{% csrf_token %}
-															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-															<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
-															<button class="icon fa-clock-o" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
-															<header>
-																<h3> {{ time.date }} </h3>
-																<p> {{ time.time }} </p>
-																<p id="attendees"> {{ time.people }} </p>
-															</header>
-														</form>
-														</section>
-													</div>
-												{% endif %}
-											{% endfor %}
 											</section>
 										{% else %}
 											<!-- invitee view -->
@@ -700,6 +697,8 @@
 				document.getElementById('join2').style.display = 'none';
 				document.getElementById('header').style.display = 'none';
 				document.getElementById('eventContainer').style.margin = '0 -50 0 -50';
+				document.getElementById('friends').style.paddingLeft = '1em';
+				document.getElementById('friends').style.paddingRight = '1em';
 
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
@@ -708,10 +707,8 @@
 
 				var proposedTimesMobile = document.getElementsByClassName( 'timeMobileClass' );
 				for (i = 0; i < proposedTimesMobile.length; i++) {
-					proposedTimesMobile[i].style.display = 'inline-block';
+					proposedTimesMobile[i].style.display = 'block';
 				}
-				document.getElementById('friends').style.paddingLeft = '0px';
-				document.getElementById('friends').style.paddingRight = '0px';
 
 				{% if not user.is_authenticated %}	
 				    var triggerBttn = document.getElementsByClassName( 'depth-0' );
@@ -729,17 +726,18 @@
 				document.getElementById('eventLinkTextBox').style.width = '200px';
 				document.getElementById('join2').style.display = 'none';
 				document.getElementById('header').style.display = 'none';
+				document.getElementById('friends').style.paddingLeft = '1em';
+				document.getElementById('friends').style.paddingRight = '1em';
+
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
-					proposedTimes[i].style.display = 'inline-block';
+					proposedTimes[i].style.display = 'block';
 				}
 
 				var proposedTimesMobile = document.getElementsByClassName( 'timeMobileClass' );
 				for (i = 0; i < proposedTimesMobile.length; i++) {
 					proposedTimesMobile[i].style.display = 'none';
 				}
-				document.getElementById('friends').style.paddingLeft = '0px';
-				document.getElementById('friends').style.paddingRight = '0px';
 
 			}
 
@@ -752,6 +750,9 @@
 				document.getElementById('eventLinkTextBox').style.width = '200px';
 				document.getElementById('join2').style.display = 'inline-block';
 				document.getElementById('header').style.display = 'block';
+				document.getElementById('friends').style.paddingLeft = '5em';
+				document.getElementById('friends').style.paddingRight = '5em';
+
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
 					proposedTimes[i].style.display = 'inline-block';
@@ -761,8 +762,6 @@
 				for (i = 0; i < proposedTimesMobile.length; i++) {
 					proposedTimesMobile[i].style.display = 'none';
 				}
-				document.getElementById('friends').style.paddingLeft = '86px';
-				document.getElementById('friends').style.paddingRight = '86px';
 			}
 
 			var bounds = [
