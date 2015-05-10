@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
 
 from . import views
 from backend import cal
@@ -25,3 +26,8 @@ urlpatterns = [
 	url(r'^resetGAuth/$', views.resetGAuth, name='resetGAuth'),
 	url(r'^(?P<eventID>\w+)/', views.detail, name='detail'),
 ]
+
+if settings.DEBUG is False:   #if DEBUG is True it will be served automatically
+    urlpatterns += patterns('',
+            url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    )
