@@ -463,7 +463,7 @@
 
 														<!-- Mobile -->
 														<div class="timeMobileClass">
-															<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 0 auto; display: block;">
+															<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 0 auto;">
 															<form action="{% url 'manageCreator' %}" method="post">
 																{% csrf_token %}
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
