@@ -25,7 +25,7 @@ SECRET_KEY = '3drjta*d-5eqy(2d0q!)uadhkkd1^87#2+z_af4+alnr-a3-fu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.skedg.tk']
 
 #Hi this is crystal
 LOGIN_URL = '/login/'
