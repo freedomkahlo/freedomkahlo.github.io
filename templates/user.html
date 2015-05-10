@@ -187,18 +187,36 @@
 				document.getElementById('userRegular').style.display = 'none';
 				document.getElementById('userMobile').style.display = 'block';
 				document.getElementById('header').style.display = 'none';
+
+				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
+				for (i = 0; i < wrapperStyle4Container.length; i++) {
+					wrapperStyle4Container[i].style.paddingLeft = '4em';
+					wrapperStyle4Container[i].style.paddingRight = '4em';
+				}
 			}
 
 			function narrowerModification() {
 				document.getElementById('userRegular').style.display = 'block';
 				document.getElementById('userMobile').style.display = 'none';
 				document.getElementById('header').style.display = 'none';
+
+				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
+				for (i = 0; i < wrapperStyle4Container.length; i++) {
+					wrapperStyle4Container[i].style.paddingLeft = '4em';
+					wrapperStyle4Container[i].style.paddingRight = '4em';
+				}
 			}
 
 			function resetModifications() {
 				document.getElementById('userRegular').style.display = 'block';
 				document.getElementById('userMobile').style.display = 'none';
 				document.getElementById('header').style.display = 'block';
+
+				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
+				for (i = 0; i < wrapperStyle4Container.length; i++) {
+					wrapperStyle4Container[i].style.paddingLeft = '4em';
+					wrapperStyle4Container[i].style.paddingRight = '4em';
+				}
 			}
 
 			var bounds = [

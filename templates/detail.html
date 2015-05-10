@@ -755,6 +755,13 @@
 					proposedTimesMobile[i].style.display = 'block';
 				}
 
+				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
+				for (i = 0; i < wrapperStyle4Container.length; i++) {
+					wrapperStyle4Container[i].style.paddingLeft = '1em';
+					wrapperStyle4Container[i].style.paddingRight = '1em';
+				}
+				
+
 				{% if not user.is_authenticated %}	
 				    var triggerBttn = document.getElementsByClassName( 'depth-0' );
 				    triggerBttn[1].addEventListener( 'click', toggleOverlay);
@@ -794,6 +801,11 @@
 					proposedTimesMobile[i].style.display = 'none';
 				}
 
+				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
+				for (i = 0; i < wrapperStyle4Container.length; i++) {
+					wrapperStyle4Container[i].style.paddingLeft = '1em';
+					wrapperStyle4Container[i].style.paddingRight = '1em';
+				}
 			}
 
 			function resetModifications() {
@@ -826,6 +838,12 @@
 				var proposedTimesMobile = document.getElementsByClassName( 'timeMobileClass' );
 				for (i = 0; i < proposedTimesMobile.length; i++) {
 					proposedTimesMobile[i].style.display = 'none';
+				}
+
+				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
+				for (i = 0; i < wrapperStyle4Container.length; i++) {
+					wrapperStyle4Container[i].style.paddingLeft = '4em';
+					wrapperStyle4Container[i].style.paddingRight = '4em';
 				}
 			}
 
