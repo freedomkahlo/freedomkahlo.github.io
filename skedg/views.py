@@ -79,6 +79,14 @@ def add(request):
 	creator = request.POST['username']
 	timezone = request.POST.get('timezone', 'Eastern')
 	
+	print "start date " + start_date
+	print "end date " + end_date
+	print "start time " + start_time
+	print "end time " + end_time
+	print timezone
+	print "event length" + event_length
+
+
 	# Get a unique identifier for the event
 	eventID = get_random_string(length=eventIDLength)
 	while Instance.objects.filter(eventID__iexact=eventID).count() != 0:
