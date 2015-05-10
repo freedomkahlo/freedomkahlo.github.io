@@ -395,8 +395,8 @@
 	</head>
 	<body class="no-sidebar">
 		<!-- Header -->
-			<header id="header" class="skel-layers-fixed">
-				<h1 id="logo"><a href="/"><img src="{% static 'images/logoGray.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
+			<header id="header" class="skel-layers-fixed" style="display: none;">
+				<h1 id="logo"><a href="/"><img src="{% static 'images/logoGray.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px;" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
 				<nav id="nav">
 					<ul>
 						<li>
@@ -531,65 +531,62 @@
 						<!-- Content -->
 							<div class="content">
 								<section>
-									<!-- <a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a> -->
-									<!-- <div class="navbarBody"> -->
-										<div class="navbar">
-											<div align="right">
-												<nav>
-													<ul>
-														<li style="display: inline; margin-right: 7px;"><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay">Create Event</a> </li>
-														<li style="display: inline;  margin-right: 7px;"><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: inline-block;" href="http://calendar.google.com" id="calendarLink">Calendar</a></li>
-														<li id="notification_li" style="display: inline-block; margin-right: 5px;">
-															{% if user.notification_set.all|length > 0 %}
-															<span id="notification_count">{{ user.notification_set.all|length }}</span>
-															{% endif %}
-															<a class = "special button" style="background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="#" id="notificationLink">Notifications</a>
+									<div class="navbar">
+										<div align="right">
+											<nav>
+												<ul>
+													<li style="display: inline; margin-right: 7px;"><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="javascript:;" id="trigger-overlay">Create Event</a> </li>
+													<li style="display: inline;  margin-right: 7px;"><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" href="http://calendar.google.com" id="calendarLink">Calendar</a></li>
+													<li id="notification_li" style="display: none; margin-right: 5px;">
+														{% if user.notification_set.all|length > 0 %}
+														<span id="notification_count">{{ user.notification_set.all|length }}</span>
+														{% endif %}
+														<a class = "special button" style="background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" href="#" id="notificationLink">Notifications</a>
 
-															<div id="notificationContainer">
-																<div id="notificationTitle">Notifications</div>
-																<div id="notificationsBody">
-																	<ul>
-																		{% for notification in user.notification_set.all %}
-																		<li>
-																			<div id="notificationBox">
-																			<form action="{% url 'manageNotification' %}" method="post">
-																				{% csrf_token %}
-																				<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
-																				<button type="submit" name="dismiss" id="notificationBox">✖</button> 
-																			</form>
-																				<div id="notificationText" style="width: 90%;">
-																					{{ notification|truncatechars:110 }}
-																				</div>
-																			</div>
-																		</li>
-																		{% endfor %}
-																	</ul>
-																</div>
-																<div id="notificationFooter"> 
-																	<!-- <form action="{% url 'manageNotification' %}" method="post">
-																		<span style="display: none;"><input type="text" name="clear" value="clear"></input></span>
-																		<button type="submit" class="special button" name="clear">Clear All</button>
-																	</form> -->
-																	<div id="notificationBox">
-																		<form action="{% url 'manageNotification' %}" method="post">   
+														<div id="notificationContainer" >
+															<div id="notificationTitle">Notifications</div>
+															<div id="notificationsBody">
+																<ul>
+																	{% for notification in user.notification_set.all %}
+																	<li>
+																		<div id="notificationBox">
+																		<form action="{% url 'manageNotification' %}" method="post">
 																			{% csrf_token %}
-																			<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
-
-																			<button class="button" type="submit" name="clear" id="notificationBox">Clear All</button> 
+																			<span style="display: none;"><input type="text" name="notificationID" value="{{ notification.id }}"</input></span>
+																			<button type="submit" name="dismiss" id="notificationBox">✖</button> 
 																		</form>
-																	</div>
+																			<div id="notificationText" style="width: 90%;">
+																				{{ notification|truncatechars:110 }}
+																			</div>
+																		</div>
+																	</li>
+																	{% endfor %}
+																</ul>
+															</div>
+															<div id="notificationFooter"> 
+																<!-- <form action="{% url 'manageNotification' %}" method="post">
+																	<span style="display: none;"><input type="text" name="clear" value="clear"></input></span>
+																	<button type="submit" class="special button" name="clear">Clear All</button>
+																</form> -->
+																<div id="notificationBox">
+																	<form action="{% url 'manageNotification' %}" method="post">   
+																		{% csrf_token %}
+																		<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
+
+																		<button class="button" type="submit" name="clear" id="notificationBox">Clear All</button> 
+																	</form>
 																</div>
 															</div>
-														</li>
-													</ul>
-												</nav>
-											</div>
+														</div>
+													</li>
+												</ul>
+											</nav>
 										</div>
-									<!-- </div> -->
+									</div>
 									<br />
 
 									<div class = "eventContainer">
-										<div class="row" id="eventsForm">
+										<div class="row" id="eventsForm" style="display: none;">
 											<div class="6u 12u(narrower)">
 												<section>
 													<header>
@@ -708,7 +705,7 @@
 											</script>
 										</div>
 
-										<div class="row" id="eventsFormMobile">
+										<div class="row" id="eventsFormMobile" style="display: none;">
 											<div class="12u 12u(narrower)">
 												<section>
 													<header>
@@ -1005,6 +1002,7 @@
 			    $(window).trigger('resize');
 			});
 		</script>
+
 		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
 		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
 		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  

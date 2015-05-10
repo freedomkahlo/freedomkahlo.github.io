@@ -190,7 +190,7 @@
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 															
-															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="delete">Delete Event</button>
+															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" id="delete" name="delete">Delete Event</button>
 														</form>
 													</li>
 												{% elif user.is_authenticated %}
@@ -223,13 +223,7 @@
 														</script>												
 														
 													</li>
-													<!-- WE NEED THIS TO BE LEAVE EVENT!!!!! -->
 												{% else %}
-													<!-- <form action="{% url 'manageInvitee' %}" method="post">   
-														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
-														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>  -->
-
 														<li style="display:inline"><button class="button" id="join2" style="font-size: 9pt; margin-right: -5px; background-color: #ff9999; border-color: #ff9999; border-radius: 5px;" name="join2">Login to Join</button></li>
 													<!-- </form> -->
 												{% endif %}
@@ -337,6 +331,13 @@
 										<div class="row" id="boxedFormMobile">
 											<div class="12u 12u(narrower)">
 												<div class="column1" align ="left" style="padding-left: 15px">
+													<form style="display: inline-block; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" method="post">
+														{% csrf_token %}
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
+														
+														<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt" type="submit" id="deleteMobile" name="delete">Delete Event</button>
+													</form>
+													<br />
 													<header align="left">
 														<h2><strong>{{ event.title }}</strong></h2>
 													</header>
@@ -715,10 +716,16 @@
 				document.getElementById('manageButton').style.display = 'block';
 				document.getElementById('manageButton').style.float = 'none';
 				document.getElementById('eventLinkTextBox').style.width = '150px';
+				document.getElementById('eventLink').style.display = 'none';
+				document.getElementById('eventL').style.marginLeft = '10px';
 				document.getElementById('header').style.display = 'none';
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
-
+				document.getElementById('deleteMobile').style.display = 'inline-block';
+				document.getElementById('delete').style.display = 'none';
+				{% if not user.is_authenticated %}	
+					document.getElementById('join2').style.display = 'none';
+				{% endif %}
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
 					proposedTimes[i].style.display = 'none';
@@ -744,8 +751,15 @@
 				document.getElementById('manageButton').style.float = 'right';
 				document.getElementById('eventLinkTextBox').style.width = '200px';
 				document.getElementById('header').style.display = 'none';
+				document.getElementById('eventL').style.marginLeft = '20px';
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
+				document.getElementById('eventLink').style.display = 'none';
+				document.getElementById('deleteMobile').style.display = 'none';
+				document.getElementById('delete').style.display = 'inline-block';
+				{% if not user.is_authenticated %}	
+					document.getElementById('join2').style.display = 'inline-block';
+				{% endif %}
 
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
@@ -766,10 +780,17 @@
 				document.getElementById('manageButton').style.display = 'inline';
 				document.getElementById('manageButton').style.float = 'right';
 				document.getElementById('eventLinkTextBox').style.width = '200px';
+				document.getElementById('eventL').style.marginLeft = '20px';
 				document.getElementById('header').style.display = 'block';
 				document.getElementById('friends').style.paddingLeft = '5em';
 				document.getElementById('friends').style.paddingRight = '5em';
-
+				document.getElementById('eventLink').style.display = 'inline-block';
+				document.getElementById('deleteMobile').style.display = 'none';
+				document.getElementById('delete').style.display = 'inline-block';
+				{% if not user.is_authenticated %}	
+					document.getElementById('join2').style.display = 'inline-block';
+				{% endif %}		
+					
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
 					proposedTimes[i].style.display = 'block';

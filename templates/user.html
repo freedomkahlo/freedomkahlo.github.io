@@ -109,11 +109,14 @@
 							<div class="content">
 								<section>
 									<div class="eventContainer">
-										<header style="padding-top: 10px">
+										<header style="padding-top: 10px" id="userRegular">
 											<center><h2>User Information</h2></center>
 										</header>
+										<header style="padding-top: 10px" id="userMobile">
+											<center><h2>User <br/> Info</h2></center>
+										</header>
 										<br />
-										<div class="userInformation" style="width: 100%; padding-left: 15px;">
+										<div class="userInformation" style="width: 100%; padding-left: 15px; padding-right: 15px; word-wrap: break-word;">
 											Email: <br /> {{ user.username}}<br /> <br />
 											Name: <br /> {{ user.first_name }} {{ user.last_name }} <br /> <br />
 											Password: <br /> ******** <br /> 
@@ -132,17 +135,14 @@
 				<div class="overlay overlay-hugeinc">
 					<button type="button" class="overlay-close">Close</button>
 					<div class="register"> <br/ >
-						<div id = "id_of_div" class ="divs">
-							<!-- <h2><strong><center>Login to your account</center></strong></h2> -->
-							<form method="post" id="changePass_form" action="/changePassword/">
-								{% csrf_token %}
-								<center><label for="oldPassword">Old Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="oldPassword" value=""id="oldPassword" />
-								<center><label for="newPassword">New Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="newPassword" value=""id="newPassword" />
-								<center><label for="confirmPassword">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="confirmPassword" value=""id="confirmPassword" />
-								<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
-							</form>
-							<center><font color='red'>{{invalidPassword}}</font></center>
-						</div>
+						<form method="post" id="changePass_form" action="/changePassword/">
+							{% csrf_token %}
+							<center><label for="oldPassword">Old Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="oldPassword" value=""id="oldPassword" />
+							<center><label for="newPassword">New Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="newPassword" value=""id="newPassword" />
+							<center><label for="confirmPassword">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="confirmPassword" value=""id="confirmPassword" />
+							<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
+						</form>
+						<center><font color='red'>{{invalidPassword}}</font></center>
 					</div>
 				</div>
 
@@ -181,5 +181,57 @@
 			});
 		</script>
 
+				<!-- Mobile Linking -->
+		<script type='text/javascript'>
+			function mobileModification() {
+				document.getElementById('userRegular').style.display = 'none';
+				document.getElementById('userMobile').style.display = 'block';
+				document.getElementById('header').style.display = 'none';
+			}
+
+			function narrowerModification() {
+				document.getElementById('userRegular').style.display = 'block';
+				document.getElementById('userMobile').style.display = 'none';
+				document.getElementById('header').style.display = 'none';
+			}
+
+			function resetModifications() {
+				document.getElementById('userRegular').style.display = 'block';
+				document.getElementById('userMobile').style.display = 'none';
+				document.getElementById('header').style.display = 'block';
+			}
+
+			var bounds = [
+			    {min:0,max:736,func:mobileModification},
+			    {min:737,max:840,func:narrowerModification},
+			    {min:841,func:resetModifications}
+			];
+
+			var resizeFn = function(){
+			    var lastBoundry; // cache the last boundry used
+			    return function(){
+			        var width = window.innerWidth;
+			        var boundry, min, max;
+			        for(var i=0; i<bounds.length; i++){
+			            boundry = bounds[i];
+			            min = boundry.min || Number.MIN_VALUE;
+			            max = boundry.max || Number.MAX_VALUE;
+			            if(width > min && width < max 
+			               && lastBoundry !== boundry){
+			                lastBoundry = boundry;
+			                return boundry.func.call(boundry);            
+			            }
+			        }
+			    }
+			};
+			$(window).resize(resizeFn());
+			$(document).ready(function(){
+			    $(window).trigger('resize');
+			});
+		</script>
+
+		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  
 	</body>
 </html>
