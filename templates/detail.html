@@ -722,7 +722,11 @@
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
 				document.getElementById('deleteMobile').style.display = 'inline-block';
-				document.getElementById('delete').style.display = 'none';
+				
+				{% if event.creator == user.username %}
+					document.getElementById('delete').style.display = 'none';
+				{% endif %}
+				
 				{% if not user.is_authenticated %}	
 					document.getElementById('join2').style.display = 'none';
 				{% endif %}
@@ -756,7 +760,11 @@
 				document.getElementById('friends').style.paddingRight = '1em';
 				document.getElementById('eventLink').style.display = 'none';
 				document.getElementById('deleteMobile').style.display = 'none';
-				document.getElementById('delete').style.display = 'inline-block';
+				
+				{% if event.creator == user.username %}
+					document.getElementById('delete').style.display = 'inline-block';
+				{% endif %}
+
 				{% if not user.is_authenticated %}	
 					document.getElementById('join2').style.display = 'inline-block';
 				{% endif %}
@@ -786,7 +794,11 @@
 				document.getElementById('friends').style.paddingRight = '5em';
 				document.getElementById('eventLink').style.display = 'inline-block';
 				document.getElementById('deleteMobile').style.display = 'none';
-				document.getElementById('delete').style.display = 'inline-block';
+
+				{% if event.creator == user.username %}
+					document.getElementById('delete').style.display = 'inline-block';
+				{% endif %}
+
 				{% if not user.is_authenticated %}	
 					document.getElementById('join2').style.display = 'inline-block';
 				{% endif %}		
