@@ -58,9 +58,9 @@
 		<!-- Header -->
 			<header id="header" class="skel-layers-fixed">
 				{% if user.is_authenticated %}
-				<h1 id="logo"><a href="/">Skedg <span> - Hello, {{ user.first_name }}! </span></a></h1>
+				<h1 id="logo"><a href="/"><img src="{% static 'images/logoGray.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
 				{% else %}
-				<h1 id="logo"><a href="/">Skedg <span> - Let us check your schedule!  </span></a></h1>
+				<h1 id="logo"><a href="/"><img src="{% static 'images/logoGray.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Let us check your schedule!  </span></a></h1>
 				{% endif %}
 				<nav id="nav">
 					<ul>

@@ -373,10 +373,9 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
 	</head>
 	<body class="no-sidebar">
-
 		<!-- Header -->
 			<header id="header" class="skel-layers-fixed">
-				<h1 id="logo"><a href="/"><img src="{% static 'images/logoGray.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:8px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
+				<h1 id="logo"><a href="/"><img src="{% static 'images/logoGray.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
 				<nav id="nav">
 					<ul>
 						<li>
@@ -567,7 +566,7 @@
 									<br />
 
 									<div class = "eventContainer">
-										<div class="row">
+										<div class="row" id="eventsForm">
 											<div class="6u 12u(narrower)">
 												<section>
 													<header>
@@ -585,7 +584,6 @@
 													<div id="myEventsPassed"></div>
 													<br/>
 												</section>
-
 											</div>
 											<div class="6u 12u(narrower)">
 												<section>
@@ -605,7 +603,7 @@
 													<br/>
 												</section>
 											</div>
-
+											
 											{% for event in latest_event_list %}
 												{% if event.creator == user.username %}
 													<!--pending-->
@@ -654,6 +652,121 @@
 																{% else %}
 																	<script>
 																		var div = document.getElementById('otherEventsPassed');
+																		var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																		div.innerHTML = div.innerHTML + string;
+																	</script>
+																{% endif %}
+															{% endif %}
+														{% endif %}
+													{% endfor %}
+												{% endif%}
+											{% endfor %}
+
+											<!--Check if any of the divs have no events -->
+											<script>
+												var div = document.getElementById('myEventsPending');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('myEventsUpcoming');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('myEventsPassed');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('otherEventsPending');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('otherEventsUpcoming');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+												div = document.getElementById('otherEventsPassed');
+												if (div.innerHTML == "")
+													div.innerHTML = div.innerHTML + "No events"
+											</script>
+										</div>
+
+										<div class="row" id="eventsFormMobile">
+											<div class="12u 12u(narrower)">
+												<section>
+													<header>
+														<h3 id="myEventsCol"><strong>My Events</strong></h3>
+													</header>
+													<h4><strong>Pending:</strong></h4>
+													<div id="myEventsPendingMobile"></div>
+													<br/>
+
+													<h4><strong>Upcoming:</strong></h4>
+													<div id="myEventsUpcomingMobile"></div>
+													<br/>
+
+													<h4><strong>Past:</strong></h4>
+													<div id="myEventsPassedMobile"></div>
+													<br/>
+													<header>
+														<h3 id="otherEventsCol"><strong>Other Events</strong></h3>
+													</header>
+													<h4><strong>Pending:</strong></h4>
+													<div id="otherEventsPendingMobile"></div>
+													<br/>
+
+													<h4><strong>Upcoming:</strong></h4>
+													<div id="otherEventsUpcomingMobile"></div>
+													<br/>
+
+													<h4><strong>Past:</strong></h4>
+													<div id="otherEventsPassedMobile"></div>
+													<br/>
+												</section>
+											</div>
+											
+											{% for event in latest_event_list %}
+												{% if event.creator == user.username %}
+													<!--pending-->
+													{% if not event.is_scheduled %}
+														<script>
+															var div = document.getElementById('myEventsPendingMobile');
+															var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+															div.innerHTML = div.innerHTML + string;
+														</script>
+													{% else %}
+														<!--upcoming-->
+														{% if not event.hasPassed %}
+															<script>
+																var div = document.getElementById('myEventsUpcomingMobile');
+																var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																div.innerHTML = div.innerHTML + string;
+															</script>
+														<!--passed-->
+														{% else %}
+															<script>
+																var div = document.getElementById('myEventsPassedMobile');
+																var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																div.innerHTML = div.innerHTML + string;
+															</script>
+														{% endif %}
+													{% endif %}
+												{% else %}
+													{% for invitee in event.invitee_set.all %}
+														{% if invitee.name == user.username %}
+															<!--pending-->
+															{% if not event.is_scheduled %}
+																<script>
+																	var div = document.getElementById('otherEventsPendingMobile');
+																	var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																	div.innerHTML = div.innerHTML + string;
+																</script>
+															{% else %}
+																<!--upcoming-->
+																{% if not event.hasPassed %}
+																	<script>
+																		var div = document.getElementById('otherEventsUpcomingMobile');
+																		var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
+																		div.innerHTML = div.innerHTML + string;
+																	</script>
+																<!--passed-->
+																{% else %}
+																	<script>
+																		var div = document.getElementById('otherEventsPassedMobile');
 																		var string = "<a href='{% url 'detail' event.eventID %}'>{{ event.title }}</a> ({{ event.invitee_set.all|length }} attending) <br/>";
 																		div.innerHTML = div.innerHTML + string;
 																	</script>
@@ -806,11 +919,17 @@
 			function createEventMobile() {
 				document.getElementById('boxedForm').style.display = 'none';
 				document.getElementById('boxedFormMobile').style.display = 'block';
+				document.getElementById('eventsForm').style.display = 'none';
+				document.getElementById('eventsFormMobile').style.display = 'block';
+				var triggerBttn = document.getElementsByClassName( 'depth-0' );
+			    triggerBttn[0].addEventListener( 'click', toggleOverlay);
 			}
 
 			function createEventMobileReset() {
 				document.getElementById('boxedForm').style.display = 'block';
 				document.getElementById('boxedFormMobile').style.display = 'none';
+				document.getElementById('eventsForm').style.display = 'block';
+				document.getElementById('eventsFormMobile').style.display = 'none';
 			}
 
 			var bounds = [
