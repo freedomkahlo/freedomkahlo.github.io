@@ -178,11 +178,11 @@
 								<section>
 									<!-- <div class="navbarBody"> -->
 										<div class="navbar">
-											<div class="eventLink" align="left" id="eventL" style="display:inline; float: left">
+											<div class="eventLink" align="left" id="eventL" style="display:inline; float: left; margin-left:20px">
 												<strong id="eventLink">EVENT LINK:</strong>
 												<input value="skedg.tk:82/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="20" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline; padding: 5px;" id="eventLink"></input>
 											</div>
-											<ul style="display:inline; float:right;" >
+											<ul style="display:inline; float:right; ; margin-right:20px" >
 												{% if event.creator == user.username %}
 													<li style="display:inline">
 														<form style="display: inline-block;" action="{% url 'manageCreator' %}" method="post">
