@@ -494,9 +494,47 @@
 															<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"></input></span>
 														
 															<div class="row" id="proposedTimes">
-																{% for time in event.posstime_set.all %}
-																	{% if forloop.counter <= 3 %}
-																		<div class="4u 12u(narrower)">
+																<div class="timeClass">
+																	{% for time in event.posstime_set.all %}
+																		{% if forloop.counter <= 3 %}
+																			<div class="4u 12u(narrower)">
+																				<section style="background-color: #645862; border-radius: 10px;">
+																					<span class="icon fa-clock-o"></span>
+																					<header>
+																						{% if user.username in time.peopleList %}
+																							<input type="checkbox" name="vetoTimes" value="{{ time.id }}" id="checkBoxVote"/>
+																						{% else %}
+																							<p class="alreadyconflict"> You already have a conflict. </p>
+																						{% endif %}
+																						<h3> {{ time.date }} </h3>
+																						<p style="padding-bottom: 0.2em;"> {{ time.time }} </p>
+
+																					</header>
+																				</section>
+																			</div>
+																		{% endif %}
+																	{% endfor %}
+																	
+																	{% if event.posstime_set.all|length == 1 %}
+																	<div class="4u 12u(narrower)">
+																	<section style="background-color: #645862; opacity: 0.6">
+																	</section>
+																	</div>
+																	<div class="4u 12u(narrower)">
+																	<section style="background-color: #645862; opacity: 0.6">
+																	</section>
+																	</div>
+																	{% endif %}
+																	{% if event.posstime_set.all|length == 2 %}
+																	<div class="4u 12u(narrower)">
+																	<section style="background-color: #645862; opacity: 0.6">
+																	</section>
+																	</div>
+																	{% endif %}
+																</div>
+																<div class="timeMobileClass">
+																	{% for time in event.posstime_set.all %}
+																		{% if forloop.counter <= 3 %}
 																			<section style="background-color: #645862; border-radius: 10px;">
 																				<span class="icon fa-clock-o"></span>
 																				<header>
@@ -510,26 +548,9 @@
 
 																				</header>
 																			</section>
-																		</div>
-																	{% endif %}
-																{% endfor %}
-																
-																{% if event.posstime_set.all|length == 1 %}
-																<div class="4u 12u(narrower)">
-																<section style="background-color: #645862; opacity: 0.6">
-																</section>
+																		{% endif %}
+																	{% endfor %}
 																</div>
-																<div class="4u 12u(narrower)">
-																<section style="background-color: #645862; opacity: 0.6">
-																</section>
-																</div>
-																{% endif %}
-																{% if event.posstime_set.all|length == 2 %}
-																<div class="4u 12u(narrower)">
-																<section style="background-color: #645862; opacity: 0.6">
-																</section>
-																</div>
-																{% endif %}
 															</div>
 																{% if event.posstime_set.all|length == 0 %}
 																	{% if event.is_scheduled %}
