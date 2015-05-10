@@ -34,7 +34,8 @@
 			var wideStyle = '{% static 'css/style-wide.css' %}';
 			var narrowStyle = '{% static 'css/style-narrow.css' %}';
 			var narrowerStyle = '{% static 'css/style-narrower.css' %}';
-			var normalStyle = '{% static 'css/style-normal.css' %}';;
+			var normalStyle = '{% static 'css/style-normal.css' %}';
+			var leaveForm = false;
 		</script>
 
 		<title>Skedg - Let us check your skedg! </title>
@@ -766,8 +767,10 @@
 				document.getElementById('header').style.display = 'none';
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
-				document.getElementById('leaveMobile').style.display = 'block';
-				document.getElementById('leaveNorm').style.display = 'none';
+				if (leaveForm) {
+					document.getElementById('leaveMobile').style.display = 'block';
+					document.getElementById('leaveNorm').style.display = 'none';
+				}
 				
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'none';
@@ -813,8 +816,10 @@
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
 				document.getElementById('eventLink').style.display = 'none';
-				document.getElementById('leaveMobile').style.display = 'none';
-				document.getElementById('leaveNorm').style.display = 'inline-block';
+				if (leaveForm) {
+					document.getElementById('leaveMobile').style.display = 'none';
+					document.getElementById('leaveNorm').style.display = 'inline-block';
+				}
 				
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'inline-block';
@@ -854,8 +859,10 @@
 				document.getElementById('friends').style.paddingLeft = '5em';
 				document.getElementById('friends').style.paddingRight = '5em';
 				document.getElementById('eventLink').style.display = 'inline-block';
-				document.getElementById('leaveMobile').style.display = 'none';
-				document.getElementById('leaveNorm').style.display = 'inline-block';
+				if (leaveForm) {
+					document.getElementById('leaveMobile').style.display = 'none';
+					document.getElementById('leaveNorm').style.display = 'inline-block';
+				}
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'inline-block';
 					document.getElementById('deleteMobile').style.display = 'none';
