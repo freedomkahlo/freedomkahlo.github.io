@@ -532,7 +532,7 @@
 																	</div>
 																	{% endif %}
 																</div>
-																<div class="timeMobileClass">
+																<!-- <div class="timeMobileClass"> -->
 																	{% for time in event.posstime_set.all %}
 																		{% if forloop.counter <= 3 %}
 																			<section style="background-color: #645862; border-radius: 10px;">
@@ -550,7 +550,7 @@
 																			</section>
 																		{% endif %}
 																	{% endfor %}
-																</div>
+																<!-- </div> -->
 															</div>
 																{% if event.posstime_set.all|length == 0 %}
 																	{% if event.is_scheduled %}
