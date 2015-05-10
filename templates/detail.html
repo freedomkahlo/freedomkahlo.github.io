@@ -183,55 +183,55 @@
 												<input value="skedg.tk:82/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="20" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline-block; padding: 5px;" id="eventLink"></input>
 											</div>
 											<ul>
-													{% if event.creator == user.username %}
-														<li>
-															<form style="display: inline-block;" action="{% url 'manageCreator' %}" method="post">
-																{% csrf_token %}
-																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
-																
-																<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="delete">Delete Event</button>
-															</form>
-														</li>
-													{% elif user.is_authenticated %}
-														<li>
-															<form action="{% url 'manageInvitee' %}" method="post">   
-																	{% csrf_token %}
-																	<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>    
-																	<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"/></input></span>    
-																	<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"/></input></span>     
-																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
-																	<span id="submitButton"></span>
-															</form>
-															<script>
-																var leaveForm = false;
-															</script>
-															{% for i in event.invitee_set.all %}
-																{% if user.username == i.name %}
-																	
-																	<script>
-																		leaveForm = true;
-																		document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='decline'>Leave Event</button>";
-																	</script>
-																
-																{% endif %}
-															{% endfor %}
-
-															<script>
-																if (leaveForm == false)
-																	document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='join'>Join Event</button>";
-															</script>												
-															
-														</li>
-														<!-- WE NEED THIS TO BE LEAVE EVENT!!!!! -->
-													{% else %}
-														<!-- <form action="{% url 'manageInvitee' %}" method="post">   
+												{% if event.creator == user.username %}
+													<li style="display: inline; margin-right: 7px;"><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;">
+														<form style="display: inline-block;" action="{% url 'manageCreator' %}" method="post">
 															{% csrf_token %}
-															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
-															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>  -->
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
+															
+															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" name="delete">Delete Event</button>
+														</form>
+													</li>
+												{% elif user.is_authenticated %}
+													<li style="display: inline; margin-right: 7px;"><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;">
+														<form action="{% url 'manageInvitee' %}" method="post">   
+																{% csrf_token %}
+																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>    
+																<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"/></input></span>    
+																<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"/></input></span>     
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+																<span id="submitButton"></span>
+														</form>
+														<script>
+															var leaveForm = false;
+														</script>
+														{% for i in event.invitee_set.all %}
+															{% if user.username == i.name %}
+																
+																<script>
+																	leaveForm = true;
+																	document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='decline'>Leave Event</button>";
+																</script>
+															
+															{% endif %}
+														{% endfor %}
 
-															<li><button class="button" id="join2" style="font-size: 9pt; margin-right: -5px; background-color: #ff9999; border-color: #ff9999; border-radius: 5px;" name="join2">Login to Join</button></li>
-														<!-- </form> -->
-													{% endif %}
+														<script>
+															if (leaveForm == false)
+																document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='join'>Join Event</button>";
+														</script>												
+														
+													</li>
+													<!-- WE NEED THIS TO BE LEAVE EVENT!!!!! -->
+												{% else %}
+													<!-- <form action="{% url 'manageInvitee' %}" method="post">   
+														{% csrf_token %}
+														<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>     
+														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>  -->
+
+														<li style="display: inline; margin-right: 7px;"><a class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;"><button class="button" id="join2" style="font-size: 9pt; margin-right: -5px; background-color: #ff9999; border-color: #ff9999; border-radius: 5px;" name="join2">Login to Join</button></li>
+													<!-- </form> -->
+												{% endif %}
 											</ul>						
 										</div>
 									<!-- </div> -->
