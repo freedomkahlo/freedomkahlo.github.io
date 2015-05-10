@@ -427,7 +427,7 @@
 						<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
 						<link rel="stylesheet" type="text/css" href="{% static 'css/codrops.css' %}" />
 						<div class="overlay overlay-hugeinc">
-							<div class="createEvent" style="margin-top: 150px"> <br/ >
+							<div class="createEvent"> <br/ >
 								<button type="button" class="overlay-close">Close</button>
 								<div id = "boxedForm" class ="divs">
 									<h2>Create Event</h2> 
@@ -509,7 +509,7 @@
 												End Time: <input size="25" type="text" name="end_time" id="end_time2" style="border: 0; margin-left: -10px; width: 70%; display: inline-block; border-radius: 5px;"  value="{{ end_time }}" readonly>
 												<div id="end_slider2" style="margin: 0 auto; width: 90%"></div> <br />
 
-												Event Length: <input size="25" type="text" name="event_length" id="event_length2"  style="border: 0; width: 90%; margin: 0 auto; display: inline-block; border-radius: 5px;" value="{{ event_length }}" readonly>
+												Event Length: <input size="25" type="text" name="event_length" id="event_length2"  style="border: 0; width: 60%; margin-left: -10px; display: inline-block; border-radius: 5px;" value="{{ event_length }}" readonly>
 												<div id="eventLengthSlider2" style="margin: 0 auto; width: 90%"></div><br>
 											</div>
 										</div>
@@ -951,8 +951,8 @@
 			
 				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
 				for (i = 0; i < wrapperStyle4Container.length; i++) {
-					wrapperStyle4Container[i].style.paddingLeft = '4em';
-					wrapperStyle4Container[i].style.paddingRight = '4em';
+					wrapperStyle4Container[i].style.paddingLeft = '1em';
+					wrapperStyle4Container[i].style.paddingRight = '1em';
 				}
 			}
 
@@ -971,8 +971,8 @@
 
 				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
 				for (i = 0; i < wrapperStyle4Container.length; i++) {
-					wrapperStyle4Container[i].style.paddingLeft = '4em';
-					wrapperStyle4Container[i].style.paddingRight = '4em';
+					wrapperStyle4Container[i].style.paddingLeft = '1em';
+					wrapperStyle4Container[i].style.paddingRight = '1em';
 				}
 			}
 
