@@ -310,7 +310,7 @@ def findTimes(events, startTime, endTime, timeLength, people):
 
 		#The interval we are looking to expand
 		[startInt, endInt] = [i, i]
-		while endInt < len(dateList) - 1:
+		while endInt < len(dateList):
 			participants &= dateList[endInt][1]
 			[startInt, endInt] = findInterval(dateList, participants, startInt, endInt)
 			if (dateList[startInt][0] - dateList[endInt][0] < timeLength):
@@ -325,8 +325,12 @@ def findTimes(events, startTime, endTime, timeLength, people):
 					needToContinue = True
 					break
 			if needToContinue:
+				if endInt == len(dateList - 1):
+					break
 				continue
 			freeTime.append({'numFree':len(filter(None, peeps.split(', '))), 'participants':peeps, 'startTime':dateList[startInt][0], 'endTime':dateList[endInt][0]})
+			if endInt == len(dateList - 1):
+				break
 
 	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)
 
