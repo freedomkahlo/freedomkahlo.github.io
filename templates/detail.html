@@ -235,10 +235,10 @@
 											</ul>						
 										</div>
 									<!-- </div> -->
-									<div class = "eventContainer">
+									<div class = "eventContainer" id="eventContainer">
 										<div class="row" id="boxedForm">
 											<div class="6u 12u(narrower)">
-												<div class="column1" align ="left" style="padding-left: 50px;">
+												<div class="column1" align ="left" style="padding-left: 50px;" >
 													<header align="left">
 														<h2><strong>{{ event.title }}</strong></h2>
 													</header>
@@ -335,7 +335,7 @@
 										</div>
 										<div class="row" id="boxedFormMobile">
 											<div class="12u 12u(narrower)">
-												<div class="column1" align ="left" style="padding-left: 50px;">
+												<div class="column1" align ="left" style="padding-left: 15px">
 													<header align="left">
 														<h2><strong>{{ event.title }}</strong></h2>
 													</header>
@@ -439,10 +439,13 @@
 													{% endif %}
 												{% endif %}
 
+												<!-- <div id="timesForm"> -->
 												{% for time in event.posstime_set.all %}
 													{% if forloop.counter <= 3 %}
 														<div class="4u 12u(narrower)">
-															<section style="background-color: #645862; border-radius: 10px; padding:5px;"><form action="{% url 'manageCreator' %}" method="post">
+															<div class="timeClass" style="display: inline-block">
+															<section style="background-color: #645862; border-radius: 10px; padding:5px;">
+															<form action="{% url 'manageCreator' %}" method="post">
 																{% csrf_token %}
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
 																<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
@@ -452,11 +455,33 @@
 																	<p> {{ time.time }} </p>
 																	<p id="attendees"> {{ time.people }} </p>
 																</header>
-															</form></section>
+															</form>
+															</section>
+															</div>
 														</div>
 													{% endif %}
 												{% endfor %}
 											</div>
+											<!-- Mobile -->
+											{% for time in event.posstime_set.all %}
+												{% if forloop.counter <= 3 %}
+													<div class="timeMobileClass">
+														<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 0 auto; display: block;">
+														<form action="{% url 'manageCreator' %}" method="post">
+															{% csrf_token %}
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+															<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
+															<button class="icon fa-clock-o" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
+															<header>
+																<h3> {{ time.date }} </h3>
+																<p> {{ time.time }} </p>
+																<p id="attendees"> {{ time.people }} </p>
+															</header>
+														</form>
+														</section>
+													</div>
+												{% endif %}
+											{% endfor %}
 											</section>
 										{% else %}
 											<!-- invitee view -->
@@ -673,12 +698,18 @@
 				// document.getElementById('eventsForm').style.display = 'none';
 				// document.getElementById('eventsFormMobile').style.display = 'block';
 				document.getElementById('header').style.display = 'none';
+				document.getElementById('eventContainer').style.margin = '0 -50 0 -50';
 				// document.getElementById('calendarLink').style.display = 'none';
 				// document.getElementById('notification_li').style.display = 'none';
-				// var triggerBttn = document.getElementsByClassName( 'depth-0' );
-				// $(triggerBttn[0]).click(function(){
-				// 	location.href='/userPage';
-				// })
+				var proposedTimes = document.getElementsByClassName( 'timeClass' );
+				for (i = 0; i < proposedTimes.length; i++) {
+					proposedTimes[i].style.display = 'none';
+				}
+
+				var proposedTimesMobile = document.getElementsByClassName( 'timeMobileClass' );
+				for (i = 0; i < proposedTimesMobile.length; i++) {
+					proposedTimesMobile[i].style.display = 'inline-block';
+				}
 			}
 
 			function narrowerModification() {
@@ -690,12 +721,16 @@
 				// document.getElementById('eventsForm').style.display = 'none';
 				// document.getElementById('eventsFormMobile').style.display = 'block';
 				document.getElementById('header').style.display = 'none';
-				// document.getElementById('calendarLink').style.display = 'inline-block';
-				// document.getElementById('notification_li').style.display = 'inline-block';
-				// var triggerBttn = document.getElementsByClassName( 'depth-0' );
-				// $(triggerBttn[0]).click(function(){
-				// 	location.href='/userPage';
-				// })
+				var proposedTimes = document.getElementsByClassName( 'timeClass' );
+				for (i = 0; i < proposedTimes.length; i++) {
+					proposedTimes[i].style.display = 'inline-block';
+				}
+
+				var proposedTimesMobile = document.getElementsByClassName( 'timeMobileClass' );
+				for (i = 0; i < proposedTimesMobile.length; i++) {
+					proposedTimesMobile[i].style.display = 'none';
+				}
+
 			}
 
 			function resetModifications() {
@@ -707,8 +742,15 @@
 				// document.getElementById('eventsForm').style.display = 'block';
 				// document.getElementById('eventsFormMobile').style.display = 'none';
 				document.getElementById('header').style.display = 'block';
-				// document.getElementById('calendarLink').style.display = 'inline-block';
-				// document.getElementById('notification_li').style.display = 'inline-block';
+				var proposedTimes = document.getElementsByClassName( 'timeClass' );
+				for (i = 0; i < proposedTimes.length; i++) {
+					proposedTimes[i].style.display = 'inline-block';
+				}
+
+				var proposedTimesMobile = document.getElementsByClassName( 'timeMobileClass' );
+				for (i = 0; i < proposedTimesMobile.length; i++) {
+					proposedTimesMobile[i].style.display = 'none';
+				}
 			}
 
 			var bounds = [
