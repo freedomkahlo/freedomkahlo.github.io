@@ -211,7 +211,7 @@
 																
 																<script>
 																	leaveForm = true;
-																	document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='decline'>Leave Event</button>";
+																	document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;' type='submit' name='decline'>Leave Event</button>";
 																</script>
 															
 															{% endif %}
@@ -219,7 +219,7 @@
 
 														<script>
 															if (leaveForm == false)
-																document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='join'>Join Event</button>";
+																document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;' type='submit' name='join'>Join Event</button>";
 														</script>												
 														
 													</li>
@@ -771,7 +771,10 @@
 					document.getElementById('leaveMobile').style.display = 'block';
 					document.getElementById('leaveNorm').style.display = 'none';
 				}
-				
+				else {
+					document.getElementById('join').style.display = 'none';
+				}
+
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'none';
 					document.getElementById('deleteMobile').style.display = 'inline-block';
@@ -820,6 +823,9 @@
 					document.getElementById('leaveMobile').style.display = 'none';
 					document.getElementById('leaveNorm').style.display = 'inline-block';
 				}
+				else {
+					document.getElementById('join').style.display = 'inline-block';
+				}
 				
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'inline-block';
@@ -863,6 +869,10 @@
 					document.getElementById('leaveMobile').style.display = 'none';
 					document.getElementById('leaveNorm').style.display = 'inline-block';
 				}
+				else {
+					document.getElementById('join').style.display = 'inline-block';
+				}
+
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'inline-block';
 					document.getElementById('deleteMobile').style.display = 'none';
