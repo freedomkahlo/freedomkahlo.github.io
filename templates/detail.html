@@ -81,11 +81,11 @@
 	<body class="no-sidebar">
 
 		<!-- Header -->
-			<header id="header" class="skel-layers-fixed">
+			<header id="header" class="skel-layers-fixed" style="display: none;">
 				{% if user.is_authenticated %}
-				<h1 id="logo"><a href="/"><img src="{% static 'images/logoGray.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
+				<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
 				{% else %}
-				<h1 id="logo"><a href="/"><img src="{% static 'images/logoGray.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Let us check your schedule!  </span></a></h1>
+				<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Let us check your schedule!  </span></a></h1>
 				{% endif %}
 				<nav id="nav">
 					<ul>
@@ -173,7 +173,6 @@
 
 				<!-- One -->
 					<section class="wrapper style4 container">
-
 						<!-- Content -->
 							<div class="content" style="margin-top: 30px;">
 								<section>
@@ -190,7 +189,7 @@
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 															
-															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;" type="submit" id="delete" name="delete">Delete Event</button>
+															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="delete" name="delete">Delete Event</button>
 														</form>
 													</li>
 												{% elif user.is_authenticated %}
@@ -230,8 +229,8 @@
 											</ul>						
 										</div>
 									<!-- </div> -->
-									<div class = "eventContainer" id="eventContainer">
-										<div class="row" id="boxedForm">
+									<div class="eventContainer" id="eventContainer">
+										<div class="row" id="boxedForm" style="display: none;">
 											<div class="6u 12u(narrower)">
 												<div class="column1" align ="left" style="padding-left: 50px;" >
 													<header align="left">
@@ -328,14 +327,14 @@
 
 											</div>
 										</div>
-										<div class="row" id="boxedFormMobile">
+										<div class="row" id="boxedFormMobile" style="display: none;">
 											<div class="12u 12u(narrower)">
 												<div class="column1" align ="left" style="padding-left: 15px">
 													<form style="display: inline-block; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" method="post">
 														{% csrf_token %}
 														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 														
-														<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt" type="submit" id="deleteMobile" name="delete">Delete Event</button>
+														<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: none;" type="submit" id="deleteMobile" name="delete">Delete Event</button>
 													</form>
 													<br />
 													<header align="left">
