@@ -90,7 +90,6 @@
 				<nav id="nav">
 					<ul>
 						<li ><a href="/">Home</a></li>
-						{% if user.is_authenticated %}		
 						<li>
 							<form action="{% url 'userPage' %}" method="post" style="display: inline-block;">
 								{% csrf_token %}
@@ -99,10 +98,8 @@
 							</form>
 						</li>
 						<li><a class="special button" href="/logout/">Logout</a></li>
-						{% else %}
 						<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special ">Login</a></li>
 						<li><a href="javascript:void(0);" id="trigger-overlay-two" class="links button special ">Register</a></li>
-						{% endif %}
 						
 					</ul>
 				</nav>
