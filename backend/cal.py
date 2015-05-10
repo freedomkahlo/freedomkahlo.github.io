@@ -307,20 +307,18 @@ def findTimes(events, startTime, endTime, timeLength, people):
 	#Find the time intervals now
 	for i in range(len(dateList)):
 		participants = -1
-		for j in range(i, len(dateList)):
-			if participants & dateList[j][1] == participants:
+
+		#The interval we are looking to expand
+		[startInt, endInt] = [i, i]
+		while endInt < len(dateList) - 1:
+			participants &= dateList[endInt][1]
+			[startInt, endInt] = findInterval(dateList, participants, startInt, endInt)
+			if (dateList[startInt][0] - dateList[endInt][0] < timeLength):
 				continue
-			participants &= dateList[j][1]
-			interval = findInterval(dateList, i)
-			if (dateList[interval[1]][0] - dateList[interval[0]][0] < timeLength):
-				continue
-			peeps = getPeople(people, dateList[i][1])
+			peeps = getPeople(people, participants)
 			needToContinue = False
-			print 'Checking For:' + dateList[interval[0]][0].isoformat() + ' to ' + dateList[interval[1]][0].isoformat()
-			print 'in:' + freeTime.__str__()
 			for d in freeTime:
-				if d['endTime'] == dateList[interval[1]][0] and d['startTime'] == dateList[interval[0]][0]:
-					print 'Found'
+				if d['endTime'] == dateList[endInt][0] and d['startTime'] == dateList[startInt][0]:
 					if len(d['participants']) < len(peeps):
 						d['participants'] = peeps
 						d['numFree'] = len(filter(None, peeps.split(', ')))
@@ -328,21 +326,19 @@ def findTimes(events, startTime, endTime, timeLength, people):
 					break
 			if needToContinue:
 				continue
-			freeTime.append({'numFree':len(filter(None, peeps.split(', '))), 'participants':peeps, 'startTime':dateList[interval[0]][0], 'endTime':dateList[interval[1]][0]})
+			freeTime.append({'numFree':len(filter(None, peeps.split(', '))), 'participants':peeps, 'startTime':dateList[startInt][0], 'endTime':dateList[endInt][0]})
 
 	return sorted(freeTime, key=lambda date:date['numFree'], reverse=True)
 
-#Helper function for find Times2 which finds the time intervals for a given participant set
-def findInterval(dateList, curr):
-	start = curr
-	while start > 0 and dateList[start - 1][1] & dateList[curr][1] == dateList[curr][1]:
+#Helper function for find Times which finds the time intervals for a given participant set
+def findInterval(dateList, participants, start, end):
+	while start > 0 and dateList[start - 1][1] & participants == participants:
 		start -= 1
-	end = curr
-	while end + 1 < len(dateList) and dateList[end][1] & dateList[curr][1] == dateList[curr][1]:
+	while end + 1 < len(dateList) and dateList[end][1] & participants == participants:
 		end += 1
 	return [start, end]
 
-#Helper function for findTimes2 which, given a participant list in bit form, returns the list of participants in string form
+#Helper function for findTimes which, given a participant list in bit form, returns the list of participants in string form
 def getPeople(people, participants):
 	s = ''
 	for x in [people[i] for i in range(len(people)) if participants & 2 ** i > 0]:
