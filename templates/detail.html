@@ -431,7 +431,7 @@
 										<!-- creator view -->
 										{% if event.creator == user.username %}
 											<section id="friends">
-												<div style="margin-top: -100px" id="proposedTimes">
+												<div id="proposedTimes">
 													<div class="row timeClass">
 														{% if event.posstime_set.all|length == 0 %}
 															{% if event.is_scheduled %}
