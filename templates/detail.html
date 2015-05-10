@@ -441,6 +441,7 @@
 												{% endif %}
 
 												<!-- <div id="timesForm"> -->
+												<div id="possTimesRegular">
 												{% for time in event.posstime_set.all %}
 													{% if forloop.counter <= 3 %}
 														<div class="4u 12u(narrower)">
@@ -461,7 +462,14 @@
 															</div>
 														</div>
 
-														<!-- Mobile -->
+													{% endif %}
+												{% endfor %}
+												</div>
+
+
+												<div id="possTimesMobile">
+												{% for time in event.posstime_set.all %}
+													{% if forloop.counter <= 3 %}
 														<div class="timeMobileClass">
 															<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 0 auto;">
 															<form action="{% url 'manageCreator' %}" method="post">
@@ -477,10 +485,14 @@
 															</form>
 															</section>
 														</div>
+
 													{% endif %}
 												{% endfor %}
+												</div>
 											</div>
+
 											</section>
+
 										{% else %}
 											<!-- invitee view -->
 											<section id="friends">
@@ -699,6 +711,8 @@
 				document.getElementById('eventContainer').style.margin = '0 -50 0 -50';
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
+				document.getElementById('possTimesRegular').style.display = 'none';
+				document.getElementById('possTimesMobile').style.display = 'block';
 
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
@@ -728,6 +742,8 @@
 				document.getElementById('header').style.display = 'none';
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
+				document.getElementById('possTimesRegular').style.display = 'inline';
+				document.getElementById('possTimesMobile').style.display = 'none';
 
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
@@ -752,6 +768,8 @@
 				document.getElementById('header').style.display = 'block';
 				document.getElementById('friends').style.paddingLeft = '5em';
 				document.getElementById('friends').style.paddingRight = '5em';
+				document.getElementById('possTimesRegular').style.display = 'inline';
+				document.getElementById('possTimesMobile').style.display = 'none';
 
 				var proposedTimes = document.getElementsByClassName( 'timeClass' );
 				for (i = 0; i < proposedTimes.length; i++) {
