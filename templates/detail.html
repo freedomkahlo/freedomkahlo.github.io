@@ -493,8 +493,8 @@
 															<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"></input></span>
 															<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"></input></span>
 														
-															<div class="row" id="proposedTimes">
-																<!-- <div class="timeClass"> -->
+															<div id="proposedTimes">
+																<div class="row timeClass" >
 																	{% for time in event.posstime_set.all %}
 																		{% if forloop.counter <= 3 %}
 																			<div class="4u 12u(narrower)">
@@ -531,7 +531,7 @@
 																	</section>
 																	</div>
 																	{% endif %}
-																<!-- </div> -->
+																</div>
 																<div class="timeMobileClass">
 																	{% for time in event.posstime_set.all %}
 																		{% if forloop.counter <= 3 %}
