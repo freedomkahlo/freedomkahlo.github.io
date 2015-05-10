@@ -514,7 +514,7 @@
 											</div>
 										</div>
 										<br /> 
-										<input class="button special" style="margin: 0 auto 20 auto;" type="submit" id="create" value="Add" /> <br /> <br />
+										<input class="button special" style="margin: 0 auto 20 auto;" type="submit" id="createMobile" value="Add" /> <br /> <br />
 									</form>
 								</div>
 							</div>
@@ -915,6 +915,9 @@
 		<script>
 			$(document).ready(function(){
 				$("#create").click(function() {
+					$("#loadingOverlay").show();
+				});
+				$("#createMobile").click(function() {
 					$("#loadingOverlay").show();
 				});
 				$("#noscript").hide();
