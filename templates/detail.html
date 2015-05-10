@@ -180,7 +180,7 @@
 									<!-- <div class="navbarBody"> -->
 										<div class="navbar">
 											<div class="eventLink" align="left" id="eventL" style="display:inline; float: left; margin-left:20px">
-												<strong id="eventLink">EVENT LINK: &nbsp;</strong>
+												<strong id="eventLink" style="display:none;">EVENT LINK: &nbsp;</strong>
 												<input id="eventLinkTextBox" value="skedg.tk:82/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline; padding: 5px; size:200px" id="eventLink"></input>
 											</div>
 											<ul id="manageButton" style="display:inline; float:right; margin-right:20px" >
@@ -332,11 +332,11 @@
 											<div class="12u 12u(narrower)">
 												<div class="column1" align ="left" style="padding-left: 15px">
 													{% if event.creator == user.username %}
-														<form style="display: inline-block; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" method="post">
+														<form style="display: none; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" id="deleteMobile" method="post">
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 															
-															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: none;" type="submit" id="deleteMobile" name="delete">Delete Event</button>
+															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: block;" type="submit" name="delete">Delete Event</button>
 														</form>
 													{% elif user.is_authenticated %}
 														<form action="{% url 'manageInvitee' %}" method="post" id="leaveMobile" style="font-size: 10pt; margin-top: -40px;">   
@@ -541,7 +541,7 @@
 															<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"></input></span>
 														
 															<div id="proposedTimes">
-																<div class="row timeClass" >
+																<div class="row timeClass" style="display: none;" >
 																	{% for time in event.posstime_set.all %}
 																		{% if forloop.counter <= 3 %}
 																			<div class="4u 12u(narrower)">
@@ -579,7 +579,7 @@
 																	</div>
 																	{% endif %}
 																</div>
-																<div class="timeMobileClass">
+																<div class="timeMobileClass" style="display:none;">
 																	{% for time in event.posstime_set.all %}
 																		{% if forloop.counter <= 3 %}
 																			<section style="background-color: #645862; border-radius: 10px;">
