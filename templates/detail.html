@@ -180,9 +180,9 @@
 										<div class="navbar">
 											<div class="eventLink" align="left" id="eventL" style="display:inline; float: left; margin-left:20px">
 												<strong id="eventLink">EVENT LINK: &nbsp;</strong>
-												<input value="skedg.tk:82/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="20" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline; padding: 5px;" id="eventLink"></input>
+												<input id="eventLinkTextBox" value="skedg.tk:82/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline; padding: 5px; size:80px" id="eventLink"></input>
 											</div>
-											<ul style="display:inline; float:right; ; margin-right:20px" >
+											<ul id="manageButton" style="display:inline; float:right; ; margin-right:20px" >
 												{% if event.creator == user.username %}
 													<li style="display:inline">
 														<form style="display: inline-block;" action="{% url 'manageCreator' %}" method="post">
@@ -668,6 +668,8 @@
 				document.getElementById('boxedForm').style.display = 'none';
 				document.getElementById('boxedFormMobile').style.display = 'block';
 				document.getElementById('eventLink').style.display = 'none';
+				document.getElementById('manageButton').style.display = 'block';
+				document.getElementById('eventLinkTextBox').style.width = '50px';
 				// document.getElementById('eventsForm').style.display = 'none';
 				// document.getElementById('eventsFormMobile').style.display = 'block';
 				document.getElementById('header').style.display = 'none';
@@ -683,6 +685,8 @@
 				document.getElementById('boxedForm').style.display = 'block';
 				document.getElementById('boxedFormMobile').style.display = 'none';
 				document.getElementById('eventLink').style.display = 'inline-block';
+				document.getElementById('manageButton').style.display = 'inline';
+				document.getElementById('eventLinkTextBox').style.width = '80px';
 				// document.getElementById('eventsForm').style.display = 'none';
 				// document.getElementById('eventsFormMobile').style.display = 'block';
 				document.getElementById('header').style.display = 'none';
@@ -698,6 +702,8 @@
 				document.getElementById('boxedForm').style.display = 'block';
 				document.getElementById('boxedFormMobile').style.display = 'none';
 				document.getElementById('eventLink').style.display = 'inline-block';
+				document.getElementById('manageButton').style.display = 'inline';
+				document.getElementById('eventLinkTextBox').style.width = '80px';
 				// document.getElementById('eventsForm').style.display = 'block';
 				// document.getElementById('eventsFormMobile').style.display = 'none';
 				document.getElementById('header').style.display = 'block';
