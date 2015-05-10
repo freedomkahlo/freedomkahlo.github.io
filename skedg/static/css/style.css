@@ -725,6 +725,10 @@
 			border-bottom-color: transparent;
 		}
 
+		#logo.a:hover {
+			color: inherit;
+		}
+
 	strong, b {
 		font-weight: 400;
 	}
