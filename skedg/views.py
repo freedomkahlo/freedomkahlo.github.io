@@ -734,6 +734,7 @@ def vetoPoss(request):
 	invitee.save()
 	possTimes = event.posstime_set.all()
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
+	print requestTimes
 	for pID in requestTimes:
 		p = possTimes.get(id=pID)
 		needToContinue = False
