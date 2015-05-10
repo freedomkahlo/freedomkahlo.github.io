@@ -90,6 +90,7 @@
 				<nav id="nav">
 					<ul>
 						<li ><a href="/">Home</a></li>
+						{% if user.is_authenticated %}		
 						<li>
 							<form action="{% url 'userPage' %}" method="post" style="display: inline-block;">
 								{% csrf_token %}
@@ -98,8 +99,10 @@
 							</form>
 						</li>
 						<li><a class="special button" href="/logout/">Logout</a></li>
+						{% else %}
 						<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special ">Login</a></li>
 						<li><a href="javascript:void(0);" id="trigger-overlay-two" class="links button special ">Register</a></li>
+						{% endif %}
 						
 					</ul>
 				</nav>
@@ -179,7 +182,7 @@
 												<strong id="eventLink">EVENT LINK:</strong>
 												<input value="skedg.tk:82/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="20" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline-block; padding: 5px;" id="eventLink"></input>
 											</div>
-											<ul id="nav">
+											<ul>
 													{% if event.creator == user.username %}
 														<li>
 															<form style="display: inline-block;" action="{% url 'manageCreator' %}" method="post">
@@ -198,7 +201,7 @@
 																	<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"/></input></span>     
 																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
 																	<span id="submitButton"></span>
-																	</form>
+															</form>
 															<script>
 																var leaveForm = false;
 															</script>
