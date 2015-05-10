@@ -114,9 +114,9 @@
 										</header>
 										<br />
 										<div class="userInformation" style="width: 100%; padding-left: 15px;">
-											Email: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="{{ user.username}}"></input> <br /> <br />
-											Name: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="{{ user.first_name }} {{ user.last_name }}"></input> <br /> <br />
-											Password: <br /> <input type="text" style="display: inline-block; width: 40%;" readonly="readonly" value="********"></input> <br /> 
+											Email: <br /> {{ user.username}}<br /> <br />
+											Name: <br /> {{ user.first_name }} {{ user.last_name }} <br /> <br />
+											Password: <br /> ******** <br /> 
 											<a href="#" id="trigger-overlay"> <font size="2"> Change Password </font> </a> <br /> <br />
 											<a href="/resetGAuth"> Change Google Account </font> </a> <br /> <br />
 										</div>
