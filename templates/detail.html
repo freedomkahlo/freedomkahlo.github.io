@@ -204,14 +204,14 @@
 																<span id="submitButton"></span>
 														</form>
 														<script>
-															var leaveForm = false;
+															leaveForm = false;
 														</script>
 														{% for i in event.invitee_set.all %}
 															{% if user.username == i.name %}
 																
 																<script>
 																	leaveForm = true;
-																	document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;' type='submit' name='decline'>Leave Event</button>";
+																	document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;' type='submit' name='decline'>Leave Event</button>";
 																</script>
 															
 															{% endif %}
@@ -219,7 +219,7 @@
 
 														<script>
 															if (leaveForm == false)
-																document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;' type='submit' name='join'>Join Event</button>";
+																document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;' type='submit' name='join'>Join Event</button>";
 														</script>												
 														
 													</li>
@@ -348,14 +348,14 @@
 																<span id="submitButtonMobile"></span>
 														</form>
 														<script>
-															var leaveForm = false;
+															leaveForm = false;
 														</script>
 														{% for i in event.invitee_set.all %}
 															{% if user.username == i.name %}
 																
 																<script>
 																	leaveForm = true;
-																	document.getElementById("submitButtonMobile").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='decline'>Leave Event</button>";
+																	document.getElementById("submitButtonMobile").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;' type='submit' name='decline'>Leave Event</button>";
 																</script>
 															
 															{% endif %}
@@ -363,7 +363,7 @@
 
 														<script>
 															if (leaveForm == false)
-																document.getElementById("submitButtonMobile").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='join'>Join Event</button>";
+																document.getElementById("submitButtonMobile").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; type='submit' name='join'>Join Event</button>";
 														</script>												
 													{% endif %}
 
@@ -767,13 +767,10 @@
 				document.getElementById('header').style.display = 'none';
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
-				if (leaveForm) {
+				{% if user.is_authenticated and event.creator != user.username %}
 					document.getElementById('leaveMobile').style.display = 'block';
 					document.getElementById('leaveNorm').style.display = 'none';
-				}
-				else {
-					document.getElementById('join').style.display = 'none';
-				}
+				{% endif %}
 
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'none';
@@ -819,13 +816,10 @@
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
 				document.getElementById('eventLink').style.display = 'none';
-				if (leaveForm) {
+				{% if user.is_authenticated and event.creator != user.username %}
 					document.getElementById('leaveMobile').style.display = 'none';
 					document.getElementById('leaveNorm').style.display = 'inline-block';
-				}
-				else {
-					document.getElementById('join').style.display = 'inline-block';
-				}
+				{% endif %}
 				
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'inline-block';
@@ -865,13 +859,10 @@
 				document.getElementById('friends').style.paddingLeft = '5em';
 				document.getElementById('friends').style.paddingRight = '5em';
 				document.getElementById('eventLink').style.display = 'inline-block';
-				if (leaveForm) {
+				{% if user.is_authenticated and event.creator != user.username %}
 					document.getElementById('leaveMobile').style.display = 'none';
 					document.getElementById('leaveNorm').style.display = 'inline-block';
-				}
-				else {
-					document.getElementById('join').style.display = 'inline-block';
-				}
+				{% endif %}
 
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'inline-block';
