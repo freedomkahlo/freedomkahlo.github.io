@@ -43,12 +43,16 @@
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
 		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
 		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
 		<script src="{% static 'js/skel.min.js' %}"></script>
 		<script src="{% static 'js/skel-layers.min.js' %}"></script>
 		<script src="{% static 'js/init.js' %}"></script>
+		<script src="{% static 'js/moment.js' %}"></script> 
+		<script src="{% static 'js/combodate.js' %}"></script> 
+		<script src="{% static 'js/jquery.ui.touch-punch.js' %}"></script>
 		<script src="{% static 'js/jquery.joyride-2.1.js' %}"></script> 
 		<noscript>
 			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
@@ -141,7 +145,6 @@
 							<button type="button" class="overlay-close">Close</button>
 							<div class="register"> <br/ >
 								<div id = "id_of_div2" class="divs">
-				
 									<form id="user_form" method="post" action="/registerEvent/" enctype="multipart/form-data" style:"margins: auto;">
 									  	{% csrf_token %}
 										<font color='red'>{{registerError}}</font>
@@ -175,8 +178,8 @@
 								<section>
 									<!-- <div class="navbarBody"> -->
 										<div class="navbar">
-											<div class="eventLink" align="left">
-												<strong>EVENT LINK:</strong>
+											<div class="eventLink" align="left" id="eventL">
+												<strong id="eventLink">EVENT LINK:</strong>
 												<input value="skedg.tk:82/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" size="20" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline-block; padding: 5px;" id="eventLink"></input>
 											</div>
 											<ul id="nav">
@@ -233,7 +236,7 @@
 										</div>
 									<!-- </div> -->
 									<div class = "eventContainer">
-										<div class="row">
+										<div class="row" id="boxedForm">
 											<div class="6u 12u(narrower)">
 												<div class="column1" align ="left" style="padding-left: 50px;">
 													<header align="left">
@@ -328,6 +331,97 @@
 													</div>
 												</section>
 
+											</div>
+										</div>
+										<div class="row" id="boxedFormMobile">
+											<div class="12u 12u(narrower)">
+												<div class="column1" align ="left" style="padding-left: 50px;">
+													<header align="left">
+														<h2><strong>{{ event.title }}</strong></h2>
+													</header>
+												
+													<strong>HOST</strong>: {{ event.creatorName }} <br />
+													{{ event.desc }} <br/>
+													<br />
+													{% if event.is_scheduled %}
+														<strong>TIME: </strong>
+														{{event.printScheduledTime}}
+														<br />
+													{% else %}
+														<strong id="eventTimes"> POSSIBLE DATES: </strong>
+														{{event.printDateRange}}
+														<br />
+														<strong> POSSIBLE TIMES: </strong>
+														{{event.printTimeRange}}
+														<br />
+														<strong> EVENT LENGTH: </strong>
+														{{event.printTimeLength}}
+														<br />
+													{% endif %}
+													<br />
+													<header align="left">
+														<h3 id="inviteesCol"><strong>Invitees</strong></h3>
+													</header>
+													<div class="bumping">
+													{% for invitee in event.invitee_set.all %}
+														<!-- Bumps -->
+														{% if event.creator == user.username %}
+															<form action="{% url 'manageCreator' %}" method="post"> 
+															{% csrf_token %} 
+															<span style="display: none;"><input type="text" name="invitee_name" value="{{ invitee.name }}"/></input></span> 
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"/></input></span>
+															<button style="float: left; text-align; left; background: transparent;  color: red; display: inline-block; padding: 0; margin: 0; margin-top: 5px; font-size: 16px; margin-left: 5px; padding-right: 3px;" type="submit" name="boot" id="boot">✖</button>
+															</form>
+														{% endif %}
+
+														{{ invitee }} <br/>
+													{% endfor %}
+													</div>
+												</div>
+												<div id="messagesContainer">
+													<div id="messagesTitle" style="vertical-align: middle">
+													<header>
+													<h1 style="font-weight: 300; line-height: 1.75em; margin-bottom: 1em; text-transform: uppercase; font-size: 18pt"><strong>MESSAGE BOARD</strong></h1>
+													</header>
+													</div>
+													<div id="messagesBody">
+														<ul>
+														{% for m in event.message_set.all %}
+															<li>
+															{% if event.creator = user.username %}
+																<form action="{% url 'manageMessage' %}" method="post">
+																	{% csrf_token %}
+																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
+																	<span style="display: none;"><input type="text" name="username" value="{{ m.author }}"></span>
+																	<span style="display: none;"><input type="text" name="messageID" value="{{ m.id }}"></span>
+																	<button type="submit" name="erase">✖</button> 
+																</form>
+															{% endif %}
+															
+															{{ m.text }}<br /> <br />
+															<div align="right" style="padding-right: 3px;"><span style="font-size:13px; color:#999999;"> {{m.firstName}} {{m.lastName}}, {{m.printPubDate}}</span> </div>
+															</li>
+														{% endfor %}
+														</ul>
+													</div>
+													<div id="messagesFooter">
+														{% if user.is_authenticated %}
+														<form action="{% url 'manageMessage' %}" method="post">
+															{% csrf_token %}
+															<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
+															<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"></span>
+															<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"></span>
+															<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"></span>
+															<input class="button special" style="margin-top: 5px;" type="submit" name="write" value="Post" id='postMessage'/> </input>
+														</form>
+														{% else %}
+														<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
+														<input class="button" style="margin-top: 5px; background-color: #ff9999; border-color: #ff9999;" type="submit" value="Login to Post" id="loginToPost"/>
+														{% endif %}
+													</div>
+												</div>
+												</section>
 											</div>
 										</div>
 
@@ -564,52 +658,57 @@
 
 		<script src="{% static 'js/modernizr.custom.js' %}"></script>
 		<script src="{% static 'js/classie.js' %}"></script>
-		<script src="{% static 'js/detailOverlay.js' %}"></script>
+		{% if not user.is_authenticated %}	
+			<script src="{% static 'js/detailOverlay.js' %}"></script>
+		{% endif %}
 
 		<!-- Mobile Linking -->
 		<script type='text/javascript'>
 			function mobileModification() {
 				document.getElementById('boxedForm').style.display = 'none';
 				document.getElementById('boxedFormMobile').style.display = 'block';
-				document.getElementById('eventsForm').style.display = 'none';
-				document.getElementById('eventsFormMobile').style.display = 'block';
+				document.getElementById('eventLink').style.display = 'none';
+				// document.getElementById('eventsForm').style.display = 'none';
+				// document.getElementById('eventsFormMobile').style.display = 'block';
 				document.getElementById('header').style.display = 'none';
-				document.getElementById('calendarLink').style.display = 'none';
-				document.getElementById('notification_li').style.display = 'none';
-				var triggerBttn = document.getElementsByClassName( 'depth-0' );
-				$(triggerBttn[0]).click(function(){
-					location.href='/userPage';
-				})
+				// document.getElementById('calendarLink').style.display = 'none';
+				// document.getElementById('notification_li').style.display = 'none';
+				// var triggerBttn = document.getElementsByClassName( 'depth-0' );
+				// $(triggerBttn[0]).click(function(){
+				// 	location.href='/userPage';
+				// })
 			}
 
 			function narrowerModification() {
-				document.getElementById('boxedForm').style.display = 'none';
-				document.getElementById('boxedFormMobile').style.display = 'block';
-				document.getElementById('eventsForm').style.display = 'none';
-				document.getElementById('eventsFormMobile').style.display = 'block';
-				document.getElementById('header').style.display = 'none';
-				document.getElementById('calendarLink').style.display = 'inline-block';
-				document.getElementById('notification_li').style.display = 'inline-block';
-				var triggerBttn = document.getElementsByClassName( 'depth-0' );
-				$(triggerBttn[0]).click(function(){
-					location.href='/userPage';
-				})
-			}
-
-			function createEventMobileReset() {
 				document.getElementById('boxedForm').style.display = 'block';
 				document.getElementById('boxedFormMobile').style.display = 'none';
-				document.getElementById('eventsForm').style.display = 'block';
-				document.getElementById('eventsFormMobile').style.display = 'none';
+				document.getElementById('eventLink').style.display = 'inline-block';
+				// document.getElementById('eventsForm').style.display = 'none';
+				// document.getElementById('eventsFormMobile').style.display = 'block';
+				document.getElementById('header').style.display = 'none';
+				// document.getElementById('calendarLink').style.display = 'inline-block';
+				// document.getElementById('notification_li').style.display = 'inline-block';
+				// var triggerBttn = document.getElementsByClassName( 'depth-0' );
+				// $(triggerBttn[0]).click(function(){
+				// 	location.href='/userPage';
+				// })
+			}
+
+			function resetModifications() {
+				document.getElementById('boxedForm').style.display = 'block';
+				document.getElementById('boxedFormMobile').style.display = 'none';
+				document.getElementById('eventLink').style.display = 'inline-block';
+				// document.getElementById('eventsForm').style.display = 'block';
+				// document.getElementById('eventsFormMobile').style.display = 'none';
 				document.getElementById('header').style.display = 'block';
-				document.getElementById('calendarLink').style.display = 'inline-block';
-				document.getElementById('notification_li').style.display = 'inline-block';
+				// document.getElementById('calendarLink').style.display = 'inline-block';
+				// document.getElementById('notification_li').style.display = 'inline-block';
 			}
 
 			var bounds = [
 			    {min:0,max:736,func:mobileModification},
 			    {min:737,max:840,func:narrowerModification},
-			    {min:841,func:createEventMobileReset}
+			    {min:841,func:resetModifications}
 			];
 
 			var resizeFn = function(){
@@ -634,6 +733,7 @@
 			    $(window).trigger('resize');
 			});
 		</script>
+
 		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
 		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
 		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  
