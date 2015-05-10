@@ -194,7 +194,7 @@
 													</li>
 												{% elif user.is_authenticated %}
 													<li style="display:inline">
-														<form action="{% url 'manageInvitee' %}" method="post">   
+														<form action="{% url 'manageInvitee' %}" method="post" id="leaveNorm">   
 																{% csrf_token %}
 																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>    
 																<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"/></input></span>    
@@ -330,12 +330,42 @@
 										<div class="row" id="boxedFormMobile" style="display: none;">
 											<div class="12u 12u(narrower)">
 												<div class="column1" align ="left" style="padding-left: 15px">
-													<form style="display: inline-block; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" method="post">
-														{% csrf_token %}
-														<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
-														
-														<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: none;" type="submit" id="deleteMobile" name="delete">Delete Event</button>
-													</form>
+													{% if event.creator == user.username %}
+														<form style="display: inline-block; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" method="post">
+															{% csrf_token %}
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
+															
+															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: none;" type="submit" id="deleteMobile" name="delete">Delete Event</button>
+														</form>
+													{% elif user.is_authenticated %}
+														<form action="{% url 'manageInvitee' %}" method="post" id="leaveMobile" style="font-size: 10pt; margin-top: -40px;">   
+																{% csrf_token %}
+																<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>    
+																<span style="display: none;"><input type="text" name="firstName" value="{{ user.first_name }}"/></input></span>    
+																<span style="display: none;"><input type="text" name="lastName" value="{{ user.last_name }}"/></input></span>     
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+																<span id="submitButtonMobile"></span>
+														</form>
+														<script>
+															var leaveForm = false;
+														</script>
+														{% for i in event.invitee_set.all %}
+															{% if user.username == i.name %}
+																
+																<script>
+																	leaveForm = true;
+																	document.getElementById("submitButtonMobile").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='decline'>Leave Event</button>";
+																</script>
+															
+															{% endif %}
+														{% endfor %}
+
+														<script>
+															if (leaveForm == false)
+																document.getElementById("submitButtonMobile").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; '' type='submit' name='join'>Join Event</button>";
+														</script>												
+													{% endif %}
+
 													<br />
 													<header align="left">
 														<h2><strong>{{ event.title }}</strong></h2>
@@ -736,10 +766,12 @@
 				document.getElementById('header').style.display = 'none';
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
-				document.getElementById('deleteMobile').style.display = 'inline-block';
+				document.getElementById('leaveMobile').style.display = 'block';
+				document.getElementById('leaveNorm').style.display = 'none';
 				
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'none';
+					document.getElementById('deleteMobile').style.display = 'inline-block';
 				{% endif %}
 				
 				{% if not user.is_authenticated %}	
@@ -781,10 +813,12 @@
 				document.getElementById('friends').style.paddingLeft = '1em';
 				document.getElementById('friends').style.paddingRight = '1em';
 				document.getElementById('eventLink').style.display = 'none';
-				document.getElementById('deleteMobile').style.display = 'none';
+				document.getElementById('leaveMobile').style.display = 'none';
+				document.getElementById('leaveNorm').style.display = 'inline-block';
 				
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'inline-block';
+					document.getElementById('deleteMobile').style.display = 'none';
 				{% endif %}
 
 				{% if not user.is_authenticated %}	
@@ -820,10 +854,11 @@
 				document.getElementById('friends').style.paddingLeft = '5em';
 				document.getElementById('friends').style.paddingRight = '5em';
 				document.getElementById('eventLink').style.display = 'inline-block';
-				document.getElementById('deleteMobile').style.display = 'none';
-
+				document.getElementById('leaveMobile').style.display = 'none';
+				document.getElementById('leaveNorm').style.display = 'inline-block';
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'inline-block';
+					document.getElementById('deleteMobile').style.display = 'none';
 				{% endif %}
 
 				{% if not user.is_authenticated %}	
