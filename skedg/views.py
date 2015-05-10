@@ -192,7 +192,7 @@ def deletePastPossTimes(request, eventID=None):
 def forgotPassword(request, login_key=''):
 	if request.method == 'POST': #Submitted request of forgot password
 		# Send verification email to make sure they want to reset their password
-		email = request.POST['username']
+		email = request.POST['username'].lower()
 		if len(User.objects.filter(username=email)) == 0:
 			#No user with that username found
 			return render(request, 'login.html', {'invalidUsername':'No user with that email found.'})
@@ -511,6 +511,7 @@ def register(request):
 		if user_form.is_valid(): # Check the form for any errors (done in forms.py)
 			user = user_form.save()
 			user.set_password(user.password)
+			user.username = user.username.lower() # Make all emails lower case
 			user.save()
 			profile = UserProfile.objects.create(user=user)
 
@@ -567,8 +568,8 @@ def registerEvent(request):
 		user_form = UserForm(data=request.POST)
 		if user_form.is_valid():# Check the form for any errors (done in forms.py)
 			user = user_form.save()
-			#user.is_active = False
 			user.set_password(user.password)
+			user.username = user.username.lower() # Make all emails lower case
 			user.save()
 			profile = UserProfile.objects.create(user=user)
 
@@ -642,7 +643,7 @@ def user_login(request):
 	context = RequestContext(request)
 
 	if request.method == 'POST':
-		email = request.POST.get('username', '')
+		email = request.POST.get('username', '').lower()
 		password = request.POST.get('password', '')
 
 		user = authenticate(username=email, password=password)
@@ -677,7 +678,7 @@ def user_loginEvent(request):
 	context = RequestContext(request)
 
 	if request.method == 'POST':
-		email = request.POST.get('username', '')
+		email = request.POST.get('username', '').lower()
 		password = request.POST.get('password', '')
 		eventID = request.POST.get('eventID', '')
 
