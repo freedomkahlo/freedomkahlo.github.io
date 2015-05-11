@@ -633,10 +633,6 @@
 	 				<h2>Event Link</h2>
 	 				<p>This is the unique event link for each page. Copy the link and share it with your friends so they can join your event!</p>
 	 		  	</li>
-	 		  	<li data-id="inviteesCol" data-button="Next" data-options="tipLocation:right">
-	 				<h2>Invitees</h2>
-	 				<p>Those who have joined your event.</p>
-	 		  	</li>
 	 		  	<li data-id="proposedTimes" data-button="Next" data-options="tipLocation:top">
 	 				<h2>Proposed Times</h2>
 	 				<p>The top times our application has found for your event and its invitees.</p>
@@ -645,14 +641,14 @@
 	 				<h2>Attendees</h2>
 	 				<p>Those who can attend your event at the listed time.</p>
 	 		  	</li>
-	 		  	<li data-id="skedgButton" data-button="Next" data-options="tipLocation:right">
+	 		  	<li data-id="refresh" data-button="Next" data-options="tipLocation:left">
+	 				<h2>Refresh Times</h2>
+	 				<p>Click here to re-sync with Google Calendar, in case anyone's Google Calendar has been updated.</p>
+	 		  	</li>
+	 		  	<li data-id="skedgButton" data-button="Close" data-options="tipLocation:right">
 	 				<h2>Skedg Event</h2>
 	 				<p>Click on this button to schedule your event at the listed time and add it to everyone's calendars.</p>
 	 		  	</li>
-	 		  	<li data-id="messagesContainer" data-button="Close" data-options="modal:true; tipLocation:right">
-			    	<h2>Message Board</h2>
-			    	<p>A message board that is visible to everyone, so you can post updates and times for people to see.</p>
-			    </li>
 	 		</ol>
 	 	{% elif showInviteeTour %}
 	 		<!-- Tour of detail page for the creator -->
@@ -660,10 +656,6 @@
 	 			<li data-text="Next" data-options="modal: true;" style="width: 400px;">
 	 				<h2>Joined Event</h2>
 	 				<p>Congratulations on joining your first event! Click "next" to view the different <strong>invitee</strong> features of Skedg.</p>
-	 		  	</li>
-	 		  	<li data-id="eventTimes" data-button="Next" data-options="tipLocation:right">
-	 				<h2>Event Details</h2>
-	 				<p>The possible dates for the event, the time range in which your event will be contained and with which your Google Calendar will be sampled, and the event length.</p>
 	 		  	</li>
 	 		  	<li data-id="proposedTimes" data-button="Next" data-options="tipLocation:right">
 	 				<h2>Proposed Times</h2>
@@ -673,14 +665,10 @@
 	 				<h2>Voting</h2>
 	 				<p>Select this box to vote against the listed time.</p>
 	 		  	</li>
-	 		  	<li data-id="veto" data-button="Next" data-options="tipLocation:right">
+	 		  	<li data-id="veto" data-button="Close" data-options="tipLocation:right">
 	 				<h2>Adding Conflicts</h2>
 	 				<p>Once you have selected all times you want to vote against, click here to add your vote to the event. The new listed times will be optimized for all invitees.</p>
 	 		  	</li>
-	 		  	<li data-id="messagesContainer" data-button="Close" data-options="modal:true; tipLocation:right">
-			    	<h2>Message Board</h2>
-			    	<p>A message board that is visible to everyone, so you can post updates and times for people to see.</p>
-			    </li>
 	 		</ol>
 	 	{% endif %}
 	 	<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
