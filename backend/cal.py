@@ -201,7 +201,7 @@ def create_new_event(service, event_name, start, end, location=None, description
 			event['location'] = location
 		if (description != None):
 			event['description'] = description
-		event['description'] += "\n Scheduled by Skedg."
+		event['description'] += "\n- Scheduled by Skedg."
 		if (organizer != None):
 			event['organizer'] = organizer
 
