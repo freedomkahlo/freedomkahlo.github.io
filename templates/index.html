@@ -612,7 +612,7 @@
 		 				<h2>Event Length</h2>
 		 				<p>The duration of your event.</p>
 		 		  	</li>
-		 		  	<li data-id="create" data-button="Close" data-options="modal: true; tiplocation:top">
+		 		  	<li data-id="create" data-button="Close" data-options="tipLocation:top">
 				    	<h2>Add the Event</h2>
 				    	<p>Now what are you waiting for? Use Skedg to schedule your first event!</p>
 				    </li>
@@ -628,14 +628,14 @@
 				$('#joyRideTipContent').joyride({
 		        	autoStart : true,
 		        	preStepCallback : function (index, tip) {
-			        	if (index == 5) {
+			        	if (index == 2) {
 			        		if(!classie.has( overlay, 'open')) {
 			        			toggleOverlay();
 			        		}
 			        	}
 		        	},
 		        	postStepCallback : function (index, tip) {
-		        		if (index >= 5) {
+		        		if (index >= 2) {
 			        		if(!classie.has( overlay, 'open')) {
 				        		$('#joyRideTipContent').joyride('destroy');
 				        	}
