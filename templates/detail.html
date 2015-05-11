@@ -194,7 +194,7 @@
 														<form style="display: inline-block;" action="{% url 'manageCreator' %}" method="post">
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
-															<button class="special button" style="margin-right: -15px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: inline-block;" type="submit" id="refresh" name="refresh">Refresh Times</button>
+															<button class="special button" style="margin-right: -20px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="refresh" name="refresh">Refresh Times</button>
 															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="delete" name="delete">Delete Event</button>
 														</form>
 													</li>
@@ -338,7 +338,7 @@
 											<div class="12u 12u(narrower)">
 												<div class="column1" align ="left" style="padding-left: 15px">
 													{% if event.creator == user.username %}
-														<form style="display: none; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" id="deleteMobile" method="post">
+														<form style="display: none; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" id="creatorMobile" method="post">
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: block;" type="submit" name="refresh">Refresh Times</button>
@@ -753,10 +753,13 @@
 				$("#boot").click(function() {
 				    $("#loadingOverlay").show();
 				});
+				$("#refresh").click(function() {
+				    $("#loadingOverlay").show();
+				});
 				$("#delete").click(function() {
 				    $("#loadingOverlay").show();
 				});
-				$("#deleteMobile").click(function() {
+				$("#creatorMobile").click(function() {
 				    $("#loadingOverlay").show();
 				});
 				$("#leaveForm").click(function() {
@@ -799,7 +802,8 @@
 
 				{% if event.creator == user.username %}
 					document.getElementById('delete').style.display = 'none';
-					document.getElementById('deleteMobile').style.display = 'inline-block';
+					document.getElementById('refresh').style.display = 'none';
+					document.getElementById('creatorMobile').style.display = 'inline-block';					
 				{% endif %}
 				
 				{% if not user.is_authenticated %}	
@@ -847,8 +851,9 @@
 				{% endif %}
 				
 				{% if event.creator == user.username %}
+					document.getElementById('refresh').style.display = 'inline-block';
 					document.getElementById('delete').style.display = 'inline-block';
-					document.getElementById('deleteMobile').style.display = 'none';
+					document.getElementById('creatorMobile').style.display = 'none';
 				{% endif %}
 
 				{% if not user.is_authenticated %}	
@@ -890,8 +895,9 @@
 				{% endif %}
 
 				{% if event.creator == user.username %}
+					document.getElementById('refresh').style.display = 'inline-block';
 					document.getElementById('delete').style.display = 'inline-block';
-					document.getElementById('deleteMobile').style.display = 'none';
+					document.getElementById('creatorMobile').style.display = 'none';
 				{% endif %}
 
 				{% if not user.is_authenticated %}	
