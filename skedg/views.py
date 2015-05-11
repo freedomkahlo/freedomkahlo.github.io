@@ -66,7 +66,7 @@ def detail(request, eventID):
 # Called when a user creates an event
 @login_required
 def add(request):
-	if 'username' not in request.POST: # Not a valid request
+	if request.method != 'POST': # Not a valid request
 		return HttpResponseRedirect('/')
 
 	eventIDLength = 10
@@ -79,16 +79,8 @@ def add(request):
 	start_time=request.POST.get('start_time', '')
 	end_time=request.POST.get('end_time', '')
 	event_length=request.POST.get('event_length', '')
-	creator = request.POST['username']
+	creator = request.user.username
 	timezone = request.POST.get('timezone', 'Eastern')
-	
-	print "start date " + start_date
-	print "end date " + end_date
-	print "start time " + start_time
-	print "end time " + end_time
-	print timezone
-	print "event length" + event_length
-
 
 	# Get a unique identifier for the event
 	eventID = get_random_string(length=eventIDLength)
@@ -99,7 +91,7 @@ def add(request):
 	latest_event_list = Instance.objects.order_by('-pub_date')[:100]
 	returnMsg = {'error': '', 'latest_event_list': latest_event_list,
 			'title':title, 'desc':desc, 'start_date':start_date, 'end_date':end_date, 'start_time':start_time,
-			'end_time':end_time, 'event_length':event_length, 'creator':creator, 'timezone':timezone}
+			'end_time':end_time, 'event_length':event_length, 'timezone':timezone}
 
 	#Parse the time range
 	timeSplit = event_length.split()
@@ -387,7 +379,7 @@ def manageCreator(request):
 		return getTimes(request)
 	if 'delete' in request.POST: # Creator wants to delete their event
 		return delete(request)
-	if 'skedg' in request.POST:	# Creator wants to schedule their event	
+	if 'skedg' in request.POST and not event.is_scheduled:	# Creator wants to schedule their event	
 		invitees = event.invitee_set.all()
 		peopleList = []
 
@@ -535,6 +527,8 @@ def manageNotification(request):
 	
 # Handle registration from the event detail page
 def register(request):
+	if request.method != 'POST': #Bad request
+		return HttpResponseRedirect('/')
 	context = RequestContext(request)
 	first_name = request.POST['first_name']
 	last_name = request.POST['last_name']
@@ -590,7 +584,7 @@ http://www.skedg.tk:82/confirm/%s''' % (user.first_name, key)
 
 # Handle registration from the home page
 def registerEvent(request):
-	if 'username' not in request.POST: # Not a valid request
+	if request.method != 'POST': #Bad request
 		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	context = RequestContext(request)
 	first_name = request.POST['first_name']
