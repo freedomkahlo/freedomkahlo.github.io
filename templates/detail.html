@@ -194,7 +194,7 @@
 														<form style="display: inline-block;" action="{% url 'manageCreator' %}" method="post">
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
-															
+															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="delete" name="refresh">Refresh Times</button>
 															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="delete" name="delete">Delete Event</button>
 														</form>
 													</li>

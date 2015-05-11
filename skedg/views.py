@@ -383,7 +383,8 @@ def manageCreator(request):
 		u.save()
 
 		return getTimes(request)
-
+	if 'refresh' in request.POST:
+		return getTimes(request)
 	if 'delete' in request.POST: # Creator wants to delete their event
 		return delete(request)
 	if 'skedg' in request.POST:	# Creator wants to schedule their event	
