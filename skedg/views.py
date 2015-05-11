@@ -475,11 +475,11 @@ def manageMessage(request):
 
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
-	postAuthor = request.POST['username']
+	postAuthor = request.user.username
 
 	if 'write' in request.POST: # Someone posted on the message board
-		postFirstName = request.POST['firstName']
-		postLastName = request.POST['lastName']
+		postFirstName = request.user.first_name
+		postLastName = request.user.last_name
 		message = request.POST['message']
 		if message.replace(' ', '') == '': # Ignore blank message postings
 			return HttpResponseRedirect('/' + eventID)
@@ -521,14 +521,13 @@ def manageMessage(request):
 # Handle notification requests
 @login_required
 def manageNotification(request):
+	user = request.user
 	if 'dismiss' in request.POST: # Delete a single notification
 		n_id = request.POST.get('notificationID', -1)
 		notification = get_object_or_404(Notification, pk=n_id)
-		notification.delete()
+		if notification in user.notification_set.all():
+			notification.delete()
 	if 'clear' in request.POST: # Delete all notifications
-		if 'username' not in request.POST: # Not a valid request
-			return HttpResponseRedirect('/')
-		user = get_object_or_404(User, username=request.POST['username'])
 		for n in user.notification_set.all():
 			n.delete()
 
