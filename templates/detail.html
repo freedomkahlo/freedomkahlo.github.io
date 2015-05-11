@@ -869,7 +869,9 @@
 				{% endif %}
 
 				{% if event.creator == user.username %}
-					document.getElementById('refresh').style.display = 'inline-block';
+					{% if not event.is_scheduled %}
+						document.getElementById('refresh').style.display = 'inline-block';
+					{% endif %}
 					document.getElementById('delete').style.display = 'inline-block';
 					document.getElementById('creatorMobile').style.display = 'none';
 				{% endif %}
