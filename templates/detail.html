@@ -47,7 +47,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="{{event.title}}: {{event.desc}}, hosted by {{event.creatorName}}" />
 		<meta name="keywords" content="" />
-		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+
 		<script src="{% static 'js/jquery.min.js' %}"></script>
 		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
@@ -66,57 +66,39 @@
 			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
 			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
 		</noscript>
-		<script type="text/javascript">
-			$(function(){
-				{% if registered %}
-					//Created event
-					alert('You have successfully registered.')
-				{% endif %}
-
-				{% if messages %}
-					{% for message in messages %}
-						alert('{{message}}');
-					{% endfor %}
-				{% endif %}
-			});
-		</script>
-
-		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
-		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
 	</head>
 	<body class="no-sidebar">
 
 		<!-- Header -->
-			<header id="header" class="skel-layers-fixed" style="display: none;">
-				{% if user.is_authenticated %}
-				<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
-				{% else %}
-				<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Let us check your schedule!  </span></a></h1>
-				{% endif %}
-				<nav id="nav">
-					<ul>
-						<li ><a href="/">Home</a></li>
-						{% if user.is_authenticated %}		
-						<li>
-							<form action="{% url 'userPage' %}" method="post" style="display: inline-block;">
-								{% csrf_token %}
-								<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
-								<button type="submit" class="special button" name="userPage">My Account</button>
-							</form>
-							<a href="/userPage" style="display:none">My Account</a>
-						</li>
-						<li><a class="special button" href="/logout/">Logout</a></li>
-						{% else %}
-						<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special ">Login</a></li>
-						<li><a href="javascript:void(0);" id="trigger-overlay-two" class="links button special ">Register</a></li>
-						{% endif %}
-						
-					</ul>
-				</nav>
-			</header>
+		<header id="header" class="skel-layers-fixed" style="display: none;">
+			{% if user.is_authenticated %}
+			<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
+			{% else %}
+			<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Let us check your schedule!  </span></a></h1>
+			{% endif %}
+			<nav id="nav">
+				<ul>
+					<li ><a href="/">Home</a></li>
+					{% if user.is_authenticated %}		
+					<li>
+						<form action="{% url 'userPage' %}" method="post" style="display: inline-block;">
+							{% csrf_token %}
+							<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
+							<button type="submit" class="special button" name="userPage">My Account</button>
+						</form>
+						<a href="/userPage" style="display:none">My Account</a>
+					</li>
+					<li><a class="special button" href="/logout/">Logout</a></li>
+					{% else %}
+					<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special ">Login</a></li>
+					<li><a href="javascript:void(0);" id="trigger-overlay-two" class="links button special ">Register</a></li>
+					{% endif %}
+				</ul>
+			</nav>
+		</header>
 
 		<!-- Loading Overlay -->
-			<div class="loading" id="loadingOverlay" style="display:none">Loading&#8230;</div>
+		<div class="loading" id="loadingOverlay" style="display:none">Loading&#8230;</div>
 		
 		<!-- Main -->
 			<article id="main">
@@ -953,5 +935,19 @@
 		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
 		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
 		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  
+		<script type="text/javascript">
+			$(function(){
+				{% if registered %}
+					//Created event
+					alert('You have successfully registered.')
+				{% endif %}
+
+				{% if messages %}
+					{% for message in messages %}
+						alert('{{message}}');
+					{% endfor %}
+				{% endif %}
+			});
+		</script>
 	</body>
 </html>
