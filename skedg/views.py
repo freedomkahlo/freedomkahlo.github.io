@@ -422,9 +422,9 @@ def manageInvitee(request):
 	# Get user/event information
 	eventID = request.POST.get('eventID', -1)
 	event = get_object_or_404(Instance, eventID=eventID)
-	username = request.POST['username']
-	firstName = request.POST['firstName']
-	lastName = request.POST['lastName']
+	username = request.user.username
+	firstName = request.user.first_name
+	lastName = request.user.last_name
 
 	if 'join' in request.POST: # If the user wants join the event
 		invitee = Invitee(name=username, firstName=firstName, lastName=lastName)
@@ -752,7 +752,7 @@ def user_logout(request):
 def vetoPoss(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
-	invitee = event.invitee_set.all().get(name=request.POST['username'])
+	invitee = event.invitee_set.all().get(name=request.user.username)
 	invitee.hasVoted = True
 	invitee.save()
 	possTimes = event.posstime_set.all()
