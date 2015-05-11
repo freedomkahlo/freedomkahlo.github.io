@@ -62,33 +62,25 @@
 		<script src="{% static 'js/jquery.ui.touch-punch.js' %}"></script>
 		<script src="{% static 'js/jquery.joyride-2.1.js' %}"></script> 
 
-		<!-- I am perfectly capable of putting this in a new file myself, BUT I HAVE TOLD YOU CHUMPS LIKE FIVE TIMES TO DO THIS SO I'M
-		CARRYING THIS OVER TO PROVE A POINT. -->
 		<script>
-		$(function(){
-			//Set default for create event
-			{% if not start_time %}
-				$("#start_time").val("12:00 PM");
-				$("#end_time").val("2:00 PM");
-				$("#event_length").val("1 hour");
-				$("#start_time2").val("12:00 PM");
-				$("#end_time2").val("2:00 PM");
-				$("#event_length2").val("1 hour");
-				//Get current date
-				var d = new Date();
-				var dString = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
-				$("#from").val(dString);
-				$("#to").val(dString);
-				$("#from2").val(dString);
-				$("#to2").val(dString);
-			{% endif %}
-
-			{% if messages %}
-				{% for message in messages %}
-					alert('{{message}}');
-				{% endfor %}
-			{% endif %}
-		});
+			$(function(){
+				//Set default values for create event
+				{% if not start_time %}
+					$("#start_time").val("12:00 PM");
+					$("#end_time").val("2:00 PM");
+					$("#event_length").val("1 hour");
+					$("#start_time2").val("12:00 PM");
+					$("#end_time2").val("2:00 PM");
+					$("#event_length2").val("1 hour");
+					//Get current date
+					var d = new Date();
+					var dString = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
+					$("#from").val(dString);
+					$("#to").val(dString);
+					$("#from2").val(dString);
+					$("#to2").val(dString);
+				{% endif %}
+			});
 		</script>
 
 		<script type="text/javascript">
@@ -118,271 +110,7 @@
 			});
 		</script>
 
-		<!-- JQuery Date Picker-->
-		<script>
-			$(function() {
-				$( "#from" ).datepicker({
-					defaultDate: "+0d",
-					changeMonth: false,
-					numberOfMonths: 1,
-					onClose: function( selectedDate ) {
-						$( "#to" ).datepicker( "option", "minDate", selectedDate );
-					}
-				});
-				$( "#to" ).datepicker({
-					defaultDate: "+0d",
-					changeMonth: false,
-					numberOfMonths: 1,
-					onClose: function( selectedDate ) {
-						$( "#from" ).datepicker( "option", "maxDate", selectedDate );
-					}
-				});
-				$( "#from2" ).datepicker({
-					defaultDate: "+0d",
-					changeMonth: false,
-					numberOfMonths: 1,
-					onClose: function( selectedDate ) {
-						$( "#to" ).datepicker( "option", "minDate", selectedDate );
-					}
-				});
-				$( "#to2" ).datepicker({
-					defaultDate: "+0d",
-					changeMonth: false,
-					numberOfMonths: 1,
-					onClose: function( selectedDate ) {
-						$( "#from" ).datepicker( "option", "maxDate", selectedDate );
-					}
-				});
-				$("#from").datepicker().datepicker("setDate", new Date());
-				$("#to").datepicker().datepicker("setDate", new Date());
-				$("#from2").datepicker().datepicker("setDate", new Date());
-				$("#to2").datepicker().datepicker("setDate", new Date());
-			});
-		</script>
-
-		<!-- JQuery Time Picker-->
-		<script>
-			$(function(){
-				var time = $("#start_time").val();
-				var start_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
-				$( "#start_slider" ).slider({
-					min: 0,
-					max: 1425,
-					step: 15,
-					value: start_minutes, //Set it to the current time
-					slide: function(e, ui) {
-						var hours = Math.floor(ui.value / 60);
-						var minutes = ui.value - (hours * 60);
-
-						if(hours.length == 1) hours = '0' + hours;
-						if(minutes.length == 1) minutes = '0' + minutes;
-						if(minutes == 0) minutes = '00';
-
-						if(hours >= 12){
-
-							if (hours == 12){
-								minutes = minutes + " PM";
-							}
-							else{
-								hours = hours - 12;
-								minutes = minutes + " PM";
-							}
-						}
-
-						else{
-							minutes = minutes + " AM";
-						}
-						if (hours == 0){
-							hours = 12;
-						}
-						$("#start_time").val(hours+":"+minutes)
-					}
-				});
-
-				var time = $("#start_time2").val();
-				var start_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
-				$( "#start_slider2" ).slider({
-					min: 0,
-					max: 1425,
-					step: 15,
-					value: start_minutes, //Set it to the current time
-					slide: function(e, ui) {
-						var hours = Math.floor(ui.value / 60);
-						var minutes = ui.value - (hours * 60);
-
-						if(hours.length == 1) hours = '0' + hours;
-						if(minutes.length == 1) minutes = '0' + minutes;
-						if(minutes == 0) minutes = '00';
-
-						if(hours >= 12){
-
-							if (hours == 12){
-								minutes = minutes + " PM";
-							}
-							else{
-								hours = hours - 12;
-								minutes = minutes + " PM";
-							}
-						}
-
-						else{
-							minutes = minutes + " AM";
-						}
-						if (hours == 0){
-							hours = 12;
-						}
-						$("#start_time2").val(hours+":"+minutes)
-					}
-				});
-
-				var time = $("#end_time").val();
-				var end_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
-				$( "#end_slider" ).slider({
-					min: 0,
-					max: 1425,
-					step: 15,
-					value: end_minutes, //Set it to the current time
-					slide: function(e, ui) {
-						var hours = Math.floor(ui.value / 60);
-						var minutes = ui.value - (hours * 60);
-
-						if(hours.length == 1) hours = '0' + hours;
-						if(minutes.length == 1) minutes = '0' + minutes;
-						if(minutes == 0) minutes = '00';
-
-						if(hours >= 12){
-
-							if (hours == 12){
-								minutes = minutes + " PM";
-							}
-							else{
-								hours = hours - 12;
-								minutes = minutes + " PM";
-							}
-						}
-
-						else{
-							minutes = minutes + " AM";
-						}
-						if (hours == 0){
-							hours = 12;
-						}
-						$("#end_time").val(hours+":"+minutes)
-					}
-				});
-
-				var time = $("#end_time2").val();
-				var end_minutes = Date.parse("January 1, 1970, " + time + " UTC") / (60 * 1000);
-				$( "#end_slider2" ).slider({
-					min: 0,
-					max: 1425,
-					step: 15,
-					value: end_minutes, //Set it to the current time
-					slide: function(e, ui) {
-						var hours = Math.floor(ui.value / 60);
-						var minutes = ui.value - (hours * 60);
-
-						if(hours.length == 1) hours = '0' + hours;
-						if(minutes.length == 1) minutes = '0' + minutes;
-						if(minutes == 0) minutes = '00';
-
-						if(hours >= 12){
-
-							if (hours == 12){
-								minutes = minutes + " PM";
-							}
-							else{
-								hours = hours - 12;
-								minutes = minutes + " PM";
-							}
-						}
-
-						else{
-							minutes = minutes + " AM";
-						}
-						if (hours == 0){
-							hours = 12;
-						}
-						$("#end_time2").val(hours+":"+minutes)
-					}
-				});
-			});
-		</script>
-
-		<!-- Slider for event length -->
-		<script>
-			$(function(){
-				var eventLength = $("#event_length").val().split(' ');
-				var lengthPos;
-				if (eventLength.length == 4)
-					lengthPos = parseInt(eventLength[0]) * 60 + parseInt(eventLength[2]);
-				else {
-					if (eventLength[1].charAt(0) == 'h') //only hours
-						lengthPos = parseInt(eventLength[0]) * 60;
-					else //Only minutes
-						lengthPos = parseInt(eventLength[0]);
-				}
-				$("#eventLengthSlider").slider(
-				{
-					value:lengthPos,
-					min: 15,
-					max: 480,
-					step: 15,
-					slide: function( event, ui ) {
-						var hours = Math.floor(ui.value / 60);
-						var minutes = ui.value - (hours * 60);
-
-						var output = "";
-						if (hours == 1)
-							output = output + "1 hour";
-						if (hours > 1)
-							output = output + hours + " hours";
-
-						if (minutes > 0) {
-							if (hours > 0)
-								output = output + " ";
-							output = output + minutes + " minutes";
-						}
-						$( "#event_length" ).val(output);
-					}
-				});
-
-				var eventLength = $("#event_length2").val().split(' ');
-				var lengthPos;
-				if (eventLength.length == 4)
-					lengthPos = parseInt(eventLength[0]) * 60 + parseInt(eventLength[2]);
-				else {
-					if (eventLength[1].charAt(0) == 'h') //only hours
-						lengthPos = parseInt(eventLength[0]) * 60;
-					else //Only minutes
-						lengthPos = parseInt(eventLength[0]);
-				}
-				$("#eventLengthSlider2").slider(
-				{
-					value:lengthPos,
-					min: 15,
-					max: 480,
-					step: 15,
-					slide: function( event, ui ) {
-						var hours = Math.floor(ui.value / 60);
-						var minutes = ui.value - (hours * 60);
-
-						var output = "";
-						if (hours == 1)
-							output = output + "1 hour";
-						if (hours > 1)
-							output = output + hours + " hours";
-
-						if (minutes > 0) {
-							if (hours > 0)
-								output = output + " ";
-							output = output + minutes + " minutes";
-						}
-						$( "#event_length2" ).val(output);
-					}
-				});
-			});
-		</script>
+		<script src="{% static 'js/createEvent.js' %}"></script>
 
 		<noscript>
 			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
@@ -919,89 +647,16 @@
 		<script src="{% static 'js/indexOverlay.js' %}"></script>
 
 		<!-- Mobile Linking -->
+		<script src="{% static 'js/indexMobile.js' %}"></script>
+
 		<script type='text/javascript'>
-			function mobileModification() {
-				document.getElementById('boxedForm').style.display = 'none';
-				document.getElementById('boxedFormMobile').style.display = 'block';
-				document.getElementById('eventsForm').style.display = 'none';
-				document.getElementById('eventsFormMobile').style.display = 'block';
-				document.getElementById('header').style.display = 'none';
-				document.getElementById('calendarLink').style.display = 'none';
-				document.getElementById('notification_li').style.display = 'none';
-				var triggerBttn = document.getElementsByClassName( 'depth-0' );
-				$(triggerBttn[0]).click(function(){
-					location.href='/userPage';
-				})
-			
-				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
-				for (i = 0; i < wrapperStyle4Container.length; i++) {
-					wrapperStyle4Container[i].style.paddingLeft = '1em';
-					wrapperStyle4Container[i].style.paddingRight = '1em';
-				}
-			}
-
-			function narrowerModification() {
-				document.getElementById('boxedForm').style.display = 'none';
-				document.getElementById('boxedFormMobile').style.display = 'block';
-				document.getElementById('eventsForm').style.display = 'none';
-				document.getElementById('eventsFormMobile').style.display = 'block';
-				document.getElementById('header').style.display = 'none';
-				document.getElementById('calendarLink').style.display = 'inline-block';
-				document.getElementById('notification_li').style.display = 'inline-block';
-				var triggerBttn = document.getElementsByClassName( 'depth-0' );
-				$(triggerBttn[0]).click(function(){
-					location.href='/userPage';
-				})
-
-				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
-				for (i = 0; i < wrapperStyle4Container.length; i++) {
-					wrapperStyle4Container[i].style.paddingLeft = '1em';
-					wrapperStyle4Container[i].style.paddingRight = '1em';
-				}
-			}
-
-			function createEventMobileReset() {
-				document.getElementById('boxedForm').style.display = 'block';
-				document.getElementById('boxedFormMobile').style.display = 'none';
-				document.getElementById('eventsForm').style.display = 'block';
-				document.getElementById('eventsFormMobile').style.display = 'none';
-				document.getElementById('header').style.display = 'block';
-				document.getElementById('calendarLink').style.display = 'inline-block';
-				document.getElementById('notification_li').style.display = 'inline-block';
-
-				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
-				for (i = 0; i < wrapperStyle4Container.length; i++) {
-					wrapperStyle4Container[i].style.paddingLeft = '4em';
-					wrapperStyle4Container[i].style.paddingRight = '4em';
-				}
-			}
-
-			var bounds = [
-			    {min:0,max:736,func:mobileModification},
-			    {min:737,max:840,func:narrowerModification},
-			    {min:841,func:createEventMobileReset}
-			];
-
-			var resizeFn = function(){
-			    var lastBoundry; // cache the last boundry used
-			    return function(){
-			        var width = window.innerWidth;
-			        var boundry, min, max;
-			        for(var i=0; i<bounds.length; i++){
-			            boundry = bounds[i];
-			            min = boundry.min || Number.MIN_VALUE;
-			            max = boundry.max || Number.MAX_VALUE;
-			            if(width > min && width < max 
-			               && lastBoundry !== boundry){
-			                lastBoundry = boundry;
-			                return boundry.func.call(boundry);            
-			            }
-			        }
-			    }
-			};
-			$(window).resize(resizeFn());
-			$(document).ready(function(){
-			    $(window).trigger('resize');
+			// Pop up any important messages from the server side
+			$(function(){
+				{% if messages %}
+					{% for message in messages %}
+						alert('{{message}}');
+					{% endfor %}
+				{% endif %}
 			});
 		</script>
 
