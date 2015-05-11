@@ -576,17 +576,41 @@
 				    	<h2>User Page</h2>
 				    	<p>Congratulations on creating your account! Skedg has many great features, and click "Next" to discover what we have to offer!</p>
 				    </li>
+				    <li data-id="myEventsCol" data-button="Next" data-options="tipLocation:top">
+				    	<h2>Your Events</h2>
+				    	<p>All your pending, upcoming, and past events that you have <strong>created</strong>.</p>
+				    </li>
+				    <li data-id="otherEventsCol" data-button="Next" data-options="tipLocation:top">
+				    	<h2>Other Events</h2>
+				    	<p>All your pending, upcoming, and past events that you have <strong>joined</strong>.</p>
+				    </li>
+				    <li data-id="notification_li" data-button="Next">
+				    	<h2>Notifications</h2>
+				    	<p>Notifications on any events you are affiliated with.</p>
+				    </li>
 		 			<li data-id="trigger-overlay" data-text="Next">
 		 				<h2>Create Event</h2>
-		 				<p>Click "next" to learn how to schedule your first event!</p>
+		 				<p>Click to learn how to schedule your first event!</p>
 		 		  	</li>
 				 	<li data-id="from" data-button="Next" data-options="tipLocation:left">
-		 				<h2>Start/End Date</h2>
-		 				<p>The first/last possible days for your event.</p>
+		 				<h2>Start Date</h2>
+		 				<p>The first possible day for your event.</p>
+		 		  	</li>
+		 		  	<li data-id="to" data-button="Next" data-options="tipLocation:bottom">
+		 				<h2>End Date</h2>
+		 				<p>The last possible day for your event.</p>
 		 		  	</li>
 		 		  	<li data-id="start_time" data-button="Next" data-options="tipLocation:right">
-		 				<h2>Start/End Time</h2>
-		 				<p>The earliest start/latest end time for your event.</p>
+		 				<h2>Start Time</h2>
+		 				<p>The earliest start time for your event.</p>
+		 		  	</li>
+		 		  	<li data-id="end_time" data-button="Next" data-options="tipLocation:right">
+		 				<h2>End Time</h2>
+		 				<p>The latest end time for your event.</p>
+		 		  	</li>
+		 		  	<li data-id="event_length" data-button="Next" data-options="tipLocation:right">
+		 				<h2>Event Length</h2>
+		 				<p>The duration of your event.</p>
 		 		  	</li>
 		 		  	<li data-id="create" data-button="Close" data-options="modal: true; tiplocation:top">
 				    	<h2>Add the Event</h2>
@@ -604,14 +628,14 @@
 				$('#joyRideTipContent').joyride({
 		        	autoStart : true,
 		        	preStepCallback : function (index, tip) {
-			        	if (index == 1) {
+			        	if (index == 5) {
 			        		if(!classie.has( overlay, 'open')) {
 			        			toggleOverlay();
 			        		}
 			        	}
 		        	},
 		        	postStepCallback : function (index, tip) {
-		        		if (index >= 1) {
+		        		if (index >= 5) {
 			        		if(!classie.has( overlay, 'open')) {
 				        		$('#joyRideTipContent').joyride('destroy');
 				        	}

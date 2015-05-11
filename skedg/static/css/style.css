@@ -1,3 +1,4 @@
+@import url("font-awesome.min.css");
 @import url("http://fonts.googleapis.com/css?family=Lato:300,400,900");
 
 	#bumping {
@@ -36,6 +37,7 @@
 	#messagesContainer {
 		background-color: #fff;
 		border: 1px solid rgba(100, 100, 100, .4);
+		/*-webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);*/
 		z-index: 10;
 		padding-right: 5px;
 		padding-left: 5px;
@@ -65,6 +67,7 @@
 		height: 300px;
 		z-index: 11;
 		background-color: #ffffff;
+		/*height: 300px;*/
 		width: %;
 		overflow-y: scroll;
 		word-wrap: break-word;
@@ -395,6 +398,7 @@
 		padding: -33px 0px 0px 0px !important;
 		height: 300px;
 		z-index: 11;
+		/*height: 300px;*/
 		overflow-y: scroll;
 		word-wrap: break-word;
 		line-height: 1.2em;
@@ -461,7 +465,11 @@
 	    margin-right:-10px;
 	    cursor:pointer;
 	    color: #fff;
+	    /*border: 1px solid #AEAEAE;*/
+	    /*border-radius: 30px;*/
+	    /*background: #605F61;*/
 	    font-size: 18px;
+	    /*height: 20px;*/
 	    font-weight: bold;
 	    display: inline-block;
 	    line-height: 0px;
@@ -489,6 +497,7 @@
 		width: 30px;
 		height: 30px;
 		float: right;
+		/*margin-top: -10%;*/
 		position: absolute;
 		right: 30px;
 		top: 80px;
@@ -679,6 +688,7 @@
 	}
 
 /* Basic */
+
 	body, #skel-layers-wrapper {
 		background: #f3f6fa;
 	}
