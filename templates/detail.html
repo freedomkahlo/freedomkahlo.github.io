@@ -177,8 +177,8 @@
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
 															{% if not event.is_scheduled %}
-																<button class="special button" style="margin-right: 5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="refresh" name="refresh">Refresh Times</button>
-															{% endif %}
+																<button class="special button" style="margin-right: 5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="refresh" name="refresh">Refresh Times</button>  
+															{% endif %} 
 															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="delete" name="delete">Delete Event</button>
 														</form>
 													</li>
