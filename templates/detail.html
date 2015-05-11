@@ -323,6 +323,7 @@
 														<form style="display: none; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" id="creatorMobile" method="post">
 															{% csrf_token %}
 															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
+															{{event.is_scheduled}}
 															{% if not event.is_scheduled %}
 																<button class="special button" style="margin-right: 0px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: block;" type="submit" name="refresh">Refresh Times</button>
 															{% endif %}
