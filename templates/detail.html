@@ -673,9 +673,9 @@
 		<!-- Scroll to bottom of messages -->
 		<script>
 			$(document).ready(function(){
-				var objDiv = document.getElementsByClassName("messageScroll");
-				objDiv[0].scrollTop = objDiv[0].scrollHeight;
-				console.log(objDiv[0].scrollHeight);
+				var objDiv = document.getElementById("messagesBody");
+				objDiv.scrollTop = objDiv.scrollHeight;
+				console.log(objDiv.scrollHeight);
 			});	
 		</script>
 
