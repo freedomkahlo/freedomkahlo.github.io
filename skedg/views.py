@@ -365,6 +365,11 @@ def manageCreator(request):
 
 	if 'boot' in request.POST: # Creator wants to boot some malicious user from their event
 		i_name = request.POST['invitee_name']
+
+		inviteeSet = event.invitee_set.all()
+		if inviteeSet.filter(name__iexact=i_name).count() == 0:
+			return HttpResponseRedirect('/' + eventID)
+
 		invitee = event.invitee_set.get(name=i_name)
 		invitee.delete()
 
