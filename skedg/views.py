@@ -431,6 +431,12 @@ def manageInvitee(request):
 	lastName = request.user.last_name
 
 	if 'join' in request.POST: # If the user wants join the event
+		# Check if user is already in the invitee list.
+		inviteeSet = event.invitee_set.all()
+		if inviteeSet.filter(name__iexact=username).count() != 0:
+			return HttpResponseRedirect('/' + eventID)
+		invitee = inviteeSet.get(name=username)
+
 		invitee = Invitee(name=username, firstName=firstName, lastName=lastName)
 		event.invitee_set.add(invitee)
 
@@ -447,6 +453,8 @@ def manageInvitee(request):
 
 	if 'decline' in request.POST: # If the user wants to leave the event
 		inviteeSet = event.invitee_set.all()
+		if inviteeSet.filter(name__iexact=username).count() == 0:
+			return HttpResponseRedirect('/' + eventID)
 		invitee = inviteeSet.get(name=username)
 		invitee.delete()
 
