@@ -65,7 +65,7 @@ class Instance(models.Model):
 	def printScheduledTime(self):
 		tz = pytz.timezone('US/' + self.timezone)
 		return ((self.scheduled_start.astimezone(tz)).strftime("%b %d") + ", "
-			+ (self.scheduled_start.astimezone(tz)).strftime("%I:%M %p").replace(' 0', ' ')
+			+ (self.scheduled_start.astimezone(tz)).strftime("%I:%M %p").lstrip("0")
 			+ " - " + (self.scheduled_end.astimezone(tz)).strftime("%I:%M %p %Z").lstrip("0"))
 
 	@property
