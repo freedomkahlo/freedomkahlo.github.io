@@ -623,23 +623,33 @@ def registerEvent(request):
 		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	context = RequestContext(request)
 
+	print "1"
+
 	if 'first_name' not in request.POST:
 		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	first_name = request.POST['first_name']
+
+	print "2"
 	
 	if 'last_name' not in request.POST:
 		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	last_name = request.POST['last_name']
 	
+	print "3"
+
 	if 'email' not in request.POST:
 		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	email = request.POST['username']
+
+	print "4"
 
 	if 'eventID' not in request.POST: # Not a valid request
 		return HttpResponseRedirect('/')
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 
+	print "5"
+	
 	saveInfo = {'first_name':first_name, 'last_name':last_name, 'email':email, 'event':event}
 	registered = False
 
