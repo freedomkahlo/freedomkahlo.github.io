@@ -21,7 +21,7 @@ class UserForm(forms.ModelForm):
 			raise ValidationError("Passwords don't match")
 		email = self.cleaned_data.get('username')
 		validate_email(email)
-		if User.objects.filter(username=email).exists():
+		if User.objects.filter(username=email.lower()).exists():
 			raise ValidationError("This email is already used")
 		if (not self.cleaned_data.get('first_name')) or (not self.cleaned_data.get('last_name')):
 			raise ValidationError("Please enter your name")
