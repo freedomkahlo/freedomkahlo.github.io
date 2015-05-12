@@ -583,14 +583,14 @@
 																	{% endif %}
 																</div>
 															</div>
-																{% if event.posstime_set.all|length == 0 %}
-																	{% if event.is_scheduled %}
-																		<p> The event has already been scheduled. </p>
-																	{% else %}
-																		<p> No times found. </p>
-																	{% endif %}
+																{% if event.is_scheduled %}
+																	<p> The event has already been scheduled. </p>
 																{% else %}
-																	<input class="button special" type="submit" name="veto" value="add conflict" id="veto"/>
+																	{% if event.posstime_set.all|length == 0 %}
+																		<p> No times found. </p>
+																	{% else %}
+																		<input class="button special" type="submit" name="veto" value="add conflict" id="veto"/>
+																	{% endif %}
 																{% endif %}
 														</form>
 													{% endif %}
