@@ -161,6 +161,8 @@ def delete(request):
 # Delete all of the possible times that have already elapsed
 def deletePastPossTimes(request, eventID=None):
 	if eventID == None:
+		if 'eventID' not in request.POST: # Not a valid request
+			return HttpResponseRedirect('/')
 		eventID = request.POST['eventID']
 
 	event = get_object_or_404(Instance, eventID=eventID)
@@ -490,6 +492,9 @@ def manageMessage(request):
 	if 'write' in request.POST: # Someone posted on the message board
 		postFirstName = request.user.first_name
 		postLastName = request.user.last_name
+
+		if 'message' not in request.POST:
+			return HttpResponseRedirect('/' + eventID)
 		message = request.POST['message']
 		if message.replace(' ', '') == '': # Ignore blank message postings
 			return HttpResponseRedirect('/' + eventID)
@@ -515,6 +520,8 @@ def manageMessage(request):
 			u2.save()
 
 	if 'erase' in request.POST: #delete message by the event creator
+		if 'messageID' not in request.POST:
+			return HttpResponseRedirect('/' + eventID)
 		message = get_object_or_404(Message, pk=request.POST['messageID'])
 		
 		# Tell message creator that his message has been deleted
@@ -548,9 +555,19 @@ def register(request):
 	if request.method != 'POST': #Bad request
 		return HttpResponseRedirect('/')
 	context = RequestContext(request)
+	
+	if 'first_name' not in request.POST:
+		return HttpResponseRedirect('/')
 	first_name = request.POST['first_name']
+	
+	if 'last_name' not in request.POST:
+		return HttpResponseRedirect('/')
 	last_name = request.POST['last_name']
+	
+	if 'email' not in request.POST:
+		return HttpResponseRedirect('/')
 	email = request.POST['username']
+	
 	saveInfo = {'first_name':first_name, 'last_name':last_name, 'email':email}
 
 	if request.method == 'POST':
@@ -605,11 +622,24 @@ def registerEvent(request):
 	if request.method != 'POST': #Bad request
 		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	context = RequestContext(request)
+
+	if 'first_name' not in request.POST:
+		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	first_name = request.POST['first_name']
+	
+	if 'last_name' not in request.POST:
+		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	last_name = request.POST['last_name']
+	
+	if 'email' not in request.POST:
+		return HttpResponseRedirect('/' + request.POST.get('eventID', ''))
 	email = request.POST['username']
-	eventID = request.POST.get('eventID', '')
+
+	if 'eventID' not in request.POST: # Not a valid request
+		return HttpResponseRedirect('/')
+	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
+
 	saveInfo = {'first_name':first_name, 'last_name':last_name, 'email':email, 'event':event}
 	registered = False
 
@@ -787,7 +817,7 @@ def vetoPoss(request):
 
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
-		if not possTimes.filter(id__iexact=pID).count() == 1:
+		if possTimes.filter(id__iexact=pID).count() != 1:
 			return HttpResponseRedirect('/' + eventID)
 		
 		p = possTimes.get(id=pID)
