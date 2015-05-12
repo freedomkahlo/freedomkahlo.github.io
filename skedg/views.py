@@ -361,7 +361,7 @@ def manageCreator(request):
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 	if request.user.username != event.creator: #If someone tried to artificially generate a request to do creator only options, do nothing
-		return HttpResponseRedirect('/')
+		return HttpResponseRedirect('/' + eventID)
 
 	if 'boot' in request.POST: # Creator wants to boot some malicious user from their event
 		i_name = request.POST['invitee_name']
@@ -376,10 +376,14 @@ def manageCreator(request):
 
 		return getTimes(request)
 	if 'refresh' in request.POST:
+		if event.is_scheduled:
+			return HttpResponseRedirect('/' + eventID)
 		return getTimes(request)
 	if 'delete' in request.POST: # Creator wants to delete their event
 		return delete(request)
-	if 'skedg' in request.POST and not event.is_scheduled:	# Creator wants to schedule their event	
+	if 'skedg' in request.POST:	# Creator wants to schedule their event	
+		if event.is_scheduled:
+			return HttpResponseRedirect('/' + eventID)
 		invitees = event.invitee_set.all()
 		peopleList = []
 
@@ -411,7 +415,7 @@ def manageCreator(request):
 		
 		return HttpResponseRedirect('/' + eventID)
 
-	return HttpResponseRedirect('/')
+	return HttpResponseRedirect('/' + eventID)
 
 #user can join, remove self, and vote
 @login_required
