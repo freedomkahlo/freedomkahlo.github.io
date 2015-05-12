@@ -167,7 +167,6 @@
 									<h3> <font color="red">{{error}} </font></h3>
 									<form action="{% url 'add' %}" method="post">    
 										{% csrf_token %}
-										<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
 										<div class="row">
 											<div class="6u 12u(narrower)">
 												Title: <input type="text" style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 90%; border-radius: 5px;" name="title" id="title" size="50" value="{{ title }}">
@@ -217,7 +216,6 @@
 									<h3> <font color="red">{{error}} </font></h3>
 									<form action="{% url 'add' %}" method="post">    
 										{% csrf_token %}
-										<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"</input></span>
 										<div class="row" style="margin: 0 auto; margin-top: -50px">
 											<div class="12u 12u">
 												Title: <input type="text" style="border:1px solid #000000; margin-bottom: 10px; width: 90%; border-radius: 5px;" name="title" id="title" size="50" value="{{ title }}">
