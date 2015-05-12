@@ -340,6 +340,7 @@ def getTimes(request, eventID=None):
 			if t['participants'].find(vetoed.invitee.name) > -1:
 				t['participants'] = t['participants'].replace(', ' + vetoed.invitee.name, '')
 				t['participants'] = t['participants'].replace(vetoed.invitee.name + ', ', '')
+				t['participants'] = t['participants'].replace(vetoed.invitee.name, '')
 				t['numFree'] -= 1
 				t['priority'] += 1000
 
