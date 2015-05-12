@@ -812,8 +812,8 @@ def vetoPoss(request):
 	invitee.save()
 	possTimes = event.posstime_set.all()
 
-	if 'vetoTimes' not in request.POST:
-		return HttpResponseRedirect('/' + eventID)
+	#if 'vetoTimes' not in request.POST:
+#		return HttpResponseRedirect('/' + eventID)
 
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
