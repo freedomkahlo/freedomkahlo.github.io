@@ -451,27 +451,29 @@
 														{% endif %}
 
 														<!-- <div id="timesForm"> -->
-														{% for time in event.posstime_set.all %}
-															{% if forloop.counter <= 3 %}
-																<div class="4u 12u(narrower)">
-																	<div style="display: block">
-																		<section style="background-color: #645862; border-radius: 10px; padding:5px;">
-																		<form action="{% url 'manageCreator' %}" method="post">
-																			{% csrf_token %}
-																			<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-																			<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
-																			<button class="icon fa-clock-o skedgeClass" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
-																			<header>
-																				<h3> {{ time.date }} </h3>
-																				<p> {{ time.time }} </p>
-																				<p id="attendees"> {{ time.people }} </p>
-																			</header>
-																		</form>
-																		</section>
+														{% if not event.is_scheduled %}
+															{% for time in event.posstime_set.all %}
+																{% if forloop.counter <= 3 %}
+																	<div class="4u 12u(narrower)">
+																		<div style="display: block">
+																			<section style="background-color: #645862; border-radius: 10px; padding:5px;">
+																			<form action="{% url 'manageCreator' %}" method="post">
+																				{% csrf_token %}
+																				<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+																				<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
+																				<button class="icon fa-clock-o skedgeClass" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
+																				<header>
+																					<h3> {{ time.date }} </h3>
+																					<p> {{ time.time }} </p>
+																					<p id="attendees"> {{ time.people }} </p>
+																				</header>
+																			</form>
+																			</section>
+																		</div>
 																	</div>
-																</div>
-															{% endif %}
-														{% endfor %}
+																{% endif %}
+															{% endfor %}
+														{% endif %}
 													</div>
 
 													<!-- Mobile -->
@@ -485,23 +487,25 @@
 														{% endif %}
 
 														<!-- <div id="timesForm"> -->
-														{% for time in event.posstime_set.all %}
-															{% if forloop.counter <= 3 %}
-																<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 10px auto;">
-																<form action="{% url 'manageCreator' %}" method="post" class="skedgeClass">
-																	{% csrf_token %}
-																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
-																	<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
-																	<button class="icon fa-clock-o" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
-																	<header>
-																		<h3> {{ time.date }} </h3>
-																		<p> {{ time.time }} </p>
-																		<p id="attendees"> {{ time.people }} </p>
-																	</header>
-																</form>
-																</section>
-															{% endif %}
-														{% endfor %}
+														{% if not event.is_scheduled %}
+															{% for time in event.posstime_set.all %}
+																{% if forloop.counter <= 3 %}
+																	<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 10px auto;">
+																	<form action="{% url 'manageCreator' %}" method="post" class="skedgeClass">
+																		{% csrf_token %}
+																		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+																		<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
+																		<button class="icon fa-clock-o" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
+																		<header>
+																			<h3> {{ time.date }} </h3>
+																			<p> {{ time.time }} </p>
+																			<p id="attendees"> {{ time.people }} </p>
+																		</header>
+																	</form>
+																	</section>
+																{% endif %}
+															{% endfor %}
+														{% endif %}
 													</div>
 												</div>
 
