@@ -429,7 +429,7 @@ def manageInvitee(request):
 		return HttpResponseRedirect('/')
 
 	# Get user/event information
-	eventID = request.POST.get('eventID', -1)
+	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 	username = request.user.username
 	firstName = request.user.first_name
@@ -473,6 +473,8 @@ def manageInvitee(request):
 		else:
 			return HttpResponseRedirect('/' + eventID)
 	if 'veto' in request.POST: # Handle the case if the user added a conflict
+		if event.is_scheduled: # cannot veto anything if event is already scheduled...
+			return HttpResponseRedirect('/' + eventID)
 		return vetoPoss(request)
 
 # Manage the message board
@@ -481,7 +483,7 @@ def manageMessage(request):
 	if 'eventID' not in request.POST: # Not a valid request
 		return HttpResponseRedirect('/')
 
-	eventID = request.POST.get('eventID', -1)
+	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
 	postAuthor = request.user.username
 
@@ -766,14 +768,28 @@ def user_logout(request):
 
 # Handles when an invitee to an event adds a conflict
 def vetoPoss(request):
+	if 'eventID' not in request.POST: # Not a valid request
+		return HttpResponseRedirect('/')
 	eventID = request.POST['eventID']
 	event = get_object_or_404(Instance, eventID=eventID)
-	invitee = event.invitee_set.all().get(name=request.user.username)
+
+	inviteeSet = event.invitee_set.all()
+	if inviteeSet.filter(name__iexact=request.user.username).count() == 0:
+		return HttpResponseRedirect('/' + eventID)
+
+	invitee = inviteeSet.get(name=request.user.username)
 	invitee.hasVoted = True
 	invitee.save()
 	possTimes = event.posstime_set.all()
+
+	if 'vetoTimes' not in request.POST:
+		return HttpResponseRedirect('/' + eventID)
+
 	requestTimes = [int(x) for x in request.POST.getlist('vetoTimes')]
 	for pID in requestTimes:
+		if not possTimes.filter(id__iexact=pID).count() == 1:
+			return HttpResponseRedirect('/' + eventID)
+		
 		p = possTimes.get(id=pID)
 		needToContinue = False
 		for x in event.vetotime_set.all(): # Check if the user has already vetoed this time to prevent duplicates
