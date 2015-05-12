@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		{% load staticfiles %}
+		
+		<link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicons/apple-touch-icon-57x57.png' %}">
+		<link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/favicons/apple-touch-icon-60x60.png' %}">
+		<link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicons/apple-touch-icon-72x72.png' %}">
+		<link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/favicons/apple-touch-icon-76x76.png' %}">
+		<link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicons/apple-touch-icon-114x114.png' %}">
+		<link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicons/apple-touch-icon-120x120.png' %}">
+		<link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/favicons/apple-touch-icon-144x144.png' %}">
+		<link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/favicons/apple-touch-icon-152x152.png' %}">
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicons/apple-touch-icon-180x180.png' %}">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-32x32.png' %}" sizes="32x32">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/android-chrome-192x192.png' %}" sizes="192x192">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-96x96.png' %}" sizes="96x96">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-16x16.png' %}" sizes="16x16">
+		<link rel="manifest" href="{% static 'images/favicons/manifest.json' %}">
+		<link rel="shortcut icon" href="{% static 'images/favicons/favicon.ico' %}">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="msapplication-TileImage" content="{% static 'images/favicons/mstile-144x144.png' %}">
+		<meta name="msapplication-config" content="{% static 'images/favicons/browserconfig.xml' %}">
+		<meta name="theme-color" content="#ffffff">
+		<meta property="og:title" content="Skedg - Let us check your skedg." />
+		<meta property="og:site_name" content="Skedg" />
+		<meta property="og:url" content="http://skedg.tk/" />
+		<meta property="og:description" content="Skedg. Let us check your skedg. We sync with your Google Calendar to find the best meeting time for your friends, family, guests, and you." />
+		<meta property="og:image" content="http://www.skedg.tk/static/images/logoBlack.png" />
+
+		<script>
+			var mobileStyle = '{% static 'css/style-mobile.css' %}';
+			var style = '{% static 'css/style.css' %}';
+			var wideStyle = '{% static 'css/style-wide.css' %}';
+			var narrowStyle = '{% static 'css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'css/style-narrower.css' %}';
+			var normalStyle = '{% static 'css/style-normal.css' %}';;
+		</script>
+		
+		<title>Skedg - Let us check your skedg! </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="Skedg. Let us check your skedg. We sync with your Google Calendar to find the best meeting time for your friends, family, guests, and you." />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
+		<script src="{% static 'js/skel.min.js' %}"></script>
+		<script src="{% static 'js/skel-layers.min.js' %}"></script>
+		<script src="{% static 'js/init.js' %}"></script>
+		<noscript>
+			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+
+	</head>
+	<body class="index">
+		<!-- Header -->
+			<header id="header" class="alt">
+				<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align: middle; position:relative; bottom:2px" /> - <span> Let us check your schedule!  </span></a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special">Login</a></li>
+						<li><a href="javascript:void(0);" id="trigger-overlay-two" class="links button special">Register</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<header>
+						<img src="{% static 'images/SKEDGlogo.png' %}" style="height:140px; padding-top:10px" />
+					</header>
+					<p>This is SKEDG, an
+					<br />
+					event scheduler. </p>
+					<footer>
+						<ul class="buttons vertical">
+							<li><a href="#main" class="button fit scrolly">Learn more</a></li>
+							<li><a href="#" class="button fit special" id='getStarted'> Get Started</a></li>
+						</ul>
+					</footer>
+				</div>
+
+			</section>
+
+		<!-- Main -->
+			<article id="main">
+				<noscript id="noscript">
+					<span style='color:red; font-weight:heavy; font-size: 50px'>Javascript must be enabled to use Skedg properly.</span>
+				</noscript>
+				<div class="content">
+					<section>
+						<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'css/codrops.css' %}" />
+						<!-- open/close -->
+						<br />
+						<div class="overlay overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register"> <br/ >
+								<form method="post" id="login_form" action="/login/">
+									{% csrf_token %}
+									<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
+									<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+									<a href="#" id="trigger-overlay-three"> <font size="2"> Forgot Your Password? </font> </a>
+									<p><center><input type="submit" value="Login" name="submit" id="submit" class="button special" /></center></p>
+								</form>
+								<font color='red'>{{invalidLogin}}</font>
+							</div>
+						</div>
+
+						<div class="overlay2 overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register"> <br/ >
+								<div id = "id_of_div2" class="registerStyles">
+									<form id="user_form" method="post" action="/register/" enctype="multipart/form-data" style:"margins: auto;">
+										{% csrf_token %}
+										<font color='red'>{{registerError}}</font>
+										<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" value="{{first_name}}" size="30" />
+										<center><label for="name">Last Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="last_name" id="last_name" value="{{last_name}}" size="30" />
+										<center><label for="username">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{email}}" id="username" />
+										<font color='red'>{{emailError}}</font>
+										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<font color='red'>{{passwordError}}</font>
+										<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%;" type="password" name="password2" id="password2" size="25" />
+										<font color='red'>{{password2Error}}</font>
+										<p><center><input type="submit" value="Register" name="submit" id="register" class="button special" /></center></p>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="overlay3 overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register"> <br/ >
+								<div id = "id_of_div3" class ="divs">
+									{% if successForgot %}
+										<h2>Check your e-mail</h2>
+										{{ successForgot }}
+										<br /> <br />
+									{% else %}
+										<form method="post" id="password_form" action="/forgotPassword/">
+											{% csrf_token %}
+											<center><label for="username">E-mail</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
+											<p><center><input type="submit" value="Reset password" name="submit" id="submit" class="button special" /></center></p>
+										</form>
+										<font color='red'>{{invalidUsername}}</font>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+
+						<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+					</section>
+				</div>
+
+				<header class="special container" style="padding: 5px">
+					<span class="icon fa-clock-o"></span> <br /> <br />
+					<h2>Hate finding a <strong>time</strong> that works for everyone?
+					<br />
+					Introducing the new event scheduler, <strong>Skedg</strong>.</h2>
+					<p><strong>Skedg</strong> is synchronized with Google Calendar, and uses your calendar and
+					<br />
+					our algorithm to find the optimal meeting time for you and your friends.
+					<br />
+					Best of all, its easy and free to use! </p>
+				</header>
+
+				<!-- One -->
+				<section class="wrapper style2 container special-alt" style="z-index: 100">
+					<div class="row">
+						<div class="12u 12u(narrower)">
+							<header>
+								<h2>Here's <strong>how it works:</strong></h2>
+							</header>
+							<dl>
+								<dt><strong>1.</strong> Create an event and share the link with your friends.</dt>
+									<dd>
+										You want to schedule an hour-long event between a certain time frame for a certain set of days. It's that simple.
+									</dd>
+									<br/><br/>
+								<dt><strong>2.</strong> Friends join the event and add conflicts to times they don't like. </dt>
+									<dd>
+										All of the recommended times are <strong>the best times</strong> given your Google calendars.
+										<br/><br/>	
+										<div class="oversizeImage"> <img src = "{% static 'images/tutorial-vote.jpg' %}" /> </div>
+									</dd>
+									<br/><br/>
+								<dt><strong>3.</strong> Select a green <strong> Skedg </strong> button to add <strong>that</strong> event to everyone's calendars! </dt>
+									<dd>
+										Check your Google calendar- your event is there!
+										<br/><br/>
+										<div class="oversizeImage"> <img src = "{% static 'images/tutorial-skedg.jpg' %}" /> </div>
+									</dd>
+							</dl>
+						</div>
+					</div>
+				</section>
+			</article>
+
+		<!-- CTA -->
+			<section id="cta">
+				<header>
+					<h2>Please give us your <strong>feedback</strong>!</h2>
+				</header>
+				<footer>
+					<ul class="buttons">
+						<li><a href="http://goo.gl/forms/yFULhAFLJk" class="button"> Send suggestions </a></li>
+					</ul>
+				</footer>
+			</section>
+
+		<script src="{% static 'js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'js/classie.js' %}"></script>
+		<script src="{% static 'js/loginOverlay.js' %}"></script>
+
+		<!-- Save overlays on reload -->
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				{% if invalidLogin %}
+					toggleOverlay();
+				{% elif registerError or emailError or passwordError or password2Error %}
+					toggleOverlay2();
+				{% elif successForgot or invalidUsername %}
+					toggleOverlay3();
+				{% endif %}
+				$("#noscript").hide();
+			});
+		</script>
+
+		<!-- Mobile Linking -->
+		<script src="{% static 'js/loginMobile.js' %}"></script>
+
+		<script>
+			// Pop up any important messages from the server side
+			$(function(){
+				{% if registered %}
+					//Created event
+					alert('You have successfully registered. Please verify your account through email in 48 hours.')
+				{% endif %}
+				{% if messages %}
+					{% for message in messages %}
+						alert('{{message}}');
+					{% endfor %}
+				{% endif %}
+			});
+		</script>
+
+		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  
+
+	</body>
+</html>

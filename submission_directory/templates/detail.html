@@ -1,0 +1,934 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		{% load staticfiles %}
+
+		<link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicons/apple-touch-icon-57x57.png' %}">
+		<link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/favicons/apple-touch-icon-60x60.png' %}">
+		<link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicons/apple-touch-icon-72x72.png' %}">
+		<link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/favicons/apple-touch-icon-76x76.png' %}">
+		<link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicons/apple-touch-icon-114x114.png' %}">
+		<link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicons/apple-touch-icon-120x120.png' %}">
+		<link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/favicons/apple-touch-icon-144x144.png' %}">
+		<link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/favicons/apple-touch-icon-152x152.png' %}">
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicons/apple-touch-icon-180x180.png' %}">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-32x32.png' %}" sizes="32x32">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/android-chrome-192x192.png' %}" sizes="192x192">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-96x96.png' %}" sizes="96x96">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-16x16.png' %}" sizes="16x16">
+		<link rel="manifest" href="{% static 'images/favicons/manifest.json' %}">
+		<link rel="shortcut icon" href="{% static 'images/favicons/favicon.ico' %}">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="msapplication-TileImage" content="{% static 'images/favicons/mstile-144x144.png' %}">
+		<meta name="msapplication-config" content="{% static 'images/favicons/browserconfig.xml' %}">
+		<meta name="theme-color" content="#ffffff">
+		<meta property="og:title" content="{{event.title}}" />
+		<meta property="og:site_name" content="Skedg - Let us check your skedg." />
+		<meta property="og:url" content="http://skedg.tk/{{event.eventID}}" />
+		<meta property="og:description" content="{{event.desc}}, hosted by {{event.creatorName}}" />
+		<meta property="og:image" content="http://www.skedg.tk/static/images/logoBlack.png" />
+
+		<script>
+			var mobileStyle = '{% static 'css/style-mobile.css' %}';
+			var style = '{% static 'css/style.css' %}';
+			var wideStyle = '{% static 'css/style-wide.css' %}';
+			var narrowStyle = '{% static 'css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'css/style-narrower.css' %}';
+			var normalStyle = '{% static 'css/style-normal.css' %}';
+			var leaveForm = false;
+		</script>
+
+		<title>Skedg - Let us check your skedg! </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="{{event.title}}: {{event.desc}}, hosted by {{event.creatorName}}" />
+		<meta name="keywords" content="" />
+
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
+		<script src="{% static 'js/skel.min.js' %}"></script>
+		<script src="{% static 'js/skel-layers.min.js' %}"></script>
+		<script src="{% static 'js/initdetail.js' %}"></script>
+		<script src="{% static 'js/moment.js' %}"></script> 
+		<script src="{% static 'js/combodate.js' %}"></script> 
+		<script src="{% static 'js/jquery.ui.touch-punch.js' %}"></script>
+		<script src="{% static 'js/jquery.joyride-2.1.js' %}"></script> 
+		<noscript>
+			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
+		</noscript>
+	</head>
+	<body class="no-sidebar">
+
+		<!-- Header -->
+		<header id="header" class="skel-layers-fixed" style="display: none;">
+			{% if user.is_authenticated %}
+			<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
+			{% else %}
+			<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Let us check your schedule!  </span></a></h1>
+			{% endif %}
+			<nav id="nav">
+				<ul>
+					<li ><a href="/">Home</a></li>
+					{% if user.is_authenticated %}		
+					<li>
+						<form action="{% url 'userPage' %}" method="post" style="display: inline-block;">
+							{% csrf_token %}
+							<span style="display: none;"><input type="text" name="username" value="{{ user.username }}"/></input></span>   
+							<button type="submit" class="special button" name="userPage">My Account</button>
+						</form>
+						<a href="/userPage" style="display:none">My Account</a>
+					</li>
+					<li><a class="special button" href="/logout/">Logout</a></li>
+					{% else %}
+					<li><a href="javascript:void(0);" id="trigger-overlay" class="links button special ">Login</a></li>
+					<li><a href="javascript:void(0);" id="trigger-overlay-two" class="links button special ">Register</a></li>
+					{% endif %}
+				</ul>
+			</nav>
+		</header>
+
+		<!-- Loading Overlay -->
+		<div class="loading" id="loadingOverlay" style="display:none">Loading&#8230;</div>
+		
+		<!-- Main -->
+			<article id="main">
+				<noscript id="noscript">
+					<span style='color:red; font-weight:heavy; font-size: 50px'>Javascript must be enabled to use Skedg properly.</span>
+				</noscript>
+
+				<div class="content">
+					<section>
+						<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+						<link rel="stylesheet" type="text/css" href="{% static 'css/codrops.css' %}" />
+
+						<!-- open/close -->
+						<br />
+						<div class="overlay overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register"> <br/ >
+								<div id = "id_of_div" class ="divs">
+									<form method="post" id="login_form" action="/loginEvent/">
+										{% csrf_token %}
+										<center><label for="username">Username</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{username}}"id="username" />
+										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}" id="eventID"></input></span>
+										<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
+									</form>
+									<font color='red'>{{invalidLogin}}</font>
+								</div>
+							</div>
+						</div>
+
+						<div class="overlay2 overlay-hugeinc">
+							<button type="button" class="overlay-close">Close</button>
+							<div class="register"> <br/ >
+								<div id = "id_of_div2" class="divs">
+									<form id="user_form" method="post" action="/registerEvent/" enctype="multipart/form-data" style:"margins: auto;">
+									  	{% csrf_token %}
+										<font color='red'>{{registerError}}</font>
+										<center><label for="name">First Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="first_name" id="first_name" value="{{first_name}}" size="30" />
+										<center><label for="name">Last Name</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%"; type="text" name="last_name" id="last_name" value="{{last_name}}" size="30" />
+										<center><label for="username">Email Address</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="text" size="30" name="username" value="{{email}}" id="username" />
+										<font color='red'>{{emailError}}</font>
+										<center><label for="password">Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%" type="password" name="password" id="password" size="25" />
+										<font color='red'>{{passwordError}}</font>
+										<center><label for="password">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; width: 60%; height: 10%;" type="password" name="password2" id="password2" size="25" />
+										<font color='red'>{{password2Error}}</font>
+										<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}" id="eventID"></input></span>
+										<p><center><input type="submit" value="Register" name="submit" id="register" class="button special" /></center></p>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+						<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+
+					</section>
+				</div>
+
+				<!-- One -->
+					<section class="wrapper style4 container">
+						<!-- Content -->
+							<div class="content" style="margin-top: 30px;">
+								<section>
+									<!-- <div class="navbarBody"> -->
+										<div class="navbar">
+											<div class="eventLink" align="left" id="eventL" style="display:inline; float: left; margin-left:20px">
+												<strong id="eventLink" style="display:none;">EVENT LINK: &nbsp;</strong>
+												<input id="eventLinkTextBox" value="skedg.tk:82/{{ event.eventID }}" readonly rows="1" cols="15" wrap="off" onClick="this.select();" style="resize:none; overflow-x:hidden;  display: inline; padding: 5px; size:200px" id="eventLink"></input>
+											</div>
+											<ul id="manageButton" style="display:inline; float:right; margin-right:20px" >
+												{% if event.creator == user.username %}
+													<li style="display:inline">
+														<form style="display: inline-block;" action="{% url 'manageCreator' %}" method="post">
+															{% csrf_token %}
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
+															{% if not event.is_scheduled %}
+																<button class="special button" style="margin-right: 5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="refresh" name="refresh">Refresh Times</button>  
+															{% endif %} 
+															<button class="special button" style="margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; display: none;" type="submit" id="delete" name="delete">Delete Event</button>
+														</form>
+													</li>
+												{% elif user.is_authenticated %}
+													<li style="display:inline">
+														<form action="{% url 'manageInvitee' %}" method="post" id="leaveNorm">   
+																{% csrf_token %}
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+																<span id="submitButton"></span>
+														</form>
+														<script>
+															leaveForm = false;
+														</script>
+														{% for i in event.invitee_set.all %}
+															{% if user.username == i.name %}
+																
+																<script>
+																	leaveForm = true;
+																	document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;' type='submit' name='decline'>Leave Event</button>";
+																</script>
+															
+															{% endif %}
+														{% endfor %}
+
+														<script>
+															if (leaveForm == false)
+																document.getElementById("submitButton").innerHTML = "<button class='special button' id='join' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;' type='submit' name='join'>Join Event</button>";
+														</script>												
+														
+													</li>
+												{% else %}
+														<li style="display:inline"><button class="button" id="join2" style="font-size: 9pt; margin-right: -5px; background-color: #ff9999; border-color: #ff9999; border-radius: 5px;" name="join2">Login to Join</button></li>
+													<!-- </form> -->
+												{% endif %}
+											</ul>						
+										</div>
+									<!-- </div> -->
+									<div class="eventContainer" id="eventContainer">
+										<div class="row" id="boxedForm" style="display: none;">
+											<div class="6u 12u(narrower)">
+												<div class="column1" align ="left" style="padding-left: 50px;" >
+													<header align="left">
+														<h2><strong>{{ event.title }}</strong></h2>
+													</header>
+												
+													<strong>HOST</strong>: {{ event.creatorName }} <br />
+													{{ event.desc }} <br/>
+													<br />
+													{% if event.is_scheduled %}
+														<strong>TIME: </strong>
+														{{event.printScheduledTime}}
+														<br />
+													{% else %}
+														<strong id="eventTimes"> POSSIBLE DATES: </strong>
+														{{event.printDateRange}}
+														<br />
+														<strong> POSSIBLE TIMES: </strong>
+														{{event.printTimeRange}}
+														<br />
+														<strong> EVENT LENGTH: </strong>
+														{{event.printTimeLength}}
+														<br />
+													{% endif %}
+													<br />
+													<header align="left">
+														<h3 id="inviteesCol"><strong>Invitees</strong></h3>
+													</header>
+													<div class="bumping">
+													{% for invitee in event.invitee_set.all %}
+														<!-- Bumps -->
+														{% if event.creator == user.username %}
+															<form action="{% url 'manageCreator' %}" method="post"> 
+															{% csrf_token %} 
+															<span style="display: none;"><input type="text" name="invitee_name" value="{{ invitee.name }}"/></input></span> 
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"/></input></span>
+															<button style="float: left; text-align; left; background: transparent;  color: red; display: inline-block; padding: 0; margin: 0; margin-top: 5px; font-size: 16px; margin-left: 5px; padding-right: 3px;" type="submit" name="boot" id="boot">✖</button>
+															</form>
+														{% endif %}
+
+														{{ invitee }} <br/>
+													{% endfor %}
+													<br/>
+													</div>
+												</div>
+											</div>
+											<div class="6u 12u(narrower)">
+												<section>
+													<div id="messagesContainer">
+														<div id="messagesTitle" style="vertical-align: middle">
+														<header>
+														<h1 style="font-weight: 300; line-height: 1.75em; margin-bottom: 1em; text-transform: uppercase; font-size: 18pt"><strong>MESSAGE BOARD</strong></h1>
+														</header>
+														</div>
+														<div id="messagesBody">
+															<ul>
+															{% for m in event.message_set.all %}
+																<li>
+																{% if event.creator = user.username %}
+																	<form action="{% url 'manageMessage' %}" method="post">
+																		{% csrf_token %}
+																		<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
+																		<span style="display: none;"><input type="text" name="username" value="{{ m.author }}"></span>
+																		<span style="display: none;"><input type="text" name="messageID" value="{{ m.id }}"></span>
+																		<button type="submit" name="erase">✖</button> 
+																	</form>
+																{% endif %}
+																
+																{{ m.text }}<br /> <br />
+																<div align="right" style="padding-right: 3px;"><span style="font-size:13px; color:#999999;"> {{m.firstName}} {{m.lastName}}, {{m.printPubDate}}</span> </div>
+																</li>
+															{% endfor %}
+															</ul>
+														</div>
+														<div id="messagesFooter">
+															{% if user.is_authenticated %}
+															<form action="{% url 'manageMessage' %}" method="post">
+																{% csrf_token %}
+																<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
+																<input class="button special" style="margin-top: 5px;" type="submit" name="write" value="Post" id='postMessage'/> </input>
+															</form>
+															{% else %}
+															<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
+															<input class="button" style="margin-top: 5px; background-color: #ff9999; border-color: #ff9999;" type="submit" value="Login to Post" id="loginToPost"/>
+															{% endif %}
+														</div>
+													</div>
+												</section>
+
+											</div>
+										</div>
+										<div class="row" id="boxedFormMobile" style="display: none;">
+											<div class="12u 12u(narrower)">
+												<div class="column1" align ="left" style="padding-left: 15px">
+													{% if event.creator == user.username %}
+														<form style="display: none; margin-top: -40px; margin-right: 10px; float: right; " action="{% url 'manageCreator' %}" id="creatorMobile" method="post">
+															{% csrf_token %}
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
+															{% if not event.is_scheduled %}
+																<button class="special button" style="margin-right: 5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: block;" type="submit" name="refresh">Refresh Times</button>
+															{% endif %}
+															<button class="special button" style="margin-right: 5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: block;" type="submit" name="delete">Delete Event</button>
+														</form>
+													{% elif user.is_authenticated %}
+														<form action="{% url 'manageInvitee' %}" method="post" id="leaveMobile" style="font-size: 10pt; margin-top: -40px;">   
+																{% csrf_token %}  
+																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
+																<span id="submitButtonMobile"></span>
+														</form>
+														<script>
+															leaveForm = false;
+														</script>
+														{% for i in event.invitee_set.all %}
+															{% if user.username == i.name %}
+																
+																<script>
+																	leaveForm = true;
+																	document.getElementById("submitButtonMobile").innerHTML = "<button class='special button' id='joinMobile' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px;' type='submit' name='decline'>Leave Event</button>";
+																</script>
+															
+															{% endif %}
+														{% endfor %}
+
+														<script>
+															if (leaveForm == false)
+																document.getElementById("submitButtonMobile").innerHTML = "<button class='special button' id='joinMobile' style='margin-right: -5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; type='submit' name='join'>Join Event</button>";
+														</script>												
+													{% endif %}
+
+													<br />
+													<header align="left">
+														<h2><strong>{{ event.title }}</strong></h2>
+													</header>
+												
+													<strong>HOST</strong>: {{ event.creatorName }} <br />
+													{{ event.desc }} <br/>
+													<br />
+													{% if event.is_scheduled %}
+														<strong>TIME: </strong>
+														{{event.printScheduledTime}}
+														<br />
+													{% else %}
+														<strong id="eventTimes"> POSSIBLE DATES: </strong>
+														{{event.printDateRange}}
+														<br />
+														<strong> POSSIBLE TIMES: </strong>
+														{{event.printTimeRange}}
+														<br />
+														<strong> EVENT LENGTH: </strong>
+														{{event.printTimeLength}}
+														<br />
+													{% endif %}
+													<br />
+													<header align="left">
+														<h3 id="inviteesCol"><strong>Invitees</strong></h3>
+													</header>
+													<div class="bumping">
+													{% for invitee in event.invitee_set.all %}
+														<!-- Bumps -->
+														{% if event.creator == user.username %}
+															<form action="{% url 'manageCreator' %}" method="post"> 
+															{% csrf_token %} 
+															<span style="display: none;"><input type="text" name="invitee_name" value="{{ invitee.name }}"/></input></span> 
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"/></input></span>
+															<button style="float: left; text-align; left; background: transparent;  color: red; display: inline-block; padding: 0; margin: 0; margin-top: 5px; font-size: 16px; margin-left: 5px; padding-right: 3px;" type="submit" name="boot" id="boot">✖</button>
+															</form>
+														{% endif %}
+
+														{{ invitee }} <br/>
+													{% endfor %}
+													<br/>
+													</div>
+												</div>
+												<div id="messagesContainer">
+													<div id="messagesTitle" style="vertical-align: middle">
+													<header>
+													<h1 style="font-weight: 300; line-height: 1.75em; margin-bottom: 1em; text-transform: uppercase; font-size: 18pt"><strong>MESSAGE BOARD</strong></h1>
+													</header>
+													</div>
+													<div id="messagesBody">
+														<ul>
+														{% for m in event.message_set.all %}
+															<li>
+															{% if event.creator = user.username %}
+																<form action="{% url 'manageMessage' %}" method="post">
+																	{% csrf_token %}
+																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
+																	<span style="display: none;"><input type="text" name="username" value="{{ m.author }}"></span>
+																	<span style="display: none;"><input type="text" name="messageID" value="{{ m.id }}"></span>
+																	<button type="submit" name="erase">✖</button> 
+																</form>
+															{% endif %}
+															
+															{{ m.text }}<br /> <br />
+															<div align="right" style="padding-right: 3px;"><span style="font-size:13px; color:#999999;"> {{m.firstName}} {{m.lastName}}, {{m.printPubDate}}</span> </div>
+															</li>
+														{% endfor %}
+														</ul>
+													</div>
+													<div id="messagesFooter">
+														{% if user.is_authenticated %}
+														<form action="{% url 'manageMessage' %}" method="post">
+															{% csrf_token %}
+															<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></span>
+															<input class="button special" style="margin-top: 5px;" type="submit" name="write" value="Post" id='postMessage'/> </input>
+														</form>
+														{% else %}
+														<textarea name="message" style="resize: none; display: inline-block;" rows="2"></textarea>
+														<input class="button" style="margin-top: 5px; background-color: #ff9999; border-color: #ff9999;" type="submit" value="Login to Post" id="loginToPost"/>
+														{% endif %}
+													</div>
+												</div>
+												</section>
+											</div>
+										</div>
+
+										<!-- why is this section friends -->
+										<!-- should only show if in event or is creator -->
+										<!-- creator view -->
+										{% if event.creator == user.username %}
+											<section id="friends">
+												<div style="margin-top: -100px" id="proposedTimes">
+													<div class="row timeClass" style="display: none;">
+														{% if event.posstime_set.all|length == 0 %}
+															{% if event.is_scheduled %}
+																<p> The event has already been scheduled. </p>
+															{% else %}
+																<p> No times found. </p>
+															{% endif %}
+														{% endif %}
+
+														<!-- <div id="timesForm"> -->
+														{% for time in event.posstime_set.all %}
+															{% if forloop.counter <= 3 %}
+																<div class="4u 12u(narrower)">
+																	<div style="display: block">
+																		<section style="background-color: #645862; border-radius: 10px; padding:5px;">
+																		<form action="{% url 'manageCreator' %}" method="post">
+																			{% csrf_token %}
+																			<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+																			<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
+																			<button class="icon fa-clock-o skedgeClass" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
+																			<header>
+																				<h3> {{ time.date }} </h3>
+																				<p> {{ time.time }} </p>
+																				<p id="attendees"> {{ time.people }} </p>
+																			</header>
+																		</form>
+																		</section>
+																	</div>
+																</div>
+															{% endif %}
+														{% endfor %}
+													</div>
+
+													<!-- Mobile -->
+													<div class="timeMobileClass" style="margin-top:50px; display: none;">
+														{% if event.posstime_set.all|length == 0 %}
+															{% if event.is_scheduled %}
+																<p> The event has already been scheduled. </p>
+															{% else %}
+																<p> No times found. </p>
+															{% endif %}
+														{% endif %}
+
+														<!-- <div id="timesForm"> -->
+														{% for time in event.posstime_set.all %}
+															{% if forloop.counter <= 3 %}
+																<section style="background-color: #645862; border-radius: 10px; padding:5px; margin: 10px auto;">
+																<form action="{% url 'manageCreator' %}" method="post" class="skedgeClass">
+																	{% csrf_token %}
+																	<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"</input></span>
+																	<span style="display: none;"><input type="text" name="skedgeTime" value="{{ time.id }}"</input></span>
+																	<button class="icon fa-clock-o" background-color: #4682B4; border-color: #4682B4; type="submit" name="skedg" id="skedgButton"></button>
+																	<header>
+																		<h3> {{ time.date }} </h3>
+																		<p> {{ time.time }} </p>
+																		<p id="attendees"> {{ time.people }} </p>
+																	</header>
+																</form>
+																</section>
+															{% endif %}
+														{% endfor %}
+													</div>
+												</div>
+
+											</section>
+										{% else %}
+											<!-- invitee view -->
+											<section id="friends">
+												{% for i in event.invitee_set.all %}
+													{% if i.name == user.username %}
+														<form action="{% url 'manageInvitee' %}" method="post">
+															{% csrf_token %}
+															<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span>
+														
+															<div id="proposedTimes">
+																<div class="row timeClass" style="display: none;" >
+																	{% for time in event.posstime_set.all %}
+																		{% if forloop.counter <= 3 %}
+																			<div class="4u 12u(narrower)">
+																				<section style="background-color: #645862; border-radius: 10px;">
+																					<span class="icon fa-clock-o"></span>
+																					<header>
+																						{% if user.username in time.peopleList %}
+																							<input type="checkbox" name="vetoTimes" value="{{ time.id }}" id="checkBoxVote"/>
+																						{% else %}
+																							<p class="alreadyconflict"> You already have a conflict. </p>
+																						{% endif %}
+																						<h3> {{ time.date }} </h3>
+																						<p style="padding-bottom: 0.2em;"> {{ time.time }} </p>
+
+																					</header>
+																				</section>
+																			</div>
+																		{% endif %}
+																	{% endfor %}
+																	
+																	{% if event.posstime_set.all|length == 1 %}
+																	<div class="4u 12u(narrower)">
+																	<section style="background-color: #645862; opacity: 0.6">
+																	</section>
+																	</div>
+																	<div class="4u 12u(narrower)">
+																	<section style="background-color: #645862; opacity: 0.6">
+																	</section>
+																	</div>
+																	{% endif %}
+																	{% if event.posstime_set.all|length == 2 %}
+																	<div class="4u 12u(narrower)">
+																	<section style="background-color: #645862; opacity: 0.6">
+																	</section>
+																	</div>
+																	{% endif %}
+																</div>
+																<div class="timeMobileClass" style="display:none;">
+																	{% for time in event.posstime_set.all %}
+																		{% if forloop.counter <= 3 %}
+																			<section style="background-color: #645862; border-radius: 10px;">
+																				<span class="icon fa-clock-o"></span>
+																				<header>
+																					{% if user.username in time.peopleList %}
+																						<input type="checkbox" name="vetoTimes" value="{{ time.id }}" id="checkBoxVote"/>
+																					{% else %}
+																						<p class="alreadyconflict"> You already have a conflict. </p>
+																					{% endif %}
+																					<h3> {{ time.date }} </h3>
+																					<p style="padding-bottom: 0.2em;"> {{ time.time }} </p>
+
+																				</header>
+																			</section>
+																		{% endif %}
+																	{% endfor %}
+																</div>
+															</div>
+																{% if event.posstime_set.all|length == 0 %}
+																	{% if event.is_scheduled %}
+																		<p> The event has already been scheduled. </p>
+																	{% else %}
+																		<p> No times found. </p>
+																	{% endif %}
+																{% else %}
+																	<input class="button special" type="submit" name="veto" value="add conflict" id="veto"/>
+																{% endif %}
+														</form>
+													{% endif %}
+												{% endfor %}
+											</section>
+										{% endif %}
+
+										
+									</div>
+								</section>
+							</div>
+					</section>
+			</article>
+
+			<section id="cta">
+				<header>
+					<h2>Please give us your <strong>feedback</strong>!</h2>
+				</header>
+				<footer>
+					<ul class="buttons">
+						<li><a href="http://goo.gl/forms/yFULhAFLJk" class="button"> Send suggestions </a></li>
+					</ul>
+				</footer>
+			</section>
+
+		<link rel="stylesheet" type="text/css" href="{% static 'css/joyride-2.1.css' %}">
+		{% if showCreatorTour %}
+			<!-- Tour of detail page for the creator -->
+	 		<ol id="joyRideTipContent">
+	 			<li data-text="Next" data-options="modal: true;" style="width: 400px;">
+	 				<h2>Created Event</h2>
+	 				<p>Congratulations on creating your first event! Click "next" to view the different <strong>creator</strong> features of Skedg.</p>
+	 		  	</li>
+			 	<li data-id="eventLink" data-button="Next" data-options="tipLocation:bottom">
+	 				<h2>Event Link</h2>
+	 				<p>This is the unique event link for each page. Copy the link and share it with your friends so they can join your event!</p>
+	 		  	</li>
+	 		  	<li data-id="proposedTimes" data-button="Next" data-options="tipLocation:top">
+	 				<h2>Proposed Times</h2>
+	 				<p>The top times our application has found for your event and its invitees.</p>
+	 		  	</li>
+	 		  	<li data-id="attendees" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Attendees</h2>
+	 				<p>Those who can attend your event at the listed time.</p>
+	 		  	</li>
+	 		  	<li data-id="skedgButton" data-button="Close" data-options="tipLocation:right">
+	 				<h2>Skedg Event</h2>
+	 				<p>Click on this button to schedule your event at the listed time and add it to everyone's calendars.</p>
+	 		  	</li>
+			  	<li data-id="refresh" data-button="Next" data-options="tipLocation:left">
+	 				<h2>Refresh Times</h2>
+	 				<p>Click here to re-sync with Google Calendar, in case anyone's Google Calendar has been updated.</p>
+	 		  	</li>
+	 		</ol>
+	 	{% elif showInviteeTour %}
+	 		<!-- Tour of detail page for the creator -->
+	 		<ol id="joyRideTipContent">
+	 			<li data-text="Next" data-options="modal: true;" style="width: 400px;">
+	 				<h2>Joined Event</h2>
+	 				<p>Congratulations on joining your first event! Click "next" to view the different <strong>invitee</strong> features of Skedg.</p>
+	 		  	</li>
+	 		  	<li data-id="proposedTimes" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Proposed Times</h2>
+	 				<p>The top times our application has found for all the current invitees.</p>
+	 		  	</li>
+	 		  	<li data-id="checkBoxVote" data-button="Next" data-options="tipLocation:right">
+	 				<h2>Voting</h2>
+	 				<p>Select this box to vote against the listed time.</p>
+	 		  	</li>
+	 		  	<li data-id="veto" data-button="Close" data-options="tipLocation:right">
+	 				<h2>Adding Conflicts</h2>
+	 				<p>Once you have selected all times you want to vote against, click here to add your vote to the event. The new listed times will be optimized for all invitees.</p>
+	 		  	</li>
+	 		</ol>
+	 	{% endif %}
+	 	<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+	 	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+	 	<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+
+		<!--  Launching joyride when to page is loaded -->
+		<script>
+			$(window).load(function() {
+				$('#joyRideTipContent').joyride({
+		        	autoStart : true,
+				});
+			});
+		</script>
+
+		<!-- Scroll to bottom of messages -->
+		<script>
+			$(document).ready(function(){
+				var objDiv = document.getElementById("messagesBody");
+				objDiv.scrollTop = objDiv.scrollHeight;
+				console.log(objDiv.scrollHeight);
+			});	
+		</script>
+
+		<!-- Save overlays on reload -->
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				{% if invalidLogin %}
+					toggleOverlay();
+				{% elif registerError or emailError or passwordError or password2Error %}
+					toggleOverlay2();
+				{% endif %}
+			});
+		</script>
+
+		<script>
+			$(document).ready(function(){
+			    $("#join").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#joinMobile").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#postMessage").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#click").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#veto").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#boot").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#refresh").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#delete").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#creatorMobile").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#leaveForm").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$("#leaveMobile").click(function() {
+				    $("#loadingOverlay").show();
+				});
+				$('.skedgeClass').click(function() {
+				     $("#loadingOverlay").show();
+				});
+				$("#noscript").hide();
+			});	
+		</script>
+
+		<script src="{% static 'js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'js/classie.js' %}"></script>
+		{% if not user.is_authenticated %}	
+			<script src="{% static 'js/detailOverlay.js' %}"></script>
+		{% endif %}
+
+		<!-- Mobile Linking -->
+		<script type='text/javascript'>
+			function mobileModification() {
+				document.getElementById('boxedForm').style.display = 'none';
+				document.getElementById('boxedFormMobile').style.display = 'block';
+				document.getElementById('eventLink').style.display = 'none';
+				document.getElementById('manageButton').style.display = 'block';
+				document.getElementById('manageButton').style.float = 'none';
+				document.getElementById('eventLinkTextBox').style.width = '150px';
+				document.getElementById('eventLink').style.display = 'none';
+				document.getElementById('eventL').style.marginLeft = '10px';
+				document.getElementById('header').style.display = 'none';
+				document.getElementById('friends').style.paddingLeft = '1em';
+				document.getElementById('friends').style.paddingRight = '1em';
+				{% if user.is_authenticated and event.creator != user.username %}
+					document.getElementById('leaveMobile').style.display = 'block';
+					document.getElementById('leaveNorm').style.display = 'none';
+				{% endif %}
+
+				{% if event.creator == user.username %}
+					{% if not event.is_scheduled %}
+						document.getElementById('refresh').style.display = 'none';
+					{% endif %}
+					document.getElementById('delete').style.display = 'none';
+					document.getElementById('creatorMobile').style.display = 'inline-block';					
+				{% endif %}
+				
+				{% if not user.is_authenticated %}	
+					document.getElementById('join2').style.display = 'none';
+				{% endif %}
+				var proposedTimes = document.getElementsByClassName( 'timeClass' );
+				for (i = 0; i < proposedTimes.length; i++) {
+					proposedTimes[i].style.display = 'none';
+				}
+
+				var proposedTimesMobile = document.getElementsByClassName( 'timeMobileClass' );
+				for (i = 0; i < proposedTimesMobile.length; i++) {
+					proposedTimesMobile[i].style.display = 'block';
+				}
+
+				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
+				for (i = 0; i < wrapperStyle4Container.length; i++) {
+					wrapperStyle4Container[i].style.paddingLeft = '1em';
+					wrapperStyle4Container[i].style.paddingRight = '1em';
+				}
+				
+
+				{% if not user.is_authenticated %}	
+				    var triggerBttn = document.getElementsByClassName( 'depth-0' );
+				    triggerBttn[1].addEventListener( 'click', toggleOverlay);
+				    triggerBttn[2].addEventListener( 'click', toggleOverlay2);
+			    {% endif %}
+			}
+
+			function narrowerModification() {
+				document.getElementById('boxedForm').style.display = 'block';
+				document.getElementById('boxedFormMobile').style.display = 'none';
+				document.getElementById('eventLink').style.display = 'none';
+				document.getElementById('manageButton').style.display = 'inline';
+				document.getElementById('manageButton').style.float = 'right';
+				document.getElementById('eventLinkTextBox').style.width = '200px';
+				document.getElementById('header').style.display = 'none';
+				document.getElementById('eventL').style.marginLeft = '20px';
+				document.getElementById('friends').style.paddingLeft = '1em';
+				document.getElementById('friends').style.paddingRight = '1em';
+				document.getElementById('eventLink').style.display = 'none';
+				{% if user.is_authenticated and event.creator != user.username %}
+					document.getElementById('leaveMobile').style.display = 'none';
+					document.getElementById('leaveNorm').style.display = 'inline-block';
+				{% endif %}
+				
+				{% if event.creator == user.username %}
+					{% if not event.is_scheduled %}
+						document.getElementById('refresh').style.display = 'inline-block';
+					{% endif %}
+					document.getElementById('delete').style.display = 'inline-block';
+					document.getElementById('creatorMobile').style.display = 'none';
+				{% endif %}
+
+				{% if not user.is_authenticated %}	
+					document.getElementById('join2').style.display = 'inline-block';
+				{% endif %}
+
+				var proposedTimes = document.getElementsByClassName( 'timeClass' );
+				for (i = 0; i < proposedTimes.length; i++) {
+					proposedTimes[i].style.display = 'block';
+				}
+
+				var proposedTimesMobile = document.getElementsByClassName( 'timeMobileClass' );
+				for (i = 0; i < proposedTimesMobile.length; i++) {
+					proposedTimesMobile[i].style.display = 'none';
+				}
+
+				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
+				for (i = 0; i < wrapperStyle4Container.length; i++) {
+					wrapperStyle4Container[i].style.paddingLeft = '1em';
+					wrapperStyle4Container[i].style.paddingRight = '1em';
+				}
+			}
+
+			function resetModifications() {
+				document.getElementById('boxedForm').style.display = 'block';
+				document.getElementById('boxedFormMobile').style.display = 'none';
+				document.getElementById('eventLink').style.display = 'inline-block';
+				document.getElementById('manageButton').style.display = 'inline';
+				document.getElementById('manageButton').style.float = 'right';
+				document.getElementById('eventLinkTextBox').style.width = '200px';
+				document.getElementById('eventL').style.marginLeft = '20px';
+				document.getElementById('header').style.display = 'block';
+				document.getElementById('friends').style.paddingLeft = '5em';
+				document.getElementById('friends').style.paddingRight = '5em';
+				document.getElementById('eventLink').style.display = 'inline-block';
+				{% if user.is_authenticated and event.creator != user.username %}
+					document.getElementById('leaveMobile').style.display = 'none';
+					document.getElementById('leaveNorm').style.display = 'inline-block';
+				{% endif %}
+
+				{% if event.creator == user.username %}
+					{% if not event.is_scheduled %}
+						document.getElementById('refresh').style.display = 'inline-block';
+					{% endif %}
+					document.getElementById('delete').style.display = 'inline-block';
+					document.getElementById('creatorMobile').style.display = 'none';
+				{% endif %}
+
+				{% if not user.is_authenticated %}	
+					document.getElementById('join2').style.display = 'inline-block';
+				{% endif %}		
+					
+				var proposedTimes = document.getElementsByClassName( 'timeClass' );
+				for (i = 0; i < proposedTimes.length; i++) {
+					proposedTimes[i].style.display = 'block';
+				}
+
+				var proposedTimesMobile = document.getElementsByClassName( 'timeMobileClass' );
+				for (i = 0; i < proposedTimesMobile.length; i++) {
+					proposedTimesMobile[i].style.display = 'none';
+				}
+
+				var wrapperStyle4Container = document.getElementsByClassName('wrapper style4 container');
+				for (i = 0; i < wrapperStyle4Container.length; i++) {
+					wrapperStyle4Container[i].style.paddingLeft = '4em';
+					wrapperStyle4Container[i].style.paddingRight = '4em';
+				}
+			}
+
+			var bounds = [
+			    {min:0,max:736,func:mobileModification},
+			    {min:737,max:840,func:narrowerModification},
+			    {min:841,func:resetModifications}
+			];
+
+			var resizeFn = function(){
+			    var lastBoundry; // cache the last boundry used
+			    return function(){
+			        var width = window.innerWidth;
+			        var boundry, min, max;
+			        for(var i=0; i<bounds.length; i++){
+			            boundry = bounds[i];
+			            min = boundry.min || Number.MIN_VALUE;
+			            max = boundry.max || Number.MAX_VALUE;
+			            if(width > min && width < max 
+			               && lastBoundry !== boundry){
+			                lastBoundry = boundry;
+			                return boundry.func.call(boundry);            
+			            }
+			        }
+			    }
+			};
+			$(window).resize(resizeFn());
+			$(document).ready(function(){
+			    $(window).trigger('resize');
+			});
+		</script>
+
+		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  
+		<script type="text/javascript">
+			$(function(){
+				{% if registered %}
+					//Created event
+					alert('You have successfully registered.')
+				{% endif %}
+
+				{% if messages %}
+					{% for message in messages %}
+						alert('{{message}}');
+					{% endfor %}
+				{% endif %}
+			});
+		</script>
+	</body>
+</html>

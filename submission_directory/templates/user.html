@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		{% load staticfiles %}
+
+		<link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicons/apple-touch-icon-57x57.png' %}">
+		<link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/favicons/apple-touch-icon-60x60.png' %}">
+		<link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicons/apple-touch-icon-72x72.png' %}">
+		<link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/favicons/apple-touch-icon-76x76.png' %}">
+		<link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicons/apple-touch-icon-114x114.png' %}">
+		<link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicons/apple-touch-icon-120x120.png' %}">
+		<link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/favicons/apple-touch-icon-144x144.png' %}">
+		<link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/favicons/apple-touch-icon-152x152.png' %}">
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicons/apple-touch-icon-180x180.png' %}">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-32x32.png' %}" sizes="32x32">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/android-chrome-192x192.png' %}" sizes="192x192">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-96x96.png' %}" sizes="96x96">
+		<link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-16x16.png' %}" sizes="16x16">
+		<link rel="manifest" href="{% static 'images/favicons/manifest.json' %}">
+		<link rel="shortcut icon" href="{% static 'images/favicons/favicon.ico' %}">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="msapplication-TileImage" content="{% static 'images/favicons/mstile-144x144.png' %}">
+		<meta name="msapplication-config" content="{% static 'images/favicons/browserconfig.xml' %}">
+		<meta name="theme-color" content="#ffffff">
+		<meta property="og:title" content="Skedg - Let us check your skedg." />
+		<meta property="og:site_name" content="Skedg" />
+		<meta property="og:url" content="http://skedg.tk/" />
+		<meta property="og:description" content="Skedg. Let us check your skedg. We sync with your Google Calendar to find the best meeting time for your friends, family, guests, and you." />
+		<meta property="og:image" content="http://www.skedg.tk/static/images/logoBlack.png" />
+
+		<script>
+			var mobileStyle = '{% static 'css/style-mobile.css' %}';
+			var style = '{% static 'css/style.css' %}';
+			var wideStyle = '{% static 'css/style-wide.css' %}';
+			var narrowStyle = '{% static 'css/style-narrow.css' %}';
+			var narrowerStyle = '{% static 'css/style-narrower.css' %}';
+			var normalStyle = '{% static 'css/style-normal.css' %}';;
+		</script>
+
+		<title>Skedg - Let us check your skedg! </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="Skedg. Let us check your skedg. We sync with your Google Calendar to find the best meeting time for your friends, family, guests, and you." />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+		<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+		<script src="{% static 'js/jquery.scrollgress.min.js' %}"></script>
+		<script src="{% static 'js/skel.min.js' %}"></script>
+		<script src="{% static 'js/skel-layers.min.js' %}"></script>
+		<script src="{% static 'js/init.js' %}"></script>
+		<script src="{% static 'js/moment.js' %}"></script> 
+		<script src="{% static 'js/combodate.js' %}"></script> 
+		<script src="{% static 'js/jquery.ui.touch-punch.js' %}"></script>
+
+		<!-- I am perfectly capable of putting this in a new file myself, BUT I HAVE TOLD YOU CHUMPS LIKE FIVE TIMES TO DO THIS SO I'M
+		CARRYING THIS OVER TO PROVE A POINT. -->
+		
+		<noscript>
+			<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			<link rel="stylesheet" href="{% static 'css/style-noscript.css' %}" />
+			<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+
+	</head>
+	<body class="no-sidebar">
+
+		<!-- Header -->
+			<header id="header" class="skel-layers-fixed">
+				<h1 id="logo"><a href="/"><img src="{% static 'images/SKEDGlogo.png' %}" style="height:30px; vertical-align:middle; position:relative; bottom:2px" /> <span> - Hello, {{ user.first_name }}! </span></a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="/">Home</a></li>
+						<li><a class="special button" href="/logout/">Logout</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Loading Overlay -->
+		<div class="loading" id="loadingOverlay" style="display:none">Loading&#8230;</div>
+
+		<!-- Main -->
+			<article id="main">
+				<noscript id="noscript">
+					<span style='color:red; font-weight:heavy; font-size: 50px'>Javascript must be enabled to use Skedg properly.</span>
+				</noscript>
+
+				
+				<div class="content">
+				<!-- One -->
+					<section class="wrapper style4 container">
+
+						<!-- Content -->
+							<div class="content">
+								<section>
+									<div class="eventContainer">
+										<header style="padding-top: 10px" id="userRegular">
+											<center><h2>User Information</h2></center>
+										</header>
+										<header style="padding-top: 10px" id="userMobile">
+											<center><h2>User Info</h2></center>
+										</header>
+										<br />
+										<div class="userInformation" style="width: 100%; padding-left: 15px; padding-right: 15px; word-wrap: break-word;">
+											Email: <br /> {{ user.username}}<br /> <br />
+											Name: <br /> {{ user.first_name }} {{ user.last_name }} <br /> <br />
+											Password: <br /> ******** <br /> 
+											<a href="#" id="trigger-overlay"> <font size="2"> Change Password </font> </a> <br /> <br />
+											<a href="/resetGAuth"> Change Google Account </font> </a> <br /> <br />
+										</div>
+									</div>
+								</section>
+							</div>
+					</section>
+				</div>
+
+				<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+				<link rel="stylesheet" type="text/css" href="{% static 'css/codrops.css' %}" />
+
+				<div class="overlay overlay-hugeinc">
+					<button type="button" class="overlay-close">Close</button>
+					<div class="register"> <br/ >
+						<form method="post" id="changePass_form" action="/changePassword/">
+							{% csrf_token %}
+							<center><label for="oldPassword">Old Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="oldPassword" value=""id="oldPassword" />
+							<center><label for="newPassword">New Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="newPassword" value=""id="newPassword" />
+							<center><label for="confirmPassword">Confirm Password</label></center><input style="border:1px solid #000000; margin: 0 auto; margin-bottom: 10px; width: 60%;" type="password" size="30" name="confirmPassword" value=""id="confirmPassword" />
+							<p><center><input type="submit" value="submit" name="submit" id="submit" class="button special" /></center></p>
+						</form>
+						<center><font color='red'>{{invalidPassword}}</font></center>
+					</div>
+				</div>
+
+				<link rel="stylesheet" href="{% static 'css/skel.css' %}" />
+				<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+				<link rel="stylesheet" href="{% static 'css/style-wide.css' %}" />
+			</article>
+
+			<section id="cta">
+				<header>
+					<h2>Please give us your <strong>feedback</strong>!</h2>
+				</header>
+				<footer>
+					<ul class="buttons">
+						<li><a href="http://goo.gl/forms/yFULhAFLJk" class="button"> Send suggestions </a></li>
+					</ul>
+				</footer>
+			</section>
+
+		<script src="{% static 'js/modernizr.custom.js' %}"></script>
+		<script src="{% static 'js/classie.js' %}"></script>
+		<script src="{% static 'js/userOverlay.js' %}"></script>
+
+		<script>
+			$(document).ready(function(){
+				$("#noscript").hide();
+			});	
+		</script>
+
+		<!-- Save overlays on reload -->
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				{% if invalidPassword %}
+					toggleOverlay();
+				{% endif %}
+			});
+		</script>
+
+				<!-- Mobile Linking -->
+		<script src="{% static 'js/userMobile.js' %}"></script>
+
+		<script>
+			// Pop up any important messages from the server side
+			$(function(){
+				{% if messages %}
+					{% for message in messages %}
+						alert('{{message}}');
+					{% endfor %}
+				{% endif %}
+			});
+		</script>
+
+		<link rel="stylesheet" media='screen and (max-width: 736px)' href="{% static 'css/style-mobile.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 737px) and (max-width: 840px)' href="{% static 'css/style-narrower.css' %}" />
+		<link rel="stylesheet" media='screen and (min-width: 841px) and (max-width: 980px)' href="{% static 'css/style-narrow.css' %}" />  
+	</body>
+</html>
