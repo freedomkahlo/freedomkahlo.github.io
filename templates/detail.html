@@ -271,7 +271,7 @@
 														<h1 style="font-weight: 300; line-height: 1.75em; margin-bottom: 1em; text-transform: uppercase; font-size: 18pt"><strong>MESSAGE BOARD</strong></h1>
 														</header>
 														</div>
-														<div id="messagesBody">
+														<div id="messagesBody" class="messageScroll">
 															<ul>
 															{% for m in event.message_set.all %}
 																<li>
@@ -675,9 +675,9 @@
 		<!-- Scroll to bottom of messages -->
 		<script>
 			$(document).ready(function(){
-				var objDiv = document.getElementById("messagesBody");
-				objDiv.scrollTop = objDiv.scrollHeight;
-				console.log(objDiv.scrollHeight);
+				var objDiv = document.getElementsByClassName("messageScroll");
+				objDiv[0].scrollTop = objDiv[0].scrollHeight;
+				console.log(objDiv[0].scrollHeight);
 			});	
 		</script>
 
