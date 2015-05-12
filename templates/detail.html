@@ -322,7 +322,7 @@
 															<button class="special button" style="margin-right: 5px; background-color: #4682B4; border-color: #4682B4; border-radius: 5px; font-size: 8pt; display: block;" type="submit" name="delete">Delete Event</button>
 														</form>
 													{% elif user.is_authenticated %}
-														<form action="{% url 'manageInvitee' %}" method="post" id="leaveMobile" style="font-size: 10pt; margin-top: -40px;">   
+														<form action="{% url 'manageInvitee' %}" method="post" id="leaveMobile" style="display: none; margin-top: -40px; margin-right: 10px; float: right; ">   
 																{% csrf_token %}  
 																<span style="display: none;"><input type="text" name="eventID" value="{{ event.eventID }}"></input></span> 
 																<span id="submitButtonMobile"></span>
