@@ -101,16 +101,42 @@ def add(request):
 		event_length = timeSplit[0] + ':0'
 	else:
 		event_length = '0:' + timeSplit[0]
-	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
-		start_time=start_time, end_time=end_time, event_length=event_length,
-		creator=creator, eventID=eventID, timezone = timezone, is_scheduled = False)
 
-	#try catch here check validity
+	tz = pytz.timezone('US/' + timezone)
+	#Check validity of the form
 	try:
-		e.save()
+		if len(title.replace(' ', '')) == 0:
+			raise ValidationError('Title cannot be left blank.')
+		if start_date == '' or end_date == '':
+			raise ValidationError('Dates cannot be left blank.')
+		if start_time == '' or end_time == '':
+			raise ValidationError('Times cannot be left blank.')
+		if event_length == '':
+			raise ValidationError('Event Length cannot be left blank.')
+
+		startd = tz.localize(datetime.strptime(start_date + ' ' + start_time, '%m/%d/%Y %I:%M %p'))
+		endd = tz.localize(datetime.strptime(end_date + ' ' + end_time, '%m/%d/%Y %I:%M %p'))
+
+		duration = timedelta(minutes=(int(event_length.split(':')[0]) * 60 + int(event_length.split(':')[1])))
+		
+		if (startd > endd):
+			raise ValidationError('Start datetime must be before end datetime.')
+		if (startd + duration > endd):
+			raise ValidationError('Time range must be longer than the event duration.')
+		if (startd.date() < datetime.now(tz).date()):
+			raise ValidationError('Start date must occur in the future.')
+		if (endd < datetime.now(tz) + duration):
+			raise ValidationError("Event cannot be scheduled in the past.")
+		if (endd - startd > timedelta(weeks=52)):
+			raise ValidationError("Date range cannot exceed 1 year.")
 	except ValidationError as e:
 		returnMsg['error'] = e[0]
 		return render(request, 'index.html', returnMsg)
+	e = Instance(title=title, desc=desc, start_date=start_date, end_date=end_date, 
+		start_time=start_time, end_time=end_time, event_length=event_length,
+		creator=creator, eventID=eventID, timezone = timezone, is_scheduled = False, pub_date = datetime.now(tz),
+		scheduled_start = datetime.now(tz), scheduled_end = datetime.now(tz))
+	e.save()
 
 	return getTimes(request, eventID) # Generate the times that work for the event creator
 

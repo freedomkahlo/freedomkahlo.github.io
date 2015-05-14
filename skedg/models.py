@@ -23,44 +23,6 @@ class Instance(models.Model):
 	scheduled_start = models.DateTimeField('event time')
 	scheduled_end = models.DateTimeField('event time2')
 
-	# Validates that the event parameters are OK
-	def regValidate(self):
-		if len(self.title.replace(' ', '')) == 0:
-			raise ValidationError('Title cannot be left blank.')
-		if self.start_date == '' or self.end_date == '':
-			raise ValidationError('Dates cannot be left blank.')
-		if self.start_time == '' or self.end_time == '':
-			raise ValidationError('Times cannot be left blank.')
-		if self.event_length == '':
-			raise ValidationError('Event Length cannot be left blank.')
-		tz = pytz.timezone('US/' + self.timezone)
-
-		startd = tz.localize(datetime.strptime(self.start_date + ' ' + self.start_time, '%m/%d/%Y %I:%M %p'))
-		endd = tz.localize(datetime.strptime(self.end_date + ' ' + self.end_time, '%m/%d/%Y %I:%M %p'))
-
-		duration = timedelta(minutes=(int(self.event_length.split(':')[0]) * 60 + int(self.event_length.split(':')[1])))
-		
-		if (startd > endd):
-			raise ValidationError('Start datetime must be before end datetime.')
-		if (startd + duration > endd):
-			raise ValidationError('Time range must be longer than the event duration.')
-		if (startd.date() < datetime.now(tz).date()):
-			raise ValidationError('Start date must occur in the future.')
-		if (endd < datetime.now(tz) + duration):
-			raise ValidationError("Event cannot be scheduled in the past.")
-		if (endd - startd > timedelta(weeks=52)):
-			raise ValidationError("Date range cannot exceed 1 year.")
-		self.pub_date = datetime.now(tz)
-		if self.scheduled_start == None:
-			self.scheduled_start = datetime.now(tz)
-		if self.scheduled_end == None:
-			self.scheduled_end = datetime.now(tz)
-
-	# Overwrite the save feature to validate the instance first
-	def save(self, **kwargs):
-		self.regValidate()
-		return super(Instance, self).save(**kwargs)
-
 	@property
 	def printScheduledTime(self):
 		tz = pytz.timezone('US/' + self.timezone)
