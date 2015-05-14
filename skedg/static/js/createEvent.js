@@ -32,10 +32,6 @@ $(function() {
 			$( "#from" ).datepicker( "option", "maxDate", selectedDate );
 		}
 	});
-	$("#from").datepicker().datepicker("setDate", new Date());
-	$("#to").datepicker().datepicker("setDate", new Date());
-	$("#from2").datepicker().datepicker("setDate", new Date());
-	$("#to2").datepicker().datepicker("setDate", new Date());
 });
 
 // JQuery Time Picker
