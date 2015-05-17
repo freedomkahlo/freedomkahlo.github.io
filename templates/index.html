@@ -110,36 +110,6 @@
 						return;
 					return false;
 				});
-
-				//Smart Options
-				$("#smartOptionsToggle").click(function()
-				{
-					$("smartOptionsDiv").toggle();
-				});
-
-				$("autoBreakfast").click(function()
-				{
-					$("#start_time").val("7:00 AM");
-					$("#end_time").val("11:00 AM");
-					$("#start_time2").val("7:00 AM");
-					$("#end_time2").val("11:00 AM");
-				});
-
-				$("autoLunch").click(function()
-				{
-					$("#start_time").val("11:30 AM");
-					$("#end_time").val("2:00 PM");
-					$("#start_time2").val("11:30 AM");
-					$("#end_time2").val("2:00 PM");
-				});
-
-				$("autoDinner").click(function()
-				{
-					$("#start_time").val("5:00 PM");
-					$("#end_time").val("8:00 PM");
-					$("#start_time2").val("5:00 PM");
-					$("#end_time2").val("8:00 PM");
-				});
 			});
 		</script>
 
@@ -244,6 +214,38 @@
 													<button id="autoLunch" name="autoLunch">Lunch</button>
 													<button id="autoDinner" name="autoDinner">Dinner</button>
 												</div>
+
+												<script>
+												//Smart Options
+													$("#smartOptionsToggle").click(function()
+													{
+														$("smartOptionsDiv").toggle();
+													});
+
+													$("autoBreakfast").click(function()
+													{
+														$("#start_time").val("7:00 AM");
+														$("#end_time").val("11:00 AM");
+														$("#start_time2").val("7:00 AM");
+														$("#end_time2").val("11:00 AM");
+													});
+
+													$("autoLunch").click(function()
+													{
+														$("#start_time").val("11:30 AM");
+														$("#end_time").val("2:00 PM");
+														$("#start_time2").val("11:30 AM");
+														$("#end_time2").val("2:00 PM");
+													});
+
+													$("autoDinner").click(function()
+													{
+														$("#start_time").val("5:00 PM");
+														$("#end_time").val("8:00 PM");
+														$("#start_time2").val("5:00 PM");
+														$("#end_time2").val("8:00 PM");
+													});
+												</script>
 											</div>
 										</div>
 										<br /> 
