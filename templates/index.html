@@ -80,6 +80,9 @@
 					$("#from2").val(dString);
 					$("#to2").val(dString);
 				{% endif %}
+
+				//Set smart options div to hidden
+				$("#smartOptionsDiv").hide();
 			});
 		</script>
 
@@ -106,6 +109,36 @@
 					if(evt.target.id == "notificationBox")
 						return;
 					return false;
+				});
+
+				//Smart Options
+				$("#smartOptionsToggle").click(function()
+				{
+					$("smartOptionsDiv").toggle();
+				});
+
+				$("autoBreakfast").click(function()
+				{
+					$("#start_time").val("7:00 AM");
+					$("#end_time").val("11:00 AM");
+					$("#start_time2").val("7:00 AM");
+					$("#end_time2").val("11:00 AM");
+				});
+
+				$("autoLunch").click(function()
+				{
+					$("#start_time").val("11:30 AM");
+					$("#end_time").val("2:00 PM");
+					$("#start_time2").val("11:30 AM");
+					$("#end_time2").val("2:00 PM");
+				});
+
+				$("autoDinner").click(function()
+				{
+					$("#start_time").val("5:00 PM");
+					$("#end_time").val("8:00 PM");
+					$("#start_time2").val("5:00 PM");
+					$("#end_time2").val("8:00 PM");
 				});
 			});
 		</script>
@@ -205,6 +238,12 @@
 												Event Length: <input size="25" type="text" name="event_length" id="event_length"  style="border: 0; width: 60%; margin-left: -10px; display: inline-block; border-radius: 5px;" value="{{ event_length }}" readonly>
 												<div id="eventLengthSlider" style="margin: 0 auto; width: 90%"></div><br>
 												
+												<input id="smartOptionsToggle" name="smartOptionsToggle" value="Smart Options"/>
+												<div id="smartOptionsDiv">
+													<input id="autoBreakfast" name="autoBreakfast" value="Breakfast"/>
+													<input id="autoLunch" name="autoLunch" value="Lunch"/>
+													<input id="autoDinner" name="autoDinner" value="Dinner"/>
+												</div>
 											</div>
 										</div>
 										<br /> 
