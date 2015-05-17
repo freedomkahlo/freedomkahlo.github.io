@@ -221,13 +221,27 @@
 														$("#start_time2").val("8:00 AM");
 														$("#end_time2").val("11:00 AM");
 													};
+
+													function clickedLunch(){
+														$("#start_time").val("11:30 AM");
+														$("#end_time").val("2:00 PM");
+														$("#start_time2").val("11:30 AM");
+														$("#end_time2").val("2:00 PM");
+													};
+
+													function clickedDinner(){
+														$("#start_time").val("5:00 PM");
+														$("#end_time").val("8:00 PM");
+														$("#start_time2").val("5:00 PM");
+														$("#end_time2").val("8:00 PM");
+													};
 												</script>
 
 												<div id="smartOptionsToggle" name="smartOptionsToggle" onclick="toggleSmartOptions();">Smart Options</button>
 												<div id="smartOptionsDiv">
-													<button id="autoBreakfast" name="autoBreakfast" onclick="clickedBreakfast();">Breakfast</button>
-													<button id="autoLunch" name="autoLunch" onclick="clickedLunch();">Lunch</button>
-													<button id="autoDinner" onclick="clickedDinner();">Dinner</button>
+													<div id="autoBreakfast" name="autoBreakfast" onclick="clickedBreakfast();">Breakfast</button>
+													<div id="autoLunch" name="autoLunch" onclick="clickedLunch();">Lunch</button>
+													<div id="autoDinner" onclick="clickedDinner();">Dinner</button>
 												</div>
 
 											</div>
